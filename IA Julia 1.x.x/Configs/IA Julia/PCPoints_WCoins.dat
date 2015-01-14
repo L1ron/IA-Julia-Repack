@@ -1,0 +1,120 @@
+[PCPoints]
+Enabled			= 1 
+MaximumPCPoints		= 10000
+AddPCPointsSec		= 3600	// For Online System
+AddPCPointsCount	= 10	// For Online System
+
+[WCoins]
+MaximumWCPoints		= 10000
+
+[WebPoints]
+Enabled			= 0		// Ativo
+WebTable		= web_table	// Table do WebPoint
+WebColumn		= web_column	// Coluna do WebPoint
+WebColumnFloat		= 1		// Tipo da coluna 0 - integer (Ex. 1), 1 - float (Ex. 1.00)
+MaximumWebPoints	= 10000		// Maximo de pontos
+
+[ExchangeCommands]
+ExchangeCommands 	= 1
+WcPpCmdEnabled		= 1		// /wcoin-pcpoint
+WcWpCmdEnabled		= 1		// /wcoin-webpoint
+WcZenCmdEnabled		= 1		// /wcoin-zen
+WpWcCmdEnabled		= 1		// /webpoint-wcoin
+WpPpCmdEnabled		= 1		// /webpoint-pcpoint
+WpZenCmdEnabled		= 1		// /webpoint-zen
+PpZenCmdEnabled		= 1		// /pcpoint-zen
+PpWcCmdEnabled		= 1		// /pcpoint-wcoin
+PpWpCmdEnabled		= 1		// /pcpoint-webpoint
+ZenWcCmdEnabled		= 1		// /zen-wcoin
+ZenPpCmdEnabled		= 1		// /zen-pcpoint
+ZenWpCmdEnabled		= 1		// /zen-webpoint
+ExchangeMinLvl		= 350		// ??
+ExchangeTax		= 2		// Percent of the tax (процент налога)
+WCoin_WebPoint		= 10		// (pay 1 WCoin for 10 WebPoint)
+WCoin_PcPoint 		= 100 		// (pay 1 WCoin for 100 PcPoint)
+WCoin_Zen 		= 10000000 	// (pay 1 WCoin for 10000000 Zen) 
+WebPoint_PcPoint	= 10		// (pay 1 WebPoint for 10 PcPoint) 
+WebPoint_Zen		= 1000000	// (pay 1 WebPoint for 1000000 Zen) 
+PcPoint_Zen 		= 100000	// (pay 1 PCPoint for 100000 Zen)
+
+//==================================================================================================================================
+//PCPoints Cafe Shop 
+//If Dur = 0 => dur auto calculation
+//==================================================================================================================================
+//	Index	ID	Level	Opt	Luck	Skill	Dur	Exc	Anc	NewOpt1	NewOpt2	NewOpt3	NewOpt4	NewOpt5	Cost
+//==================================================================================================================================
+1
+	13	37	0	255	1	1	255	1	0	255	255	255	255	255	50	//Fenrir (Attack)
+	13	37	0	255	1	1	255	2	0	255	255	255	255	255	50	//Fenrir (Defense)
+	13	37	0	255	1	1	255	3	0	255	255	255	255	255	50	//Fenrir (Illusion)
+	13	37	0	255	1	1	255	4	0	255	255	255	255	255	50	//Fenrir (Normal ?)
+	14	11	8	0	0	0	0	0	0	255	255	255	255	255	5	//Box +1
+	14	11	9	0	0	0	0	0	0	255	255	255	255	255	10	//Box +2
+	14	11	10	0	0	0	0	0	0	255	255	255	255	255	15	//Box +3
+	14	11	11	0	0	0	0	0	0	255	255	255	255	255	20	//Box +4
+	14	11	12	0	0	0	0	0	0	255	255	255	255	255	25	//Box +5
+	14	55	0	0	0	0	0	0	0	255	255	255	255	255	9	//Green Chaos Box
+	14	56	0	0	0	0	0	0	0	255	255	255	255	255	15	//Red Chaos Box
+	14	57	0	0	0	0	0	0	0	255	255	255	255	255	30	//Purple Chaos Box
+	13	15	0	0	0	0	0	0	0	255	255	255	255	255	100 	//Energy Fruit
+	12	15	0	0	0	0	0	0	0	255	255	255	255	255	10	//Jewel Of Chaos
+	14	13	0	0	0	0	0	0	0	255	255	255	255	255	5	//Jewel Of Bless
+	14	14	0	0	0	0	0	0	0	255	255	255	255	255	15	//Jewel Of Soul
+	14	16	0	0	0	0	0	0	0	255	255	255	255	255	20	//Jewel Of Life
+	14	22	0	0	0	0	0	0	0	255	255	255	255	255	20	//Jewel Of Creation
+//	14	100	0	0	0	0	0	0	0	255	255	255	255	255	10	//Luky Penny (Broken in client)
+	13	52	0	1	0	0	0	0	0	255	255	255	255	255	30	//Flame of Condor
+	13	53	0	0	0	0	0	0	0	255	255	255	255	255	30	//Condor's Feathers
+	13	14	0	0	0	0	0	0	0	255	255	255	255	255	30	//Condor's Feathers
+	14	180	0	0	0	0	0	0	0	255	255	255	255	255	10	//Jewel of Exelent
+	14	181	0	0	0	0	0	0	0	255	255	255	255	255	10	//Jewel of Divinity
+	14	182	0	0	0	0	0	0	0	255	255	255	255	255	10	//Jewel of Luck
+	14	183	0	0	0	0	0	0	0	255	255	255	255	255	10	//Jewel of Assembly
+	14	184	0	0	0	0	0	0	0	255	255	255	255	255	10	//Jewel of Skill
+	14	37	0	0	0	0	255	0	0	255	255	255	255	255	10	//Large SD Potion
+	14	40	0	0	0	0	255	0	0	255	255	255	255	255	10	//Large AG Potion
+	14	43	0	0	0	0	0	0	0	255	255	255	255	255	5	//Lower Refining Stone
+	14	44	0	0	0	0	0	0	0	255	255	255	255	255	10	//Higher Refining Stone
+	14	92	0	0	0	0	0	0	0	255	255	255	255	255	20	//Chaos Card Gold
+	14	93	0	0	0	0	0	0	0	255	255	255	255	255	15	//Chaos Card Rare
+	14	95	0	0	0	0	0	0	0	255	255	255	255	255	10	//Chaos Card Mini
+	13	64	0	0	0	0	0	0	0	255	255	255	255	255	5	//Demon
+	13	65	0	0	0	0	0	0	0	255	255	255	255	255	5	//Spirit of Guardian
+	13	66	0	0	0	0	0	0	0	255	255	255	255	255	10	//Invitation to Santa Village
+	13	67	0	0	0	0	0	0	0	255	255	255	255	255	5	//Rudolf
+	13	80	0	0	0	0	0	0	0	255	255	255	255	255	5	//Panda
+	13	76	0	0	0	0	255	0	0	255	255	255	255	255	10	//Panda Ring
+	13	46	0	0	0	0	0	0	0	255	255	255	255	255	50	//Devil Square Ticket
+	13	47	0	0	0	0	0	0	0	255	255	255	255	255	50	//Blood Castle Ticket
+	13	48	0	0	0	0	0	0	0	255	255	255	255	255	50	//Kalima Ticket
+end
+
+//==================================================================================================================================
+//PCPoints Reward from Monsters
+//==================================================================================================================================
+2
+	275	10
+	310	20
+	311	20
+	312	20
+	313	20
+	314	20
+	315	20
+	316	20
+	317	20
+end
+
+//==================================================================================================================================
+//CashShop Points (W Coins) Reward from Monsters
+//==================================================================================================================================
+3
+	275	10
+	310	20
+	311	20
+	312	20
+	313	20
+	314	20
+	315	20
+	316	20
+	317	20
+end

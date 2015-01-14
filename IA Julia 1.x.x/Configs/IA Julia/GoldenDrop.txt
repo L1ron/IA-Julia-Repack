@@ -1,0 +1,65 @@
+// ================================================== //
+// #		GameServer 1.00.90		    # //
+// #		Imagination Arts		    # //
+// #		Julia Project 1.1.x		    # //
+// ================================================== //
+// #	http://imaginationarts.net/forum/	    # //
+// #	http://mu.raklion.ru/			    # //
+// ================================================== //
+
+[GoldenDrop]
+Enable	= 1
+
+//-------------------------------------------------------------------------------------------//
+// Golden monsters drop
+// How much lines, so much items will drop (20 - max for one golden)
+// If there is no drop or line commented, it drops default
+// To disable drop from Golden Mob put Index = -1
+//-------------------------------------------------------------------------------------------//
+//	IDMob	Index	ID	Level	Opt	Luck	Skill	Dur	Exc	Anc
+//-------------------------------------------------------------------------------------------// 
+
+1
+	53	14	11	9	0	0	0	0	0	0	// Box + 2	
+	78	14	11	8	0	0	0	0	0	0	// Box + 1	
+	79	14	11	10	0	0	0	0	0	0	// Box + 3	
+	81	14	11	10	0	0	0	0	0	0	// Box + 3	
+	82	14	11	10	0	0	0	0	0	0	// Box + 3	
+	493	14	11	9	0	0	0	0	0	0	// Box + 2	
+	494	14	11	9	0	0	0	0	0	0	// Box + 2	
+	495	14	11	11	0	0	0	0	0	0	// Box + 4	
+	496	14	11	10	0	0	0	0	0	0	// Box + 3	
+	497	14	11	11	0	0	0	0	0	0	// Box + 4	
+	498	14	11	11	0	0	0	0	0	0	// Box + 4	
+	499	14	11	12	0	0	0	0	0	0	// Box + 5	
+	500	14	11	12	0	0	0	0	0	0	// Box + 5	
+	501	14	11	12	0	0	0	0	0	0	// Box + 5	
+	501	14	11	12	0	0	0	0	0	0	// Box + 5	
+	501	14	11	12	0	0	0	0	0	0	// Box + 5	
+	501	14	11	11	0	0	0	0	0	0	// Box + 4	
+	501	14	11	11	0	0	0	0	0	0	// Box + 4	
+	502	14	11	8	0	0	0	0	0	0	// Box + 1
+end
+
+//---------IDMobs----------//
+// 44 - Golden Derkon
+// 43 - Golden Budge Dragon
+// 78 - Golden Goblin
+// 53 - Golden Titan
+// 54 - Golden Soldier
+// 79 - Golden Dragon
+// 80 - Golden Vepar
+// 81 - Golden Lizard King
+// 82 - Golden Tantallos
+// 83 - Golden Wheel
+// 493 - Golden Dark Knight
+// 494 - Golden Devil
+// 495 - Golden Golem
+// 496 - Golden Crust
+// 497 - Golden Satyrus
+// 498 - Golden Twin Tale
+// 499 - Golden Iron Knight
+// 500 - Golden Napin
+// 501 - Golden Great Dragon
+// 502 - Golden Rabbit
+//-------------------------//

@@ -1,0 +1,107 @@
+# 1.1.0.316 # - Fixed CashShop excelent itens
+# 1.1.0.315 # - Fixed Golden Rabbit invasion
+# 1.1.0.314 # - Removed Localization
+# 1.1.0.313 # - Removed  Extra files in Lang folder
+# 1.1.0.312 # - Move the char to correct gate when reset
+# 1.1.0.312 # - Fixed Helpers NPCs: Luke, Ellen, Leo
+# 1.1.0.311 # - Added NPC for Reset, See ResetSystem.ini
+# 1.1.0.310 # - Optmized configs systems
+# 1.1.0.309 # - Fixed CSPoints error at server start
+# 1.1.0.308 # - Fixed some lost configs
+# 1.1.0.307 # - All command strings moved
+# 1.1.0.306 # - Removed Relogin in ResetSystem
+# 1.1.0.305 # - Added Dual Protocol (JPN <> ENG) [BETA]
+# 1.1.0.304 # - Added /evo command (And their configs)
+# 1.1.0.303 # - Removed ~Core command (Can crash GS)
+# 1.1.0.303 # - Added HP Bar (GS)
+# 1.1.0.302 # - Moved all Terrains to Data/Terrains Folder
+# 1.1.0.301 # - Changed /add strings to: /str, /agi, /vit, /ene, /cmd
+# 1.1.0.300 # - Added Effect to /add System (AddPointEffect = 1)
+# 1.1.0.299 # - Removed some dead code
+# 1.1.0.298 # - Duel out Gate config
+# 1.1.0.297 # - Exp Bonus bug Fixed 
+# 1.1.0.296 # - New Marry System ADDED
+# 1.1.0.295 # - Party crash FIXED
+# 1.1.0.294 # - Duel Annonce Winner & Loser etc.
+# 1.1.0.293 # - Chat Core rewritten
+# 1.1.0.292 # - Crash Protections ADDED
+# 1.1.0.291 # - LostMap in GameServer CS Drop FIXED
+# 1.1.0.290 # - Wapr bug FIXED
+# 1.1.0.289 # - Monster Spawn FIXED
+# 1.1.0.288 # - Vulnerability & CRASH in Localization FIXED
+# 1.1.0.287 # - Localization System ADDED
+# 1.1.0.286 # - SQL Errors FIXED
+# 1.1.0.285 # - Login message FIXED
+# 1.1.0.284 # - 380Opt, HarmonyOpt Powers disablers ADDED
+# 1.1.0.283 # - SQL Connection FIXED
+# 1.1.0.282 # - CalcCharacter ADDED
+# 1.1.0.281 # - Exchanger minus price FIXED
+# 1.1.0.280 # - Bans with Timer ADDED
+# 1.1.0.279 # - Exchanger for PCPoints,WebPoints,CSPoints,Zen ADDED (TEST)
+# 1.1.0.278 # - Socket System Type FIXED
+# 1.1.0.277 # - TradeSystem UPDATED. Now more secured.
+# 1.1.0.276 # - AntiAFK for OffTrade FIXED
+# 1.1.0.275 # - OffTrade command money take FIXED
+# 1.1.0.274 # - Custom Socket System ADDED
+# 1.1.0.273 # - AntiAFK System config FIXED
+# 1.1.0.272 # - OffTrade Disconnect FIXED
+# 1.1.0.271 # - OffTrade online count FIXED
+# 1.1.0.270 # - Logger memory leak FIXED
+# 1.1.0.269 # - Offline Trade ADDED
+# 1.1.0.268 # - ResetSystem to Reload ADDED
+# 1.1.0.267 # - Dynamical ResetSystem (/reset) ADDED
+# 1.1.0.266 # - OffTrade System (/offtrade) ADDED, thanks to InsominaMu 
+# 1.1.0.265 # - Connect Crash FIXED
+# 1.1.0.264 # - Summoner Zen FIXED
+# 1.1.0.263 # - Free Version (Limited Online, and ADV)
+# 1.1.0.262 # - Added ResetSystems config for max reset on server.
+# 1.1.0.261 # - Disablechat on Post, move GM, VIP, IpBlock configs to IAJulia folder
+# 1.1.0.260 # - VIP OFF Move FIX! and now GMS and ADMINS are allowed to move any map (vip too)
+# 1.1.0.259 # - Commands VIP ON/OFF + VIP Map all fixes (gates, move, skills that summons, end of vip and ect)
+# 1.1.0.258 # - Panda, rudolf repair fix
+# 1.1.0.257 # - New GoldenDrop config
+# 1.1.0.256 # - Unbanacc query fix
+# 1.1.0.255 # - /ware dupe fix
+# 1.1.0.254 # - Terr max buyers fix + GM Commands long nicks fix
+# 1.1.0.251 # - Dur in PCPointShop + small fixes
+# 1.1.0.250 # - Some query optimize + ban acc fix
+# 1.1.0.249 # - /setzen вернул команду
+# 1.1.0.248 # - TestPcpoint deleted
+# 1.1.0.247 # - Event Drop fixes
+# 1.1.0.246 # - Selupan Config for Number Items
+# 1.1.0.243 # - Panda fixes + Add fixes
+# 1.1.0.242 # - Drop system fixes
+# 1.1.0.241 # - Commands works in private too
+# 1.1.0.240 # - Add points no limited (with out Timer)
+# 1.1.0.239 # - PrivateChat log, and PrivateChat System
+# 1.1.0.238 # - Territory MaxPlayers fix (now it checks only those who is on territory right now)
+# 1.1.0.237 # - Random DC Bug FIXED
+# 1.1.0.236 # - Vip buy fix when territory system off
+# 1.1.0.235 # - Golden Goblin box of kundun +1
+# 1.1.0.234 # - Check maps on connect (GS_CS and quests maps)
+# 1.1.0.233 # - exp fix + new config for alliance (max guild in alliance)
+# 1.1.0.232 # - /addcmd for simple chars fixed
+# 1.1.0.231 # - Jewel system
+# 1.1.0.230 # - MaximumStats system
+# 1.1.0.229 # - /terrbuy - /vipbuy null strings fix and some other fix of VIP
+# 1.1.0.228 # - Reset Configs fix and WebPoints fix
+# 1.1.0.227 # - WebPoints for other system, disable works now
+# 1.1.0.226 # - Movereq 1-st map bugfix
+# 1.1.0.225 # - Hot Exp fix
+# 1.1.0.224 # - Config Optimization Part I
+# 1.1.0.223 # - News view and reload bug fixed
+# 1.1.0.222 # - Territory Type fix
+# 1.1.0.221 # - Territory Hours price fix
+# 1.1.0.220 # - Exp line bug fixed
+# 1.1.0.219 # - Better random for items with options
+# 1.1.0.218 # - Fix GS_CS Mob Drop, Exp, Zen, Rewards
+# 1.1.0.217 # - Territory System
+# 1.1.0.216 # - Add new configs in AddSystem, fixed MaxAddedStats config
+# 1.1.0.215 # - Config for Test_Pcpoint
+# 1.1.0.214 # - Drop fix
+# 1.1.0.213 # - Vip crash fix
+# 1.1.0.212 # - WEB_Point connect and check update
+# 1.1.0.211 # - Some HappyHour fixes (check configs)
+# 1.1.0.210 # - Fix of GS_CS
+# 1.1.0.209 # - Web points for future payments
+# 1.1.0.208 # - Add stats effect exp fix

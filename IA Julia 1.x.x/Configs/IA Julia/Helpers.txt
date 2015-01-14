@@ -1,0 +1,8 @@
+[HelperEllen]
+EnableEllen 	= 1 	// Ativar Helper Ellen
+
+[HelperLuke]
+EnableLuke 	= 1 	// Ativar Helper Luke
+
+[HelperLeo]
+EnableLeo 	= 1 	// Ativar Helper Leo

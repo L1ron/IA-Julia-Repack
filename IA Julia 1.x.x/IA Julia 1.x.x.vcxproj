@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="GS_CS_Release_Version|Win32">
+      <Configuration>GS_CS_Release_Version</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="GS_Release_Version|Win32">
+      <Configuration>GS_Release_Version</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3CCD65B4-231D-4529-AD8D-FF169085EE2E}</ProjectGuid>
+    <RootNamespace>IAJulia1xx</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GS_CS_Release_Version|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GS_Release_Version|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='GS_CS_Release_Version|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='GS_Release_Version|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GS_CS_Release_Version|Win32'">
+    <TargetName>WzAG</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GS_Release_Version|Win32'">
+    <TargetName>WzAG</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GS_CS_Release_Version|Win32'">
+    <TargetExt>.dll</TargetExt>
+    <OutDir>$(SolutionDir)\GameServerCS\</OutDir>
+    <IntDir>$(SolutionDir)GameServerCS\Temp\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GS_Release_Version|Win32'">
+    <TargetExt>.dll</TargetExt>
+    <OutDir>$(SolutionDir)\GameServer\</OutDir>
+    <IntDir>$(SolutionDir)\GameServer\Temp\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='GS_CS_Release_Version|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_GS_CS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='GS_Release_Version|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_GS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AntiAFK.cpp" />
+    <ClCompile Include="ChatCommands.cpp" />
+    <ClCompile Include="Configs.cpp" />
+    <ClCompile Include="DropSystem.cpp" />
+    <ClCompile Include="DuelManager.cpp" />
+    <ClCompile Include="Fixes.cpp" />
+    <ClCompile Include="GMSystem.cpp" />
+    <ClCompile Include="Archer.cpp" />
+    <ClCompile Include="HappyHour.cpp" />
+    <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="HPBar.cpp" />
+    <ClCompile Include="Jewels.cpp" />
+    <ClCompile Include="MarrySystem.cpp" />
+    <ClCompile Include="OffTrade.cpp" />
+    <ClCompile Include="OffTradeProtocol.cpp" />
+    <ClCompile Include="PlayerSystem.cpp" />
+    <ClCompile Include="ResetSystem.cpp" />
+    <ClCompile Include="Lite.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Maps.cpp" />
+    <ClCompile Include="MapSystem.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MossGambler.cpp" />
+    <ClCompile Include="MoveReq.cpp" />
+    <ClCompile Include="News.cpp" />
+    <ClCompile Include="PCPoint.cpp" />
+    <ClCompile Include="Prodef.cpp" />
+    <ClCompile Include="Protocol.cpp" />
+    <ClCompile Include="Query.cpp" />
+    <ClCompile Include="Socket.cpp" />
+    <ClCompile Include="Territory.cpp" />
+    <ClCompile Include="TradeSystem.cpp" />
+    <ClCompile Include="User.cpp" />
+    <ClCompile Include="Utilits.cpp" />
+    <ClCompile Include="Vip.cpp" />
+    <ClCompile Include="WzAG.cpp" />
+    <ClCompile Include="WZEventDrop.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AntiAFK.h" />
+    <ClInclude Include="Archer.h" />
+    <ClInclude Include="ChatCommands.h" />
+    <ClInclude Include="Configs.h" />
+    <ClInclude Include="DropSystem.h" />
+    <ClInclude Include="DuelManager.h" />
+    <ClInclude Include="Fixes.h" />
+    <ClInclude Include="GMSystem.h" />
+    <ClInclude Include="HappyHour.h" />
+    <ClInclude Include="Helpers.h" />
+    <ClInclude Include="HPBar.h" />
+    <ClInclude Include="Jewels.h" />
+    <ClInclude Include="MarrySystem.h" />
+    <ClInclude Include="OffTrade.h" />
+    <ClInclude Include="OffTradeProtocol.h" />
+    <ClInclude Include="PlayerSystem.h" />
+    <ClInclude Include="ResetSystem.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="Maps.h" />
+    <ClInclude Include="MapSystem.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="MossGambler.h" />
+    <ClInclude Include="MoveReq.h" />
+    <ClInclude Include="News.h" />
+    <ClInclude Include="PCPoint.h" />
+    <ClInclude Include="Prodef.h" />
+    <ClInclude Include="Protocol.h" />
+    <ClInclude Include="Query.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Socket.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Territory.h" />
+    <ClInclude Include="TradeSystem.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="Utilits.h" />
+    <ClInclude Include="Vip.h" />
+    <ClInclude Include="WzAG.h" />
+    <ClInclude Include="WZEventDrop.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configs\GameServerCS\DATA\ServerInfo.dat" />
+    <None Include="Configs\GameServerCS\IPBlock.txt" />
+    <None Include="Configs\GameServer\DATA\ServerInfo.dat" />
+    <None Include="Configs\GameServer\IPBlock.txt" />
+    <None Include="Configs\IA Julia\CalcCharacter.ini" />
+    <None Include="Configs\IA Julia\GMSystem.txt" />
+    <None Include="Configs\IA Julia\GoldenDrop.txt" />
+    <None Include="Configs\IA Julia\Jewels.ini" />
+    <None Include="Configs\IA Julia\MarrySystem.ini" />
+    <None Include="Configs\IA Julia\MaximumStats.ini" />
+    <None Include="Configs\IA Julia\PlayerSystem.ini" />
+    <None Include="Configs\IA Julia\ResetSystems.ini" />
+    <None Include="Configs\IA Julia\SocketItem.txt" />
+    <None Include="Configs\IA Julia\TerritorySystem.ini" />
+    <None Include="Configs\IA Julia\TradeSystem.ini" />
+    <None Include="Configs\IA Julia\WzEvents\EventDropBC.txt" />
+    <None Include="Configs\IA Julia\WzEvents\EventDropCC.txt" />
+    <None Include="Configs\IA Julia\WzEvents\EventDropIT.txt" />
+    <None Include="Configs\IA Julia\WzEvents\EventDropWW.txt" />
+    <None Include="Notes.txt" />
+    <None Include="ChangeLog.txt" />
+    <None Include="Configs\GameServerCS\GameServerCS.ini" />
+    <None Include="Configs\GameServerCS\News.txt" />
+    <None Include="Configs\GameServer\GameServer.ini" />
+    <None Include="Configs\GameServer\News.txt" />
+    <None Include="Configs\IA Julia\AntiAFK.txt" />
+    <None Include="Configs\IA Julia\Commands.ini" />
+    <None Include="Configs\IA Julia\Common.ini" />
+    <None Include="Configs\IA Julia\DropSystem.ini" />
+    <None Include="Configs\IA Julia\Events.ini" />
+    <None Include="Configs\IA Julia\EventTimer.dat" />
+    <None Include="Configs\IA Julia\GoldenArcher.txt" />
+    <None Include="Configs\IA Julia\HappyHour.ini" />
+    <None Include="Configs\IA Julia\Items.ini" />
+    <None Include="Configs\IA Julia\MapSystem.ini" />
+    <None Include="Configs\IA Julia\MonsterSpawn.ini" />
+    <None Include="Configs\IA Julia\MossGambler.ini" />
+    <None Include="Configs\IA Julia\MoveReq.txt" />
+    <None Include="Configs\IA Julia\PCPoints_WCoins.dat" />
+    <None Include="Configs\IA Julia\Pets.ini" />
+    <None Include="Configs\IA Julia\PkClearGuard.ini" />
+    <None Include="Configs\IA Julia\Skills.ini" />
+    <None Include="IA Julia 1.x.x ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
