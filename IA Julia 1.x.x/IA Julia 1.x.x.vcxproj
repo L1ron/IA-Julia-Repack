@@ -208,7 +208,7 @@
     <None Include="Configs\IA Julia\Pets.ini" />
     <None Include="Configs\IA Julia\PkClearGuard.ini" />
     <None Include="Configs\IA Julia\Skills.ini" />
-    <None Include="IA Julia 1.x.x ReadMe.txt" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

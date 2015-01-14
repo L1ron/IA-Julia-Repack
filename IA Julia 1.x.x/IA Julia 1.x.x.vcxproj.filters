@@ -356,7 +356,6 @@
     <None Include="Configs\IA Julia\Skills.ini">
       <Filter>Configs\IA Julia</Filter>
     </None>
-    <None Include="IA Julia 1.x.x ReadMe.txt" />
     <None Include="Configs\IA Julia\MonsterSpawn.ini">
       <Filter>Configs\IA Julia</Filter>
     </None>
@@ -421,6 +420,7 @@
     <None Include="Configs\GameServerCS\DATA\ServerInfo.dat">
       <Filter>Configs\GameServerCS\DATA</Filter>
     </None>
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
