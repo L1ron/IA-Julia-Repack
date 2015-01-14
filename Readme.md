@@ -1,7 +1,7 @@
-						Imagination Arts 1.1.x Season 4.6 & Season 4.7 (1.03K JPN & 1.03O ENG)
-					  	 	 Made of GameServer 1.00.87 & GameServerCS 1.00.88
-------------------------------------------------------------------------------------------------------------------------------------------------
-											Creditos originais
+- Imagination Arts 1.1.x Season 4.6 & Season 4.7 (1.03K JPN & 1.03O ENG)
+- Made of GameServer 1.00.87 & GameServerCS 1.00.88
+-------------------------------------------------------------------------
+- Creditos originais
 
 WebZen - Pelo MuOnline
 MuCommunity - Por compartilhar todos os arquivos e offsets
@@ -17,14 +17,14 @@ Special Thanks to Imp0ssible, slipkorn13, ilyasovd, Marceliin - Por toda sua aju
 
 P.S. Respeite todos os creditos!
 
-------------------------------------------------------------------------------------------------------------------------------------------------
-										Informacoes e contato de suporte
+-------------------------------------------------------------------------
+-Informacoes e contato de suporte
 
-											imperyus.com.br/forum/
-										 SmileYzn@live.com [at] Skype
+imperyus.com.br/forum/
+SmileYzn@live.com [at] Skype
 
-------------------------------------------------------------------------------------------------------------------------------------------------
-												Guia para instalacao
+-------------------------------------------------------------------------
+- Guia para instalacao
 
 1. Tenha certeza que instalou o SQL Server 2000 ou 2008
 2. Cire uma DB chamada MuOnline (A partir da pasta MuServer/DB)
