@@ -19,7 +19,7 @@ Special Thanks to Imp0ssible, slipkorn13, ilyasovd, Marceliin - Por toda sua aju
 P.S. Respeite todos os creditos!
 
 -------------------------------------------------------------------------
--Informacoes e contato de suporte
+- Informacoes e contato de suporte
 
 imperyus.com.br/forum/
 SmileYzn@live.com [at] Skype
