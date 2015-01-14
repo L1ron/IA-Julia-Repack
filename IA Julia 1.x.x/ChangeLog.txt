@@ -1,3 +1,4 @@
+# 1.1.0.317 # - Added readme.md in project
 # 1.1.0.316 # - Fixed CashShop excelent itens
 # 1.1.0.315 # - Fixed Golden Rabbit invasion
 # 1.1.0.314 # - Removed Localization
