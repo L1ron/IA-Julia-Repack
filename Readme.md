@@ -1,5 +1,6 @@
 - Imagination Arts 1.1.x Season 4.6 & Season 4.7 (1.03K JPN & 1.03O ENG)
 - Made of GameServer 1.00.87 & GameServerCS 1.00.88
+
 -------------------------------------------------------------------------
 - Creditos originais
 
@@ -33,4 +34,3 @@ SmileYzn@live.com [at] Skype
 5. Altere os IPs em ServerList.dat (or BoR_ServerList.dat), MapServerInfo.dat
 6. Restaure as DataBases (A partir da pasta MuServer/DB)
 7. O Seu servidor estara pronto.
-------------------------------------------------------------------------------------------------------------------------------------------------
