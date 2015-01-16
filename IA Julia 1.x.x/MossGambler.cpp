@@ -56,8 +56,8 @@ void cMoss::Load()
         Config.UsePK			= Configs.GetInt(0,1,0,"Moss","UsePK",IAJuliaMossGambler);
 
         Config.PriceZen			= Configs.GetInt(0,2000000000,100000000,"Moss","PriceZen",IAJuliaMossGambler);
-        Config.PricePCPoint		= Configs.GetInt(0,1000,10,"Moss","PricePCPoint",IAJuliaMossGambler);
-        Config.PriceWCoin		= Configs.GetInt(0,1000,10,"Moss","PriceWCoin",IAJuliaMossGambler);
+        Config.PricePCPoint		= Configs.GetInt(0,PCPoint.Config.MaximumPCPoints,10,"Moss","PricePCPoint",IAJuliaMossGambler);
+        Config.PriceWCoin		= Configs.GetInt(0,PCPoint.Config.MaximumWCPoints,10,"Moss","PriceWCoin",IAJuliaMossGambler);
 
         Config.RandExc			= Configs.GetInt(0,100,50,"Random","RandExc",IAJuliaMossGambler);
         Config.MaxExcOpt		= Configs.GetInt(0,100,6,"Random","MaxExcOpt",IAJuliaMossGambler);
@@ -87,113 +87,110 @@ void cMoss::Load()
 
 void cMoss::LoadItemInfo()
 {
-    FILE *file;
-    file = fopen("..\\Data\\Lang\\Kor\\Item(Kor).txt","r");
+    FILE *File;
+    File = fopen("..\\Data\\Lang\\Kor\\Item(Kor).txt","r");
 
-    if(file == NULL)
+    if(File == NULL)
     {
-        Log.ConsoleOutPut(0,c_Red,t_NULL,"[Moss The Gambler] Item.txt nao encontrado, Moss The Gambler inativo.");
-        
         Config.Enable = 0;
-
-        return;
+        Log.ConsoleOutPut(0,c_Red,t_NULL,"[Moss The Gambler] Item.txt nao encontrado, Moss The Gambler inativo.");
     }
-
-    char zBuf[1024];
-    int group = 0;
-    int j = 0;
-
-    while (!feof(file))
+    else
     {
-        fgets(zBuf,1024,file);
+        int Group = 0,j = 0;
+        char zBuffer[1024],C[12] = {0};
 
-        if (!strncmp(zBuf,"//",2) || !strncmp(zBuf,"end",3) || zBuf[0] == 0xA ) continue;
-
-        char c[12] = { 0 };
-        sprintf(c,"%d",group);
-
-        if (!strncmp(zBuf,c,strlen(c)))
+        while(!feof(File))
         {
-            group++;
-            if (group > 6) break;
-            j = 0;
+            fgets(zBuffer,1024,File);
 
-            continue;
+            if(!strncmp(zBuffer,"//",2) || !strncmp(zBuffer,"end",3) || (zBuffer[0] == 0xA)) continue;
+
+            sprintf(C,"%d",Group);
+
+            if(!strncmp(zBuffer,C,strlen(C)))
+            {
+                Group++;
+
+                if(Group > 6) break;
+
+                j = 0;
+
+                continue;
+            }
+
+            if(Group > 0)
+            {
+                sscanf(zBuffer,"%d",&ItemInfo[Group-1][j].Index);
+                OrderItems[Group-1] = ++j;
+            }
         }
 
-        if(group > 0)
-        {
-            sscanf(zBuf,"%d",	&ItemInfo[group-1][j].Index);
-            OrderItems[group-1] = ++j;
-        }
+        fclose(File);
+        Log.ConsoleOutPut(1,c_Yellow,t_NULL,"[û] [Moss Gambler]\tIniciado.");
     }
-
-    Log.ConsoleOutPut(1,c_Yellow,t_NULL,"[û] [Moss Gambler]\tIniciado.");
-
-    fclose(file);
 }
 
 void cMoss::LoadTimeConfig()
 {
-    FILE * file;
+    FILE *File;
+    File = fopen(IAJuliaEventTime,"r");
 
-    file = fopen(IAJuliaEventTime,"r");
-
-    if(file == NULL)
+    if(File == NULL)
     {
-        Log.ConsoleOutPut(0,c_Red,t_NULL,"[Moss The Gambler] Impossivel abrir EventTime.dat, timer desativado.");
+        Log.ConsoleOutPut(0,c_Red,t_NULL,"[û] [Moss The Gambler]\tImpossivel abrir EventTime.dat, timer desativado.");
 
         Config.EnableTimer = 0;
-
-        return;
     }
-
-    char zbuf[1024];
-    bool flag = false;
-    int j = 0;
-
-    while (!feof(file))
+    else
     {
-        fgets(zbuf,1024,file);
+        char zBuffer[1024];
+        bool bFlag = false;
+        int j = 0;
 
-        if(!strncmp(zbuf,"//",2) || zbuf[0] == 0xA || !strncmp(zbuf,"end",3)) continue;
-
-        if (!strncmp(zbuf,"0",1))
+        while (!feof(File))
         {
-            flag = true;
+            fgets(zBuffer,1024,File);
 
-            continue;
-        }
+            if(!strncmp(zBuffer,"//",2) || zBuffer[0] == 0xA || !strncmp(zBuffer,"end",3)) continue;
 
-        if(flag)
-        {
-            int indexEvent,closeHour,closeMin;
-            sscanf(zbuf,"%d %d %d %d",&indexEvent,&Timer[j].hour,&Timer[j].minute,&Timer[j].delay);
-
-            if(indexEvent != 1)
+            if(!strncmp(zBuffer,"0",1))
             {
-                break;
+                bFlag = true;
+
+                continue;
             }
 
-            closeMin = Timer[j].minute + Timer[j].delay;
-            closeHour = Timer[j].hour;
-
-            while (closeMin >= 60)
+            if(bFlag)
             {
-                closeMin -=60;
-                closeHour++;
-            }
+                int indexEvent,closeHour,closeMin;
+                sscanf(zBuffer,"%d %d %d %d",&indexEvent,&Timer[j].hour,&Timer[j].minute,&Timer[j].delay);
 
-            Timer[j].closehour = closeHour;
-            Timer[j].closemin = closeMin;
-            j++;
+                if(indexEvent != 1)
+                {
+                    break;
+                }
+
+                closeMin = Timer[j].minute + Timer[j].delay;
+                closeHour = Timer[j].hour;
+
+                while (closeMin >= 60)
+                {
+                    closeMin -=60;
+                    closeHour++;
+                }
+
+                Timer[j].closehour = closeHour;
+                Timer[j].closemin = closeMin;
+                j++;
+            }
         }
+
+        this->AmountTimers = j;
+        this->Opened = FALSE;
+
+        fclose(File);
     }
-
-    this->AmountTimers = j;
-    this->Opened = FALSE;
-
-    fclose(file);
 }
 
 void cMoss::CheckTime()
@@ -303,28 +300,28 @@ BOOL cMoss::BuyItem(int aIndex, unsigned char * aRecv)
         return TRUE;
     }
 
-    if ( this->Delay == true )
+    if(this->Delay == true)
     {
         Chat.Message(1, gObj,"[Moss The Gambler] Aguarde 1.5s para comprar novamente.");
 
         return TRUE;
     }
 
-    if (gObj->Money < Config.PriceZen)
+    if(gObj->Money < Config.PriceZen)
     {
         Chat.Message(1, gObj,"[Moss The Gambler] Voce nao tem zen suficiente.");
 
         return TRUE;
     }
 
-    if (AddTab[gObj->m_Index].PC_PlayerPoints < Config.PricePCPoint)
+    if(AddTab[gObj->m_Index].PC_PlayerPoints < Config.PricePCPoint)
     {
         Chat.Message(1, gObj,"[Moss The Gambler] Voce nao tem PCPoint suficiente.");
 
         return TRUE;
     }
 
-    if (gObj->m_wCashPoint < Config.PriceWCoin)
+    if(gObj->m_wCashPoint < Config.PriceWCoin)
     {
         Chat.Message(1, gObj,"[Moss The Gambler] Voce nao tem WCoin suficiente.");
 
@@ -400,11 +397,14 @@ BOOL cMoss::BuyItem(int aIndex, unsigned char * aRecv)
 
     if(NewOption > 0)
     {
-        Chat.Message(1, gObj,"[Moss The Gambler] Parabens! Voce recebeu um item valioso!");
+        Chat.Message(1, gObj,"[Moss The Gambler] Parabens, voce recebeu um item valioso!");
     }
 
-    gObj->Money -= Config.PriceZen;
-    GCMoneySend(gObj->m_Index,gObj->Money);
+    if(Config.PriceZen > 0)
+    {
+        gObj->Money -= Config.PriceZen;
+        GCMoneySend(gObj->m_Index,gObj->Money);
+    }
 
     if(Config.PricePCPoint > 0)
     {

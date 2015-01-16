@@ -146,16 +146,16 @@ void CQuery::CheckColumns(int MeMu)
         },
     };
 
-    if (MeMu)
+    if(MeMu)
 	{
-        for (int i = 0; i < (sizeof QueryMeMuOnline / sizeof QueryMeMuOnline[0]); i++)
+        for(int i = 0; i < (sizeof QueryMeMuOnline / sizeof QueryMeMuOnline[0]); i++)
 		{
             CheckColumn(QueryMeMuOnline[i].Column, QueryMeMuOnline[i].Table, QueryMeMuOnline[i].AddQuery);
 		}
 	}
     else
 	{
-        for (int i = 0; i < (sizeof QueryMuOnline / sizeof QueryMuOnline[0]); i++)
+        for(int i = 0; i < (sizeof QueryMuOnline / sizeof QueryMuOnline[0]); i++)
 		{
             CheckColumn(QueryMuOnline[i].Column, QueryMuOnline[i].Table, QueryMuOnline[i].AddQuery);
 		}
@@ -185,7 +185,8 @@ void CQuery::CheckColumn(char* Column, char* Table, char* AddQuery, ...)
             ExecQuery(Temp);
             Fetch();
             Close();
-            Log.ConsoleOutPut(1, c_Red, t_Error, "IAJulia SQL Error!! \n Can't find %s column in %s table.\nSucsessfully added %s column in %s table \n \n", Column, Table, Column, Table);
+
+            Log.ConsoleOutPut(1, c_Red, t_Error, "Erro de SQL: \n Impossivel encontrar a coluna %s na tabela %s.\nAdicionando coluna %s na tabela %s \n \n", Column, Table, Column, Table);
         }
     }
 }
@@ -204,22 +205,22 @@ void LoadQuery()
     GetPrivateProfileStringA("SQL", "SQLDB", "MuOnline", szDatabase, sizeof(szDatabase), IAJuliaGS);
     GetPrivateProfileStringA("SQL", "SQLDB2", "Me_MuOnline", szDatabase2, sizeof(szDatabase2), IAJuliaGS);
 
-    if (MuOnlineQuery.Connect(szDatabase, szUser, szPassword) == TRUE)
+    if(MuOnlineQuery.Connect(szDatabase, szUser, szPassword) == TRUE)
     {
-        Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[û] [MuOnline]\tConnection Successfull!");
+        Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[û] [MuOnline]\tConectado!");
     }
     else
     {
-        Log.ConsoleOutPut(1, c_Red, t_SQL, "[X] [MuOnline]\tError On Connection!");
+        Log.ConsoleOutPut(1, c_Red, t_SQL, "[X] [MuOnline]\tErro na conexao!");
     }
 
-    if (Me_MuOnlineQuery.Connect(szDatabase2, szUser, szPassword) == TRUE)
+    if(Me_MuOnlineQuery.Connect(szDatabase2, szUser, szPassword) == TRUE)
     {
-        Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[û] [Me_MuOnline]\tConnection Successfull!");
+        Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[û] [Me_MuOnline]\tConectado!");
     }
     else
     {
-        Log.ConsoleOutPut(1, c_Red, t_SQL, "[X] [Me_MuOnline]\tError On Connection!");
+        Log.ConsoleOutPut(1, c_Red, t_SQL, "[X] [Me_MuOnline]\tErro na conexao!");
     }
 
     MuOnlineQuery.CheckColumns(0);
@@ -248,7 +249,7 @@ BOOL CQuery::Connect(TCHAR * lpszDNS, TCHAR * lpszUser, TCHAR * lpszPassword)
         while (SQLGetDiagRec(SQL_HANDLE_DBC, this->m_hConnection, sRecord,
                              SqlState, &NativeError, SQLMsgError, sizeof(SQLMsgError), &MsgLen) != SQL_NO_DATA)
         {
-            Log.ConsoleOutPut(1, c_Red, t_SQL, "SQLSTATE:%s, Diagnosis:%s", SqlState, SQLMsgError);
+            Log.ConsoleOutPut(1, c_Red, t_SQL, "SQLSTATE: %s, Diagnosis: %s", SqlState, SQLMsgError);
         }
 
         return FALSE;
@@ -257,7 +258,9 @@ BOOL CQuery::Connect(TCHAR * lpszDNS, TCHAR * lpszUser, TCHAR * lpszPassword)
     Result = SQLAllocHandle(SQL_HANDLE_STMT, this->m_hConnection, &this->m_hStmt);
 
     if (Result != SQL_SUCCESS && Result != SQL_SUCCESS_WITH_INFO)
+    {
         return FALSE;
+    }
 
     return TRUE;
 }
@@ -352,7 +355,7 @@ void CQuery::GetAsString(LPTSTR ColName, LPTSTR pOutBuffer)
     {
         pOutBuffer[0] = 0;
 
-        Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[Query][String]\t\t%s = ERROR", ColName);
+        Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[Query][String]\t\t%s = ERRO", ColName);
     }
 }
 
@@ -365,7 +368,7 @@ DWORD CQuery::GetAsInteger(LPTSTR ColName)
         return atoi(this->m_SQLData[iIndex]);
     }
 
-    Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[Query][Int]\t\t%s = ERROR", ColName);
+    Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[Query][Int]\t\t%s = ERRO", ColName);
 
     return -1;
 }
@@ -379,7 +382,7 @@ float CQuery::GetAsFloat(LPTSTR ColName)
         return (float)atof(this->m_SQLData[iIndex]);
     }
 
-    Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[Query][Float]\t%s = ERROR", ColName);
+    Log.ConsoleOutPut(1, c_Yellow, t_SQL, "[Query][Float]\t%s = ERRO", ColName);
 
     return -1;
 }
@@ -392,7 +395,7 @@ void CQuery::Diagnosis()
 
     while (SQLGetDiagRec(SQL_HANDLE_STMT, this->m_hStmt, sRecord,SqlState, &NativeError, SQLMsgError, sizeof(SQLMsgError), &MsgLen) != SQL_NO_DATA)
     {
-        Log.ConsoleOutPut(1, c_Yellow, t_SQL, "SQLSTATE:%s, Diagnosis:%s", SqlState, SQLMsgError);
+        Log.ConsoleOutPut(1, c_Yellow, t_SQL, "SQLSTATE: %s, Diagnosis: %s", SqlState, SQLMsgError);
 
         sRecord++;
     }
@@ -499,7 +502,6 @@ void CQuery::SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, SQLUINTEGE
             break;
 		}
 
-		/*False	2	795	V519	The 'Result' variable is assigned values twice successively. Perhaps this is a mistake. Check lines: 459, 460.	IA Julia 1.x.x	query.cpp	460	False*/
         Result = SQLParamData(this->m_hStmt, &pToken);
 		
         if (Result == SQL_ERROR || Result == SQL_INVALID_HANDLE)
@@ -527,7 +529,6 @@ void CQuery::Disconnect()
         SQLDisconnect(this->m_hConnection);
 	}
 
-	/*False	2	796	V581	The conditional expressions of the 'if' operators situated alongside each other are identical. Check lines: 473, 476.	IA Julia 1.x.x	query.cpp	476	False*/
     if (this->m_hConnection)
 	{
         SQLFreeHandle(SQL_HANDLE_DBC, this->m_hConnection);

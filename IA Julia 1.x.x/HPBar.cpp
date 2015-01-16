@@ -6,13 +6,12 @@ void GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, in
 {
 	PMSG_ATTACKRESULT pResult;
 
-	///////////////////////////////////////////////////////////////////////
-	// Criar alguma config para deixar funcionando em varios mains :D
-	///////////////////////////////////////////////////////////////////////
-	//PHeadSetB((LPBYTE)&pResult, 0x11, sizeof(pResult));	// (1.03O main)
-	///////////////////////////////////////////////////////////////////////
-	PHeadSetB((LPBYTE)&pResult, 0xDC, sizeof(pResult));		// (1.03P main)
-	///////////////////////////////////////////////////////////////////////
+	/*
+	    Criar alguma config para deixar funcionando em varios mains :D
+	    //PHeadSetB((LPBYTE)&pResult, 0x11, sizeof(pResult)); // (1.03O main)
+	*/
+
+	PHeadSetB((LPBYTE)&pResult, 0xDC, sizeof(pResult));	// (1.03P main)
 
 	pResult.NumberH = SET_NUMBERH(TargetIndex);
 	pResult.NumberL = SET_NUMBERL(TargetIndex);
@@ -40,7 +39,6 @@ void GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, in
 		pResult.Life = gTarg->Life;
 		pResult.MaxLife = gTarg->MaxLife + gTarg->AddLife;
 	}
-
 
 	if(gTarg->Type == OBJECT_USER)
 	{

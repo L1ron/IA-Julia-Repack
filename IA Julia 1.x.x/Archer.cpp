@@ -146,11 +146,10 @@ void cGoldenArcher::GoldenArcherClick(LPOBJ gObj)
 
             *CurrentRena = 0;
             Chat.Message(1, gObj,"[Golden Archer] Thank you for renas! Take my rewards for you.");
-            Log.ConsoleOutPut(1,c_Magenta,t_ARCHER,"[Golden Archer] Drop\t%d %d %d %d %d %d %d 0",ItemsPrize[PrizeIndex].Index,
-                              ItemsPrize[PrizeIndex].ItemID,Level,Skill,Luck,Opt,Exc);
+            Log.ConsoleOutPut(1,c_Magenta,t_ARCHER,"[Golden Archer] Drop\t%d %d %d %d %d %d %d 0",ItemsPrize[PrizeIndex].Index,ItemsPrize[PrizeIndex].ItemID,Level,Skill,Luck,Opt,Exc);
 
             int Item = ITEMGET(ItemsPrize[PrizeIndex].Index,ItemsPrize[PrizeIndex].ItemID);
-            ItemSerialCreateSend (gObj->m_Index,gObj->MapNumber,(BYTE)gObj->X,(BYTE)gObj->Y,Item,Level,0,Skill,Luck,Opt,gObj->m_Index,Exc,0);
+            ItemSerialCreateSend(gObj->m_Index,gObj->MapNumber,(BYTE)gObj->X,(BYTE)gObj->Y,Item,Level,0,Skill,Luck,Opt,gObj->m_Index,Exc,0);
         }
 
         if (Config.ZenReward > 0)

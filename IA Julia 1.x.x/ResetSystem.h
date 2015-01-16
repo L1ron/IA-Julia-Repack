@@ -9,8 +9,6 @@ unsigned long __stdcall ClearQuest(char Name[11]);
 class RSystem
 {
 public:
-    RSystem();
-    ~RSystem();
     void Init();
     void StatusInit();
     void Reset(LPOBJ gObj);

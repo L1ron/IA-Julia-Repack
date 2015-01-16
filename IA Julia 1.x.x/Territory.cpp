@@ -1,12 +1,3 @@
-// ================================================== //
-// #			GameServer 1.00.90					# //
-// #			Imagination Arts					# //
-// #			Julia Project 1.1.x					# //
-// ================================================== //
-// #	http://imaginationarts.net/forum/			# //
-// #	http://mu.raklion.ru/						# //
-// ================================================== //
-
 #include "StdAfx.h"
 #include "Territory.h"
 #include "Prodef.h"
@@ -26,7 +17,7 @@ void cTerritory::ResetConfig()
     Config.AllowRebuying	= 0;
     Config.NumOfTerritorys	= 0;
 
-    for (int i=0; i<100; i++)
+    for(int i=0; i<100; i++)
     {
         Config.Terr[i].Name[0]				= NULL;
         Config.Terr[i].CostPCPoint			= 0;
@@ -41,6 +32,7 @@ void cTerritory::ResetConfig()
         Config.Terr[i].MinHours				= 0;
         Config.Terr[i].MaxHours				= 0;
         Config.Terr[i].NumOfMaps			= 0;
+
         for (int j=0; j<100; j++)
         {
             Config.Terr[i].Map[j].MapNum	= 0;
@@ -93,9 +85,11 @@ void cTerritory::Load()
     if(fp == NULL)
     {
         Config.Enabled = 0;
-        Log.ConsoleOutPut(1, c_Cyan, t_Default, "[Territory System] System not active. Config file not found: %s", IAJuliaTerritorySystem);
+        Log.ConsoleOutPut(1, c_Cyan, t_Default, "[Territory System] Arquivo %s nao encontrado, sistema inativo.", IAJuliaTerritorySystem);
+
         return;
     }
+
     rewind(fp);
 
     char Buff[256];
@@ -108,9 +102,11 @@ void cTerritory::Load()
         fgets(Buff, 255, fp);
 
         if(Utilits.IsBadFileLine(Buff, Flag))
+        {
             continue;
+        }
 
-        if(Flag > 0 && Flag <= Config.NumOfTerritorys)
+        if((Flag > 0) && (Flag <= Config.NumOfTerritorys))
         {
             int n[5];
             sscanf(Buff, "%d %d %d %d %d", &n[0], &n[1], &n[2], &n[3], &n[4]);
@@ -125,10 +121,12 @@ void cTerritory::Load()
 
         TempFlag = Flag;
     }
+
     for (int i = 1; i <= Config.NumOfTerritorys; i++)
     {
-        Log.ConsoleOutPut(1, c_Magenta, t_Default, "[ы] [TerritorySys]\tLoaded %d territory with %d maps.",i ,Config.Terr[i].NumOfMaps);
+        Log.ConsoleOutPut(1, c_Magenta, t_Default, "[ы] [TerritorySys]\tCarregado %d territorios com %d mapas.",i ,Config.Terr[i].NumOfMaps);
     }
+
     fclose(fp);
 }
 
@@ -146,6 +144,7 @@ int cTerritory::CheckTerritory(LPOBJ gObj)
             }
         }
     }
+
     return -1;
 }
 
@@ -155,7 +154,7 @@ int cTerritory::CheckTerritory(int MapNumber, int X, int Y)
     {
         for (int j = 0; j < Config.Terr[i].NumOfMaps; j ++)
         {
-            if (Config.Terr[i].Map[j].MapNum == MapNumber && (Config.Terr[i].Map[j].X1 < X && Config.Terr[i].Map[j].X2 > X) && (Config.Terr[i].Map[j].Y1 < Y && Config.Terr[i].Map[j].Y2 > Y))
+            if(Config.Terr[i].Map[j].MapNum == MapNumber && (Config.Terr[i].Map[j].X1 < X && Config.Terr[i].Map[j].X2 > X) && (Config.Terr[i].Map[j].Y1 < Y && Config.Terr[i].Map[j].Y2 > Y))
             {
                 return i;
             }
@@ -166,7 +165,9 @@ int cTerritory::CheckTerritory(int MapNumber, int X, int Y)
 void cTerritory::Tick(LPOBJ gObj)
 {
     if (!Config.Enabled)
+    {
         return;
+    }
 
     int Terr = CheckTerritory(gObj);
     int TempTimeGo = AddTab[gObj->m_Index].TERR_TimeGo;
@@ -184,6 +185,7 @@ void cTerritory::Tick(LPOBJ gObj)
             {
                 Chat.MessageLog(1, c_Red, t_TERRITORY, gObj, "[Territory] You have %d more minutes of %s territory", AddTab[gObj->m_Index].TERR_Min, Territory.Config.Terr[AddTab[gObj->m_Index].TERR_Type].Name);
             }
+
             if(AddTab[gObj->m_Index].TERR_Min <= 0)
             {
                 Chat.MessageLog(1, c_Red, t_TERRITORY, gObj, "[Territory] Your territory time is over! You are normal player again.");
@@ -212,14 +214,20 @@ void cTerritory::Tick(LPOBJ gObj)
         }
     }
     else
+    {
         AddTab[gObj->m_Index].TERR_TimeGo = 0;
+    }
 
     if(AddTab[gObj->m_Index].TERR_TimeGo != TempTimeGo && (AddTab[gObj->m_Index].TERR_TypeOnMap == AddTab[gObj->m_Index].TERR_Type || Terr == AddTab[gObj->m_Index].TERR_Type))
     {
         if(AddTab[gObj->m_Index].TERR_TimeGo == 1)
+        {
             Chat.MessageLog(1, c_Green, t_TERRITORY, gObj, "[Territory] You enter on %s territory. Timer started on %d min.",Territory.Config.Terr[AddTab[gObj->m_Index].TERR_Type].Name,AddTab[gObj->m_Index].TERR_Min);
+        }
         else
+        {
             Chat.MessageLog(1, c_Green, t_TERRITORY, gObj, "[Territory] You go out of %s territory. Timer stoped on %d min.",Territory.Config.Terr[AddTab[gObj->m_Index].TERR_Type].Name,AddTab[gObj->m_Index].TERR_Min);
+        }
     }
 
     AddTab[gObj->m_Index].TERR_TypeOnMap = Terr;
@@ -228,10 +236,14 @@ void cTerritory::Tick(LPOBJ gObj)
         if(AddTab[gObj->m_Index].TERR_Type != Terr)
         {
             if(AddTab[gObj->m_Index].TERR_X == 0 && AddTab[gObj->m_Index].TERR_Y == 0)
+            {
                 Utilits.TeleToStandart(gObj->m_Index);
+            }
             else
+            {
                 gObjTeleport(gObj->m_Index, AddTab[gObj->m_Index].TERR_Map, AddTab[gObj->m_Index].TERR_X, AddTab[gObj->m_Index].TERR_Y);
-            Chat.MessageLog(1, c_Red, t_TERRITORY, gObj, "[Territory] You don't have access to enter %s territory.",Territory.Config.Terr[Terr].Name);
+                Chat.MessageLog(1, c_Red, t_TERRITORY, gObj, "[Territory] You don't have access to enter %s territory.",Territory.Config.Terr[Terr].Name);
+            }
         }
     }
     else if (Terr == -1)
@@ -247,6 +259,7 @@ void cTerritory::Connect(LPOBJ gObj)
     if(Config.Enabled)
     {
         AddTab[gObj->m_Index].TERR_Sec = 0; // Обнуление секунд при входе
+
         if(AddTab[gObj->m_Index].TERR_Min > 0)
         {
             Chat.MessageLog(1, c_Red, t_TERRITORY, gObj, "[Territory] Left %d minutes of %s territory.", AddTab[gObj->m_Index].TERR_Min, Territory.Config.Terr[AddTab[gObj->m_Index].TERR_Type].Name);
@@ -262,17 +275,23 @@ int cTerritory::CheckPlayer(int Terr)
         OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(i);
 
         if (!gObj || gObj->Connected != PLAYER_PLAYING)
+        {
             continue;
+        }
 
         for (int j = 0; j < Config.Terr[Terr].NumOfMaps; j++)
         {
-            if (Config.Terr[Terr].Map[j].MapNum == gObj->MapNumber &&
-                    (Config.Terr[Terr].Map[j].X1 < gObj->X && Config.Terr[Terr].Map[j].X2 > gObj->X) &&
-                    (Config.Terr[Terr].Map[j].Y1 < gObj->Y && Config.Terr[Terr].Map[j].Y2 > gObj->Y))
+            if
+            (
+                (Config.Terr[Terr].Map[j].MapNum == gObj->MapNumber) &&
+                (Config.Terr[Terr].Map[j].X1 < gObj->X && Config.Terr[Terr].Map[j].X2 > gObj->X) &&
+                (Config.Terr[Terr].Map[j].Y1 < gObj->Y && Config.Terr[Terr].Map[j].Y2 > gObj->Y)
+            )
             {
                 Result++;
             }
         }
     }
+
     return Result;
 }

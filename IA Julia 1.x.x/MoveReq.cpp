@@ -8,7 +8,7 @@ cMoveReq MoveReq;
 
 void cMoveReq::ResetConfig()
 {
-    for (int i=0; i<255; i++)
+    for(int i=0; i<255; i++)
     {
         MoveReqInfo[i].Index		= 0;
         MoveReqInfo[i].Zen			= 0;
@@ -19,24 +19,27 @@ void cMoveReq::ResetConfig()
         MoveReqInfo[i].MapName2[0]	= NULL;
         MoveReqInfo[i].MapNumber	= -1;
     }
-    for (int i=0; i<500; i++)
+
+    for(int i=0;i < 500;i++)
     {
-        Gate[i].Index				= 0;
-        Gate[i].MapNumber			= -1;
-        Gate[i].VIP					= 0;
+        Gate[i].Index = 0;
+        Gate[i].MapNumber = -1;
+        Gate[i].VIP = 0;
     }
+
     Count = 0;
 }
 
 void cMoveReq::Load()
 {
     ResetConfig();
-    FILE *file;
-    file = fopen(IAJuliaMoveReq, "r");
 
-    if (file == NULL)
+    FILE *File;
+    File = fopen(IAJuliaMoveReq, "r");
+
+    if(File == NULL)
     {
-        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [MoveReq]\tCan`t Find %s", IAJuliaMoveReq);
+        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [MoveReq]\tImpossivel encontrar %s.", IAJuliaMoveReq);
         return;
     }
 
@@ -44,14 +47,16 @@ void cMoveReq::Load()
     int Flag = 0;
     Count = 0;
 
-    while (!feof(file))
+    while(!feof(File))
     {
-        fgets(Buff,256,file);
+        fgets(Buff,256,File);
 
         if(Utilits.IsBadFileLine(Buff, Flag))
+        {
             continue;
+        }
 
-        if (Flag == 1)
+        if(Flag == 1)
         {
             int n[5];
             char Name[51] = { 0 };
@@ -69,25 +74,24 @@ void cMoveReq::Load()
         }
     }
 
-    fclose(file);
-    Log.ConsoleOutPut(1, c_Cyan, t_Default, "[û] [MoveReq]\t%d Maps Loaded", Count);
+    fclose(File);
+    Log.ConsoleOutPut(1, c_Cyan, t_Default, "[û] [MoveReq]\t%d Mapas carregados.", Count);
 
+    File = fopen("..\\data\\Gate.txt","r");
 
-
-    file = fopen("..\\data\\Gate.txt", "r");
-
-    if (file == NULL)
+    if(File == NULL)
     {
-        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [MoveReq]\tCan`t Find \\data\\Gate.txt");
+        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [MoveReq]\tImpossivel ler \\data\\Gate.txt");
+
         return;
     }
 
     Flag = 1;
     int Count2 = 0;
 
-    while (!feof(file))
+    while (!feof(File))
     {
-        fgets(Buff,256,file);
+        fgets(Buff,256,File);
 
         if(Utilits.IsBadFileLine(Buff, Flag))
             continue;
@@ -97,36 +101,42 @@ void cMoveReq::Load()
             int n[3];
             sscanf(Buff, "%d %d %d", &n[0], &n[1], &n[2]);
 
-            Gate[Count2].Index		= n[0];
-            Gate[Count2].MapNumber	= n[2];
+            Gate[Count2].Index = n[0];
+            Gate[Count2].MapNumber = n[2];
+
             Count2++;
         }
     }
 
-    fclose(file);
-    Log.ConsoleOutPut(1, c_Cyan, t_Default, "[û] [MoveReq]\t%d Gates Loaded", Count2);
+    fclose(File);
+    Log.ConsoleOutPut(1, c_Cyan, t_Default, "[û] [MoveReq]\t%d Gates Carregados.", Count2);
 
-    for (int i=0; i <= Count; i++)
+    for(int i=0; i <= Count; i++)
     {
         if (MoveReqInfo[i].Index <= 0 || !MoveReqInfo[i].VIP)
+        {
             continue;
+        }
 
         int VIPMap = -1;
 
         for (int j=0; j<=Count2; j++)
         {
             if (Gate[j].Index <= 0)
-                continue;
-
-            if (VIPMap == -1)
             {
-                if (MoveReqInfo[i].Gate == Gate[j].Index)
+                continue;
+            }
+
+            if(VIPMap == -1)
+            {
+                if(MoveReqInfo[i].Gate == Gate[j].Index)
                 {
                     VIPMap = Gate[j].MapNumber;
+
                     Log.ConsoleOutPut(1, c_Red, t_TEST, "Gate[%d].Map = %d", j, VIPMap);
                 }
             }
-            if (VIPMap != -1)
+            if(VIPMap != -1)
             {
                 if (Gate[j].MapNumber == VIPMap)
                 {
@@ -138,6 +148,7 @@ void cMoveReq::Load()
         if (VIPMap != -1)
         {
             MoveReqInfo[i].MapNumber = VIPMap;
+
             Log.ConsoleOutPut(1, c_Red, t_TEST, "MoveReqInfo[%d].MapNumber = %d", i, VIPMap);
         }
     }
@@ -153,5 +164,6 @@ int cMoveReq::GetMapVip(int MapIndex)
         if (MoveReqInfo[i].MapNumber == MapIndex)
             return MoveReqInfo[i].VIP;
     }
+
     return -1;
 }

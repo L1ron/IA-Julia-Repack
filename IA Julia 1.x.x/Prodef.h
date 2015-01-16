@@ -362,13 +362,14 @@ struct PMSG_ITEMTHROW
 
 //Configs Defines //
 #define IAJuliaAntiAFK			"..\\IA Julia\\AntiAFK.txt"
+#define IAJuliaChatCommands     "..\\IA Julia\\ChatCommands.txt"
 #define IAJuliaCmd				"..\\IA Julia\\Commands.ini"
 #define IAJuliaCommon			"..\\IA Julia\\Common.ini"
 #define IAJuliaDropSystem		"..\\IA Julia\\DropSystem.ini"
 #define IAJuliaEvents			"..\\IA Julia\\Events.ini"
 #define IAJuliaEventTime		"..\\IA Julia\\EventTimer.dat"
 #define IAJuliaArcher			"..\\IA Julia\\GoldenArcher.txt"
-#define IAJuliaHelpers			"..\\IA Julia\\Helpers.txt"
+#define IAJuliaHelpers          "..\\IA Julia\\Helpers.txt"
 #define IAJuliaItems			"..\\IA Julia\\Items.ini"
 #define IAJuliaMossGambler		"..\\IA Julia\\MossGambler.ini"
 #define IAJuliaPcPoints			"..\\IA Julia\\PCPoints_WCoins.dat"

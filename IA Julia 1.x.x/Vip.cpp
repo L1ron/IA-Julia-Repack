@@ -1,12 +1,3 @@
-// ================================================== //
-// #			GameServer 1.00.90					# //
-// #			Imagination Arts					# //
-// #			Julia Project 1.1.x					# //
-// ================================================== //
-// #	http://imaginationarts.net/forum/			# //
-// #	http://mu.raklion.ru/						# //
-// ================================================== //
-
 #include "StdAfx.h"
 #include "Vip.h"
 #include "User.h"
@@ -50,8 +41,9 @@ void cVip::ResetConfig()
 void cVip::Load()
 {
     ResetConfig();
-    Config.Enabled = Configs.GetInt(0, 1, 1, "VipSystem", "EnableVip", IAJuliaVIP);
-    if (!Config.Enabled)return;
+    Config.Enabled = Configs.GetInt(0,1,1,"VipSystem","EnableVip",IAJuliaVIP);
+
+    if (!Config.Enabled) return;
 
     GetPrivateProfileString("VipSystem", "VIPColumn", "VIP", Config.Column, sizeof(Config.Column), IAJuliaVIP);
     GetPrivateProfileString("VipSystem", "VIPColumnDate", "VIP_DATE", Config.ColumnDate, sizeof(Config.ColumnDate), IAJuliaVIP);
@@ -64,11 +56,13 @@ void cVip::Load()
     Config.AllowRebuying = Configs.GetInt(0, 1, 0, "VipSystem", "AllowRebuying", IAJuliaVIP);
 
     char PState[10];
+
     for (int i = 1; i <= Config.NumStates; i++)
     {
         wsprintf(PState, "State%d", i);
 
         GetPrivateProfileString(PState, "VIPStateName", "bronze", Config.VIPState[i].VIPName, sizeof(Config.VIPState[i].VIPName), IAJuliaVIP);
+
         Config.VIPState[i].EnabledCmd = Configs.GetInt(0, 1, 1, PState, "AllowAutoBuy", IAJuliaVIP);
         Config.VIPState[i].CostPCPoints = Configs.GetInt(0, PCPoint.Config.MaximumPCPoints, 5, PState, "CostPCPoints", IAJuliaVIP);
         Config.VIPState[i].CostWCoins = Configs.GetInt(0, PCPoint.Config.MaximumWCPoints, 5, PState, "CostWCoins", IAJuliaVIP);
@@ -83,22 +77,28 @@ void cVip::Load()
         Config.VIPState[i].MaxHours = Configs.GetInt(Config.VIPState[i].MinHours, 32000, 200, PState, "MaxHours", IAJuliaVIP);
         Config.VIPState[i].EnableOnOff = Configs.GetInt(0, 1, 1, PState, "EnableOnOff", IAJuliaVIP);
     }
-    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[ы] [Vip System]\tMaps loaded.");
+
+    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[ы] [Vip System]\tStates Carregados.");
 }
 
 void cVip::Connect(LPOBJ gObj)
 {
-    if (Config.Enabled)
+    if(Config.Enabled)
     {
-        AddTab[gObj->m_Index].VIP_Sec = 0; // Обнуление секунд при входе
-        if (AddTab[gObj->m_Index].VIP_Min > 0)
+        AddTab[gObj->m_Index].VIP_Sec = 0;
+
+        if(AddTab[gObj->m_Index].VIP_Min > 0)
         {
-            Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Left %d minutes of VIP.", AddTab[gObj->m_Index].VIP_Min);
+            Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Restam %d minutos do seu VIP.", AddTab[gObj->m_Index].VIP_Min);
 
             if (AddTab[gObj->m_Index].VIP_On)
-                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Your vip is starting! To stop that, write /vip off");
+            {
+                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Seu VIP foi iniciado! Para pausar, use /vip off");
+            }
             else
-                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Your vip stoped! To start it, write /vip on");
+            {
+                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Seu VIP foi pausado! Para iniciar, use /vip on");
+            }
         }
     }
 }
@@ -111,13 +111,16 @@ void cVip::Tick(LPOBJ gObj)
     {
         if (AddTab[gObj->m_Index].VIP_Type < MapVip)
         {
-            Chat.MessageLog(1, c_Red, t_TERRITORY, gObj, "[VIP] You don't have access to enter %s map.", Utilits.GetMapName(gObj->MapNumber));
+            Chat.MessageLog(1, c_Red, t_TERRITORY, gObj, "[VIP] Voce nao tem acesso ao mapa %s.", Utilits.GetMapName(gObj->MapNumber));
 
-            // проверка на enable
-            if (AddTab[gObj->m_Index].VIP_X == 0 && AddTab[gObj->m_Index].VIP_Y == 0)
+            if(AddTab[gObj->m_Index].VIP_X == 0 && AddTab[gObj->m_Index].VIP_Y == 0)
+            {
                 Utilits.TeleToStandart(gObj->m_Index);
+            }
             else
+            {
                 gObjTeleport(gObj->m_Index, AddTab[gObj->m_Index].VIP_Map, AddTab[gObj->m_Index].VIP_X, AddTab[gObj->m_Index].VIP_Y);
+            }
         }
     }
     else
@@ -147,9 +150,11 @@ void cVip::Tick(LPOBJ gObj)
                 Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Your vip time is over! You are normal player again.");
                 AddTab[gObj->m_Index].VIP_Type = 0;
                 AddTab[gObj->m_Index].VIP_Min = 0;
+               
                 MuOnlineQuery.ExecQuery("UPDATE Character SET %s = 0, %s = 0 WHERE Name = '%s'", Config.Column, Config.ColumnDate, gObj->Name);
                 MuOnlineQuery.Fetch();
                 MuOnlineQuery.Close();
+
                 MuOnlineQuery.ExecQuery("SELECT %s, %s FROM Character WHERE Name = '%s'", Config.Column, Config.ColumnDate, gObj->Name);
                 MuOnlineQuery.Fetch();
                 AddTab[gObj->m_Index].VIP_Type = MuOnlineQuery.GetAsInteger(Config.Column);

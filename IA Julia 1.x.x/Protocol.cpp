@@ -213,171 +213,198 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
 
     switch (BYTE(protoNum))
     {
-    case 0x00: // Chat Protocol
-    {
-        if (Chat.ChatDataSend(gObj, (PMSG_CHATDATA *)aRecv))
-		{
-            return true;
-		}
-    }
-    break;
+        case 0x00: // Chat Protocol
+        {
+            if (Chat.ChatDataSend(gObj, (PMSG_CHATDATA *)aRecv))
+		    {
+                return true;
+		    }
 
-    case 0x01:
-    {
-        CloseClient(aIndex);
-        return true;
-    }
-    break;
-
-    case 0x02:
-    {
-        if (Chat.WisperChat(gObj, (PMSG_CHATDATA_WHISPER *)aRecv))
-            return true;
-    }
-    break;
-
-    case 0x03: // Player Connected Protocol
-    {
-        User.PlayerConnect(gObj);
-    }
-    break;
-
-    case 0x18:
-    {
-        if (aLen != 5)
+            break;
+        }
+        case 0x01:
         {
             CloseClient(aIndex);
             return true;
+
+            break;
         }
-
-        if (aRecv[3] > 7)
+        case 0x02:
         {
-            CloseClient(aIndex);
-            return true;
-        }
-    }
-    break;
-
-    case 0x24: // Enquip Guardian
-    {
-        User.CheckRing(gObj, aRecv);
-    }
-    break;
-
-    case 0x26:
-    {
-        Jewels.IdentifyJewel((PMSG_USE_ITEM_RECV*)aRecv, aIndex);
-    }
-    break;
-
-    case 0xD0: // PC Points
-    {
-        if (aRecv[3] == 0x05)
-        {
-            PCPoint.BuyItem(aIndex, aRecv[4]);
-            return true;
-        }
-        if (aRecv[3] == 0x06 && aRecv[1] == 0x04)
-        {
-            if (gObj->MapNumber == 0 || gObj->MapNumber == 2 || gObj->MapNumber == 3 || gObj->MapNumber == 51)
+            if(Chat.WisperChat(gObj, (PMSG_CHATDATA_WHISPER *)aRecv))
             {
-                PCPoint.OpenShop(aIndex);
-            }
-            else
-            {
-                Chat.Message(1, gObj, "[PointShop] Allow Only in Lorencia,Devias,Noria,Elbeland");
-                BYTE pNewProtocol[0x05] = { 0xC1, 0x05, 0x18, 0x01, 0x7A };
-                DataRecv(RecvTable[pNewProtocol[2]], pNewProtocol, pNewProtocol[1], aIndex, Encrypt, Serial);
-            }
-            return true;
-        }
-    }
-    break;
-    case 0x30: // Click NPC Protocol
-    {
-        bool bResult = Monster.NPCTalkEx(gObj, (aRecv[4] + aRecv[3] * 256));
-
-        if (bResult)
-		{
-			return true;
-		}
-    }
-    break;
-    case 0x40:
-    {
-        if (Configs.IsPartyGap)
-            if (User.CGPartyRequestRecv((PMSG_PARTYREQUEST*)aRecv, aIndex))
                 return true;
-    }
-    break;
-    case 0x55:
-    {
-        if (User.GuildMasterInfoSave(aIndex, (PMSG_GUILDINFOSAVE *)aRecv))
-            return true;
-    }
-    break;
+            }
 
-    case 0xAA:
-    {
-#ifdef _GS
-        if (DuelSystem.Config.Enabled)
-        {
-            DuelSystem.DuelProtocolCore(gObj, aRecv);
-            return true;
+            break;
         }
-#else
-        GCServerMsgStringSend("You can't use duel on CS server!", aIndex, 1);
-#endif
-    }
-    break;
-#ifdef _GS
-#if (IS_PROTOCOL_JPN == 0)
-    case 0xF1: //Login protocol (Season 4) ENG
-    {
-        aRecv[1] -= 0x0A;
-        aLen = aRecv[1];
-        for(int i = 24; i<50; i++)
-            aRecv[i] = aRecv[i+10];
-    }
-    break;
-
-    case 0xDB: // Skill ENG
-    {
-        protoNum = 0xD7;
-        aRecv[2] = 0xD7;
-    }
-    break;
-#endif
-    case 0x32:
-    {
-        if (Moss.Config.Enable)
+        case 0x03: // Player Connected Protocol
         {
-            if (Moss.BuyItem(aIndex,aRecv) == TRUE)
+            User.PlayerConnect(gObj);
+
+            break;
+        }
+        case 0x18:
+        {
+            if(aLen != 5)
             {
-                Moss.DataSendMoss(aIndex);
+                CloseClient(aIndex);
 
                 return true;
             }
+
+            if(aRecv[3] > 7)
+            {
+                CloseClient(aIndex);
+
+                return true;
+            }
+
+            break;
         }
-    }
-    break;
+        case 0x24: // Equip Guardian
+        {
+            User.CheckRing(gObj, aRecv);
+
+            break;
+        }
+        case 0x26:
+        {
+            Jewels.IdentifyJewel((PMSG_USE_ITEM_RECV*)aRecv, aIndex);
+
+            break;
+        }
+        case 0xD0: // PC Points
+        {
+            if (aRecv[3] == 0x05)
+            {
+                PCPoint.BuyItem(aIndex, aRecv[4]);
+                return true;
+            }
+
+            if(aRecv[3] == 0x06 && aRecv[1] == 0x04)
+            {
+                if (gObj->MapNumber == 0 || gObj->MapNumber == 2 || gObj->MapNumber == 3 || gObj->MapNumber == 51)
+                {
+                    PCPoint.OpenShop(aIndex);
+                }
+                else
+                {
+                    Chat.Message(1, gObj, "[PointShop] Allow Only in Lorencia,Devias,Noria,Elbeland");
+                    BYTE pNewProtocol[0x05] = { 0xC1, 0x05, 0x18, 0x01, 0x7A };
+                    DataRecv(RecvTable[pNewProtocol[2]], pNewProtocol, pNewProtocol[1], aIndex, Encrypt, Serial);
+                }
+
+                return true;
+            }
+
+            break;
+        }
+        case 0x30: // Click NPC Protocol
+        {
+            bool bResult = Monster.NPCTalkEx(gObj, (aRecv[4] + aRecv[3] * 256));
+
+            if (bResult)
+		    {
+			    return true;
+		    }
+
+            break;
+        }
+        case 0x40:
+        {
+            if (Configs.IsPartyGap)
+            {
+                if (User.CGPartyRequestRecv((PMSG_PARTYREQUEST*)aRecv, aIndex))
+                {
+                    return true;
+                }
+            }
+
+            break;
+        }
+        case 0x55:
+        {
+            if (User.GuildMasterInfoSave(aIndex, (PMSG_GUILDINFOSAVE *)aRecv))
+            {
+                return true;
+            }
+
+            break;
+        }
+        case 0xAA:
+        {
+#ifdef _GS
+            if (DuelSystem.Config.Enabled)
+            {
+                DuelSystem.DuelProtocolCore(gObj, aRecv);
+
+                return true;
+            }
+#else
+            GCServerMsgStringSend("You can't use duel on CS server!", aIndex, 1);
+#endif
+            break;
+        }
+    
+#ifdef _GS
+#if(IS_PROTOCOL_JPN == 0)
+        case 0xF1: //Login protocol (Season 4) ENG
+        {
+            aRecv[1] -= 0x0A;
+            aLen = aRecv[1];
+
+            for(int i = 24; i<50; i++)
+            {
+                aRecv[i] = aRecv[i+10];
+            }
+
+            break;
+        }
+    
+
+        case 0xDB: // Skill ENG
+        {
+            protoNum = 0xD7;
+            aRecv[2] = 0xD7;
+
+            break;
+        }
+#endif
+        case 0x32:
+        {
+            if (Moss.Config.Enable)
+            {
+                if (Moss.BuyItem(aIndex,aRecv) == TRUE)
+                {
+                    Moss.DataSendMoss(aIndex);
+
+                    return true;
+                }
+            }
+
+            break;
+        }
 #else
 #if (IS_PROTOCOL_JPN == 0)
-    case 0xF1: //Login protocol (Season 4) ENG
-    {
-        aRecv[1] -= 0x0A;
-        aLen = aRecv[1];
-        for (int i = 24; i < 50; i++)
-            aRecv[i] = aRecv[i + 10];
-    }
-    break;
+        case 0xF1: //Login protocol (Season 4) ENG
+        {
+            aRecv[1] -= 0x0A;
+            aLen = aRecv[1];
+            for (int i = 24; i < 50; i++)
+            {
+                aRecv[i] = aRecv[i + 10];
+            }
 
-    case 0xDB: // Skill ENG
-    {
-        protoNum = 0xD7;
-        aRecv[2] = 0xD7;
-    }
-    break;
+            break;
+        }
+        case 0xDB: // Skill ENG
+        {
+            protoNum = 0xD7;
+            aRecv[2] = 0xD7;
+            
+            break;
+        }
 #endif
 #endif
     }

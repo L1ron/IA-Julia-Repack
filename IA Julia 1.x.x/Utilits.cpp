@@ -15,7 +15,9 @@ void cUtilits::HookThis(DWORD dwMyFuncOffset, DWORD dwJmpOffset)
 void cUtilits::SetNop(DWORD dwOffset, int Size)
 {
     for(int n=0; n < Size; n++)
+    {
         *(BYTE*)(dwOffset+n) = 0x90;
+    }
 }
 
 void cUtilits::SetRetn(DWORD dwOffset)
@@ -54,7 +56,8 @@ int cUtilits::GetPlayerIndex(char *Name)
 BOOL cUtilits::gObjIsConnected(int Index)
 {
     OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
-    if ( gObj->Type != OBJECT_USER )
+
+    if( gObj->Type != OBJECT_USER )
     {
         return 0;
     }
@@ -93,11 +96,13 @@ int cUtilits::GetNumberByPercent(int Proc, int Min, int Max)
 int cUtilits::TakeExcNum(int Exc)
 {
     int Count = 0;
+
     for(int j = 0; j < 6; j++)
     {
         if((Exc>>j)&1)
             Count++;
     }
+
     return Count;
 }
 
@@ -113,7 +118,9 @@ int cUtilits::GenExcOpt(int amount)
     std::random_shuffle(opt_db, opt_db + 6);
 
     for(int n=0; n < amount; n++)
+    {
         exc += opt_db[n];
+    }
 
     return exc;
 }
@@ -240,9 +247,10 @@ bool cUtilits::IsBadFileLine(char *FileLine, int &Flag)
         Flag = 0;
     }
 
-    if(!strncmp(FileLine, "end", 3))
+    if(!strncmp(FileLine,"end", 3))
     {
         Flag = 0;
+
         return true;
     }
 

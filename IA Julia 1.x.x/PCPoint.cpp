@@ -1,12 +1,3 @@
-// ================================================== //
-// #			GameServer 1.00.90					# //
-// #			Imagination Arts					# //
-// #			Julia Project 1.1.x					# //
-// ================================================== //
-// #	http://imaginationarts.net/forum/			# //
-// #	http://mu.raklion.ru/						# //
-// ================================================== //
-
 #include "PCPoint.h"
 #include "Logger.h"
 #include "Configs.h"
@@ -109,9 +100,11 @@ void cPCPoint::LoadConfigs()
         fgets(Buff,256,file);
 
         if(Utilits.IsBadFileLine(Buff, Flag))
+        {
             continue;
+        }
 
-        if (Flag == 1)
+        if(Flag == 1)
         {
             int i = AmountRecords[0];
             int n[15];
@@ -133,7 +126,8 @@ void cPCPoint::LoadConfigs()
             PCShop[i].Cost		= n[14];
             AmountRecords[0]++;
         }
-        if (Flag == 2)
+
+        if(Flag == 2)
         {
             int i = AmountRecords[1];
             int n[2];
@@ -144,6 +138,7 @@ void cPCPoint::LoadConfigs()
 
             AmountRecords[1]++;
         }
+
         if (Flag == 3)
         {
             int i = AmountRecords[2];

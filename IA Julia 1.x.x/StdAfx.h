@@ -7,7 +7,7 @@
 // ALTERAR PROTOCOLO
 // 0 ENG, 1 JPN
 /////////////////////////////////
-#define IS_PROTOCOL_JPN 1
+#define IS_PROTOCOL_JPN 0
 
 #include "Resource.h"
 

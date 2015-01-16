@@ -23,6 +23,7 @@ public:
         int Drop;
         int Exp;
     } Config[255];
+
     int ConfigNum;
 };
 

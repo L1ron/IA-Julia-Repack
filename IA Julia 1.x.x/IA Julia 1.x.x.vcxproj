@@ -46,7 +46,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GS_CS_Release_Version|Win32'">
     <TargetExt>.dll</TargetExt>
     <OutDir>$(SolutionDir)\GameServerCS\</OutDir>
-    <IntDir>$(SolutionDir)GameServerCS\Temp\</IntDir>
+    <IntDir>$(SolutionDir)\GameServerCS\Temp\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GS_Release_Version|Win32'">
     <TargetExt>.dll</TargetExt>

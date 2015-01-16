@@ -312,8 +312,11 @@ bool cMarry::CheckGender(int aIndex, int tIndex) //Returnes True if Gender check
             if(tGender == MAN)
             {
                 Chat.MessageAll(0, 0, gObj, "[Marriage] It would be gey wedding!");	  //AROUND
+
                 if(tObj != NULL)
+                {
                     Monster.NPCMessageNear(tObj, "It would be gey wedding!");	  //AROUND
+                }
 
                 return true;
             }

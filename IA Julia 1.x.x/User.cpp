@@ -16,6 +16,7 @@
 #include "Utilits.h"
 #include "ResetSystem.h"
 #include "MarrySystem.h"
+#include "Helpers.h"
 
 sAddTab AddTab[OBJECT_MAX];
 cUser User;
@@ -25,10 +26,14 @@ bool cUser::CheckMaxPoints(BYTE type, OBJECTSTRUCT* lpObj)
     bool bResult = false;
 
     int MaxPoints = 32000;
+
     if(Configs.Enable65kStats >= 1)
+    {
         MaxPoints = -536;
+    }
 
     int Stats;
+
     switch (type)
     {
     case 0x00:
@@ -114,30 +119,47 @@ bool cUser::CheckMaxPoints(BYTE type, OBJECTSTRUCT* lpObj)
     }
 
     if(MaxPoints > 32767)
+    {
         MaxPoints = -32768 + (MaxPoints - 32767);
+    }
 
     if((MaxPoints > 0) && (Stats >= MaxPoints || Stats < 0))
+    {
         bResult = true;
+    }
     else if ((MaxPoints < 0) && (Stats < 0) && (Stats >= MaxPoints))
+    {
         bResult = true;
+    }
 
     return bResult;
 }
 
 void gObjLevelUpPointAddEx(BYTE type, OBJECTSTRUCT* lpObj)
 {
-    bool Error = false;
+    bool bError = false;
 
     if(User.CheckMaxPoints(type, lpObj))
-        Error = true;
-
-    if (Error == true)
     {
-        BYTE cShowAddPointError[0x30] = {0xC1,0x30,0x0D,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00 }  ;
+        bError = true;
+    }
+
+    if(bError == true)
+    {
+        BYTE cShowAddPointError[0x30] =
+        {
+            0xC1,0x30,0x0D,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+        };
+
         sprintf((char *)&cShowAddPointError[0x0D], "Error in Stats adding");
     }
     else
+    {
         gObjLevelUpPointAdd(type, lpObj);
+    }
 }
 
 void cUser::gObjCharacterWingsSetPreview(short ItemType, unsigned char *CharSet,int Type,OBJECTSTRUCT *lpObj)
@@ -178,10 +200,12 @@ void cUser::gObjCharacterWingsSetPreview(short ItemType, unsigned char *CharSet,
     }
 }
 
-void __stdcall gObjViewportPatchExecute(OBJECTSTRUCT *lpObj) {
-
+void __stdcall gObjViewportPatchExecute(OBJECTSTRUCT *lpObj)
+{
     if(lpObj->pInventory[GUARDIAN].m_Type != SLOT_EMPTY)
+    {
         User.gObjCharacterWingsSetPreview(lpObj->pInventory[GUARDIAN].m_Type, lpObj->CharSet, GUARDIAN,lpObj);
+    }
 }
 
 #define CS_SET_BOOTS1(x) ( ((x) & 0x1E0) >> 5 )
@@ -425,12 +449,13 @@ void cUser::RingSkin(LPOBJ gObj)
 void cUser::CheckRingSend(LPOBJ gObj, unsigned char* aSend)
 {
     if(aSend[4] == RING_01 || aSend[4] == RING_02)
-        if(gObj->pInventory[RING_01].m_Type == 0x1A4C && gObj->m_Change != 503 ||
-                gObj->pInventory[RING_02].m_Type == 0x1A4C && gObj->m_Change != 503)
+    {
+        if(gObj->pInventory[RING_01].m_Type == 0x1A4C && gObj->m_Change != 503 ||gObj->pInventory[RING_02].m_Type == 0x1A4C && gObj->m_Change != 503)
         {
             gObj->m_Change = 503;
             gObjViewportListProtocolCreate(gObj);
         }
+    }
 }
 
 void cUser::CheckRing(LPOBJ gObj, LPBYTE aRecv)
@@ -554,7 +579,6 @@ void cUser::PlayerConnect(LPOBJ gObj)
     int UsedSlot = MuOnlineQuery.GetAsInteger("UsedSlot");
     MuOnlineQuery.Close();
 
-
     if((UsedSlot < 1 || UsedSlot > Configs.Commands.NumberOfVaults) && Configs.Commands.IsMultyVault)
     {
         bool Result = false;
@@ -620,18 +644,20 @@ void cUser::PlayerConnect(LPOBJ gObj)
 #endif
     Vip.Connect(gObj);
     Territory.Connect(gObj);
+    Helpers.Connect(gObj);
 }
 
 void cUser::LoginMsg(LPOBJ gObj)
 {
     Chat.Message(0, gObj, Configs.ConnectNotice); //fixed here
+
     if (Configs.ConnectInfo == 1)
     {
         Chat.Message(1, gObj, "Total Online: %d/%d", Log.Online_All, Log.Online_Max);
 
         SYSTEMTIME t;
         GetLocalTime(&t);
-        Chat.Message(1, gObj, "Server Time & Date: %02d:%02d:%02d %02d-%02d-%04d.", t.wHour, t.wMinute, t.wSecond, t.wDay, t.wMonth, t.wYear);
+        Chat.Message(1, gObj,"Hora e data: %02d:%02d:%02d (%02d-%02d-%04d)", t.wHour, t.wMinute, t.wSecond, t.wDay, t.wMonth, t.wYear);
     }
 
     if (AddTab[gObj->m_Index].IsMarried)
@@ -653,18 +679,18 @@ void cUser::LoginMsg(LPOBJ gObj)
 
     switch(GmSystem.IsAdmin(gObj->Name))
     {
-    case 1:
-	{
-        Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s join the game!", gObj->Name);
+        case 1:
+	    {
+            Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s join the game!", gObj->Name);
 
-        break;
-	}
-    case 2:
-	{
-        Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s join the game!", gObj->Name);
+            break;
+	    }
+        case 2:
+	    {
+            Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s join the game!", gObj->Name);
 
-        break;
-	}
+            break;
+	    }
     }
 }
 
@@ -712,11 +738,13 @@ void GSItemDurRepaire( LPOBJ lpObj, CItem * DurItem, int pos, int RequestPos )
 void cUser::OnlineTimeTick(LPOBJ gObj)
 {
     AddTab[gObj->m_Index].ON_Sek++;
+
     if(AddTab[gObj->m_Index].ON_Sek >= 60)
     {
         AddTab[gObj->m_Index].ON_Sek = 0;
         AddTab[gObj->m_Index].ON_Min++;
     }
+
     if(AddTab[gObj->m_Index].ON_Min >= 60)
     {
         AddTab[gObj->m_Index].ON_Min = 0;
@@ -727,7 +755,7 @@ void cUser::OnlineTimeTick(LPOBJ gObj)
     }
 }
 
-bool cUser::ResetCheck( LPOBJ gObj )
+bool cUser::ResetCheck(LPOBJ gObj)
 {
     if (!ResetSystem.RConf.IsResetSystem)
 	{
@@ -736,7 +764,7 @@ bool cUser::ResetCheck( LPOBJ gObj )
 
     if(AddTab[gObj->m_Index].Resets > ResetSystem.RConf.MaximumReset)
     {
-        Chat.MessageLog(0, c_Yellow, t_COMMANDS, gObj, "[Login] Your reset (%d) is too high for this server (%d)!", AddTab[gObj->m_Index].Resets, ResetSystem.RConf.MaximumReset);
+        Chat.MessageLog(0, c_Yellow, t_COMMANDS, gObj, "[Login] Seus resets (%d) estao no limite para esse servidor (%d)!", AddTab[gObj->m_Index].Resets,ResetSystem.RConf.MaximumReset);
         CloseClient(gObj->m_Index);
 
         return true;

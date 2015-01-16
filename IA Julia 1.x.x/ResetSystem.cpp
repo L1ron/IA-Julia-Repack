@@ -13,23 +13,13 @@ RSystem ResetSystem;
 
 char Character[11];
 
-RSystem::RSystem()
-{
-	/**/
-}
-
-RSystem::~RSystem()
-{
-	/**/
-}
-
 void RSystem::Init()
 {
-    RConf.IsResetSystem			= Configs.GetInt(0, 1, 1, "Customs", "EnableResetSystem", IAResetSystem);
+    RConf.IsResetSystem = Configs.GetInt(0, 1, 1, "Customs", "EnableResetSystem", IAResetSystem);
 
     if(!RConf.IsResetSystem)
     {
-        Log.ConsoleOutPut(1, c_Grey, t_RESET,"[X] [Reset System] Disabled.");
+        Log.ConsoleOutPut(1, c_Grey, t_RESET,"[X] [Reset System] Inativo.");
 
         return;
     }
@@ -46,11 +36,11 @@ void RSystem::Init()
 
     for(int i = 0; i < NumStates; i++)
     {
-        wsprintf(PState, "State%d", i+1);
+        wsprintf(PState, "State%d",i + 1);
 
         if(i > 0)
 		{
-            State[i].MaxRes =  Configs.GetInt(State[i-1].MaxRes + 1, 32000, State[i-1].MaxRes + 5, PState, "MaxResets", IAResetSystem);
+            State[i].MaxRes =  Configs.GetInt(State[i - 1].MaxRes + 1, 32000, State[i-1].MaxRes + 5, PState, "MaxResets", IAResetSystem);
 		}
         else
 		{
@@ -62,8 +52,9 @@ void RSystem::Init()
         {
             if(State[i-1].MaxRes >= State[i].MaxRes)
             {
-                Log.ConsoleOutPut(1, c_Red, t_RESET, "[X] [Reset System] Error in MaxResets of State[%d]... Is smaller then previous... Worked only %d first States.",i+1,i);
+                Log.ConsoleOutPut(1, c_Red, t_RESET, "[X] [Reset System] Erro no MaxResets do State %d. E menor que o anterior. Funciona apemas com o %d primeiro State.",i+1,i);
                 OffStates(i);
+
                 return;
             }
             else
@@ -86,6 +77,7 @@ void RSystem::Init()
         State[i].Need.LvlSUM	= Configs.GetInt(0, 400, 400, PState, "Need.LvlSUM", IAResetSystem);
         State[i].Need.LvlELF	= Configs.GetInt(0, 400, 400, PState, "Need.LvlELF", IAResetSystem);
         State[i].Need.LvlMG		= Configs.GetInt(0, 400, 400, PState, "Need.LvlMG", IAResetSystem);
+
         State[i].Need.PcPoint	= Configs.GetInt(0, PCPoint.Config.MaximumPCPoints, 0, PState, "Need.PcPoint", IAResetSystem);
         State[i].Need.WCoin		= Configs.GetInt(0, PCPoint.Config.MaximumWCPoints, 0, PState, "Need.WCoin", IAResetSystem);
 
@@ -100,7 +92,6 @@ void RSystem::Init()
         State[i].Clear.WCoin	= Configs.GetInt(0, 1, 0, PState, "Clear.WCoin", IAResetSystem);
         State[i].Clear.Zen		= Configs.GetInt(0, 1, 0, PState, "Clear.Zen", IAResetSystem);
 
-
         State[i].Add.Formula	= Configs.GetInt(0, 2, 1, PState, "Add.Formula", IAResetSystem);
 
         if(State[i].Add.Formula!=0)
@@ -112,6 +103,7 @@ void RSystem::Init()
             State[i].Add.PointsSUM	= Configs.GetInt(0, 32000, 200, PState, "Add.PointsSUM", IAResetSystem);
             State[i].Add.PointsELF	= Configs.GetInt(0, 32000, 200, PState, "Add.PointsELF", IAResetSystem);
         }
+
         State[i].Add.PcPoint	= Configs.GetInt(0,  PCPoint.Config.MaximumPCPoints, 20, PState, "Add.PcPoint", IAResetSystem);
         State[i].Add.WCoin		= Configs.GetInt(0, PCPoint.Config.MaximumPCPoints, 20, PState, "Add.WCoin", IAResetSystem);
 
@@ -146,7 +138,7 @@ void RSystem::Init()
         }
     }
 
-    Log.ConsoleOutPut(1, c_Green, t_RESET, "[û] [Reset System] Successfully inited. %d states of %d - worked",Worked ,NumStates);
+    Log.ConsoleOutPut(1, c_Green, t_RESET, "[û] [Reset System] Iniciado: %d estados de %d estao ativos.",Worked ,NumStates);
 }
 
 void RSystem::OffStates(int i)
@@ -161,7 +153,7 @@ void RSystem::Reset(LPOBJ gObj)
 {
     if(!RConf.IsResetSystem)
     {
-        Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[ResetSystem] Command disabled!");
+        Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[ResetSystem] Comando inativo!");
 
         return;
     }
@@ -170,14 +162,14 @@ void RSystem::Reset(LPOBJ gObj)
 
     if(NumState == -1)
     {
-        Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Disabled.");
+        Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Inativo.");
 
         return;
     }
 
     if(NumState == -2)
     {
-        Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] You have max resets. You can't make more resets.");
+        Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Voce ja esta no limite de resets, impossivel continuar.");
 
         return;
     }
@@ -366,7 +358,7 @@ void RSystem::Reset(LPOBJ gObj)
 		}
 	}
 
-	gObjCalCharacter(gObj->m_Index);
+	gObjCalCharacter(Utilits.GetPlayerIndex(gObj->Name));
     GCLevelUpMsgSend(gObj->m_Index,0);
 
 	/*
@@ -374,10 +366,11 @@ void RSystem::Reset(LPOBJ gObj)
 		GCMagicAttackNumberSend(gObj,72,gObj->m_Index,1);
 	*/
 
+    AddTab[gObj->m_Index].Resets++;
+
     MuOnlineQuery.ExecQuery("UPDATE Character SET %s = %s + 1 WHERE Name = '%s'",  RConf.ResetColumn, RConf.ResetColumn, gObj->Name);
     MuOnlineQuery.Fetch();
     MuOnlineQuery.Close();
-    AddTab[gObj->m_Index].Resets++;
 
 	/*
 		//Force player to reconnect (POOR Method!)
@@ -687,13 +680,20 @@ int RSystem::CheckState(DWORD Index)
         if(State[i].Work)
         {
             if(State[i].MaxRes == -1)
+            {
                 return i;
+            }
             else if(State[i].MaxRes >= AddTab[Index].Resets)
+            {
                 return i;
+            }
             else if(i == Worked -1)
+            {
                 return -2;
+            }
         }
     }
+
     return -1;
 }
 

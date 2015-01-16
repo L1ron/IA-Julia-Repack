@@ -20,7 +20,6 @@
 
 cMonster Monster;
 
-// Monster die Handler (hooked replacement for gObjMonsterDieGiveItem)
 void __cdecl MonsterDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 {
     if (OBJECT_MAXRANGE(lpTargetObj->m_Index) == FALSE)
@@ -46,24 +45,25 @@ void __cdecl MonsterDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 
     //HappyHour Drop
     int IsHappyHour = HappyHour.IsHappyHour(lpTargetObj->MapNumber);
+
     if(IsHappyHour)
     {
         Proc += HappyHour.HappyStruct[IsHappyHour].P_Drop;
     }
 
-    //Player System
     Proc += PlayerSystem.GetBonus(lpTargetObj, b_DROP);
 
-    //Vip System
     if(Vip.Config.Enabled)
+    {
         Proc += Vip.GetBonus(lpTargetObj, b_DROP);
-
-    // Original function
+    }
 
     lpObj->m_wItemDropRate += (lpObj->m_wItemDropRate*Proc)/100;
 
     if(lpObj->m_wItemDropRate > 100)
+    {
         lpObj->m_wItemDropRate = 100;
+    }
 
     gObjMonsterDieGiveItem(lpObj, lpTargetObj);
 }
@@ -117,6 +117,7 @@ int cMonster::MonsterAddAndSpawn(int Mob, int Map, int Speed, int X1, int Y1, in
         *(BYTE *)(12 * MobCount + MonsterReads+8) = Y2;
 
         int MobID = gObjAddMonster(*(BYTE *)(12 * MobCount + (MonsterReads+2)));
+
         if(MobID>=0)
         {
             int MobNr = *(WORD *)(12 * MobCount + MonsterReads);
@@ -130,7 +131,7 @@ int cMonster::MonsterAddAndSpawn(int Mob, int Map, int Speed, int X1, int Y1, in
     }
     else
     {
-        MessageBox(NULL,"Monster attribute max over!!", "Monsters overflow", 0);
+        MessageBox(NULL,"Maximo de atributos de monstros excedido!", "Monsters overflow", 0);
         return -1;
     }
 }
@@ -141,7 +142,7 @@ void cMonster::ReadMonsterAdd()
 
     if((MonsterFile = fopen( IAJuliaMobAdd, "r")) == NULL)
     {
-        MessageBox(NULL, "Cant Find MonsterSpawn.ini", "Error", 0);
+        MessageBox(NULL,"Impossivel encontrar MonsterSpawn.ini","MonsterSpawn",0);
 
         return;
     }
@@ -153,8 +154,11 @@ void cMonster::ReadMonsterAdd()
     {
         Buff[0] = 0;
         fgets (Buff, 255, MonsterFile);
+
         if(Buff[0] == '/' || Buff[0] == '#' || Buff[0] == ' ' || strlen(Buff) < 9)
+        {
             continue;
+        }
 
         int Mob, Count,	Map, Speed, X1, Y1,	X2,	Y2,	Dir;
         sscanf(Buff, "%d %d %d %d %d %d %d %d %d", &Mob, &Map, &Speed, &X1, &Y1, &X2, &Y2, &Dir, &Count);
@@ -219,6 +223,7 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
     if(aIndex < OBJECT_MIN || aIndex > OBJECT_MAX)
     {
         Log.ConsoleOutPut(0,c_Red,t_NULL,"[AntiHack] OBJECT ERROR!!!");
+
         return 1;
     }
 
@@ -235,21 +240,29 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
 
         switch(Count)
         {
-        case 2: // 2 Persons in Party
+            case 2: // 2 Persons in Party
+            {
                 mObj->Money = (mObj->Money * Configs.Zen.ZenInParty) + (((mObj->Money * Configs.Zen.ZenInParty) / 100) * 5);
-            break;
-
-        case 3: // 3 Persons in Party
+            
+                break;
+            }
+            case 3: // 3 Persons in Party
+            {
                 mObj->Money = (mObj->Money * Configs.Zen.ZenInParty) + (((mObj->Money * Configs.Zen.ZenInParty) / 100) * 10);
-            break;
-
-        case 4: // 4 Persons in Party
+            
+                break;
+            }
+            case 4: // 4 Persons in Party
+            {
                 mObj->Money = (mObj->Money * Configs.Zen.ZenInParty) + (((mObj->Money * Configs.Zen.ZenInParty) / 100) * 15);
-            break;
-
-        case 5: // 5 Persons in Party
+            
+                break;
+            }
+            case 5: // 5 Persons in Party
+            {
                 mObj->Money = (mObj->Money * Configs.Zen.ZenInParty) + (((mObj->Money * Configs.Zen.ZenInParty) / 100) * 20);
-            break;
+                break;
+            }
         }
     }
 
@@ -269,6 +282,7 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
 
     //HappyHour
     int IsHappyHour = HappyHour.IsHappyHour(mObj->MapNumber);
+
     if(IsHappyHour)
     {
         Proc += HappyHour.HappyStruct[IsHappyHour].P_Zen;
@@ -293,6 +307,7 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
     else // Default drop
     {
         int rValue = gEventMonsterItemDrop(b_MonsterDataAddr, a_gObjAddr);
+
         return rValue;
     }
 
@@ -303,7 +318,9 @@ void MyItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type
 {
 #ifdef _GS
     if (Monster.GoldenDropFunc(aIndex, MapNumber, x, y, type, level, dur, Op1, Op2, Op3, LootIndex, NewOption, SetOption))
+    {
         return;
+    }
 #endif
 
     ItemSerialCreateSend(aIndex, MapNumber, x, y, type, level, dur, Op1, Op2, Op3, LootIndex, NewOption, SetOption);
@@ -391,7 +408,7 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
     }
 
 	// Helper Ellen
-	if((gObjNPC->Class == 414) && (Helpers.Config.EnableEllen))
+	if(gObjNPC->Class == 414)
     {
 		Helpers.HelperEllenClick(gObj, gObjNPC);
 
@@ -399,23 +416,17 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
     }
 
 	// Helper Leo
-	if((gObjNPC->Class == 371) && (Helpers.Config.EnableLeo))
+	if(gObjNPC->Class == 371)
     {
-		//Helpers.HelperLeoClick(gObj, gObjNPC);
-		//NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
-
-        Chat.Message(1,gObj,"Leo");
+        Helpers.HelperLeoClick(gObj,gObjNPC);
 
         bResult = true;
     }
 
 	// Helper Luke
-	if((gObjNPC->Class == 258) && (Helpers.Config.EnableLuke))
+    if(gObjNPC->Class == 258)
     {
-		//Helpers.HelperLukeClick(gObj, gObjNPC);
-		//NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
-
-        Chat.Message(1,gObj,"Luke");
+        Helpers.HelperLukeClick(gObj,gObjNPC);
 
         bResult = true;
     }
@@ -440,16 +451,14 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
     {
         if(AddTab[gObj->m_Index].Resets < Configs.GuildRes)
         {
-            Chat.Message(1,gObj,"You don't have enough Resets, you need %d more resets.",(Configs.GuildRes - AddTab[gObj->m_Index].Resets));
-			//NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Voce precisa de mais %d resets.",(Configs.GuildRes - AddTab[gObj->m_Index].Resets));
+            Chat.Message(1,gObj,"Voce precisa ter %d resets",Configs.GuildRes);
 
             bResult = true;
         }
 
         if(gObj->Level < Configs.GuildLevel)
         {
-            Chat.Message(1,gObj,"You don't have enough Level, you need %d more Level.",(Configs.GuildLevel - gObj->Level));
-			//NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Voce precisa de mais %d level.",(Configs.GuildLevel - gObj->Level));
+            Chat.Message(1,gObj,"Voce precisa estar no level %d.",Configs.GuildLevel);
 
             bResult = true;
         }
@@ -478,35 +487,39 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
 		{
 			Chat.Message(1,gObj,"[Moss The Gambler] Nao estou de servico, volte mais tarde.");
 
-			return true;
+			bResult = true;
 		}
-
-		if((gObj->m_PK_Level > 3) && (Moss.Config.UsePK == 0))
-		{
-			Chat.Message(1,gObj,"[Moss The Gambler] Nao faco negocio com PK's!!");
-
-			return true;
-		}
-
-		BYTE Send2[6] = {0xC3,0x06,0x30,0x00,0x27,0x00};
-		BYTE Send[71] =
-		{
-			0xC2,0x00,71,0x31,0x00,5,0x00,71,0x00,0x01,0x00,0x00,13*16,
-			0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0x02,72,0x00,0x01,0x00,0x00,13*16,
-			0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0x04,73,0x00,0x01,0x00,0x00,13*16,
-			0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0x18,74,0x00,0x01,0x00,0x00,13*16,
-			0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0x06,75,0x00,0x01,0x00,0x00,13*16,
-			0x00,0xFF,0xFF,0xFF,0xFF,0xFF
-		};
+        else
+        {
+		    if((gObj->m_PK_Level <= 3) && Moss.Config.UsePK)
+		    {
+		        BYTE Send2[6] = {0xC3,0x06,0x30,0x00,0x27,0x00};
+		        BYTE Send[71] =
+		        {
+			        0xC2,0x00,71,0x31,0x00,5,0x00,71,0x00,0x01,0x00,0x00,13*16,
+			        0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0x02,72,0x00,0x01,0x00,0x00,13*16,
+			        0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0x04,73,0x00,0x01,0x00,0x00,13*16,
+			        0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0x18,74,0x00,0x01,0x00,0x00,13*16,
+			        0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0x06,75,0x00,0x01,0x00,0x00,13*16,
+			        0x00,0xFF,0xFF,0xFF,0xFF,0xFF
+		        };
 		
-		DataSend(gObj->m_Index,Send2,6);
-		DataSend(gObj->m_Index,Send,71);
+		        DataSend(gObj->m_Index,Send2,6);
+		        DataSend(gObj->m_Index,Send,71);
 		
-		gObj->TargetShopNumber = 492;
-		gObj->m_IfState.use    = 1;
-		gObj->m_IfState.type   = 3;
-		
-		bResult = true;
+		        gObj->TargetShopNumber = 492;
+		        gObj->m_IfState.use    = 1;
+		        gObj->m_IfState.type   = 3;
+
+                bResult = true;
+		    }
+            else
+            {
+                Chat.Message(1,gObj,"[Moss The Gambler] Nao farei negocios com PK's!!");
+
+                bResult = true;
+            }
+        }
 	}
 #endif
     return bResult;
@@ -515,28 +528,28 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
 void cMonster::LoadPkClear()
 {
     /* PK Clear */
-    ClearCommand.Enabled				= Configs.GetInt(0, 1, 1, "PkClear", "PkClearEnabled", IAJuliaCmd);
+    ClearCommand.Enabled = Configs.GetInt(0, 1, 1, "PkClear", "PkClearEnabled", IAJuliaCmd);
 
     if(ClearCommand.Enabled)
     {
-        ClearCommand.OnlyForGm				= Configs.GetInt(0, 1,						0,		 "PkClear",	"PkClearOnlyForGm",			IAJuliaCmd);
-        ClearCommand.Type					= Configs.GetInt(0, 2,						1,		 "PkClear",	"PKClearType",				IAJuliaCmd);
-        ClearCommand.PriceZen				= Configs.GetInt(0, 2000000000,				100000,  "PkClear",	"PkClearPriceZen",			IAJuliaCmd);
-        ClearCommand.PriceZenForAll			= Configs.GetInt(0, 2000000000,				1000000, "PkClear",	"PkClearPriceZenForAll",	IAJuliaCmd);
-        ClearCommand.LevelReq				= Configs.GetInt(0, Configs.Commands.MaxLvl,100,	 "PkClear",	"PkClearLevelReq",			IAJuliaCmd);
-        ClearCommand.PricePcPoints			= Configs.GetInt(0, PCPoint.Config.MaximumPCPoints,	20,		"PkClear",	"PkClearPricePcPoints",			IAJuliaCmd);
-        ClearCommand.PricePcPointsForAll	= Configs.GetInt(0, PCPoint.Config.MaximumPCPoints,	200,	"PkClear",	"PkClearPricePcPointsForAll",	IAJuliaCmd);
-        ClearCommand.PriceWCoins			= Configs.GetInt(0, PCPoint.Config.MaximumWCPoints,	2,		"PkClear",	"PkClearPriceWCoins",			IAJuliaCmd);
-        ClearCommand.PriceWCoinsForAll		= Configs.GetInt(0, PCPoint.Config.MaximumWCPoints,	20,		"PkClear",	"PkClearPriceWCoinsForAll",		IAJuliaCmd);
+        ClearCommand.OnlyForGm				= Configs.GetInt(0, 1, 0, "PkClear", "PkClearOnlyForGm", IAJuliaCmd);
+        ClearCommand.Type					= Configs.GetInt(0, 2, 1, "PkClear", "PKClearType", IAJuliaCmd);
+        ClearCommand.PriceZen				= Configs.GetInt(0, 2000000000, 100000, "PkClear", "PkClearPriceZen", IAJuliaCmd);
+        ClearCommand.PriceZenForAll			= Configs.GetInt(0, 2000000000, 1000000, "PkClear", "PkClearPriceZenForAll", IAJuliaCmd);
+        ClearCommand.LevelReq				= Configs.GetInt(0, Configs.Commands.MaxLvl,100, "PkClear",	"PkClearLevelReq", IAJuliaCmd);
+        ClearCommand.PricePcPoints			= Configs.GetInt(0, PCPoint.Config.MaximumPCPoints,	20,	"PkClear", "PkClearPricePcPoints", IAJuliaCmd);
+        ClearCommand.PricePcPointsForAll	= Configs.GetInt(0, PCPoint.Config.MaximumPCPoints,	200, "PkClear", "PkClearPricePcPointsForAll", IAJuliaCmd);
+        ClearCommand.PriceWCoins			= Configs.GetInt(0, PCPoint.Config.MaximumWCPoints,	2, "PkClear", "PkClearPriceWCoins", IAJuliaCmd);
+        ClearCommand.PriceWCoinsForAll		= Configs.GetInt(0, PCPoint.Config.MaximumWCPoints,	20, "PkClear", "PkClearPriceWCoinsForAll", IAJuliaCmd);
 
         if (PCPoint.Config.WebEnabled)
         {
-            ClearCommand.PriceWebPoints			= Configs.GetInt(0, PCPoint.Config.MaximumWebPoints,2,		"PkClear",	"PkClearGuardPriceWebPoints",	IAJuliaCmd);
-            ClearCommand.PriceWebPointsForAll	= Configs.GetInt(0, PCPoint.Config.MaximumWebPoints,20,		"PkClear",	"PkClearGuardPriceWebPointsForAll",IAJuliaCmd);
+            ClearCommand.PriceWebPoints			= Configs.GetInt(0, PCPoint.Config.MaximumWebPoints, 2, "PkClear", "PkClearGuardPriceWebPoints",	IAJuliaCmd);
+            ClearCommand.PriceWebPointsForAll	= Configs.GetInt(0, PCPoint.Config.MaximumWebPoints, 20, "PkClear", "PkClearGuardPriceWebPointsForAll",IAJuliaCmd);
         }
     }
 
-    ClearNpc.Enabled				= Configs.GetInt(0, 1, 1, "PkClearGuard", "LoadPkGuard", IAJuliaPkClear);
+    ClearNpc.Enabled = Configs.GetInt(0, 1, 1, "PkClearGuard", "LoadPkGuard", IAJuliaPkClear);
 
     if(ClearNpc.Enabled)
     {

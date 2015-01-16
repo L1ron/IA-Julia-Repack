@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "ChatCommands.h"
+#include "Configs.h"
 #include "User.h"
 #include "Utilits.h"
 #include "Logger.h"
@@ -27,6 +28,78 @@ cChat::cChat()
 cChat::~cChat()
 {
 	/**/
+}
+
+void cChat::LoadChatCommands()
+{
+    /* CARACA VEI! OU DIGITO OU COMPRO UMA GOIABA */
+    GetPrivateProfileString("Strings", "COMMAND_GG", "/gg", COMMAND_GG, sizeof(COMMAND_GG), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_VOSKL", "!", COMMAND_VOSKL, sizeof(COMMAND_VOSKL), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_TRACE", "/trace", COMMAND_TRACE, sizeof(COMMAND_TRACE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_DISCONNECT", "/disconnect", COMMAND_DISCONNECT, sizeof(COMMAND_DISCONNECT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_TRACK", "/track", COMMAND_TRACK, sizeof(COMMAND_TRACK), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_MOVE", "/move", COMMAND_MOVE, sizeof(COMMAND_MOVE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_WARP", "/warp", COMMAND_WARP, sizeof(COMMAND_WARP), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_LEVEL", "/level", COMMAND_LEVEL, sizeof(COMMAND_LEVEL), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_POST", "/post", COMMAND_POST, sizeof(COMMAND_POST), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_BAN_POST", "/banpost", COMMAND_BAN_POST, sizeof(COMMAND_BAN_POST), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_BAN_CHAR", "/banchar", COMMAND_BAN_CHAR, sizeof(COMMAND_BAN_CHAR), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_BAN_ACC", "/banacc", COMMAND_BAN_ACC, sizeof(COMMAND_BAN_ACC), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_UNBAN_POST", "/unbanpost", COMMAND_UNBAN_POST, sizeof(COMMAND_UNBAN_POST), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_UNBAN_CHAR", "/unbanchar", COMMAND_UNBAN_CHAR, sizeof(COMMAND_UNBAN_CHAR), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_UNBAN_ACC", "/unbanacc", COMMAND_UNBAN_ACC, sizeof(COMMAND_UNBAN_ACC), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_TIME", "/time", COMMAND_TIME, sizeof(COMMAND_TIME), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_SET_CHAR", "/setchar", COMMAND_SET_CHAR, sizeof(COMMAND_SET_CHAR), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_SET_PK", "/setpk", COMMAND_SET_PK, sizeof(COMMAND_SET_PK), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_SET_ZEN", "/setzen", COMMAND_SET_ZEN, sizeof(COMMAND_SET_ZEN), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_SKIN", "/skin", COMMAND_SKIN, sizeof(COMMAND_SKIN), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_DROP", "/drop", COMMAND_DROP, sizeof(COMMAND_DROP), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_GMOVE", "/gmove", COMMAND_GMOVE, sizeof(COMMAND_GMOVE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ONLINE", "/online", COMMAND_ONLINE, sizeof(COMMAND_ONLINE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_STATUS", "/status", COMMAND_STATUS, sizeof(COMMAND_STATUS), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_RELOAD", "/reload", COMMAND_RELOAD, sizeof(COMMAND_RELOAD), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_PKCLEAR", "/pkclear", COMMAND_PKCLEAR, sizeof(COMMAND_PKCLEAR), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ADD_STR", "/str", COMMAND_ADD_STR, sizeof(COMMAND_ADD_STR), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ADD_AGI", "/agi", COMMAND_ADD_AGI, sizeof(COMMAND_ADD_AGI), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ADD_VIT", "/vit", COMMAND_ADD_VIT, sizeof(COMMAND_ADD_VIT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ADD_ENE", "/ene", COMMAND_ADD_ENE, sizeof(COMMAND_ADD_ENE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ADD_CMD", "/cmd", COMMAND_ADD_CMD, sizeof(COMMAND_ADD_CMD), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_WARE", "/ware", COMMAND_WARE, sizeof(COMMAND_WARE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_MOBADD", "/mobadd", COMMAND_MOBADD, sizeof(COMMAND_MOBADD), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_SETDROP", "/setdrop", COMMAND_SETDROP, sizeof(COMMAND_SETDROP), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_CHECK", "/check", COMMAND_CHECK, sizeof(COMMAND_CHECK), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_VIPBUY", "/vipbuy", COMMAND_VIPBUY, sizeof(COMMAND_VIPBUY), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_VIPCHECK", "/vipcheck", COMMAND_VIPCHECK, sizeof(COMMAND_VIPCHECK), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_VIPLIST", "/viplist", COMMAND_VIPLIST, sizeof(COMMAND_VIPLIST), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_TERRCHECK", "/terrcheck", COMMAND_TERRCHECK, sizeof(COMMAND_TERRCHECK), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_TERRBUY", "/terrbuy", COMMAND_TERRBUY, sizeof(COMMAND_TERRBUY), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_VIP_ON", "/vip on", COMMAND_VIP_ON, sizeof(COMMAND_VIP_ON), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_VIP_OFF", "/vip off", COMMAND_VIP_OFF, sizeof(COMMAND_VIP_OFF), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_AT", "@", COMMAND_AT, sizeof(COMMAND_AT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ENABLE_CHAT", "/enablechat", COMMAND_ENABLE_CHAT, sizeof(COMMAND_ENABLE_CHAT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_DISABLE_CHAT", "/disablechat", COMMAND_DISABLE_CHAT, sizeof(COMMAND_DISABLE_CHAT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_WCOIN_PCOINT", "/wcoin-pcpoint", COMMAND_WCOIN_PCOINT, sizeof(COMMAND_WCOIN_PCOINT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_WCOIN_WEBPOINT", "/wcoin-webpoint", COMMAND_WCOIN_WEBPOINT, sizeof(COMMAND_WCOIN_WEBPOINT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_WCOIN_ZEN", "/wcoin-zen", COMMAND_WCOIN_ZEN, sizeof(COMMAND_WCOIN_ZEN), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_WEBPOINT_WCOIN", "/webpoint-wcoin", COMMAND_WEBPOINT_WCOIN, sizeof(COMMAND_WEBPOINT_WCOIN), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_WEBPOINT_PCPOINT", "/webpoint-pcpoint", COMMAND_WEBPOINT_PCPOINT, sizeof(COMMAND_WEBPOINT_PCPOINT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_WEBPOINT_ZEN", "/webpoint-zen", COMMAND_WEBPOINT_ZEN, sizeof(COMMAND_WEBPOINT_ZEN), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_PCPOINT_ZEN", "/pcpoint-zen", COMMAND_PCPOINT_ZEN, sizeof(COMMAND_PCPOINT_ZEN), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_PCPOINT_WCOIN", "/pcpoint-wcoin", COMMAND_PCPOINT_WCOIN, sizeof(COMMAND_PCPOINT_WCOIN), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_PCPOINT_WEBPOINT", "/pcpoint-webpoint", COMMAND_PCPOINT_WEBPOINT, sizeof(COMMAND_PCPOINT_WEBPOINT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ZEN_WCOIN", "/zen-wcoin", COMMAND_ZEN_WCOIN, sizeof(COMMAND_ZEN_WCOIN), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ZEN_PCPOINT", "/zen-pcpoint", COMMAND_ZEN_PCPOINT, sizeof(COMMAND_ZEN_PCPOINT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ZEN_WEBPOINT", "/zen-webpoint", COMMAND_ZEN_WEBPOINT, sizeof(COMMAND_ZEN_WEBPOINT), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_GUILD_POST", "@>", COMMAND_GUILD_POST, sizeof(COMMAND_GUILD_POST), IAJuliaChatCommands); 
+    GetPrivateProfileString("Strings", "COMMAND_OFFTRADE", "/offtrade", COMMAND_OFFTRADE, sizeof(COMMAND_OFFTRADE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_RESET", "/reset", COMMAND_RESET, sizeof(COMMAND_RESET), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_EVO", "/evo", COMMAND_EVO, sizeof(COMMAND_EVO), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ISMARRY", "/ismarry", COMMAND_ISMARRY, sizeof(COMMAND_ISMARRY), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_MARRY_ONLINE", "/ismarry", COMMAND_MARRY_ONLINE, sizeof(COMMAND_MARRY_ONLINE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_MARRY_TRACE", "/marrytrace", COMMAND_MARRY_TRACE, sizeof(COMMAND_MARRY_TRACE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_DIVORCE", "/divorce", COMMAND_DIVORCE, sizeof(COMMAND_DIVORCE), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_YES", "/sim", COMMAND_YES, sizeof(COMMAND_YES), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_NO", "/nao", COMMAND_NO, sizeof(COMMAND_NO), IAJuliaChatCommands);
 }
 
 char Messages[1024];
@@ -545,10 +618,12 @@ void cChat::PrivateLog(LPOBJ gObj, char *Name, PMSG_CHATDATA_WHISPER* lpMsg, boo
 {
     SYSTEMTIME t;
     GetLocalTime(&t);
-    char currdate[11] = { 0 };
+    char currdate[11] = {0};
     sprintf(currdate, "%02d:%02d:%02d", t.wHour, t.wMinute, t.wSecond);
+    
     char Msg[512] = { 0 };;
     char Suc;
+
     if (Success)
 	{
         Suc = '>';
@@ -574,6 +649,7 @@ void cChat::MassLog(LPOBJ gObj, char* Message)
 {
     char Type[20];
     char Msg2[512];
+
     if (!memcmp(Message, "@@", strlen("@@")))
     {
         strcpy(Type, "Guild Aliance");
@@ -754,68 +830,74 @@ bool cChat::CheckCommand
 		}
 	}
 
-    if ((Filled > 0) && ((Filled > spaces) || (((slen < 1) || (slen == 1)) && (Msg[0] == ' '))))/*False	2	833	V804	Decreased performance. The 'strlen' function is called twice in the specified expression to calculate length of the same string.	IA Julia 1.x.x	chatcommands.cpp	459	False*/
-    {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Usage: %s", CommandName, CommandUsage);
-        return true;
-    }
-
     if (lConfig == 0)
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Function temporarily disabled.", CommandName);
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Funcao temporariamente inativa.", CommandName);
+
         return true;
     }
 
     if (!GmSystem.IsCommand(Command, gObj->Name))
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] You can't use this command.", CommandName);
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce nao pode usar esse comando.", CommandName);
+
+        return true;
+    }
+
+    if ((Filled > 0) && ((Filled > spaces) || (((slen < 1) || (slen == 1)) && (Msg[0] == ' '))))
+    {
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Uso: %s", CommandName, CommandUsage);
+
         return true;
     }
 
     if (NeedLvl > 0 && gObj->Level < NeedLvl)
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] You haven't got enough level.", CommandName);
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce nao possui level suficiente.", CommandName);
+
         bResult = true;
     }
 
     if (NeedZen > 0 && NeedZen > gObj->Money)
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] You haven't got enough money.", CommandName);
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce nao possui zen suficiente.", CommandName);
+
         bResult = true;
     }
 
     if (PCPoint.Config.Enabled && NeedPcPoint > 0 && NeedPcPoint > AddTab[gObj->m_Index].PC_PlayerPoints)
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] You need %d more PcPoints.", CommandName, NeedPcPoint - AddTab[gObj->m_Index].PC_PlayerPoints);
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %d PcPoints.", CommandName, NeedPcPoint - AddTab[gObj->m_Index].PC_PlayerPoints);
         bResult = true;
     }
 
     if (PCPoint.Config.Enabled && NeedWCoin > 0 && NeedWCoin > gObj->m_wCashPoint)
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] You need %d more WCoins.", CommandName, NeedWCoin - gObj->m_wCashPoint);
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %d WCoins.", CommandName, NeedWCoin - gObj->m_wCashPoint);
         bResult = true;
     }
 
     if (PCPoint.Config.WebEnabled && NeedWebPoints > 0)
     {
-        if (PCPoint.Config.WebColumnFloat && NeedWebPoints > AddTab[gObj->m_Index].WEB_Points_Float)
+        if(PCPoint.Config.WebColumnFloat && (NeedWebPoints > AddTab[gObj->m_Index].WEB_Points_Float))
         {
-            MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] You need %.2f more WebPoints.", CommandName, NeedWebPoints - AddTab[gObj->m_Index].WEB_Points_Float);
+            MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %.2f WebPoints.", CommandName,NeedWebPoints - AddTab[gObj->m_Index].WEB_Points_Float);
             bResult = true;
         }
 		
-        if (!PCPoint.Config.WebColumnFloat && NeedWebPoints > AddTab[gObj->m_Index].WEB_Points)
+        if (!PCPoint.Config.WebColumnFloat && (NeedWebPoints > AddTab[gObj->m_Index].WEB_Points))
         {
-            MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] You need %d more WebPoints.", CommandName, NeedWebPoints - AddTab[gObj->m_Index].WEB_Points);
+            MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %d WebPoints.", CommandName,NeedWebPoints - AddTab[gObj->m_Index].WEB_Points);
             bResult = true;
         }
     }
 
-    if (CheckPlayer != 0)
+    if(CheckPlayer != 0)
     {
         if (CheckPlayer == -1)
         {
-            MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Player offline or doesn't exist!", CommandName);
+            MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Player nao encontrado!", CommandName);
+
             bResult = true;
         }
     }
@@ -834,27 +916,20 @@ void cChat::TakeCommand(LPOBJ gObj, int NeedZen, int NeedPcPoint, int NeedWCoin,
     if (PCPoint.Config.Enabled && NeedPcPoint > 0)
     {
         PCPoint.UpdatePoints(gObj, NeedPcPoint, MINUS, PCPOINT);
-        Chat.MessageLog(1, c_Blue, t_PCPOINT, gObj, "[%s] You payed %d PcPoints", CommandName, NeedPcPoint);
+        Chat.MessageLog(1, c_Blue, t_PCPOINT, gObj, "[%s] Voce pagou %d PcPoints", CommandName, NeedPcPoint);
     }
 	
     if (PCPoint.Config.Enabled && NeedWCoin > 0)
     {
         PCPoint.UpdatePoints(gObj, NeedWCoin, MINUS, WCOIN);
-        Chat.MessageLog(1, c_Blue, t_PCPOINT, gObj, "[%s] You payed %d WCoin", CommandName, NeedWCoin);
+        Chat.MessageLog(1, c_Blue, t_PCPOINT, gObj, "[%s] Voce pagou %d WCoin", CommandName, NeedWCoin);
     }
 	
-    if (PCPoint.Config.WebEnabled && NeedWebPoints > 0)
+    if(PCPoint.Config.WebEnabled && NeedWebPoints > 0)
     {
-        if (PCPoint.Config.WebColumnFloat)
-        {
-            PCPoint.UpdatePoints(gObj, NeedWebPoints, MINUS, WEBPOINTS);
-            Chat.MessageLog(1, c_Blue, t_PCPOINT, gObj, "[%s] You payed %d WebPoints", CommandName, NeedWebPoints);
-        }
-        if (!PCPoint.Config.WebColumnFloat)
-        {
-            PCPoint.UpdatePoints(gObj, NeedWebPoints, MINUS, WEBPOINTS);
-            Chat.MessageLog(1, c_Blue, t_PCPOINT, gObj, "[%s] You payed %d WebPoints", CommandName, NeedWebPoints);
-        }
+        PCPoint.UpdatePoints(gObj, NeedWebPoints, MINUS, WEBPOINTS);
+
+        Chat.MessageLog(1,c_Blue,t_PCPOINT,gObj,"[%s] Voce pagou %df WebPoints",CommandName,NeedWebPoints);
     }
 }
 
@@ -866,7 +941,7 @@ bool cChat::GgCommand(LPOBJ gObj, char *Msg)
 	}
 
     Log.CheckProcent(Msg);
-    MessageAll(0, 0, gObj, "[%s]: %s", gObj->Name, Msg);	 //PROTECT HERE MUST BE GOOOD
+    MessageAll(0, 0, gObj, "[%s]: %s", gObj->Name,Msg); // Protejer aqui seria bom :D
 
     Log.ConsoleOutPut(0, c_Green, t_GM, "[GG] %s: %s", gObj->Name, Msg);
 
@@ -881,7 +956,7 @@ bool cChat::VosklCommand(LPOBJ gObj, char *Msg)
 	}
 
     Log.CheckProcent(Msg);
-    MessageAll(0, 0, gObj, Msg);  //PROTECT HERE MUST BE GOOOD
+    MessageAll(0, 0, gObj, Msg); // Protejer aqui seria bom :D
 
     Log.ConsoleOutPut(0, c_Green, t_GM, "[!] %s: %s", gObj->Name, Msg);
 
@@ -2105,13 +2180,13 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
     TakeCommand(gObj, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, "AddStats");
 
-    int aIndex = Utilits.GetPlayerIndex(gObj->Name);
-
 	// Efeito Gelo (3) :D
 	if(Configs.Commands.AddPointEffect > 0)
 	{
 		Utilits.SendEffect(gObj,3);
 	}
+
+    int aIndex = Utilits.GetPlayerIndex(gObj->Name);
 
     switch (Type)
     {
@@ -2640,7 +2715,7 @@ bool cChat::GuildPost(LPOBJ gObj, char *Msg)
 
 bool cChat::SetZenCommand(LPOBJ gObj, char* Msg, int Index)
 {
-    if (CheckCommand(gObj, Configs.Commands.IsSetZen, GmSystem.cSetZen, 0, 0, 0, 0, 0, 1, Index, "SetZen", "[Name] /setzen <Zen>", Msg))
+    if(CheckCommand(gObj, Configs.Commands.IsSetZen, GmSystem.cSetZen, 0, 0, 0, 0, 0, 1, Index, "SetZen", "[Name] /setzen <Zen>", Msg))
 	{
         return true;
 	}
@@ -2649,9 +2724,9 @@ bool cChat::SetZenCommand(LPOBJ gObj, char* Msg, int Index)
 
     sscanf(Msg, "%d", &Zen);
 
-    if (Zen <= 0 || Zen > 2000000000)
+    if(Zen <= 0 || Zen > 2000000000)
     {
-        MessageLog(1, c_Red, t_GM, gObj, "[SetZen] Zen can't be less than 1 and more than 2000000000!");
+        MessageLog(1, c_Red, t_GM, gObj, "[SetZen] Nao pode ser menor do que 1 e mais do que 2000000000!");
 
         return true;
     }
@@ -2663,12 +2738,12 @@ bool cChat::SetZenCommand(LPOBJ gObj, char* Msg, int Index)
 
     if (gObj == tObj)
     {
-        MessageLog(1, c_Red, t_GM, tObj, "[SetZen] Your zen was edited!");
+        MessageLog(1, c_Red, t_GM, tObj, "[SetZen] Zen adiquirido!");
     }
     else
     {
-        MessageLog(1, c_Red, t_GM, gObj, "[SetZen] You successfully changed %s zen.", tObj->Name);
-        MessageLog(1, c_Red, t_GM, tObj, "[SetZen] Your zen was edited by %s!", gObj->Name);
+        MessageLog(1, c_Red, t_GM, gObj, "[SetZen] Voce alterou o zen do char %s com sucesso.", tObj->Name);
+        MessageLog(1, c_Red, t_GM, tObj, "[SetZen] O seu Zen foi alterado por %s!", gObj->Name);
     }
 
     return true;
@@ -2785,8 +2860,8 @@ bool cChat::DisableChatCommand(LPOBJ gObj, char *Msg, int Index)
 
     tObj->Penalty |= 2;
 
-    MessageLog(1, c_Red, t_BAN, gObj, "[DisableChat] %s chat banned.", tObj->Name);
-    MessageLog(1, c_Red, t_BAN, tObj, "[DisableChat] Your char was banned by %s.", gObj->Name);
+    MessageLog(1, c_Red, t_BAN, gObj, "[DisableChat] %s chat banido.", tObj->Name);
+    MessageLog(1, c_Red, t_BAN, tObj, "[DisableChat] O seu chat foi desativado por %s.", gObj->Name);
 
     return true;
 }
@@ -2804,8 +2879,8 @@ bool cChat::EnableChatCommand(LPOBJ gObj, int Index)
 
     tObj->Penalty &= ~2;
 
-    MessageLog(1, c_Red, t_BAN, gObj, "[EnableChat] You unbanned %s chat.", tObj->Name);
-    MessageLog(1, c_Red, t_BAN, tObj, "[EnableChat] You chat was unbanned by %s!", gObj->Name);
+    MessageLog(1, c_Red, t_BAN, gObj, "[EnableChat] %s chat liberado.", tObj->Name);
+    MessageLog(1, c_Red, t_BAN, tObj, "[EnableChat] O seu chat foi ativado por %s!", gObj->Name);
 
     return true;
 }
@@ -2820,14 +2895,14 @@ bool cChat::OffTradeCommand(LPOBJ gObj)
 
     if(gObj->m_bPShopOpen == false)
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[OffTrade] Personal Shop isn't oppened");
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[OffTrade] Abra o Personal SHOP antes.");
 
         return false;
     }
 
     if(gObj->MapNumber != 0)
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[OffTrade] You can use OffTrade only in Lorencia");
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[OffTrade] Voce so pode usar o Offtrade em Lorencia.");
         return false;
     }
 
@@ -2926,13 +3001,12 @@ void ExchangeHighToLow(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
             break;
         }
     }
+
     Chat.MessageLog(1, c_Yellow, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You buy %d %s for %d %s! Thx you!", Final, KindOfBuy, Sell, KindOfSell);
 }
 
 void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*KindOfBuy, int SellKind, int BuyKind, int ConfigBuy, int MaxBuy)
 {
-    // с меньших к большим
-
     int NeededToSell = (Buy * ConfigBuy);
 
     if (SellKind < NeededToSell)
@@ -3103,9 +3177,13 @@ bool cChat::ExchangeCommands(LPOBJ gObj, char *Msg, int Type)
         int SellKind;
 
         if (PCPoint.Config.WebColumnFloat)
+        {
             SellKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
+        }
         else
+        {
             SellKind = AddTab[gObj->m_Index].WEB_Points;
+        }
 
         int BuyKind = gObj->m_wCashPoint;
         sscanf(Msg, "%d", &Buy);
@@ -3150,16 +3228,22 @@ bool cChat::ExchangeCommands(LPOBJ gObj, char *Msg, int Type)
     break;
     case 6: // webpoint-zen >
     {
-        if (CheckCommand(gObj, Configs.Commands.ExchangeWpZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/webpoint-zen <num>", Msg))
+        if(CheckCommand(gObj, Configs.Commands.ExchangeWpZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/webpoint-zen <num>", Msg))
+        {
             return true;
+        }
 
         DWORD Buy;
         int SellKind;
 
         if (PCPoint.Config.WebColumnFloat)
+        {
             SellKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
+        }
         else
+        {
             SellKind = AddTab[gObj->m_Index].WEB_Points;
+        }
 
         int BuyKind = gObj->Money;
         sscanf(Msg, "%d", &Buy);
@@ -3178,7 +3262,9 @@ bool cChat::ExchangeCommands(LPOBJ gObj, char *Msg, int Type)
     case 7: // pcpoint-zen >
     {
         if (CheckCommand(gObj, Configs.Commands.ExchangePpZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/pcpoint-zen <num>", Msg))
+        {
             return true;
+        }
 
         DWORD Buy;
         int SellKind = AddTab[gObj->m_Index].PC_PlayerPoints;
@@ -3304,7 +3390,7 @@ bool cChat::ExchangeCommands(LPOBJ gObj, char *Msg, int Type)
             BuyKind = AddTab[gObj->m_Index].WEB_Points;
 		}
 
-        sscanf(Msg, "%d", &Buy);
+        sscanf(Msg,"%d",&Buy);
 
         DWORD ConfigBuy = Configs.Commands.WebPoint_Zen;
         DWORD MaxBuy = PCPoint.Config.MaximumWebPoints;
@@ -3369,6 +3455,7 @@ bool cChat::IsMarryCommand(LPOBJ gObj, char *Msg)
     if (Index == -1)
     {
         MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Marry] Player's offline or doesn't exist!!!");
+
         return false;
     }
 
@@ -3389,6 +3476,7 @@ bool cChat::MarryOnlineCommand(LPOBJ gObj)
     if (AddTab[gObj->m_Index].IsMarried == 0)
     {
         MessageLog(1, c_Red, t_COMMANDS, gObj, "[Marry] You are not married!");
+
         return false;
     }
 

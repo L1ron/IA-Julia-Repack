@@ -54,9 +54,11 @@ void cAntiAFK::Load()
         fgets(Buff,256,file);
 
         if(Utilits.IsBadFileLine(Buff, Flag))
+        {
             continue;
+        }
 
-        if (Flag == 1)
+        if(Flag == 1)
         {
             int n[2];
             sscanf(Buff,"%d %d",&n[0],&n[1]);

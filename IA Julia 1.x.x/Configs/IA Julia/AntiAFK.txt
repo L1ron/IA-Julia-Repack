@@ -1,15 +1,6 @@
-// ================================================== //
-// #		GameServer 1.00.90		    # //
-// #		Imagination Arts		    # //
-// #		Julia Project 1.1.x		    # //
-// ================================================== //
-// #	http://imaginationarts.net/forum/	    # //
-// #	http://mu.raklion.ru/			    # //
-// ================================================== //
-
 [AntiAFK]
-AntiAFKEnabled = 1
-AntiAFKTimer = 300  //In Seconds 
+AntiAFKEnabled 	= 1
+AntiAFKTimer 	= 300  //In Seconds 
 AntiAFKWarnings	= 3
 
 //	MapID	0: Off, 1: On

@@ -1,12 +1,3 @@
-// ================================================== //
-// #			GameServer 1.00.90					# //
-// #			Imagination Arts					# //
-// #			Julia Project 1.1.x					# //
-// ================================================== //
-// #	http://imaginationarts.net/forum/			# //
-// #	http://mu.raklion.ru/						# //
-// ================================================== //
-
 #include "StdAfx.h"
 #ifdef _GS
 #include "User.h"
@@ -18,8 +9,6 @@
 
 cDropEvent DropEvent;
 
-// Handlers
-
 void fHandlerBC(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
 {
     if ((rand() % 100 + 1) <= DropEvent.dropCountBC.countRate)
@@ -29,7 +18,8 @@ void fHandlerBC(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level
             DropEvent.handlerBC(aIndex, MapNumber, x, y, type, level, dur , Op1, Op2, Op3, LootIndex, NewOption, SetOption);
         }
     }
-    else {
+    else
+    {
         DropEvent.handlerBC(aIndex, MapNumber, x, y, type, level, dur , Op1, Op2, Op3, LootIndex, NewOption, SetOption);
     }
 }
@@ -172,7 +162,7 @@ void cDropEvent::dropItem(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int LootIn
     // Exc randomizer
     int i_exc = 0;
 
-    if ((rand() % 100 + 1) <= i.exc)
+    if((rand() % 100 + 1) <= i.exc)
     {
         i_exc = Utilits.GenExcOpt((i.minExc == i.maxExc) ? i.minExc : i.minExc + rand() % (i.maxExc - i.minExc + 1));
     }
@@ -200,7 +190,7 @@ void cDropEvent::updateBC()
 
     if(fp == NULL)
     {
-        MessageBox(NULL, "EventDropBC.txt not found", "Error", MB_OK);
+        MessageBox(NULL,"Impossivel abrir EventDropBC.txt","Erro EventDrop",MB_OK | MB_ICONERROR);
         ::ExitProcess(0);
     }
 
@@ -238,7 +228,7 @@ void cDropEvent::updateBC()
     fclose(fp);
 
     // Log
-    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [DropEvent BC]\tLoad sucsessfully.");
+    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [DropEvent BC]\tIniciado.");
 }
 
 void cDropEvent::handlerBC(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
@@ -285,16 +275,17 @@ void cDropEvent::updateIT()
 
     if(fp == NULL)
     {
-        MessageBox(NULL, "EventDropIT.txt not found", "Error", MB_OK);
+        MessageBox(NULL,"Impossivel carregar EventDropIT.txt.","Erro EventDrop",MB_OK | MB_ICONERROR);
         ::ExitProcess(0);
     }
 
     rewind(fp);
 
-
     // Clear all IT drop confs
     for(int i = 1; i <= 6; i++)
+    {
         this->dropListIT[i].clear();
+    }
 
     char Line[255]; // line
     s_DropEventItem lineDropIT = {0}; // array for line parser
@@ -304,10 +295,10 @@ void cDropEvent::updateIT()
     {
         fgets(Line, 255, fp);
 
-        // Skip comments & end's
+        // Pular comentarios e final de linha
         if(Line[0] == '/' || strcmp(Line, "end") == 0 || strcmp(Line, "end\n") == 0 || strcmp(Line, "\n") == 0) continue;
 
-        if (strlen(Line) <= 3)
+        if(strlen(Line) <= 3)
         {
             int q = 0;
             sscanf_s(Line, "%d", &q);
@@ -322,14 +313,13 @@ void cDropEvent::updateIT()
 
     fclose(fp);
 
-    // Log
-    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [DropEvent IT]\tLoad sucsessfully.");
+    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [DropEvent IT]\tIniciado.");
 }
 
 void cDropEvent::handlerIT(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
 {
     int rand10k = rand() % 10000 + 1;
-    int d = 0; // random system
+    int d = 0;
 
     int itType = this->mapsIT[(int)MapNumber]; // 1-6 (id for drop map)
 
@@ -337,25 +327,26 @@ void cDropEvent::handlerIT(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type,
 
     for(i = this->dropListIT[itType].begin(); i < this->dropListIT[itType].end(); ++i)
     {
-        /*if ((d + i->dropRate) > 10000)
-        {
-        	MessageBox(NULL, "EventDropIT.txt -> DropRate SUM for one IT must be <= 10000", "Error", MB_OK);
-        	::ExitProcess(0);
-        }*/
+        /* Interessante :D
+            if ((d + i->dropRate) > 10000)
+            {
+        	    MessageBox(NULL,"EventDropIT.txt -> DropRate SUM for one IT must be <= 10000", "Error", MB_OK);
+        	    ::ExitProcess(0);
+            }
+        */
 
         if (rand10k > d && rand10k < (d + i->dropRate))
         {
-            // Item founded -> Drop procedure & break
             this->dropItem(aIndex, MapNumber, x, y, LootIndex, *i);
+
             break;
         }
-        else {
+        else
+        {
             d += i->dropRate;
         }
     }
 }
-
-//##############################################################################################
 
 void cDropEvent::updateWW()
 {
@@ -363,56 +354,55 @@ void cDropEvent::updateWW()
     dropCountWW.countRate = Configs.GetInt(0, 100, 0, "DropCount", "DropCountRate",IAJuliaEventDropWW);
     dropCountWW.countItems = Configs.GetInt(1, 10, 1, "DropCount", "DropCountItems",IAJuliaEventDropWW);
 
-    // Drop List
-
     FILE* fp;
     fp = fopen(IAJuliaEventDropWW, "r");
 
     if(fp == NULL)
     {
-        MessageBox(NULL, "EventDropWW.txt not found", "Error", MB_OK);
+        MessageBox(NULL,"Impossivel abrir EventDropWW.txt.","Erro EventDropWW", MB_OK | MB_ICONERROR);
         ::ExitProcess(0);
     }
 
     rewind(fp);
 
-    // Clear WW drop confs
     this->dropListWW.clear();
 
-    char Line[255]; // line
-    s_DropEventItem lineDropWW = {0}; // array for line parser
+    char Line[255];
+    s_DropEventItem lineDropWW = {0};
 
     while(!feof(fp))
     {
         fgets(Line, 255, fp);
 
-        // Skip comments & end's
+        // Pular comentarios e final de linha
         if(Line[0] == '/' || strcmp(Line, "end") == 0 || strcmp(Line, "end\n") == 0 || strcmp(Line, "\n") == 0) continue;
 
         sscanf_s(Line, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", &lineDropWW.dropRate, &lineDropWW.iGroup, &lineDropWW.iId, &lineDropWW.minLvl, &lineDropWW.maxLvl, &lineDropWW.dur, &lineDropWW.skill, &lineDropWW.luck, &lineDropWW.minOpt, &lineDropWW.maxOpt, &lineDropWW.exc, &lineDropWW.minExc, &lineDropWW.maxExc, &lineDropWW.anc, &lineDropWW.ancType);
+        
         this->dropListWW.push_back(lineDropWW);
     }
 
     fclose(fp);
 
-    // Log
-    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [DropEvent WW]\tLoad successfully.");
+    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [DropEvent WW]\tIniciado.");
 }
 
 void cDropEvent::handlerWW(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
 {
     int rand10k = rand() % 10000 + 1;
-    int d = 0; // random system
+    int d = 0;
 
     std::vector<s_DropEventItem>::iterator i;
 
     for(i = this->dropListWW.begin(); i < this->dropListWW.end(); ++i)
     {
-        /*if ((d + i->dropRate) > 10000)
-        {
-        	MessageBox(NULL, "EventDropWW.txt -> DropRate SUM for WW must be <= 10000", "Error", MB_OK);
-        	::ExitProcess(0);
-        }*/
+        /* Interessante :d
+            if ((d + i->dropRate) > 10000)
+            {
+        	    MessageBox(NULL, "EventDropWW.txt -> DropRate SUM for WW must be <= 10000", "Error", MB_OK | MB_ICONERROR);
+        	    ::ExitProcess(0);
+            }
+        */
 
         if (rand10k > d && rand10k < (d + i->dropRate))
         {
@@ -420,13 +410,12 @@ void cDropEvent::handlerWW(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type,
             this->dropItem(aIndex, MapNumber, x, y, LootIndex, *i);
             break;
         }
-        else {
+        else
+        {
             d += i->dropRate;
         }
     }
 }
-
-//##############################################################################################
 
 void cDropEvent::updateCC()
 {
@@ -441,28 +430,29 @@ void cDropEvent::updateCC()
 
     if(fp == NULL)
     {
-        MessageBox(NULL, "EventDropCC.txt not found", "Error", MB_OK);
+        MessageBox(NULL, "Impossivel abrir EventDropCC.txt.", "Erro EventDropCC", MB_OK | MB_ICONERROR);
         ::ExitProcess(0);
     }
 
     rewind(fp);
 
-    // Clear all CC drop confs
     for(int i = 1; i <= 7; i++)
+    {
         this->dropListCC[i].clear();
+    }
 
-    char Line[255]; // line
-    s_DropEventItem lineDropCC = {0}; // array for line parser
-    int ccType = -1; // cc type (1-7)
+    char Line[255];                     // line
+    s_DropEventItem lineDropCC = {0};   // array for line parser
+    int ccType = -1;                    // cc type (1-7)
 
     while(!feof(fp))
     {
         fgets(Line, 255, fp);
 
-        // Skip comments & end's
+        // Pular comentarios e final de linha
         if(Line[0] == '/' || strcmp(Line, "end") == 0 || strcmp(Line, "end\n") == 0 || strcmp(Line, "\n") == 0) continue;
 
-        if (strlen(Line) <= 3)
+        if(strlen(Line) <= 3)
         {
             int q = 0;
             sscanf_s(Line, "%d", &q);
@@ -477,14 +467,13 @@ void cDropEvent::updateCC()
 
     fclose(fp);
 
-    // Log
     Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [DropEvent CC]\tLoad sucsessfully.");
 }
 
 void cDropEvent::handlerCC(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
 {
     int rand10k = rand() % 10000 + 1;
-    int d = 0; // random system
+    int d = 0;
 
     int ccType = this->mapsCC[(int)MapNumber]; // 1-7 (id for drop map)
 
@@ -492,19 +481,25 @@ void cDropEvent::handlerCC(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type,
 
     for(i = this->dropListCC[ccType].begin(); i < this->dropListCC[ccType].end(); ++i)
     {
-        /*if ((d + i->dropRate) > 10000)
-        {
-        	MessageBox(NULL, "EventDropCC.txt -> DropRate SUM for one CC must be <= 10000", "Error", MB_OK);
-        	::ExitProcess(0);
-        }*/
+        /*
+            Interessante :D
+
+            if ((d + i->dropRate) > 10000)
+            {
+        	    MessageBox(NULL, "EventDropCC.txt -> DropRate SUM for one CC must be <= 10000", "Error", MB_OK);
+        	    ::ExitProcess(0);
+            }
+        */
 
         if (rand10k > d && rand10k < (d + i->dropRate))
         {
             // Item founded -> Drop procedure & break
             this->dropItem(aIndex, MapNumber, x, y, LootIndex, *i);
+
             break;
         }
-        else {
+        else
+        {
             d += i->dropRate;
         }
     }

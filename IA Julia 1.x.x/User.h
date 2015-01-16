@@ -1,12 +1,3 @@
-// ================================================== //
-// #			GameServer 1.00.90					# //
-// #			Imagination Arts					# //
-// #			Julia Project 1.1.x					# //
-// ================================================== //
-// #	http://imaginationarts.net/forum/			# //
-// #	http://mu.raklion.ru/						# //
-// ================================================== //
-
 #pragma once
 
 #ifndef USER_H
@@ -96,9 +87,11 @@ typedef	struct sAddTab
     int		TERR_Sec;
 
     //OffTrade
-    bool OfflineTrade;
-    bool CloseSetCheck;
+    bool    OfflineTrade;
+    bool    CloseSetCheck;
 
+    //Helper
+    int     HELPER_UsedTimes; 
 
     LPBYTE aRecv;
 

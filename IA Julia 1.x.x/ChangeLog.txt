@@ -1,3 +1,7 @@
+# 1.1.0.321 # - Added Max Usage per account or character for helpers
+# 1.1.0.320 # - Added Max Usage for Helpers
+# 1.1.0.319 # - Added ChatCommands.txt for change commands
+# 1.1.0.318 # - Added files for itens in helpers
 # 1.1.0.317 # - Added readme.md in project
 # 1.1.0.316 # - Fixed CashShop excelent itens
 # 1.1.0.315 # - Fixed Golden Rabbit invasion
@@ -7,7 +11,7 @@
 # 1.1.0.312 # - Fixed Helpers NPCs: Luke, Ellen, Leo
 # 1.1.0.311 # - Added NPC for Reset, See ResetSystem.ini
 # 1.1.0.310 # - Optmized configs systems
-# 1.1.0.309 # - Fixed CSPoints error at server start
+# 1.1.0.309 # - Fixed CSPoints query error at server start
 # 1.1.0.308 # - Fixed some lost configs
 # 1.1.0.307 # - All command strings moved
 # 1.1.0.306 # - Removed Relogin in ResetSystem

@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Configs.h"
 #include "Logger.h"
+#include "ChatCommands.h"
 #include "GMSystem.h"
 #include "AntiAFK.h"
 #include "News.h"
@@ -45,6 +46,7 @@ void cConfigs::LoadAll()
     ZenFixes();
     LoadNotice();
     LoadCommands();
+    Chat.LoadChatCommands();
     Misc();
     HappyHour.Load();
     PlayerSystem.Load();
@@ -147,7 +149,7 @@ void cConfigs::CalcCharacter()
     *(unsigned char*)Defense_Sum = GetPrivateProfileInt("Defense", "Defense__SUM", 3, IACalcCharacter);
     *(unsigned char*)Defense_DW_MG = GetPrivateProfileInt("Defense", "Defense__DW_MG", 4, IACalcCharacter);
 
-    Log.ConsoleOutPut(1, c_Green, t_Default, "[û] [CalcCharacter]\tLoaded.");
+    Log.ConsoleOutPut(1,c_Green,t_Default,"[û] [CalcCharacter]\tIniciado.");
 }
 void cConfigs::MaxStats()
 {
@@ -155,8 +157,11 @@ void cConfigs::MaxStats()
     if (Enable65kStats > 0)MaxPoints = 65000;
 
     MaxStatsSystemEnable = GetInt(0, 1, 0, "MaximumStats", "Enabled", IAJuliaMaximum);
-    if (!MaxStatsSystemEnable)
+
+    if(!MaxStatsSystemEnable)
+    {
         return;
+    }
 
     MaxDL_Strength = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDL_Strength", IAJuliaMaximum);
     MaxDL_Agility = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDL_Agility", IAJuliaMaximum);
@@ -189,7 +194,7 @@ void cConfigs::MaxStats()
     MaxMG_Vitality = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxMG_Vitality", IAJuliaMaximum);
     MaxMG_Energy = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxMG_Energy", IAJuliaMaximum);
 
-    Log.ConsoleOutPut(1, c_Magenta, t_Default, "[û] [MaxStats]\tLoaded.");
+    Log.ConsoleOutPut(1, c_Magenta, t_Default, "[û] [MaxStats]\tIniciado.");
 }
 
 void cConfigs::ZenFixes()
@@ -235,9 +240,10 @@ void cConfigs::LoadConfigsInGS()
 {
 #ifdef _GS
     DWORD *LoreGuard = (DWORD*)GUARD_SAY;
+
     char Lore[25];
-    GetPrivateProfileString("Connect","GuardSay","Don't waste my time!",Lore,25,IAJuliaGS);
-    memset(&LoreGuard[0],0,25);/*False	1	96	V512	A call of the 'memset' function will lead to overflow of the buffer '& LoreGuard[0]'.	IA Julia 1.x.x	configs.cpp	156	False*/
+    GetPrivateProfileString("Connect","GuardSay","Nao enche :P",Lore,25,IAJuliaGS);
+    memset(&LoreGuard[0],0,25);
     memcpy(&LoreGuard[0],Lore,strlen(Lore));
 #endif
 
@@ -668,10 +674,10 @@ long cConfigs::GetInt(long Min, long Max, long Default, LPCSTR BlockName, LPCSTR
     }
     else
 	{
-        lResult = GetPrivateProfileInt(BlockName, ConfigName, -100500, FolderName);
+        lResult = GetPrivateProfileInt(BlockName,ConfigName,-100500,FolderName);
 	}
 
-    if (lResult == -100500)
+    if(lResult == -100500)
     {
         Log.ConsoleOutPut(1, c_BoldGreen, t_Error, "[X] Error configs in %s!", FolderName);
         Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Can't find '%s' in [%s] section!", ConfigName, BlockName);
@@ -680,7 +686,7 @@ long cConfigs::GetInt(long Min, long Max, long Default, LPCSTR BlockName, LPCSTR
         lResult = Default;
     }
 
-    if (lResult < Min || lResult > Max)
+    if(lResult < Min || lResult > Max)
     {
         Log.ConsoleOutPut(1, c_BoldGreen, t_Error, "[X] Error configs in %s!", FolderName);
         Log.ConsoleOutPut(1, c_BoldRed, t_Error, "%s(%d) in [%s] is out of range!", ConfigName, lResult, BlockName);

@@ -1,12 +1,3 @@
-// ================================================== //
-// #			GameServer 1.00.90					# //
-// #			Imagination Arts					# //
-// #			Julia Project 1.1.x					# //
-// ================================================== //
-// #	http://imaginationarts.net/forum/			# //
-// #	http://mu.raklion.ru/						# //
-// ================================================== //
-
 #include "StdAfx.h"
 #include "PlayerSystem.h"
 #include "Prodef.h"
@@ -21,7 +12,7 @@ void cPlayerSystem::ResetConfig()
     Enabled = 0;
     ConfigNum = 0;
 
-    for (int i=0; i<255; i++)
+    for(int i=0;i < 255;i++)
     {
         Config[i].Class[0]	= 0;
         Config[i].Class[1]	= 0;
@@ -41,16 +32,18 @@ void cPlayerSystem::ResetConfig()
 void cPlayerSystem::Load()
 {
     ResetConfig();
-    Enabled				= Configs.GetInt(0, 1, 1,"PlayerSystem", "EnablePlayerSystem", IAJuliaPlayerSystem);
-    if(!Enabled)return;
+    Enabled	= Configs.GetInt(0, 1, 1,"PlayerSystem","EnablePlayerSystem", IAJuliaPlayerSystem);
 
-    FILE *fp;
-    fp = fopen(IAJuliaPlayerSystem, "r");
+    if(Enabled) return;
+    
+    FILE *File;
+    File = fopen(IAJuliaPlayerSystem, "r");
 
-    if(fp == NULL)
+    if(File == NULL)
     {
         Enabled = 0;
-        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [Player System]\tCan`t Find %s", IAJuliaPlayerSystem);
+        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [Player System]\tImpossivel abrir %s", IAJuliaPlayerSystem);
+
         return;
     }
 
@@ -58,12 +51,14 @@ void cPlayerSystem::Load()
     char Buff[256];
     ConfigNum = 0;
 
-    while(!feof(fp))
+    while(!feof(File))
     {
-        fgets(Buff, 256, fp);
+        fgets(Buff,256,File);
 
-        if(Utilits.IsBadFileLine(Buff, Flag))
+        if(Utilits.IsBadFileLine(Buff,Flag))
+        {
             continue;
+        }
 
         if(Flag == 1)
         {
@@ -82,42 +77,60 @@ void cPlayerSystem::Load()
             Config[ConfigNum].Zen		= temp[9];
             Config[ConfigNum].Drop		= temp[10];
             Config[ConfigNum].Exp		= temp[11];
+
             ConfigNum++;
         }
     }
-    fclose(fp);
 
-    Log.ConsoleOutPut(1, c_Magenta, t_DROP, "[û] [Player System]\tLoaded %d lines." ,ConfigNum);
+    fclose(File);
+
+    Log.ConsoleOutPut(1, c_Magenta, t_DROP, "[û] [Player System]\tCarregado %s linhas." ,ConfigNum);
 }
 
 int cPlayerSystem::GetBonus(LPOBJ gObj, eBonus Type)
 {
     if(Enabled == 0)
+    {
         return 0;
+    }
 
     int Result = 0;
     for(int i = 0; i < ConfigNum; i++)
     {
         if(Config[i].Class[gObj->Class] == 0)
+        {
             continue;
+        }
 
-        if((Config[i].First == 1 && gObj->ChangeUP == 0 && gObj->ChangeUP2 == 0) ||
-                (Config[i].Second == 1 && gObj->ChangeUP == 1 && gObj->ChangeUP2 == 0) ||
-                (Config[i].Third == 1 && gObj->ChangeUP == 1 && gObj->ChangeUP2 == 1))
+        if(
+            (Config[i].First == 1 && gObj->ChangeUP == 0 && gObj->ChangeUP2 == 0) ||
+            (Config[i].Second == 1 && gObj->ChangeUP == 1 && gObj->ChangeUP2 == 0) ||
+            (Config[i].Third == 1 && gObj->ChangeUP == 1 && gObj->ChangeUP2 == 1)
+        )
         {
             switch(Type)
             {
-            case b_ZEN:
-                Result += Config[i].Zen;
-                break;
-            case b_DROP:
-                Result += Config[i].Drop;
-                break;
-            case b_EXP:
-                Result += Config[i].Exp;
-                break;
+                case b_ZEN:
+                {
+                    Result += Config[i].Zen;
+
+                    break;
+                }
+                case b_DROP:
+                {
+                    Result += Config[i].Drop;
+
+                    break;
+                }
+                case b_EXP:
+                {
+                    Result += Config[i].Exp;
+
+                    break;
+                }
             }
         }
     }
+
     return Result;
 }

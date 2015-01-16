@@ -1,37 +1,27 @@
-// ================================================== //
-// #		GameServer 1.00.90		    # //
-// #		Imagination Arts		    # //
-// #		Julia Project 1.1.x		    # //
-// ================================================== //
-// #	http://imaginationarts.net/forum/	    # //
-// #	http://mu.raklion.ru/			    # //
-// ================================================== //
-
 [GMSystem]
-IsGMSystem = 1 //0: Disable Custom GMSystem, Use DB Based; 1: Enable Custom GMSystem
-IsGMInDB = 1 //0: Disable double protect for GM, 1: Enable checking GM in SQL DataBase
+IsGMSystem 	= 1 // 0: Desativar GM system por essa config e usar somente via DB; 1: Ativar esse sistema de GM Custom
+IsGMInDB 	= 1 // 0: Remover protecao dupla do GM, 1: Ativar checagem por aqui e por DB
 
-//  #0 - IF GM/Admin Notices : 2 you will see [GM]xXx Connected , 1 - [Administrator] xXx Connected , 0 - you will not see any connect message
-//  GM NAME - nickname of your GM (ex: DeadMan)
-//  #1 - Is /drop command (1/0)
-//  #2 - Is /gg command (1/0)
-//  #3 - Is /setzen command (1/0)
-//  #4 - Is /status command (1/0)
-//  #5 - Is /gmove command (1/0)
-//  #6 - Is /setpk command (1/0)
-//  #7 - Is /pkclear command (1/0)
-//  #8 - Is /banchar, /banacc, /unbanchar, /unbanacc commands (1/0)
-//  #9 - Is /reload command (1/0)
-//  #10 - Is /skin command (1/0)
-//  #11 - Is /banpost, /unbanpost commands (1/0)
-//  #12 - Is ! command (1/0)
-//  #13 - Is /disconnect command (1/0)
-//  #14 - Is /trace command (1/0)
-//  #15 - Is /disablechat command (1/0)
-// ==========================================================================================================================================================================
-//	#0	GM NAME		#1	#2	#3	#4	#5	#6	#7	#8	#9	#10	#11	#12	#13	#14	#15
-// ==========================================================================================================================================================================
+//  #0 		- 0:1:2 - Tipo da Mensagem: 1 - [Administrator] xXx Conectado, 2 - [GM] xXx Conectado, 0 - Sistema inativo
+//  #Nick 	- Nick do ADM ou GM
+//  #1 		- 1:0 - Comando /drop
+//  #2 		- 1:0 - Comando /GG
+//  #3 		- 1:0 - Comando /setzen
+//  #4 		- 1:0 - Comando /status
+//  #5 		- 1:0 - Comando /gmove
+//  #6 		- 1:0 - Comando /setpk
+//  #7 		- 1:0 - Comando /pkclear
+//  #8 		- 1:0 - Comandos /banchar, /banacc, /unbanchar, /unbanacc
+//  #9 		- 1:0 - Comando /reload
+//  #10 	- 1:0 - Comando /skin
+//  #11 	- 1:0 - Comandos /banpost, /unbanpost
+//  #12 	- 1:0 - Comando !
+//  #13 	- 1:0 - Comando /disconnect
+//  #14 	- 1:0 - Comando /trace
+//  #15 	- 1:0 - Comando /disablechat
+// =================================================================================================================================================
+//	#0	Nick		#1	#2	#3	#4	#5	#6	#7	#8	#9	#10	#11	#12	#13	#14	#15
+// =================================================================================================================================================
 1
-	1	PsychoGod	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
-	1	MaThreeX	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+//	1	SmileY		1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
 end
