@@ -5,74 +5,74 @@
 ///
 // NAO ADICIONE NENHUM COMENTARIO OU TEXTO A FRENTE DE CADA STRING
 ///
-// Formato do comando: COMMAND_EXEMPLO	"SUA_STRING"
+// Formato do comando: COMMAND_EXEMPLO = /SUA_STRING
 ///
 
 [Strings]
-COMMAND_GG			"/gg"
-COMMAND_VOSKL			"!"
-COMMAND_TRACE			"/trace"
-COMMAND_DISCONNECT		"/disconnect"
-COMMAND_TRACK			"/track"
-COMMAND_MOVE			"/move"
-COMMAND_WARP			"/warp"
-COMMAND_LEVEL			"/level"
-COMMAND_POST			"/post"
-COMMAND_BAN_POST		"/banpost"
-COMMAND_BAN_CHAR		"/banchar"
-COMMAND_BAN_ACC			"/banacc"
-COMMAND_UNBAN_POST		"/unbanpost"
-COMMAND_UNBAN_CHAR		"/unbanchar"
-COMMAND_UNBAN_ACC		"/unbanacc"
-COMMAND_TIME			"/time"
-COMMAND_SET_CHAR		"/setchar"
-COMMAND_SET_PK			"/setpk"
-COMMAND_SET_ZEN			"/setzen"
-COMMAND_SKIN			"/skin"
-COMMAND_DROP			"/drop"
-COMMAND_GMOVE			"/gmove"
-COMMAND_ONLINE			"/online"
-COMMAND_STATUS			"/status"
-COMMAND_RELOAD			"/reload"
-COMMAND_PKCLEAR			"/pkclear"
-COMMAND_ADD_STR			"/str"
-COMMAND_ADD_AGI			"/agi"
-COMMAND_ADD_VIT			"/vit"
-COMMAND_ADD_ENE			"/ene"
-COMMAND_ADD_CMD			"/cmd"
-COMMAND_WARE			"/ware"
-COMMAND_MOBADD			"/mobadd"
-COMMAND_SETDROP			"/setdrop"
-COMMAND_CHECK			"/check"
-COMMAND_VIPBUY			"/vipbuy"
-COMMAND_VIPCHECK		"/vipcheck"
-COMMAND_VIPLIST			"/viplist"
-COMMAND_TERRCHECK		"/terrcheck"
-COMMAND_TERRBUY			"/terrbuy"
-COMMAND_VIP_ON			"/vip on"
-COMMAND_VIP_OFF			"/vip off"
-COMMAND_AT			"@"
-COMMAND_ENABLE_CHAT		"/enablechat"
-COMMAND_DISABLE_CHAT		"/disablechat"
-COMMAND_WCOIN_PCOINT		"/wcoin-pcpoint"
-COMMAND_WCOIN_WEBPOINT		"/wcoin-webpoint"
-COMMAND_WCOIN_ZEN		"/wcoin-zen"
-COMMAND_WEBPOINT_WCOIN		"/webpoint-wcoin"
-COMMAND_WEBPOINT_PCPOINT	"/webpoint-pcpoint"
-COMMAND_WEBPOINT_ZEN		"/webpoint-zen"
-COMMAND_PCPOINT_ZEN		"/pcpoint-zen"
-COMMAND_PCPOINT_WCOIN		"/pcpoint-wcoin"
-COMMAND_PCPOINT_WEBPOINT	"/pcpoint-webpoint"
-COMMAND_ZEN_WCOIN		"/zen-wcoin"
-COMMAND_ZEN_PCPOINT		"/zen-pcpoint"
-COMMAND_ZEN_WEBPOINT		"/zen-webpoint"
-COMMAND_GUILD_POST 		"@>"
-COMMAND_OFFTRADE		"/offtrade"
-COMMAND_RESET			"/reset"
-COMMAND_EVO			"/evo"
-COMMAND_ISMARRY			"/ismarry"
-COMMAND_MARRY_ONLINE		"/marryonline"
-COMMAND_MARRY_TRACE		"/marrytrace"
-COMMAND_DIVORCE			"/divorce"
-COMMAND_YES			"/sim"
-COMMAND_NO			"/nao"
+COMMAND_GG			= /gg
+COMMAND_VOSKL			= !
+COMMAND_TRACE			= /trace
+COMMAND_DISCONNECT		= /disconnect
+COMMAND_TRACK			= /track
+COMMAND_MOVE			= /move
+COMMAND_WARP			= /warp
+COMMAND_LEVEL			= /level
+COMMAND_POST			= /post
+COMMAND_BAN_POST		= /banpost
+COMMAND_BAN_CHAR		= /banchar
+COMMAND_BAN_ACC			= /banacc
+COMMAND_UNBAN_POST		= /unbanpost
+COMMAND_UNBAN_CHAR		= /unbanchar
+COMMAND_UNBAN_ACC		= /unbanacc
+COMMAND_TIME			= /time
+COMMAND_SET_CHAR		= /setchar
+COMMAND_SET_PK			= /setpk
+COMMAND_SET_ZEN			= /setzen
+COMMAND_SKIN			= /skin
+COMMAND_DROP			= /drop
+COMMAND_GMOVE			= /gmove
+COMMAND_ONLINE			= /online
+COMMAND_STATUS			= /status
+COMMAND_RELOAD			= /reload
+COMMAND_PKCLEAR			= /pkclear
+COMMAND_ADD_STR			= /str
+COMMAND_ADD_AGI			= /agi
+COMMAND_ADD_VIT			= /vit
+COMMAND_ADD_ENE			= /ene
+COMMAND_ADD_CMD			= /cmd
+COMMAND_WARE			= /ware
+COMMAND_MOBADD			= /mobadd
+COMMAND_SETDROP			= /setdrop
+COMMAND_CHECK			= /check
+COMMAND_VIPBUY			= /vipbuy
+COMMAND_VIPCHECK		= /vipcheck
+COMMAND_VIPLIST			= /viplist
+COMMAND_TERRCHECK		= /terrcheck
+COMMAND_TERRBUY			= /terrbuy
+COMMAND_VIP_ON			= /vip on
+COMMAND_VIP_OFF			= /vip off
+COMMAND_AT			= @
+COMMAND_ENABLE_CHAT		= /enablechat
+COMMAND_DISABLE_CHAT		= /disablechat
+COMMAND_WCOIN_PCOINT		= /wcoin-pcpoint
+COMMAND_WCOIN_WEBPOINT		= /wcoin-webpoint
+COMMAND_WCOIN_ZEN		= /wcoin-zen
+COMMAND_WEBPOINT_WCOIN		= /webpoint-wcoin
+COMMAND_WEBPOINT_PCPOINT	= /webpoint-pcpoint
+COMMAND_WEBPOINT_ZEN		= /webpoint-zen
+COMMAND_PCPOINT_ZEN		= /pcpoint-zen
+COMMAND_PCPOINT_WCOIN		= /pcpoint-wcoin
+COMMAND_PCPOINT_WEBPOINT	= /pcpoint-webpoint
+COMMAND_ZEN_WCOIN		= /zen-wcoin
+COMMAND_ZEN_PCPOINT		= /zen-pcpoint
+COMMAND_ZEN_WEBPOINT		= /zen-webpoint
+COMMAND_GUILD_POST 		= @>
+COMMAND_OFFTRADE		= /offtrade
+COMMAND_RESET			= /reset
+COMMAND_EVO			= /evo
+COMMAND_ISMARRY			= /ismarry
+COMMAND_MARRY_ONLINE		= /marryonline
+COMMAND_MARRY_TRACE		= /marrytrace
+COMMAND_DIVORCE			= /divorce
+COMMAND_YES			= /sim
+COMMAND_NO			= /nao
