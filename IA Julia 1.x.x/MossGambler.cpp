@@ -371,14 +371,14 @@ BOOL cMoss::BuyItem(int aIndex, unsigned char * aRecv)
         }
     }
 
-    int Index = rand()%OrderItems[BuyType];
-    int Type = ITEMGET(BuyType,ItemInfo[BuyType][Index].Index);
-    int Level	 = RandValue(OPT_LEVEL);
-    int Option1	 = RandValue(OPT_SKILL);
-    int Option2	 = RandValue(OPT_LUCK);
-    int Option3	 = RandValue(OPT_ADD);
-    int NewOption = RandValue(OPT_EXC);
-    int SetOption = RandValue(OPT_ANC);
+    int Index       = rand()%OrderItems[BuyType];
+    int Type        = ITEMGET(BuyType,ItemInfo[BuyType][Index].Index);
+    int Level	    = RandValue(OPT_LEVEL);
+    int Option1	    = RandValue(OPT_SKILL);
+    int Option2	    = RandValue(OPT_LUCK);
+    int Option3	    = RandValue(OPT_ADD);
+    int NewOption   = RandValue(OPT_EXC);
+    int SetOption   = RandValue(OPT_ANC);
 
     int X,Y;
     GSItemGetSize(Type,X,Y);
