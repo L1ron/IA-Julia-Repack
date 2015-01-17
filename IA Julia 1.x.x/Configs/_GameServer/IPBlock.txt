@@ -1,0 +1,3 @@
+// Voce pode usar wildcards '*' para banir IPs
+
+end
