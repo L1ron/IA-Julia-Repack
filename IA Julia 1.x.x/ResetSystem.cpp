@@ -231,7 +231,7 @@ void RSystem::Reset(LPOBJ gObj)
     if(State[NumState].Need.Zen > 0)
     {
         gObj->Money -= State[NumState].Need.Zen;
-        GCMoneySend(gObj->m_Index, 0);
+        GCMoneySend(gObj->m_Index, gObj->Money);
     }
 
     gObj->Level = 1;
