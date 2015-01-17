@@ -1788,7 +1788,7 @@ bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
 
         if (tObj->m_PK_Level <= 3)
         {
-            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[PkClear] %s is not pk!", tObj->Name);
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[PkClear] %s nao esta PK!", tObj->Name);
             return true;
         }
 
@@ -1798,12 +1798,12 @@ bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
 
         if (tObj == gObj)
         {
-            MessageLog(1, c_Red, t_GM, tObj, "[PkClear] Your pk was cleared.");
+            MessageLog(1, c_Red, t_GM, tObj, "[PkClear] Voce nao esta mais PK.");
         }
         else
         {
-            MessageLog(1, c_Red, t_GM, gObj, "[PkClear] You successfully clear %s pk.", tObj->Name);
-            MessageLog(1, c_Red, t_GM, tObj, "[PkClear] Your pk was cleared by %s.", gObj->Name);
+            MessageLog(1, c_Red, t_GM, gObj, "[PkClear] Voce limpou o PK de %s.", tObj->Name);
+            MessageLog(1, c_Red, t_GM, tObj, "[PkClear] Seu status PK foi limpo por %s.", gObj->Name);
         }
     }
     else if (!Monster.ClearCommand.OnlyForGm)
@@ -1846,7 +1846,7 @@ bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
 
         if (gObj->m_PK_Level <= 3)
         {
-            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[PkClear] Your are not pk!");
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[PkClear] Voce nao esta PK!");
 
             return true;
         }
@@ -1860,7 +1860,7 @@ bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
         gObj->m_PK_Level = 3;
         gObj->m_PK_Count = 0;
         GCPkLevelSend(gObj->m_Index, 3);
-        MessageLog(1, c_Blue, t_COMMANDS, gObj, "[PkClear] Your Pk successfully cleared!");
+        MessageLog(1, c_Blue, t_COMMANDS, gObj, "[PkClear] Seu PK foi limpo!");
     }
 
     return true;
@@ -3335,6 +3335,8 @@ bool cChat::EvoCommand(LPOBJ gObj)
 		gObj->DbClass += 2;
 		BYTE btClass = (gObj->Class * 32) + 24;
 		GCSendQuestPrize(gObj->m_Index, 204, btClass);
+        gObjCalCharacter(Utilits.GetPlayerIndex(gObj->Name));
+        GCLevelUpMsgSend(gObj->m_Index,gObj->Level);
 
 		Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Evo] Parabens! Voce completou a terceira quest.");
     }
