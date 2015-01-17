@@ -359,7 +359,7 @@ void RSystem::Reset(LPOBJ gObj)
 	}
 
 	gObjCalCharacter(Utilits.GetPlayerIndex(gObj->Name));
-    GCLevelUpMsgSend(gObj->m_Index,0);
+    GCLevelUpMsgSend(gObj->m_Index,1);
 
 	/*
 		Efeito Skill (Novo)
