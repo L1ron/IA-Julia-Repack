@@ -870,9 +870,9 @@ bool cChat::VosklCommand(LPOBJ gObj, char *Msg)
 bool cChat::TraceCommand(LPOBJ gObj, int Index)
 {
     if (CheckCommand(gObj, 1, GmSystem.cTrace, 0, 0, 0, 0, 0, 0, Index, "Trace", "[Name] /trace", ""))
-	{
+    {
         return true;
-	}
+    }
 
     OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
