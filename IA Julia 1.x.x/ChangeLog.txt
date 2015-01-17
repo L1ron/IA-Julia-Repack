@@ -1,3 +1,7 @@
+# 1.1.0.325 # - Fixed Helpers zens required
+# 1.1.0.324 # - Fixed money reduce for Reset system
+# 1.1.0.323 # - Removed commands work from whisper chat
+# 1.1.0.322 # - Added zen command and their configs
 # 1.1.0.321 # - Added Max Usage per account or character for helpers
 # 1.1.0.320 # - Added Max Usage for Helpers
 # 1.1.0.319 # - Added ChatCommands.txt for change commands

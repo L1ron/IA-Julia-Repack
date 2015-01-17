@@ -1,21 +1,21 @@
 [PCPoints]
-Enabled			= 1 
-MaximumPCPoints		= 10000
-AddPCPointsSec		= 3600	// For Online System
-AddPCPointsCount	= 10	// For Online System
+Enabled			= 1		// Sistema PCPoints
+MaximumPCPoints		= 10000		// Maximo de pontos
+AddPCPointsSec		= 3600		// Segundos para adicionar PCPoints (Bonus Online)
+AddPCPointsCount	= 10		// Quantia a ser adicionada por bonus
 
 [WCoins]
-MaximumWCPoints		= 10000
+MaximumWCPoints		= 10000		// Pontos maximos de WCoin
 
 [WebPoints]
-Enabled			= 0		// Ativo
+Enabled			= 0		// Ativar WebTable (Para trabalhar com moedas de WebSites)
 WebTable		= web_table	// Table do WebPoint
 WebColumn		= web_column	// Coluna do WebPoint
 WebColumnFloat		= 1		// Tipo da coluna 0 - integer (Ex. 1), 1 - float (Ex. 1.00)
-MaximumWebPoints	= 10000		// Maximo de pontos
+MaximumWebPoints	= 10000		// Maximo de pontos do site
 
 [ExchangeCommands]
-ExchangeCommands 	= 1
+ExchangeCommands 	= 1		// Permite troca de valores
 WcPpCmdEnabled		= 1		// /wcoin-pcpoint
 WcWpCmdEnabled		= 1		// /wcoin-webpoint
 WcZenCmdEnabled		= 1		// /wcoin-zen
@@ -28,7 +28,7 @@ PpWpCmdEnabled		= 1		// /pcpoint-webpoint
 ZenWcCmdEnabled		= 1		// /zen-wcoin
 ZenPpCmdEnabled		= 1		// /zen-pcpoint
 ZenWpCmdEnabled		= 1		// /zen-webpoint
-ExchangeMinLvl		= 350		// ??
+ExchangeMinLvl		= 350		// Level necessario para o comando
 ExchangeTax		= 2		// Percent of the tax (процент налога)
 WCoin_WebPoint		= 10		// (pay 1 WCoin for 10 WebPoint)
 WCoin_PcPoint 		= 100 		// (pay 1 WCoin for 100 PcPoint)
@@ -62,7 +62,6 @@ PcPoint_Zen 		= 100000	// (pay 1 PCPoint for 100000 Zen)
 	14	14	0	0	0	0	0	0	0	255	255	255	255	255	15	//Jewel Of Soul
 	14	16	0	0	0	0	0	0	0	255	255	255	255	255	20	//Jewel Of Life
 	14	22	0	0	0	0	0	0	0	255	255	255	255	255	20	//Jewel Of Creation
-//	14	100	0	0	0	0	0	0	0	255	255	255	255	255	10	//Luky Penny (Broken in client)
 	13	52	0	1	0	0	0	0	0	255	255	255	255	255	30	//Flame of Condor
 	13	53	0	0	0	0	0	0	0	255	255	255	255	255	30	//Condor's Feathers
 	13	14	0	0	0	0	0	0	0	255	255	255	255	255	30	//Condor's Feathers
@@ -90,7 +89,7 @@ PcPoint_Zen 		= 100000	// (pay 1 PCPoint for 100000 Zen)
 end
 
 //==================================================================================================================================
-//PCPoints Reward from Monsters
+// Recompensa em PCPoints (PCShop) por monstros
 //==================================================================================================================================
 2
 	275	10
@@ -105,7 +104,7 @@ end
 end
 
 //==================================================================================================================================
-//CashShop Points (W Coins) Reward from Monsters
+// Recompensa em WCoins (CashShop) por monstros
 //==================================================================================================================================
 3
 	275	10

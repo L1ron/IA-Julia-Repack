@@ -579,12 +579,21 @@ void cConfigs::LoadCommands()
 		COMANDO EVO
 	*/
 	Commands.EvoCommandEnabled		= GetInt(0,1,1,"Evo", "EvoEnabled", IAJuliaCmd);
-	Commands.EvoLvlReq				= GetInt(220,400,400,"Evo", "EvoLevelReq", IAJuliaCmd);
+	Commands.EvoLevelReq			= GetInt(220,400,400,"Evo", "EvoLevelReq", IAJuliaCmd);
 	Commands.EvoPriceZen			= GetInt(0,2000000000,10000,"Evo", "EvoPriceZen", IAJuliaCmd);
 	Commands.EvoPricePcPoint		= GetInt(0,PCPoint.Config.MaximumPCPoints,0,"Evo", "EvoPricePcPoint", IAJuliaCmd);
 	Commands.EvoPriceWCoin			= GetInt(0,PCPoint.Config.MaximumWCPoints,0,"Evo", "EvoPriceWCoin", IAJuliaCmd);
 	Commands.EvoPriceWebPoint		= GetInt(0,PCPoint.Config.MaximumWebPoints,0,"Evo", "EvoPriceWebPoint", IAJuliaCmd);
-	
+
+    /*
+        COMANDO ZEN
+    */
+    Commands.ZenCommandEnabled      = GetInt(0,1,1,"Zen", "ZenEnabled", IAJuliaCmd);
+    Commands.ZenLevelReq            = GetInt(1,400,50,"Zen", "ZenLevelReq", IAJuliaCmd); 
+    Commands.ZenPricePcPoint        = GetInt(0,PCPoint.Config.MaximumPCPoints,0,"Zen", "ZenPricePcPoint", IAJuliaCmd); 
+    Commands.ZenPriceWCoin          = GetInt(0,PCPoint.Config.MaximumWCPoints,0,"Zen", "ZenPriceWCoin", IAJuliaCmd); 
+    Commands.ZenPriceWebPoint       = GetInt(0,PCPoint.Config.MaximumWebPoints,0,"Zen", "ZenPriceWebPoint", IAJuliaCmd); 
+
 	/*
 		COMANDO ADD
 	*/

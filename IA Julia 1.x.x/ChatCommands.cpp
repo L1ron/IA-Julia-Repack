@@ -94,6 +94,7 @@ void cChat::LoadChatCommands()
     GetPrivateProfileString("Strings", "COMMAND_OFFTRADE", "/offtrade", COMMAND_OFFTRADE, sizeof(COMMAND_OFFTRADE), IAJuliaChatCommands);
     GetPrivateProfileString("Strings", "COMMAND_RESET", "/reset", COMMAND_RESET, sizeof(COMMAND_RESET), IAJuliaChatCommands);
     GetPrivateProfileString("Strings", "COMMAND_EVO", "/evo", COMMAND_EVO, sizeof(COMMAND_EVO), IAJuliaChatCommands);
+    GetPrivateProfileString("Strings", "COMMAND_ZEN", "/zen", COMMAND_ZEN, sizeof(COMMAND_ZEN), IAJuliaChatCommands);
     GetPrivateProfileString("Strings", "COMMAND_ISMARRY", "/ismarry", COMMAND_ISMARRY, sizeof(COMMAND_ISMARRY), IAJuliaChatCommands);
     GetPrivateProfileString("Strings", "COMMAND_MARRY_ONLINE", "/ismarry", COMMAND_MARRY_ONLINE, sizeof(COMMAND_MARRY_ONLINE), IAJuliaChatCommands);
     GetPrivateProfileString("Strings", "COMMAND_MARRY_TRACE", "/marrytrace", COMMAND_MARRY_TRACE, sizeof(COMMAND_MARRY_TRACE), IAJuliaChatCommands);
@@ -125,13 +126,11 @@ bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
 
     AntiInject(lpMsg->chatmsg);
 
-    bool bResult = false;
-
     char TempName[10];
     memcpy(TempName, lpMsg->id, sizeof(TempName));
     int Index = Utilits.GetPlayerIndex(TempName);
 
-    if (!memcmp(lpMsg->chatmsg, COMMAND_AT, strlen(COMMAND_AT)) || !memcmp(lpMsg->chatmsg, "@@", strlen("@@")) || !memcmp(lpMsg->chatmsg, "~", strlen("~")))
+    if(!memcmp(lpMsg->chatmsg, COMMAND_AT, strlen(COMMAND_AT)) || !memcmp(lpMsg->chatmsg, "@@", strlen("@@")) || !memcmp(lpMsg->chatmsg, "~", strlen("~")))
     {
         PMSG_CHATDATA pMsg = {0};
 
@@ -144,263 +143,6 @@ bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
         return true;
     }
 
-    if(!memcmp(lpMsg->chatmsg, COMMAND_GG, strlen(COMMAND_GG)))
-	{
-        bResult = GgCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_GG));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_VOSKL, strlen(COMMAND_VOSKL)))
-	{
-        bResult = VosklCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_VOSKL));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_TRACE, strlen(COMMAND_TRACE)))
-	{
-        bResult = TraceCommand(gObj, Index);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_DISCONNECT, strlen(COMMAND_DISCONNECT)))
-	{
-        bResult = DiskCommand(gObj, Index);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_TRACK, strlen(COMMAND_TRACK)))
-	{
-        bResult = SummonCommand(gObj, Index);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_MOVE, strlen(COMMAND_MOVE)))
-	{
-        bResult = MoveCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_MOVE));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_WARP, strlen(COMMAND_WARP)))
-	{
-        bResult = MoveCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_WARP));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_LEVEL, strlen(COMMAND_LEVEL)))
-	{
-        bResult = LevelCommand(gObj);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_POST, strlen(COMMAND_POST)))
-	{
-        bResult = PostCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_POST));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_BAN_POST, strlen(COMMAND_BAN_POST)))
-	{
-        bResult = BanPostCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_BAN_POST), Index);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_BAN_CHAR, strlen(COMMAND_BAN_CHAR)))
-	{
-        bResult = BanCharCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_BAN_CHAR), Index);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_BAN_ACC, strlen(COMMAND_BAN_ACC)))
-	{
-        bResult = BanAccCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_BAN_ACC), Index);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_UNBAN_POST, strlen(COMMAND_UNBAN_POST)))
-	{
-        bResult = UnBanPostCommand(gObj, Index);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_UNBAN_CHAR, strlen(COMMAND_UNBAN_CHAR)))
-        bResult = UnBanCharCommand(gObj, TempName);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_UNBAN_ACC, strlen(COMMAND_UNBAN_ACC)))
-        bResult = UnBanAccCommand(gObj, TempName);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_TIME, strlen(COMMAND_TIME)))
-        bResult = TimeCommand(gObj);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_SET_CHAR, strlen(COMMAND_SET_CHAR)))
-        bResult = SetCharCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_SET_CHAR), Index);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_SET_PK, strlen(COMMAND_SET_PK)))
-        bResult = SetPKCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_SET_PK), Index);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_SET_ZEN, strlen(COMMAND_SET_ZEN)))
-        bResult = SetZenCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_SET_ZEN), Index);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_SKIN, strlen(COMMAND_SKIN)))
-        bResult = SkinCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_SKIN), Index);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_DROP, strlen(COMMAND_DROP)))
-        bResult = DropCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_DROP), Index);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_GMOVE, strlen(COMMAND_GMOVE)))
-        bResult = GmoveCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_GMOVE), Index);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_ONLINE, strlen(COMMAND_ONLINE)))
-        bResult = OnlineCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_ONLINE));
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_STATUS, strlen(COMMAND_STATUS)))
-        bResult = StatusCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_STATUS), Index);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_RELOAD, strlen(COMMAND_RELOAD)))
-        bResult = ReloadCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_RELOAD));
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_PKCLEAR, strlen(COMMAND_PKCLEAR)))
-        bResult = PKClearCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_PKCLEAR), Index);
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_ADD_STR, strlen(COMMAND_ADD_STR)))
-	{
-        bResult = AddCommands(gObj, lpMsg->chatmsg + strlen(COMMAND_ADD_STR), 0);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_ADD_AGI, strlen(COMMAND_ADD_AGI)))
-	{
-        bResult = AddCommands(gObj, lpMsg->chatmsg + strlen(COMMAND_ADD_AGI), 1);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_ADD_VIT, strlen(COMMAND_ADD_VIT)))
-	{
-        bResult = AddCommands(gObj, lpMsg->chatmsg + strlen(COMMAND_ADD_VIT), 2);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_ADD_ENE, strlen(COMMAND_ADD_ENE)))
-	{
-        bResult = AddCommands(gObj, lpMsg->chatmsg + strlen(COMMAND_ADD_ENE), 3);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_ADD_CMD, strlen(COMMAND_ADD_CMD)))
-	{
-        bResult = AddCommands(gObj, lpMsg->chatmsg + strlen(COMMAND_ADD_CMD), 4);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_WARE, strlen(COMMAND_WARE)))
-	{
-        bResult = WareCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_WARE));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_MOBADD, strlen(COMMAND_MOBADD)))
-	{
-        bResult = AddMobCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_MOBADD));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_SETDROP, strlen(COMMAND_SETDROP)))
-	{
-        bResult = SetDropCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_SETDROP), Index);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_CHECK, strlen(COMMAND_CHECK)))
-	{
-        bResult = CheckCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_CHECK));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_VIPBUY, strlen(COMMAND_VIPBUY)))
-	{
-        bResult = BuyVIPCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_VIPBUY));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_VIPCHECK, strlen(COMMAND_VIPCHECK)))
-	{
-        bResult = CheckVIPCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_VIPCHECK));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_VIPLIST, strlen(COMMAND_VIPLIST)))
-	{
-        bResult = VIPListCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_VIPLIST));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_TERRCHECK, strlen(COMMAND_TERRCHECK)))
-	{
-        bResult = CheckTerritoryCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_TERRCHECK));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_TERRBUY, strlen(COMMAND_TERRBUY)))
-	{
-        bResult = BuyTerritoryCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_TERRBUY));
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_VIP_ON, strlen(COMMAND_VIP_ON)))
-	{
-        bResult = VipOnCommand(gObj);
-	}
-
-    if(!memcmp(lpMsg->chatmsg, COMMAND_VIP_OFF, strlen(COMMAND_VIP_OFF)))
-	{
-        bResult = VipOffCommand(gObj);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_GUILD_POST, strlen(COMMAND_GUILD_POST)))
-	{
-        bResult = GuildPost(gObj, lpMsg->chatmsg + strlen(COMMAND_GUILD_POST));
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_ENABLE_CHAT, strlen(COMMAND_ENABLE_CHAT)))
-        bResult = EnableChatCommand(gObj, Index);
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_DISABLE_CHAT, strlen(COMMAND_DISABLE_CHAT)))
-	{
-        bResult = DisableChatCommand(gObj, lpMsg->chatmsg + strlen(COMMAND_DISABLE_CHAT), Index);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_WCOIN_PCOINT, strlen(COMMAND_WCOIN_PCOINT)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_WCOIN_PCOINT), 1);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_WCOIN_WEBPOINT, strlen(COMMAND_WCOIN_WEBPOINT)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_WCOIN_WEBPOINT), 2);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_WCOIN_ZEN, strlen(COMMAND_WCOIN_ZEN)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_WCOIN_ZEN), 3);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_WEBPOINT_WCOIN, strlen(COMMAND_WEBPOINT_WCOIN)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_WEBPOINT_WCOIN), 4);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_WEBPOINT_PCPOINT, strlen(COMMAND_WEBPOINT_PCPOINT)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_WEBPOINT_PCPOINT), 5);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_WEBPOINT_ZEN, strlen(COMMAND_WEBPOINT_ZEN)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_WEBPOINT_ZEN), 6);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_PCPOINT_ZEN, strlen(COMMAND_PCPOINT_ZEN)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_PCPOINT_ZEN), 7);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_PCPOINT_WCOIN, strlen(COMMAND_PCPOINT_WCOIN)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_PCPOINT_WCOIN), 8);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_PCPOINT_WEBPOINT, strlen(COMMAND_PCPOINT_WEBPOINT)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_PCPOINT_WEBPOINT), 9);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_ZEN_WCOIN, strlen(COMMAND_ZEN_WCOIN)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_ZEN_WCOIN), 10);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_ZEN_PCPOINT, strlen(COMMAND_ZEN_PCPOINT)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_ZEN_PCPOINT), 11);
-	}
-
-    if (!memcmp(lpMsg->chatmsg, COMMAND_ZEN_WEBPOINT, strlen(COMMAND_ZEN_WEBPOINT)))
-	{
-        bResult = ExchangeCommands(gObj, (char*)lpMsg->chatmsg + strlen(COMMAND_ZEN_WEBPOINT), 12);
-	}
-
     MuOnlineQuery.ExecQuery("SELECT BanChat FROM Character WHERE Name = '%s'", gObj->Name);
     MuOnlineQuery.Fetch();
     int BanChat = MuOnlineQuery.GetAsInteger("BanChat");
@@ -409,7 +151,7 @@ bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
     if(BanChat)
     {
         gObj->Penalty |= 2;
-        Chat.MessageLog(1, c_Blue, t_BAN, gObj, "[BanChat] Your chat is baned!");
+        Chat.MessageLog(1, c_Blue, t_BAN, gObj, "[BanChat] Seu chat foi banido!");
 
         return true;
     }
@@ -427,15 +169,15 @@ bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
         PrivateLog(gObj, TempName, lpMsg, false);
 	}
 
-    return bResult;
+    return true;
 }
 
 bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 {
     /*
-    	gObj			- object struct of sender
-    	lpMsg->id		- nickname of sender
-    	lpMsg->chatmsg	- msg
+    	gObj			- Object Struct of sender
+    	lpMsg->id		- Id do sender
+    	lpMsg->chatmsg	- String recebida
     */
 
     AntiInject(lpChat->chatmsg);
@@ -443,69 +185,164 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
     bool bResult = false;
 
     if (!memcmp(lpChat->chatmsg, COMMAND_GG, strlen(COMMAND_GG)))
+    {
         bResult = GgCommand(gObj, lpChat->chatmsg + strlen(COMMAND_GG));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_VOSKL, strlen(COMMAND_VOSKL)))
+    {
         bResult = VosklCommand(gObj, lpChat->chatmsg + strlen(COMMAND_VOSKL));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_MOVE, strlen(COMMAND_MOVE)))
+    {
         bResult = MoveCommand(gObj, lpChat->chatmsg + strlen(COMMAND_MOVE));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_WARP, strlen(COMMAND_WARP)))
+    {
         bResult = MoveCommand(gObj, lpChat->chatmsg + strlen(COMMAND_WARP));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_LEVEL, strlen(COMMAND_LEVEL)))
+    {
         bResult = LevelCommand(gObj);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_POST, strlen(COMMAND_POST)))
+    {
         bResult = PostCommand(gObj, lpChat->chatmsg + strlen(COMMAND_POST));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_TIME, strlen(COMMAND_TIME)))
+    {
         bResult = TimeCommand(gObj);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_SET_CHAR, strlen(COMMAND_SET_CHAR)))
+    {
         bResult = SetCharCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_CHAR), gObj->m_Index);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_SET_PK, strlen(COMMAND_SET_PK)))
+    {
         bResult = SetPKCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_PK), gObj->m_Index);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_SET_ZEN, strlen(COMMAND_SET_ZEN)))
+    {
         bResult = SetZenCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_ZEN), gObj->m_Index);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_SKIN, strlen(COMMAND_SKIN)))
+    {
         bResult = SkinCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SKIN), gObj->m_Index);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_DROP, strlen(COMMAND_DROP)))
+    {
         bResult = DropCommand(gObj, lpChat->chatmsg + strlen(COMMAND_DROP), gObj->m_Index);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_GMOVE, strlen(COMMAND_GMOVE)))
+    {
         bResult = GmoveCommand(gObj, lpChat->chatmsg + strlen(COMMAND_GMOVE), gObj->m_Index);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_ONLINE, strlen(COMMAND_ONLINE)))
+    {
         bResult = OnlineCommand(gObj, lpChat->chatmsg + strlen(COMMAND_ONLINE));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_RELOAD, strlen(COMMAND_RELOAD)))
+    {
         bResult = ReloadCommand(gObj, lpChat->chatmsg + strlen(COMMAND_RELOAD));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_PKCLEAR, strlen(COMMAND_PKCLEAR)))
+    {
         bResult = PKClearCommand(gObj, lpChat->chatmsg + strlen(COMMAND_PKCLEAR), gObj->m_Index);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_ADD_STR, strlen(COMMAND_ADD_STR)))
+    {
         bResult = AddCommands(gObj, lpChat->chatmsg + strlen(COMMAND_ADD_STR), 0);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_ADD_AGI, strlen(COMMAND_ADD_AGI)))
+    {
         bResult = AddCommands(gObj, lpChat->chatmsg + strlen(COMMAND_ADD_AGI), 1);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_ADD_VIT, strlen(COMMAND_ADD_VIT)))
+    {
         bResult = AddCommands(gObj, lpChat->chatmsg + strlen(COMMAND_ADD_VIT), 2);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_ADD_ENE, strlen(COMMAND_ADD_ENE)))
+    {
         bResult = AddCommands(gObj, lpChat->chatmsg + strlen(COMMAND_ADD_ENE), 3);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_ADD_CMD, strlen(COMMAND_ADD_CMD)))
+    {
         bResult = AddCommands(gObj, lpChat->chatmsg + strlen(COMMAND_ADD_CMD), 4);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_WARE, strlen(COMMAND_WARE)))
+    {
         bResult = WareCommand(gObj, lpChat->chatmsg + strlen(COMMAND_WARE));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_MOBADD, strlen(COMMAND_MOBADD)))
+    {
         bResult = AddMobCommand(gObj, lpChat->chatmsg + strlen(COMMAND_MOBADD));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_SETDROP, strlen(COMMAND_SETDROP)))
+    {
         bResult = SetDropCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SETDROP), gObj->m_Index);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_CHECK, strlen(COMMAND_CHECK)))
+    {
         bResult = CheckCommand(gObj, lpChat->chatmsg + strlen(COMMAND_CHECK));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_VIPBUY, strlen(COMMAND_VIPBUY)))
+    {
         bResult = BuyVIPCommand(gObj, lpChat->chatmsg + strlen(COMMAND_VIPBUY));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_VIPCHECK, strlen(COMMAND_VIPCHECK)))
+    {
         bResult = CheckVIPCommand(gObj, lpChat->chatmsg + strlen(COMMAND_VIPCHECK));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_VIPLIST, strlen(COMMAND_VIPLIST)))
+    {
         bResult = VIPListCommand(gObj, lpChat->chatmsg + strlen(COMMAND_VIPLIST));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_TERRCHECK, strlen(COMMAND_TERRCHECK)))
+    {
         bResult = CheckTerritoryCommand(gObj, lpChat->chatmsg + strlen(COMMAND_TERRCHECK));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_TERRBUY, strlen(COMMAND_TERRBUY)))
+    {
         bResult = BuyTerritoryCommand(gObj, lpChat->chatmsg + strlen(COMMAND_TERRBUY));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_VIP_ON, strlen(COMMAND_VIP_ON)))
+    {
         bResult = VipOnCommand(gObj);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_VIP_OFF, strlen(COMMAND_VIP_OFF)))
+    {
         bResult = VipOffCommand(gObj);
+    }
 
     if (!memcmp(lpChat->chatmsg, COMMAND_WCOIN_PCOINT, strlen(COMMAND_WCOIN_PCOINT)))
 	{
@@ -513,33 +350,71 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 	}
 
     if (!memcmp(lpChat->chatmsg, COMMAND_WCOIN_WEBPOINT, strlen(COMMAND_WCOIN_WEBPOINT)))
+    {
         bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WCOIN_WEBPOINT), 2);
-    if (!memcmp(lpChat->chatmsg, COMMAND_WCOIN_ZEN, strlen(COMMAND_WCOIN_ZEN)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WCOIN_ZEN), 3);
-    if (!memcmp(lpChat->chatmsg, COMMAND_WEBPOINT_WCOIN, strlen(COMMAND_WEBPOINT_WCOIN)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WEBPOINT_WCOIN), 4);
-    if (!memcmp(lpChat->chatmsg, COMMAND_WEBPOINT_PCPOINT, strlen(COMMAND_WEBPOINT_PCPOINT)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WEBPOINT_PCPOINT), 5);
-    if (!memcmp(lpChat->chatmsg, COMMAND_WEBPOINT_ZEN, strlen(COMMAND_WEBPOINT_ZEN)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WEBPOINT_ZEN), 6);
-    if (!memcmp(lpChat->chatmsg, COMMAND_PCPOINT_ZEN, strlen(COMMAND_PCPOINT_ZEN)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_PCPOINT_ZEN), 7);
-    if (!memcmp(lpChat->chatmsg, COMMAND_PCPOINT_WCOIN, strlen(COMMAND_PCPOINT_WCOIN)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_PCPOINT_WCOIN), 8);
-    if (!memcmp(lpChat->chatmsg, COMMAND_PCPOINT_WEBPOINT, strlen(COMMAND_PCPOINT_WEBPOINT)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_PCPOINT_WEBPOINT), 9);
-    if (!memcmp(lpChat->chatmsg, COMMAND_ZEN_WCOIN, strlen(COMMAND_ZEN_WCOIN)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_ZEN_WCOIN), 10);
-    if (!memcmp(lpChat->chatmsg, COMMAND_ZEN_PCPOINT, strlen(COMMAND_ZEN_PCPOINT)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_ZEN_PCPOINT), 11);
-    if (!memcmp(lpChat->chatmsg, COMMAND_ZEN_WEBPOINT, strlen(COMMAND_ZEN_WEBPOINT)))
-        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_ZEN_WEBPOINT), 12);
-    if (!memcmp(lpChat->chatmsg, COMMAND_GUILD_POST, strlen(COMMAND_GUILD_POST)))
-        bResult = GuildPost(gObj, lpChat->chatmsg + strlen(COMMAND_GUILD_POST));
-    if (!memcmp(lpChat->chatmsg, COMMAND_OFFTRADE, strlen(COMMAND_OFFTRADE)))
-        bResult = OffTradeCommand(gObj);
+    }
 
-    if (!memcmp(lpChat->chatmsg, COMMAND_RESET, strlen(COMMAND_RESET)))
+    if (!memcmp(lpChat->chatmsg, COMMAND_WCOIN_ZEN, strlen(COMMAND_WCOIN_ZEN)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WCOIN_ZEN), 3);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_WEBPOINT_WCOIN, strlen(COMMAND_WEBPOINT_WCOIN)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WEBPOINT_WCOIN), 4);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_WEBPOINT_PCPOINT, strlen(COMMAND_WEBPOINT_PCPOINT)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WEBPOINT_PCPOINT), 5);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_WEBPOINT_ZEN, strlen(COMMAND_WEBPOINT_ZEN)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WEBPOINT_ZEN), 6);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_PCPOINT_ZEN, strlen(COMMAND_PCPOINT_ZEN)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_PCPOINT_ZEN), 7);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_PCPOINT_WCOIN, strlen(COMMAND_PCPOINT_WCOIN)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_PCPOINT_WCOIN), 8);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_PCPOINT_WEBPOINT, strlen(COMMAND_PCPOINT_WEBPOINT)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_PCPOINT_WEBPOINT), 9);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_ZEN_WCOIN, strlen(COMMAND_ZEN_WCOIN)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_ZEN_WCOIN), 10);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_ZEN_PCPOINT, strlen(COMMAND_ZEN_PCPOINT)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_ZEN_PCPOINT), 11);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_ZEN_WEBPOINT, strlen(COMMAND_ZEN_WEBPOINT)))
+    {
+        bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_ZEN_WEBPOINT), 12);
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_GUILD_POST, strlen(COMMAND_GUILD_POST)))
+    {
+        bResult = GuildPost(gObj, lpChat->chatmsg + strlen(COMMAND_GUILD_POST));
+    }
+
+    if (!memcmp(lpChat->chatmsg, COMMAND_OFFTRADE, strlen(COMMAND_OFFTRADE)))
+    {
+        bResult = OffTradeCommand(gObj);
+    }
+
+    if(!memcmp(lpChat->chatmsg, COMMAND_RESET, strlen(COMMAND_RESET)))
 	{
         bResult = ResetCommand(gObj);
 	}
@@ -549,19 +424,47 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 		bResult = EvoCommand(gObj);
 	}
 
+	if(!memcmp(lpChat->chatmsg, COMMAND_ZEN, strlen(COMMAND_ZEN)))
+	{
+		bResult = ZenCommand(gObj,lpChat->chatmsg + strlen(COMMAND_ZEN));
+	}
+
+    /*
+    if (!memcmp(lpChat->chatmsg, COMMAND_SET_ZEN, strlen(COMMAND_SET_ZEN)))
+    {
+        bResult = SetZenCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_ZEN), gObj->m_Index);
+    }
+    */
+
     if (!memcmp(lpChat->chatmsg, COMMAND_ISMARRY, strlen(COMMAND_ISMARRY)))
+    {
         bResult = IsMarryCommand(gObj, lpChat->chatmsg + strlen(COMMAND_ISMARRY));
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_MARRY_ONLINE, strlen(COMMAND_MARRY_ONLINE)))
+    {
         bResult = MarryOnlineCommand(gObj);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_MARRY_TRACE, strlen(COMMAND_MARRY_TRACE)))
+    {
         bResult = MarryTraceCommand(gObj);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_DIVORCE, strlen(COMMAND_DIVORCE)))
+    {
         bResult = MarryDivorce(gObj);
+    }
 
     if (!memcmp(lpChat->chatmsg, COMMAND_YES, strlen(COMMAND_YES)))
+    {
         bResult = YesCommand(gObj);
+    }
+
     if (!memcmp(lpChat->chatmsg, COMMAND_NO, strlen(COMMAND_NO)))
+    {
         bResult = NoCommand(gObj);
+    }
 
     MuOnlineQuery.ExecQuery("SELECT BanChat FROM Character WHERE Name = '%s'", gObj->Name);
     MuOnlineQuery.Fetch();
@@ -572,6 +475,7 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
     {
         gObj->Penalty |= 2;
         Chat.MessageLog(1, c_Blue, t_BAN, gObj, "[BanChat] Your chat is banned!");
+
         return true;
     }
     else
@@ -824,7 +728,7 @@ bool cChat::CheckCommand
 	
     for(unsigned int i = 0; i < slen; i++)
 	{
-        if(Msg[i] == ' ' && Msg[i - 1] != ' ')
+        if((Msg[i] == ' ') && (Msg[i - 1] != ' '))
 		{
             spaces++;
 		}
@@ -894,7 +798,7 @@ bool cChat::CheckCommand
 
     if(CheckPlayer != 0)
     {
-        if (CheckPlayer == -1)
+        if(CheckPlayer == -1)
         {
             MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Player nao encontrado!", CommandName);
 
@@ -2920,12 +2824,12 @@ void ExchangeHighToLow(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
         {
             DWORD Min = Buy - (Buy % ConfigBuy);
             DWORD Max = Min + ConfigBuy;
-            Chat.MessageLog(1, c_Red, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You write not right value. Write %d or %d.", Min, Max);
+            Chat.MessageLog(1, c_Red, t_NULL, gObj, "[Exchanger] You write not right value. Write %d or %d.", Min, Max);
             return;
         }
         else
         {
-            Chat.MessageLog(1, c_Red, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You write not right value. Write %d.", ConfigBuy);
+            Chat.MessageLog(1, c_Red, t_NULL, gObj, "[Exchanger] You write not right value. Write %d.", ConfigBuy);
 
             return;
         }
@@ -2934,13 +2838,13 @@ void ExchangeHighToLow(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
     int NeededToSell = (Buy / ConfigBuy);
     if (SellKind < NeededToSell)
     {
-        Chat.MessageLog(1, c_Red, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You don't have enough %s. %d more need.", KindOfSell, NeededToSell - SellKind);
+        Chat.MessageLog(1, c_Red, t_NULL, gObj, "[Exchanger] You don't have enough %s. %d more need.", KindOfSell, NeededToSell - SellKind);
 
         return;
     }
     if (BuyKind + Buy > MaxBuy)
     {
-        Chat.MessageLog(1, c_Red, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You can't buy more %s.", KindOfBuy);
+        Chat.MessageLog(1, c_Red, t_NULL, gObj, "[Exchanger] You can't buy more %s.", KindOfBuy);
 
         return;
     }
@@ -3002,7 +2906,7 @@ void ExchangeHighToLow(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
         }
     }
 
-    Chat.MessageLog(1, c_Yellow, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You buy %d %s for %d %s! Thx you!", Final, KindOfBuy, Sell, KindOfSell);
+    Chat.MessageLog(1, c_Yellow, t_NULL, gObj, "[Exchanger] You buy %d %s for %d %s! Thx you!", Final, KindOfBuy, Sell, KindOfSell);
 }
 
 void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*KindOfBuy, int SellKind, int BuyKind, int ConfigBuy, int MaxBuy)
@@ -3011,13 +2915,13 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
     if (SellKind < NeededToSell)
     {
-        Chat.MessageLog(1, c_Red, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You don't have enough %s. %d more need.", KindOfSell, NeededToSell - SellKind);
+        Chat.MessageLog(1, c_Red, t_NULL, gObj, "[Exchanger] You don't have enough %s. %d more need.", KindOfSell, NeededToSell - SellKind);
         return;
     }
 
     if (BuyKind + Buy > MaxBuy)
     {
-        Chat.MessageLog(1, c_Red, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You can't buy more %s.", KindOfBuy);
+        Chat.MessageLog(1, c_Red, t_NULL, gObj, "[Exchanger] You can't buy more %s.", KindOfBuy);
         return;
     }
 
@@ -3027,7 +2931,7 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
     if (Final >= 2000000000 || Final <= 0)
     {
-        Chat.MessageLog(1, c_Red, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] To more, to exchange.", KindOfBuy);
+        Chat.MessageLog(1, c_Red, t_NULL, gObj, "[Exchanger] To more, to exchange.", KindOfBuy);
         return;
     }
 
@@ -3080,14 +2984,15 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
         }
     }
 
-    Chat.MessageLog(1, c_Yellow, /*t_EXCHANGE*/t_NULL, gObj, "[Exchanger] You buy %d %s for %d %s! Thx you!", Buy, KindOfBuy, Final, KindOfSell);
+    Chat.MessageLog(1, c_Yellow, t_NULL, gObj, "[Exchanger] You buy %d %s for %d %s! Thx you!", Buy, KindOfBuy, Final, KindOfSell);
 }
 
 bool cChat::ExchangeCommands(LPOBJ gObj, char *Msg, int Type)
 {
     if (!Configs.Commands.ExchangeCommands)
     {
-        MessageLog(1, c_Red, t_COMMANDS, gObj, "[Exchanger] Function temporarily disabled");
+        MessageLog(1, c_Red, t_COMMANDS, gObj, "[Exchanger] Funcao temporariamente inativa.");
+
         return true;
     }
 
@@ -3095,8 +3000,10 @@ bool cChat::ExchangeCommands(LPOBJ gObj, char *Msg, int Type)
     {
     case 1:// wcoin-pcpoint >
     {
-        if (CheckCommand(gObj, Configs.Commands.ExchangeWcPp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/wcoin-pcpoint <num>", Msg))
+        if(CheckCommand(gObj, Configs.Commands.ExchangeWcPp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/wcoin-pcpoint <num>", Msg))
+        {
             return true;
+        }
 
         DWORD Buy;
         int SellKind = gObj->m_wCashPoint;
@@ -3416,7 +3323,7 @@ bool cChat::ResetCommand(LPOBJ gObj)
 
 bool cChat::EvoCommand(LPOBJ gObj)
 {
-	if(CheckCommand(gObj, Configs.Commands.EvoCommandEnabled, GmSystem.NONE, Configs.Commands.EvoPriceZen,  Configs.Commands.EvoPricePcPoint, Configs.Commands.EvoPriceWCoin, Configs.Commands.EvoPriceWebPoint, Configs.Commands.EvoLvlReq, 0, 0, "Evo", "/evo",""))
+	if(CheckCommand(gObj, Configs.Commands.EvoCommandEnabled, GmSystem.NONE, Configs.Commands.EvoPriceZen,  Configs.Commands.EvoPricePcPoint, Configs.Commands.EvoPriceWCoin, Configs.Commands.EvoPriceWebPoint, Configs.Commands.EvoLevelReq, 0, 0, "Evo", COMMAND_EVO,""))
 	{
 		return true;
 	}
@@ -3429,25 +3336,85 @@ bool cChat::EvoCommand(LPOBJ gObj)
 		BYTE btClass = (gObj->Class * 32) + 24;
 		GCSendQuestPrize(gObj->m_Index, 204, btClass);
 
-		Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Evo] Congratulations you've successfully pass third quest!");
+		Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Evo] Parabens! Voce completou a terceira quest.");
     }
 	else if((gObj->DbClass == 3) || (gObj->DbClass == 19) || (gObj->DbClass == 35) || (gObj->DbClass == 50) || (gObj->DbClass == 66) || (gObj->DbClass == 83))
 	{
-		Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Evo] You have already finished third quest!");
+		Chat.MessageLog(1, c_Red, t_COMMANDS, gObj,"[Evo] Desculpe, voce ja e um mestre.");
     }
 	else
 	{
-		Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Evo] You need to pass seccond quest!");
+		Chat.MessageLog(1, c_Red, t_COMMANDS, gObj,"[Evo] Voce precisa ter a segunda quest.");
 	}
 
 	return true;
 }
 
+bool cChat::ZenCommand(LPOBJ gObj,char *Msg)
+{
+/*
+if(CheckCommand(gObj, Configs.Commands.IsMultyVault, GmSystem.NONE, Configs.Commands.ZenForChange, Configs.Commands.PcPointForChange, Configs.Commands.WCoinForChange, Configs.Commands.WebPointsForChange, 0, 1, 0, "Ware", "/ware <num>", Msg))
+{
+	return true;
+}
+    */
+	if
+    (
+        CheckCommand
+        (
+            gObj,
+            Configs.Commands.ZenCommandEnabled,
+            GmSystem.NONE,
+            0,
+            Configs.Commands.ZenPricePcPoint,
+            Configs.Commands.ZenPriceWCoin,
+            Configs.Commands.ZenPriceWebPoint,
+            Configs.Commands.ZenLevelReq,
+            1,
+            0,
+            "Zen",
+            "/zen <quantia>",
+            Msg
+        )
+    )
+	{
+		return true;
+	}
+    else
+    {
+        int Buffer = atoi(Msg);
+
+        if(Buffer <= 0)
+        {
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Zen] Desculpe, valor fora do padrao.");
+
+            return true;
+        }
+
+        if((gObj->Money + Buffer >= 2000000000) || (gObj->Money >= 2000000000) || (Buffer >= 2000000000))
+        {
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Zen] Desculpe, voce nao pode ter mais do que 2000000000 zens.");
+        }
+        else
+        {
+            gObj->Money += Buffer;
+            GCMoneySend(gObj->m_Index,gObj->Money);
+
+            TakeCommand(gObj,0,Configs.Commands.ZenPricePcPoint,Configs.Commands.ZenPriceWCoin,Configs.Commands.ZenPriceWebPoint,"Zen");
+
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Zen] Voce acaba de receber %d Zens.",Buffer);
+        }
+    }
+
+    return true;
+}
 
 bool cChat::IsMarryCommand(LPOBJ gObj, char *Msg)
 {
     if (CheckCommand(gObj, Marry.Config.IsMarry, GmSystem.NONE, 0, 0, 0, 0, 0, 1, 0, "Marry", "/ismarry <name>", Msg))
+    {
         return true;
+    }
 
     char Target[11];
     sscanf(Msg, "%10s", &Target);
@@ -3462,16 +3429,22 @@ bool cChat::IsMarryCommand(LPOBJ gObj, char *Msg)
     OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
     if (AddTab[tObj->m_Index].IsMarried == 1)
+    {
         MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Marry] %s is married on %s!!!", tObj->Name, AddTab[tObj->m_Index].MarryName);
+    }
     else
+    {
         MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Marry] %s is not married!!!", tObj->Name);
+    }
 
     return true;
 }
 bool cChat::MarryOnlineCommand(LPOBJ gObj)
 {
     if (CheckCommand(gObj, Marry.Config.MarryOnline, GmSystem.NONE, 0, 0, 0, 0, 0, 0, 0, "Marry", COMMAND_MARRY_ONLINE, ""))
+    {
         return true;
+    }
 
     if (AddTab[gObj->m_Index].IsMarried == 0)
     {

@@ -37,13 +37,11 @@ void __cdecl MonsterDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 
     int Proc = 0;
 
-    //MapSystem  Drop
     if( MapSystem.Maps[lpTargetObj->MapNumber].Drop )
     {
         Proc += MapSystem.Maps[lpObj->MapNumber].Drop;
     }
 
-    //HappyHour Drop
     int IsHappyHour = HappyHour.IsHappyHour(lpTargetObj->MapNumber);
 
     if(IsHappyHour)
@@ -132,6 +130,7 @@ int cMonster::MonsterAddAndSpawn(int Mob, int Map, int Speed, int X1, int Y1, in
     else
     {
         MessageBox(NULL,"Maximo de atributos de monstros excedido!", "Monsters overflow", 0);
+
         return -1;
     }
 }
@@ -143,6 +142,7 @@ void cMonster::ReadMonsterAdd()
     if((MonsterFile = fopen( IAJuliaMobAdd, "r")) == NULL)
     {
         MessageBox(NULL,"Impossivel encontrar MonsterSpawn.ini","MonsterSpawn",0);
+
 
         return;
     }
@@ -407,7 +407,6 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
         bResult = true;
     }
 
-	// Helper Ellen
 	if(gObjNPC->Class == 414)
     {
 		Helpers.HelperEllenClick(gObj, gObjNPC);
@@ -415,7 +414,6 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
         bResult = true;
     }
 
-	// Helper Leo
 	if(gObjNPC->Class == 371)
     {
         Helpers.HelperLeoClick(gObj,gObjNPC);
@@ -423,7 +421,6 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
         bResult = true;
     }
 
-	// Helper Luke
     if(gObjNPC->Class == 258)
     {
         Helpers.HelperLukeClick(gObj,gObjNPC);
@@ -437,8 +434,9 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
 
         bResult = true;
     }
-    /*
-	if((ResetSystem.RConf.ResetNPC > 0) && (gObjNPC->Class == ResetSystem.RConf.ResetNPC))
+    
+    // Achar um NPC para o /reset
+	/*if((ResetSystem.RConf.ResetNPC > 0) && (gObjNPC->Class == ResetSystem.RConf.ResetNPC))
 	{
 		NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
 
@@ -491,7 +489,13 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
 		}
         else
         {
-		    if((gObj->m_PK_Level <= 3) && Moss.Config.UsePK)
+		    if((gObj->m_PK_Level > 3) && !Moss.Config.UsePK)
+            {
+                Chat.Message(1,gObj,"[Moss The Gambler] Nao farei negocios com PK's!!");
+
+                bResult = true;
+            }
+            else
 		    {
 		        BYTE Send2[6] = {0xC3,0x06,0x30,0x00,0x27,0x00};
 		        BYTE Send[71] =
@@ -513,12 +517,6 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
 
                 bResult = true;
 		    }
-            else
-            {
-                Chat.Message(1,gObj,"[Moss The Gambler] Nao farei negocios com PK's!!");
-
-                bResult = true;
-            }
         }
 	}
 #endif
@@ -575,7 +573,7 @@ void cMonster::PkClear(LPOBJ gObj, LPOBJ NpcObj)
 {
     if(gObj->m_PK_Level < 4)
     {
-        NPCMessageLog(c_Blue,t_COMMANDS,gObj,NpcObj, "Voce e um bom Player. Que Muren o abencoe!");
+        NPCMessageLog(c_Blue,t_COMMANDS,gObj,NpcObj, "Voce e um bom Player, que Muren o abencoe!");
 
         return;
     }

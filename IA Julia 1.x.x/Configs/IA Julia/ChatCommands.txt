@@ -5,7 +5,7 @@
 ///
 // NAO ADICIONE NENHUM COMENTARIO OU TEXTO A FRENTE DE CADA STRING
 ///
-// Formato do comando: COMMAND_EXEMPLO = /SUA_STRING
+// Formato do comando: COMMAND_EXEMPLO	= SUA_STRING= 
 ///
 
 [Strings]
@@ -70,6 +70,7 @@ COMMAND_GUILD_POST 		= @>
 COMMAND_OFFTRADE		= /offtrade
 COMMAND_RESET			= /reset
 COMMAND_EVO			= /evo
+COMMAND_ZEN 			= /zen
 COMMAND_ISMARRY			= /ismarry
 COMMAND_MARRY_ONLINE		= /marryonline
 COMMAND_MARRY_TRACE		= /marrytrace

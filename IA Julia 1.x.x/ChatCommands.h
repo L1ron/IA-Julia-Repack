@@ -91,6 +91,7 @@ class cChat
         bool OffTradeCommand(LPOBJ gObj);
         bool ResetCommand(LPOBJ gObj);
 	    bool EvoCommand(LPOBJ gObj);
+        bool ZenCommand(LPOBJ gOBj,char *Msg);
         bool ExchangeCommands(LPOBJ gObj, char *Msg, int Type);
 
         bool IsMarryCommand(LPOBJ gObj, char *Msg);
@@ -162,6 +163,7 @@ class cChat
         char COMMAND_OFFTRADE[25];
         char COMMAND_RESET[25];
         char COMMAND_EVO[25];
+        char COMMAND_ZEN[25];
         char COMMAND_ISMARRY[25];
         char COMMAND_MARRY_ONLINE[25];
         char COMMAND_MARRY_TRACE[25];

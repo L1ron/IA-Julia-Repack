@@ -142,6 +142,13 @@ void cHelpers::HelperLeoClick(LPOBJ gObj, LPOBJ gObjNPC)
 
 void cHelpers::CheckConditions(LPOBJ gObj, LPOBJ gObjNPC)
 {
+    if(AddTab[gObj->m_Index].HELPER_UsedTimes >= Config.UseTimes)
+    {
+        Monster.NPCMessageLog(c_Red,t_COMMANDS,gObj,gObjNPC,"Voce ja teve sua ajuda.");
+
+        return;
+    }
+
     if(gObj->Money < Config.PriceZen)
     {
         Monster.NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Preciso de %d Zens!",Config.PriceZen);
@@ -159,13 +166,6 @@ void cHelpers::CheckConditions(LPOBJ gObj, LPOBJ gObjNPC)
     if(gObj->m_wCashPoint < Config.PriceWCoin)
     {
         Monster.NPCMessageLog(c_Red,t_COMMANDS,gObj,gObjNPC,"Preciso de %d WCoins!",Config.PriceWCoin);
-
-        return;
-    }
-
-    if(AddTab[gObj->m_Index].HELPER_UsedTimes >= Config.UseTimes)
-    {
-        Monster.NPCMessageLog(c_Red,t_COMMANDS,gObj,gObjNPC,"Voce ja teve sua ajuda.");
 
         return;
     }

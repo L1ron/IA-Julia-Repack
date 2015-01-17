@@ -153,11 +153,17 @@ public:
 		int	AddPointEffect;
 
 		int EvoCommandEnabled;
-		int EvoLvlReq;
+		int EvoLevelReq;
 		DWORD EvoPriceZen;
 		int EvoPricePcPoint;
 		int EvoPriceWCoin;
 		int EvoPriceWebPoint;
+
+        int ZenCommandEnabled;
+        int ZenLevelReq;
+        int ZenPricePcPoint;
+        int ZenPriceWCoin;
+        int ZenPriceWebPoint;
     } Commands;
 
     struct cZen
