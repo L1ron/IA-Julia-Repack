@@ -3598,7 +3598,7 @@ bool cChat::NoCommand(LPOBJ gObj)
 
 	switch (TypeMarry)
 	{
-		case 0:
+	case 0:
 		{
 			if (nObj == NULL)
 			{
@@ -3627,7 +3627,7 @@ bool cChat::NoCommand(LPOBJ gObj)
 
 			break;
 		}
-		default:
+	default:
 		{
 			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] No!", gObj->Name);
 
