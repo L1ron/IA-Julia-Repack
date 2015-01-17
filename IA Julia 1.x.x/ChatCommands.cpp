@@ -27,7 +27,7 @@ cChat::cChat()
 
 cChat::~cChat()
 {
-	/**/
+    /**/
 }
 
 void cChat::LoadChatCommands()
@@ -119,9 +119,9 @@ void cChat::AntiInject(char* message)
 bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
 {
     /*
-    	gObj			- object struct of sender
-    	lpMsg->id		- nickname of receiver
-    	lpMsg->chatmsg	- msg
+    gObj			- object struct of sender
+    lpMsg->id		- nickname of receiver
+    lpMsg->chatmsg	- msg
     */
 
     AntiInject(lpMsg->chatmsg);
@@ -161,13 +161,13 @@ bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
     }
 
     if (Index != -1)
-	{
+    {
         PrivateLog(gObj, TempName, lpMsg, true);
-	}
+    }
     else
-	{
+    {
         PrivateLog(gObj, TempName, lpMsg, false);
-	}
+    }
 
     return true;
 }
@@ -175,9 +175,9 @@ bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
 bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 {
     /*
-    	gObj			- Object Struct of sender
-    	lpMsg->id		- Id do sender
-    	lpMsg->chatmsg	- String recebida
+    gObj			- Object Struct of sender
+    lpMsg->id		- Id do sender
+    lpMsg->chatmsg	- String recebida
     */
 
     AntiInject(lpChat->chatmsg);
@@ -345,9 +345,9 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
     }
 
     if (!memcmp(lpChat->chatmsg, COMMAND_WCOIN_PCOINT, strlen(COMMAND_WCOIN_PCOINT)))
-	{
+    {
         bResult = ExchangeCommands(gObj, (char*)lpChat->chatmsg + strlen(COMMAND_WCOIN_PCOINT), 1);
-	}
+    }
 
     if (!memcmp(lpChat->chatmsg, COMMAND_WCOIN_WEBPOINT, strlen(COMMAND_WCOIN_WEBPOINT)))
     {
@@ -415,24 +415,24 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
     }
 
     if(!memcmp(lpChat->chatmsg, COMMAND_RESET, strlen(COMMAND_RESET)))
-	{
+    {
         bResult = ResetCommand(gObj);
-	}
+    }
 
-	if(!memcmp(lpChat->chatmsg, COMMAND_EVO, strlen(COMMAND_EVO)))
-	{
-		bResult = EvoCommand(gObj);
-	}
+    if(!memcmp(lpChat->chatmsg, COMMAND_EVO, strlen(COMMAND_EVO)))
+    {
+        bResult = EvoCommand(gObj);
+    }
 
-	if(!memcmp(lpChat->chatmsg, COMMAND_ZEN, strlen(COMMAND_ZEN)))
-	{
-		bResult = ZenCommand(gObj,lpChat->chatmsg + strlen(COMMAND_ZEN));
-	}
+    if(!memcmp(lpChat->chatmsg, COMMAND_ZEN, strlen(COMMAND_ZEN)))
+    {
+        bResult = ZenCommand(gObj,lpChat->chatmsg + strlen(COMMAND_ZEN));
+    }
 
     /*
     if (!memcmp(lpChat->chatmsg, COMMAND_SET_ZEN, strlen(COMMAND_SET_ZEN)))
     {
-        bResult = SetZenCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_ZEN), gObj->m_Index);
+    bResult = SetZenCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_ZEN), gObj->m_Index);
     }
     */
 
@@ -500,13 +500,13 @@ void cChat::MsgSrv(LPOBJ gObj, char *Message, int Type)
             *Packet = 0xC1;
 
             if (Type)
-			{
+            {
                 *(Packet + 2) = 0x02;
-			}
+            }
             else
-			{
+            {
                 *(Packet + 2) = 0x00;
-			}
+            }
 
             memcpy((Packet + 3), gObj->Name, strlen(gObj->Name));
             memcpy((Packet + 13), Message, strlen(Message));
@@ -524,18 +524,18 @@ void cChat::PrivateLog(LPOBJ gObj, char *Name, PMSG_CHATDATA_WHISPER* lpMsg, boo
     GetLocalTime(&t);
     char currdate[11] = {0};
     sprintf(currdate, "%02d:%02d:%02d", t.wHour, t.wMinute, t.wSecond);
-    
+
     char Msg[512] = { 0 };;
     char Suc;
 
     if (Success)
-	{
+    {
         Suc = '>';
-	}
+    }
     else
-	{
+    {
         Suc = 'X';
-	}
+    }
 
     sprintf(Msg, "[%10s] [%10s -%c %10s]:\t%59s\n", currdate, gObj->Name, Suc, Name, lpMsg->chatmsg);
     Log.ConsoleOutPut(1, c_Green, t_COMMANDS, "[Private] [%s -%c %s]: %s", gObj->Name, Suc, Name, lpMsg->chatmsg);
@@ -611,7 +611,7 @@ void cChat::MessageLog(int Type, sColor LogColor, sLogType LogType, LPOBJ gObj, 
     Messages[0] = 0;
     char Temp[255];
 
-	strcpy(Temp,Msg);
+    strcpy(Temp,Msg);
     va_list pArguments1;
     va_start(pArguments1, Msg);
     vsprintf_s(Messages, Temp, pArguments1);
@@ -620,15 +620,15 @@ void cChat::MessageLog(int Type, sColor LogColor, sLogType LogType, LPOBJ gObj, 
 
     // Type = 1 - Mensagems em bloco
     // Type = 0 - Dourado
-	
+
     if (Type)
-	{
+    {
         Log.ConsoleOutPut(1, LogColor, LogType, "[%s:%s]: %s", gObj->AccountID, gObj->Name, Messages);
-	}
+    }
     else
-	{
+    {
         Log.ConsoleOutPut(1, LogColor, LogType, "[GoldMessage] %s", Messages);
-	}
+    }
 }
 
 void cChat::Message(int Type, LPOBJ gObj, char *Msg, ...)
@@ -636,7 +636,7 @@ void cChat::Message(int Type, LPOBJ gObj, char *Msg, ...)
     Messages[0] = 0;
     char Temp[255];
 
-	strcpy(Temp,Msg);
+    strcpy(Temp,Msg);
     va_list pArguments1;
     va_start(pArguments1, Msg);
     vsprintf_s(Messages, Temp, pArguments1);
@@ -652,7 +652,7 @@ void cChat::MessageAllLog(int Type, int Type2, sColor LogColor, sLogType LogType
     Messages[0] = 0;
     char Temp[255];
 
-	strcpy(Temp,Msg);
+    strcpy(Temp,Msg);
     va_list pArguments1;
     va_start(pArguments1, Msg);
     vsprintf_s(Messages, Temp, pArguments1);
@@ -663,28 +663,28 @@ void cChat::MessageAllLog(int Type, int Type2, sColor LogColor, sLogType LogType
         MsgSrv(gObj, Messages, Type2);
     }
     else
-	{
+    {
         for (int i = OBJECT_MIN; i <= OBJECT_MAX; i++)
         {
             OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(i);
 
             if (gObj->Connected < PLAYER_PLAYING)
-			{
-				continue;
-			}
+            {
+                continue;
+            }
 
             GCServerMsgStringSend(Messages, i, Type);
         }
-	}
+    }
 
     if (Type)
-	{
+    {
         Log.ConsoleOutPut(1, LogColor, LogType, "[%s:%s]: %s", gObj->AccountID, gObj->Name, Messages);
-	}
+    }
     else
-	{
+    {
         Log.ConsoleOutPut(1, LogColor, LogType, "[%s:%s][GoldMessage] %s", gObj->AccountID, gObj->Name, Messages);
-	}
+    }
 }
 
 void cChat::MessageAll(int Type, int Type2, LPOBJ gObj, char *Msg, ...)
@@ -692,7 +692,7 @@ void cChat::MessageAll(int Type, int Type2, LPOBJ gObj, char *Msg, ...)
     Messages[0] = 0;
     char Temp[255];
 
-	strcpy(Temp,Msg);
+    strcpy(Temp,Msg);
     va_list pArguments1;
     va_start(pArguments1, Msg);
     vsprintf_s(Messages, Temp, pArguments1);
@@ -703,36 +703,36 @@ void cChat::MessageAll(int Type, int Type2, LPOBJ gObj, char *Msg, ...)
         MsgSrv(gObj, Messages, Type2);
     }
     else
-	{
+    {
         for (int i = OBJECT_MIN; i <= OBJECT_MAX; i++)
         {
             OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(i);
             if (gObj->Connected < PLAYER_PLAYING)	continue;
             GCServerMsgStringSend(Messages, i, Type);
-		}
-	}
+        }
+    }
 }
 
 bool cChat::CheckCommand
-(
-	LPOBJ gObj, int lConfig, cGmSystem::Commands Command,
-	int NeedZen, int NeedPcPoint, int NeedWCoin, int NeedWebPoints,
-	int NeedLvl, int Filled, int CheckPlayer,
-	char *CommandName, char *CommandUsage, char *Msg
-)
+    (
+    LPOBJ gObj, int lConfig, cGmSystem::Commands Command,
+    int NeedZen, int NeedPcPoint, int NeedWCoin, int NeedWebPoints,
+    int NeedLvl, int Filled, int CheckPlayer,
+    char *CommandName, char *CommandUsage, char *Msg
+    )
 {
     bool bResult = false;
 
     int spaces = 0;
     const unsigned int slen = strlen(Msg);
-	
+
     for(unsigned int i = 0; i < slen; i++)
-	{
+    {
         if((Msg[i] == ' ') && (Msg[i - 1] != ' '))
-		{
+        {
             spaces++;
-		}
-	}
+        }
+    }
 
     if (lConfig == 0)
     {
@@ -788,7 +788,7 @@ bool cChat::CheckCommand
             MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %.2f WebPoints.", CommandName,NeedWebPoints - AddTab[gObj->m_Index].WEB_Points_Float);
             bResult = true;
         }
-		
+
         if (!PCPoint.Config.WebColumnFloat && (NeedWebPoints > AddTab[gObj->m_Index].WEB_Points))
         {
             MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %d WebPoints.", CommandName,NeedWebPoints - AddTab[gObj->m_Index].WEB_Points);
@@ -816,19 +816,19 @@ void cChat::TakeCommand(LPOBJ gObj, int NeedZen, int NeedPcPoint, int NeedWCoin,
         gObj->Money -= NeedZen;
         GCMoneySend(gObj->m_Index, gObj->Money);
     }
-	
+
     if (PCPoint.Config.Enabled && NeedPcPoint > 0)
     {
         PCPoint.UpdatePoints(gObj, NeedPcPoint, MINUS, PCPOINT);
         Chat.MessageLog(1, c_Blue, t_PCPOINT, gObj, "[%s] Voce pagou %d PcPoints", CommandName, NeedPcPoint);
     }
-	
+
     if (PCPoint.Config.Enabled && NeedWCoin > 0)
     {
         PCPoint.UpdatePoints(gObj, NeedWCoin, MINUS, WCOIN);
         Chat.MessageLog(1, c_Blue, t_PCPOINT, gObj, "[%s] Voce pagou %d WCoin", CommandName, NeedWCoin);
     }
-	
+
     if(PCPoint.Config.WebEnabled && NeedWebPoints > 0)
     {
         PCPoint.UpdatePoints(gObj, NeedWebPoints, MINUS, WEBPOINTS);
@@ -840,9 +840,9 @@ void cChat::TakeCommand(LPOBJ gObj, int NeedZen, int NeedPcPoint, int NeedWCoin,
 bool cChat::GgCommand(LPOBJ gObj, char *Msg)
 {
     if (CheckCommand(gObj, Configs.Commands.IsGg, GmSystem.cGg, 0, 0, 0, 0, 0, 1, 0, "GG", "/gg <msg>", Msg))
-	{
+    {
         return true;
-	}
+    }
 
     Log.CheckProcent(Msg);
     MessageAll(0, 0, gObj, "[%s]: %s", gObj->Name,Msg); // Protejer aqui seria bom :D
@@ -855,9 +855,9 @@ bool cChat::GgCommand(LPOBJ gObj, char *Msg)
 bool cChat::VosklCommand(LPOBJ gObj, char *Msg)
 {
     if (CheckCommand(gObj, 1, GmSystem.cVoskl, 0, 0, 0, 0, 0, 1, 0, COMMAND_VOSKL, "! <msg>", Msg))
-	{
+    {
         return true;
-	}
+    }
 
     Log.CheckProcent(Msg);
     MessageAll(0, 0, gObj, Msg); // Protejer aqui seria bom :D
@@ -880,13 +880,13 @@ bool cChat::TraceCommand(LPOBJ gObj, int Index)
     MessageLog(1, c_Green, t_GM, gObj, "[Trace] You successfully traced to %s", tObj->Name);
 
     if (GmSystem.IsAdmin(gObj->Name) == 1)
-	{
+    {
         MessageLog(1, c_Green, t_GM, tObj, "[Trace] [Admin] %s traced to you", gObj->Name);
-	}
+    }
     else if (GmSystem.IsAdmin(gObj->Name) == 2)
-	{
+    {
         MessageLog(1, c_Green, t_GM, tObj, "[Trace] [GM] %s traced to you", gObj->Name);
-	}
+    }
 
     return true;
 }
@@ -894,23 +894,23 @@ bool cChat::TraceCommand(LPOBJ gObj, int Index)
 bool cChat::SummonCommand(LPOBJ gObj, int Index)
 {
     if (CheckCommand(gObj, 1, GmSystem.cTrace, 0, 0, 0, 0, 0, 0, Index, "Track", "[Name] /track", ""))
-	{
+    {
         return true;
-	}
-	
+    }
+
     OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
     gObjTeleport(tObj->m_Index, gObj->MapNumber, (int)gObj->X, (int)gObj->Y);
     MessageLog(1, c_Green, t_GM, gObj, "[Track] You successfully summoned %s", tObj->Name);
 
     if (GmSystem.IsAdmin(gObj->Name) == 1)
-	{
+    {
         MessageLog(1, c_Green, t_GM, tObj, "[Track] You was summoned to [Admin] %s", gObj->Name);
-	}
+    }
     else if (GmSystem.IsAdmin(gObj->Name) == 2)
-	{
+    {
         MessageLog(1, c_Green, t_GM, tObj, "[Track] You was summoned to [GM] %s", gObj->Name);
-	}
+    }
 
     return true;
 }
@@ -918,21 +918,21 @@ bool cChat::SummonCommand(LPOBJ gObj, int Index)
 bool cChat::DiskCommand(LPOBJ gObj, int Index)
 {
     if (CheckCommand(gObj, 1, GmSystem.cDisconnect, 0, 0, 0, 0, 0, 0, Index, "DC", "[Name] /disconnect", ""))
-	{
+    {
         return true;
-	}
+    }
 
     OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
     MessageLog(1, c_Green, t_GM, gObj, "[Disconnect] %s was disconnected.", tObj->Name);
 
     if(GmSystem.IsAdmin(gObj->Name) == 1)
-	{
+    {
         MessageLog(1, c_Green, t_GM, tObj, "[Disconnect] You was disconnected by [Admin] %s", gObj->Name);
-	}
+    }
     else if(GmSystem.IsAdmin(gObj->Name) == 2)
-	{
+    {
         MessageLog(1, c_Green, t_GM, tObj, "[Disconnect] You was disconnected by [GM] %s", gObj->Name);
-	}
+    }
 
     CloseClient(Index);
 
@@ -945,13 +945,13 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
     sscanf(Msg, "%49s", MapName);
 
     int Index = -1;
-	
+
     for (int i = 0; i <= MoveReq.Count; i++)
     {
         if (!_strcmpi(MapName, MoveReq.MoveReqInfo[i].MapName1) || !_strcmpi(MapName, MoveReq.MoveReqInfo[i].MapName2))
         {
             Index = i;
-			
+
             break;
         }
     }
@@ -960,23 +960,23 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
     {
         DWORD CurrentZen;
         CurrentZen = (DWORD)gObj->Money;
-		
+
         if (CurrentZen < (DWORD)MoveReq.MoveReqInfo[Index].Zen)
-		{
-			return true;
-		}
-		
+        {
+            return true;
+        }
+
         DWORD ZenDec = CurrentZen - (DWORD)MoveReq.MoveReqInfo[Index].Zen;
 
         if (!strcmp(MoveReq.MoveReqInfo[Index].MapName1, "Atlans"))
-		{
+        {
             if (gObj->pInventory[8].m_Type == ITEMGET(13, 2) || gObj->pInventory[8].m_Type == ITEMGET(13, 3))
             {
                 MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Cant warp to Atlans with this pet");
 
                 return true;
             }
-		}
+        }
 
         if(gObj->m_PK_Level >= 5)
         {
@@ -1037,9 +1037,9 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 bool cChat::PostCommand(LPOBJ gObj, char *Msg)
 {
     if (CheckCommand(gObj, Configs.Commands.IsPost, GmSystem.NONE, Configs.Commands.PostPriceZen, Configs.Commands.PostPricePCPoint, Configs.Commands.PostPriceWCoin, Configs.Commands.PostPriceWebPoint, Configs.Commands.PostLvl, 1, 0, "Post", "/post <msg>", Msg))
-	{
-		return true;
-	}
+    {
+        return true;
+    }
 
     MuOnlineQuery.ExecQuery("SELECT BanPost, BanChat FROM Character WHERE Name = '%s'", gObj->Name);
     MuOnlineQuery.Fetch();
@@ -1452,53 +1452,53 @@ bool cChat::SetCharCommand(LPOBJ gObj, char* Msg, int Index)
         switch (Prof)
         {
         case 0:
-        {
-        }
-        break;
+            {
+            }
+            break;
         case 1:
-        {
-            if (gObj->DbClass <= 3)
-                gObj->DbClass = 0;
-            else if (gObj->DbClass >= 16 && gObj->DbClass <= 19)
-                gObj->DbClass = 16;
-            else if (gObj->DbClass >= 32 && gObj->DbClass <= 35)
-                gObj->DbClass = 32;
-            else if (gObj->DbClass >= 48 && gObj->DbClass <= 50)
-                gObj->DbClass = 48;
-            else if (gObj->DbClass >= 64 && gObj->DbClass <= 66)
-                gObj->DbClass = 64;
-            else if (gObj->DbClass >= 80 && gObj->DbClass < 83)
-                gObj->DbClass = 80;
-        }
-        break;
+            {
+                if (gObj->DbClass <= 3)
+                    gObj->DbClass = 0;
+                else if (gObj->DbClass >= 16 && gObj->DbClass <= 19)
+                    gObj->DbClass = 16;
+                else if (gObj->DbClass >= 32 && gObj->DbClass <= 35)
+                    gObj->DbClass = 32;
+                else if (gObj->DbClass >= 48 && gObj->DbClass <= 50)
+                    gObj->DbClass = 48;
+                else if (gObj->DbClass >= 64 && gObj->DbClass <= 66)
+                    gObj->DbClass = 64;
+                else if (gObj->DbClass >= 80 && gObj->DbClass < 83)
+                    gObj->DbClass = 80;
+            }
+            break;
         case 2:
-        {
-            if (gObj->DbClass <= 3)
-                gObj->DbClass = 1;
-            else if (gObj->DbClass >= 16 && gObj->DbClass <= 19)
-                gObj->DbClass = 17;
-            else if (gObj->DbClass >= 32 && gObj->DbClass <= 35)
-                gObj->DbClass = 33;
-            else if (gObj->DbClass >= 80 && gObj->DbClass < 83)
-                gObj->DbClass = 81;
-        }
-        break;
+            {
+                if (gObj->DbClass <= 3)
+                    gObj->DbClass = 1;
+                else if (gObj->DbClass >= 16 && gObj->DbClass <= 19)
+                    gObj->DbClass = 17;
+                else if (gObj->DbClass >= 32 && gObj->DbClass <= 35)
+                    gObj->DbClass = 33;
+                else if (gObj->DbClass >= 80 && gObj->DbClass < 83)
+                    gObj->DbClass = 81;
+            }
+            break;
         case 3:
-        {
-            if (gObj->DbClass <= 3)
-                gObj->DbClass = 3;
-            else if (gObj->DbClass >= 16 && gObj->DbClass <= 19)
-                gObj->DbClass = 19;
-            else if (gObj->DbClass >= 32 && gObj->DbClass <= 35)
-                gObj->DbClass = 35;
-            else if (gObj->DbClass >= 48 && gObj->DbClass <= 50)
-                gObj->DbClass = 50;
-            else if (gObj->DbClass >= 64 && gObj->DbClass <= 66)
-                gObj->DbClass = 66;
-            else if (gObj->DbClass >= 80 && gObj->DbClass < 83)
-                gObj->DbClass = 83;
-        }
-        break;
+            {
+                if (gObj->DbClass <= 3)
+                    gObj->DbClass = 3;
+                else if (gObj->DbClass >= 16 && gObj->DbClass <= 19)
+                    gObj->DbClass = 19;
+                else if (gObj->DbClass >= 32 && gObj->DbClass <= 35)
+                    gObj->DbClass = 35;
+                else if (gObj->DbClass >= 48 && gObj->DbClass <= 50)
+                    gObj->DbClass = 50;
+                else if (gObj->DbClass >= 64 && gObj->DbClass <= 66)
+                    gObj->DbClass = 66;
+                else if (gObj->DbClass >= 80 && gObj->DbClass < 83)
+                    gObj->DbClass = 83;
+            }
+            break;
         }
     }
 
@@ -1571,74 +1571,74 @@ bool cChat::ReloadCommand(LPOBJ gObj, char *Msg)
     switch (NumberReload)
     {
     case 0:
-    {
-        Configs.LoadAll();
-        MoveReq.Load();
-        ResetSystem.Init();
-        MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] Data, Reset & MoveReq Reloaded.");
-        break;
-    }
-    case 1:
-    {
-        GameMonsterAllCloseAndReload();
-#ifdef _GS
-        Monster.ReadMonsterAdd();
-#endif
-        MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] Monsters Reloaded.");
-        break;
-    }
-    case 2:
-    {
-        pShopDataLoad();
-        PCPoint.Load();
-        MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] Shops & PCPoints Reloaded.");
-        break;
-    }
-    case 3:
-    {
-        if (GmSystem.Config.IsGMSystem)
         {
-            GmSystem.Load();
-            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] GMSystem Reloaded.");
+            Configs.LoadAll();
+            MoveReq.Load();
+            ResetSystem.Init();
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] Data, Reset & MoveReq Reloaded.");
+            break;
         }
-        else
-            Message(1, gObj, "[Reload] GMSystem is disabled");
-        break;
-    }
+    case 1:
+        {
+            GameMonsterAllCloseAndReload();
+#ifdef _GS
+            Monster.ReadMonsterAdd();
+#endif
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] Monsters Reloaded.");
+            break;
+        }
+    case 2:
+        {
+            pShopDataLoad();
+            PCPoint.Load();
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] Shops & PCPoints Reloaded.");
+            break;
+        }
+    case 3:
+        {
+            if (GmSystem.Config.IsGMSystem)
+            {
+                GmSystem.Load();
+                MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] GMSystem Reloaded.");
+            }
+            else
+                Message(1, gObj, "[Reload] GMSystem is disabled");
+            break;
+        }
     case 4:
-    {
-        DropSystem.Load();
+        {
+            DropSystem.Load();
 #ifdef _GS
-        DropEvent.updateBC();	// reload BC drop config
-        DropEvent.updateIT();	// reload IT drop config
-        DropEvent.updateWW();	// reload WW drop config
-        DropEvent.updateCC();	// reload CC drop config
+            DropEvent.updateBC();	// reload BC drop config
+            DropEvent.updateIT();	// reload IT drop config
+            DropEvent.updateWW();	// reload WW drop config
+            DropEvent.updateCC();	// reload CC drop config
 #endif
-        MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] Item Drop Settings Reloaded.");
-        break;
-    }
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] Item Drop Settings Reloaded.");
+            break;
+        }
     case 6:
-    {
-        Configs.LoadAll();
-        GameMonsterAllCloseAndReload();
-        pShopDataLoad();
-        DropSystem.Load();
+        {
+            Configs.LoadAll();
+            GameMonsterAllCloseAndReload();
+            pShopDataLoad();
+            DropSystem.Load();
 #ifdef _GS
-        Monster.ReadMonsterAdd();
-        DropEvent.updateBC();	// reload BC drop config
-        DropEvent.updateIT();	// reload IT drop config
-        DropEvent.updateWW();	// reload WW drop config
-        DropEvent.updateCC();	// reload CC drop config
-        ResetSystem.Init();
+            Monster.ReadMonsterAdd();
+            DropEvent.updateBC();	// reload BC drop config
+            DropEvent.updateIT();	// reload IT drop config
+            DropEvent.updateWW();	// reload WW drop config
+            DropEvent.updateCC();	// reload CC drop config
+            ResetSystem.Init();
 #endif
-        MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] All Options Reloaded.");
-        break;
-    }
+            MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Reload] All Options Reloaded.");
+            break;
+        }
     default:
-    {
-        MessageLog(1, c_Red, t_GM, gObj, "[Reload] Usage: /reload <Number>.");
-        break;
-    }
+        {
+            MessageLog(1, c_Red, t_GM, gObj, "[Reload] Usage: /reload <Number>.");
+            break;
+        }
     }
     return true;
 }
@@ -1667,9 +1667,9 @@ bool cChat::StatusCommand(LPOBJ gObj, char *Msg, int Index)
 bool cChat::SkinCommand(LPOBJ gObj, char *Msg, int Index)
 {
     if (CheckCommand(gObj, Configs.Commands.SkinEnabled, GmSystem.cSkin, 0, 0, 0, 0, 0, 1, Index, "Skin", "[Name] /skin <num>", Msg))
-	{
+    {
         return true;
-	}
+    }
 
     int NumSkin = 0;
 
@@ -1681,9 +1681,9 @@ bool cChat::SkinCommand(LPOBJ gObj, char *Msg, int Index)
     gObjViewportListProtocolCreate(tObj);
 
     if (tObj == gObj)
-	{
+    {
         MessageLog(1, c_Red, t_GM, tObj, "[Skin] Your Skin was changed.");
-	}
+    }
     else
     {
         MessageLog(1, c_Red, t_GM, gObj, "[Skin] You successfully change %s Skin.", tObj->Name);
@@ -1778,9 +1778,9 @@ bool cChat::GmoveCommand(LPOBJ gObj, char *Msg, int Index)
 bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
 {
     if (CheckCommand(gObj, Monster.ClearCommand.Enabled, GmSystem.NONE, 0, 0, 0, 0, 0, 0, Index, "PKClear", COMMAND_PKCLEAR, Msg))
-	{
+    {
         return true;
-	}
+    }
 
     if (GmSystem.IsCommand(GmSystem.cPkClear, gObj->Name))
     {
@@ -1815,33 +1815,33 @@ bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
 
         switch (Monster.ClearCommand.Type)
         {
-			case 1:
-			{
-				PriceZen = (Monster.ClearCommand.PriceZen * gObj->m_PK_Count);
-				PricePcPoint = (Monster.ClearCommand.PricePcPoints * gObj->m_PK_Count);
-				PriceWCoin = (Monster.ClearCommand.PriceWCoins * gObj->m_PK_Count);
-				PriceWebPoint = (Monster.ClearCommand.PriceWebPoints * gObj->m_PK_Count);
+        case 1:
+            {
+                PriceZen = (Monster.ClearCommand.PriceZen * gObj->m_PK_Count);
+                PricePcPoint = (Monster.ClearCommand.PricePcPoints * gObj->m_PK_Count);
+                PriceWCoin = (Monster.ClearCommand.PriceWCoins * gObj->m_PK_Count);
+                PriceWebPoint = (Monster.ClearCommand.PriceWebPoints * gObj->m_PK_Count);
 
-				break;
-			}
-			case 2:
-			{
-				PriceZen = Monster.ClearCommand.PriceZenForAll;
-				PricePcPoint = Monster.ClearCommand.PricePcPointsForAll;
-				PriceWCoin = Monster.ClearCommand.PriceWCoinsForAll;
-				PriceWebPoint = Monster.ClearCommand.PriceWebPointsForAll;
+                break;
+            }
+        case 2:
+            {
+                PriceZen = Monster.ClearCommand.PriceZenForAll;
+                PricePcPoint = Monster.ClearCommand.PricePcPointsForAll;
+                PriceWCoin = Monster.ClearCommand.PriceWCoinsForAll;
+                PriceWebPoint = Monster.ClearCommand.PriceWebPointsForAll;
 
-				break;
-			}
-			case 0:
-			{
-				PriceZen = 0;
-				PricePcPoint = 0;
-				PriceWCoin = 0;
-				PriceWebPoint = 0;
+                break;
+            }
+        case 0:
+            {
+                PriceZen = 0;
+                PricePcPoint = 0;
+                PriceWCoin = 0;
+                PriceWebPoint = 0;
 
-				break;
-			}
+                break;
+            }
         }
 
         if (gObj->m_PK_Level <= 3)
@@ -1852,9 +1852,9 @@ bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
         }
 
         if (CheckCommand(gObj, Monster.ClearCommand.Enabled, GmSystem.NONE, PriceZen, PricePcPoint, PriceWCoin, PriceWebPoint, Monster.ClearCommand.LevelReq, 0, 0, "PKClear", COMMAND_PKCLEAR, Msg))
-		{
+        {
             return true;
-		}
+        }
 
         TakeCommand(gObj, PriceZen, PricePcPoint, PriceWCoin, PriceWebPoint, "PKClear");
         gObj->m_PK_Level = 3;
@@ -1871,58 +1871,58 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 {
     switch (Type)
     {
-		case 0:
-		{
-			if(CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/str <num>", Msg))
-			{
-				return true;
-			}
+    case 0:
+        {
+            if(CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/str <num>", Msg))
+            {
+                return true;
+            }
 
-			break;
-		}
-		case 1:
-		{
-			if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/agi <num>", Msg))
-			{
-				return true;
-			}
+            break;
+        }
+    case 1:
+        {
+            if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/agi <num>", Msg))
+            {
+                return true;
+            }
 
-			break;
-		}
-		case 2:
-		{
-			if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/vit <num>", Msg))
-			{
-				return true;
-			}
+            break;
+        }
+    case 2:
+        {
+            if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/vit <num>", Msg))
+            {
+                return true;
+            }
 
-			break;
-		}
-		case 3:
-		{
-			if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/ene <num>", Msg))
-			{
-				return true;
-			}
+            break;
+        }
+    case 3:
+        {
+            if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/ene <num>", Msg))
+            {
+                return true;
+            }
 
-			break;
-		}
-		case 4:
-		{
-			if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/cmd <num>", Msg))
-			{
-				return true;
-			}
+            break;
+        }
+    case 4:
+        {
+            if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/cmd <num>", Msg))
+            {
+                return true;
+            }
 
-			if (gObj->Class != 4)
-			{
-				MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] You are not Dark Lord!!!");
+            if (gObj->Class != 4)
+            {
+                MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] You are not Dark Lord!!!");
 
-				return true;
-			}
+                return true;
+            }
 
-			break;
-		}
+            break;
+        }
     }
 
     int Points;
@@ -1938,125 +1938,125 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
     int MaxPoints = 32000;
 
     if (Configs.Enable65kStats >= 1)
-	{
+    {
         MaxPoints = -536;
-	}
+    }
 
     int Stats = 0;
     bool bResult = false;
 
     switch (Type)
     {
-		case 0x00:
-		{
-			Stats = gObj->Strength;
+    case 0x00:
+        {
+            Stats = gObj->Strength;
 
-			if (Configs.MaxStatsSystemEnable)
-			{
-				if (gObj->Class == 0)
-					MaxPoints = Configs.MaxDW_Strength;
-				else if (gObj->Class == 1)
-					MaxPoints = Configs.MaxDK_Strength;
-				else if (gObj->Class == 2)
-					MaxPoints = Configs.MaxELF_Strength;
-				else if (gObj->Class == 3)
-					MaxPoints = Configs.MaxMG_Strength;
-				else if (gObj->Class == 4)
-					MaxPoints = Configs.MaxDL_Strength;
-				else if (gObj->Class == 5)
-					MaxPoints = Configs.MaxSUM_Strength;
-			}
+            if (Configs.MaxStatsSystemEnable)
+            {
+                if (gObj->Class == 0)
+                    MaxPoints = Configs.MaxDW_Strength;
+                else if (gObj->Class == 1)
+                    MaxPoints = Configs.MaxDK_Strength;
+                else if (gObj->Class == 2)
+                    MaxPoints = Configs.MaxELF_Strength;
+                else if (gObj->Class == 3)
+                    MaxPoints = Configs.MaxMG_Strength;
+                else if (gObj->Class == 4)
+                    MaxPoints = Configs.MaxDL_Strength;
+                else if (gObj->Class == 5)
+                    MaxPoints = Configs.MaxSUM_Strength;
+            }
 
-			break;
-		}
-		case 0x01:
-		{
-			Stats = gObj->Dexterity;
+            break;
+        }
+    case 0x01:
+        {
+            Stats = gObj->Dexterity;
 
-			if (Configs.MaxStatsSystemEnable)
-			{
-				if (gObj->Class == 0)
-					MaxPoints = Configs.MaxDW_Agility;
-				else if (gObj->Class == 1)
-					MaxPoints = Configs.MaxDK_Agility;
-				else if (gObj->Class == 2)
-					MaxPoints = Configs.MaxELF_Agility;
-				else if (gObj->Class == 3)
-					MaxPoints = Configs.MaxMG_Agility;
-				else if (gObj->Class == 4)
-					MaxPoints = Configs.MaxDL_Agility;
-				else if (gObj->Class == 5)
-					MaxPoints = Configs.MaxSUM_Agility;
-			}
+            if (Configs.MaxStatsSystemEnable)
+            {
+                if (gObj->Class == 0)
+                    MaxPoints = Configs.MaxDW_Agility;
+                else if (gObj->Class == 1)
+                    MaxPoints = Configs.MaxDK_Agility;
+                else if (gObj->Class == 2)
+                    MaxPoints = Configs.MaxELF_Agility;
+                else if (gObj->Class == 3)
+                    MaxPoints = Configs.MaxMG_Agility;
+                else if (gObj->Class == 4)
+                    MaxPoints = Configs.MaxDL_Agility;
+                else if (gObj->Class == 5)
+                    MaxPoints = Configs.MaxSUM_Agility;
+            }
 
-			break;
-		}
-		case 0x02:
-		{
-			Stats = gObj->Vitality;
+            break;
+        }
+    case 0x02:
+        {
+            Stats = gObj->Vitality;
 
-			if (Configs.MaxStatsSystemEnable)
-			{
-				if (gObj->Class == 0)
-					MaxPoints = Configs.MaxDW_Vitality;
-				else if (gObj->Class == 1)
-					MaxPoints = Configs.MaxDK_Vitality;
-				else if (gObj->Class == 2)
-					MaxPoints = Configs.MaxELF_Vitality;
-				else if (gObj->Class == 3)
-					MaxPoints = Configs.MaxMG_Vitality;
-				else if (gObj->Class == 4)
-					MaxPoints = Configs.MaxDL_Vitality;
-				else if (gObj->Class == 5)
-					MaxPoints = Configs.MaxSUM_Vitality;
-			}
+            if (Configs.MaxStatsSystemEnable)
+            {
+                if (gObj->Class == 0)
+                    MaxPoints = Configs.MaxDW_Vitality;
+                else if (gObj->Class == 1)
+                    MaxPoints = Configs.MaxDK_Vitality;
+                else if (gObj->Class == 2)
+                    MaxPoints = Configs.MaxELF_Vitality;
+                else if (gObj->Class == 3)
+                    MaxPoints = Configs.MaxMG_Vitality;
+                else if (gObj->Class == 4)
+                    MaxPoints = Configs.MaxDL_Vitality;
+                else if (gObj->Class == 5)
+                    MaxPoints = Configs.MaxSUM_Vitality;
+            }
 
-			break;
-		}
-		case 0x03:
-		{
-			Stats = gObj->Energy;
+            break;
+        }
+    case 0x03:
+        {
+            Stats = gObj->Energy;
 
-			if (Configs.MaxStatsSystemEnable)
-			{
-				if (gObj->Class == 0)
-					MaxPoints = Configs.MaxDW_Energy;
-				else if (gObj->Class == 1)
-					MaxPoints = Configs.MaxDK_Energy;
-				else if (gObj->Class == 2)
-					MaxPoints = Configs.MaxELF_Energy;
-				else if (gObj->Class == 3)
-					MaxPoints = Configs.MaxMG_Energy;
-				else if (gObj->Class == 4)
-					MaxPoints = Configs.MaxDL_Energy;
-				else if (gObj->Class == 5)
-					MaxPoints = Configs.MaxSUM_Energy;
-			}
+            if (Configs.MaxStatsSystemEnable)
+            {
+                if (gObj->Class == 0)
+                    MaxPoints = Configs.MaxDW_Energy;
+                else if (gObj->Class == 1)
+                    MaxPoints = Configs.MaxDK_Energy;
+                else if (gObj->Class == 2)
+                    MaxPoints = Configs.MaxELF_Energy;
+                else if (gObj->Class == 3)
+                    MaxPoints = Configs.MaxMG_Energy;
+                else if (gObj->Class == 4)
+                    MaxPoints = Configs.MaxDL_Energy;
+                else if (gObj->Class == 5)
+                    MaxPoints = Configs.MaxSUM_Energy;
+            }
 
-			break;
-		}
-		case 0x04:
-		{
-			Stats = gObj->Leadership;
+            break;
+        }
+    case 0x04:
+        {
+            Stats = gObj->Leadership;
 
-			if(Configs.MaxStatsSystemEnable)
-			{
-				if (gObj->Class == 4)
-				{
-					MaxPoints = Configs.MaxDL_Command;
-				}
-			}
+            if(Configs.MaxStatsSystemEnable)
+            {
+                if (gObj->Class == 4)
+                {
+                    MaxPoints = Configs.MaxDL_Command;
+                }
+            }
 
-			break;
-		}
+            break;
+        }
     }
 
     int MaxPointsTemp = MaxPoints;
 
     if (MaxPoints > 32767)
-	{
+    {
         MaxPoints = -32768 + (MaxPoints - 32767);
-	}
+    }
 
     if (((MaxPoints > 0) && (Stats >= MaxPoints || Stats < 0)) || ((MaxPoints < 0) && (Stats < 0) && (Stats >= MaxPoints)))
     {
@@ -2084,137 +2084,137 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
     TakeCommand(gObj, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, "AddStats");
 
-	// Efeito Gelo (3) :D
-	if(Configs.Commands.AddPointEffect > 0)
-	{
-		Utilits.SendEffect(gObj,3);
-	}
+    // Efeito Gelo (3) :D
+    if(Configs.Commands.AddPointEffect > 0)
+    {
+        Utilits.SendEffect(gObj,3);
+    }
 
     int aIndex = Utilits.GetPlayerIndex(gObj->Name);
 
     switch (Type)
     {
-		case 0x00:
-		{
-			PMSG_STAT_UPDATE pMsg;
-			PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
+    case 0x00:
+        {
+            PMSG_STAT_UPDATE pMsg;
+            PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
 
-			pMsg.result = 0;
-			pMsg.btFruitType = 3;
-			pMsg.btStatValue = Points;
-			gObj->Strength += Points;
-			gObj->LevelUpPoint -= Points;
+            pMsg.result = 0;
+            pMsg.btFruitType = 3;
+            pMsg.btStatValue = Points;
+            gObj->Strength += Points;
+            gObj->LevelUpPoint -= Points;
 
-			DataSend(gObj->m_Index,(LPBYTE)&pMsg, pMsg.h.size);
-			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
-			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
-			GCLevelUpMsgSend(gObj->m_Index, 0);
-			
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
+            DataSend(gObj->m_Index,(LPBYTE)&pMsg, pMsg.h.size);
+            gObjCalCharacter(aIndex);
+            GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+            gObjSetBP(aIndex);
+            GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+            GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			return true;
-		}
-		case 0x01:
-		{
-			PMSG_STAT_UPDATE pMsg;
+            Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
 
-			PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
-			pMsg.result = 0;
-			pMsg.btFruitType = 2;
-			pMsg.btStatValue = Points;
-			gObj->Dexterity += Points;
-			gObj->LevelUpPoint -= Points;
+            return true;
+        }
+    case 0x01:
+        {
+            PMSG_STAT_UPDATE pMsg;
 
-			DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
-			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
-			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
-			GCLevelUpMsgSend(gObj->m_Index, 0);
+            PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
+            pMsg.result = 0;
+            pMsg.btFruitType = 2;
+            pMsg.btStatValue = Points;
+            gObj->Dexterity += Points;
+            gObj->LevelUpPoint -= Points;
 
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
+            DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+            gObjCalCharacter(aIndex);
+            GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+            gObjSetBP(aIndex);
+            GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+            GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			return true;
-		}
-		case 0x02:
-		{
-			PMSG_STAT_UPDATE pMsg;
+            Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
 
-			PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
-			pMsg.result = 0;
-			pMsg.btFruitType = 1;
-			pMsg.btStatValue = Points;
-			gObj->Vitality += Points;
-			gObj->LevelUpPoint -= Points;
-			gObj->MaxLife += gObj->VitalityToLife * Points;
+            return true;
+        }
+    case 0x02:
+        {
+            PMSG_STAT_UPDATE pMsg;
 
-			DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
-			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
-			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
-			GCLevelUpMsgSend(gObj->m_Index, 0);
-			
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
+            PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
+            pMsg.result = 0;
+            pMsg.btFruitType = 1;
+            pMsg.btStatValue = Points;
+            gObj->Vitality += Points;
+            gObj->LevelUpPoint -= Points;
+            gObj->MaxLife += gObj->VitalityToLife * Points;
 
-			return true;
-		}
-		case 0x03:
-		{
-			PMSG_STAT_UPDATE pMsg;
+            DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+            gObjCalCharacter(aIndex);
+            GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+            gObjSetBP(aIndex);
+            GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+            GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
-			pMsg.result = 0;
-			pMsg.btFruitType = 0;
-			pMsg.btStatValue = Points;
-			gObj->Energy += Points;
-			gObj->LevelUpPoint -= Points;
-			gObj->MaxMana += gObj->EnergyToMana * Points;
-			DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+            Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
 
-			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
-			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
-			GCLevelUpMsgSend(gObj->m_Index, 0);
-			
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
+            return true;
+        }
+    case 0x03:
+        {
+            PMSG_STAT_UPDATE pMsg;
 
-			return true;
-		}
-		case 0x04:
-		{
-			PMSG_STAT_UPDATE pMsg;
+            PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
+            pMsg.result = 0;
+            pMsg.btFruitType = 0;
+            pMsg.btStatValue = Points;
+            gObj->Energy += Points;
+            gObj->LevelUpPoint -= Points;
+            gObj->MaxMana += gObj->EnergyToMana * Points;
+            DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-			PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
-			pMsg.result = 0;
-			pMsg.btFruitType = 4;
-			pMsg.btStatValue = Points;
-			gObj->Leadership += Points;
-			gObj->LevelUpPoint -= Points;
+            gObjCalCharacter(aIndex);
+            GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+            gObjSetBP(aIndex);
+            GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+            GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
-			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
-			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
-			GCLevelUpMsgSend(gObj->m_Index, 0);
+            Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
 
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
+            return true;
+        }
+    case 0x04:
+        {
+            PMSG_STAT_UPDATE pMsg;
 
-			return true;
-		}
-		default:
-		{
-			if(Configs.Commands.AddPointEffect > 0)
-			{
-				Utilits.SendEffect(gObj,1);
-			}
+            PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
+            pMsg.result = 0;
+            pMsg.btFruitType = 4;
+            pMsg.btStatValue = Points;
+            gObj->Leadership += Points;
+            gObj->LevelUpPoint -= Points;
 
-			return true;
-		}
+            DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+            gObjCalCharacter(aIndex);
+            GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+            gObjSetBP(aIndex);
+            GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+            GCLevelUpMsgSend(gObj->m_Index, 0);
+
+            Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
+
+            return true;
+        }
+    default:
+        {
+            if(Configs.Commands.AddPointEffect > 0)
+            {
+                Utilits.SendEffect(gObj,1);
+            }
+
+            return true;
+        }
     }
 
     return true;
@@ -2223,9 +2223,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 bool cChat::WareCommand(LPOBJ gObj, char *Msg)
 {
     if(CheckCommand(gObj, Configs.Commands.IsMultyVault, GmSystem.NONE, Configs.Commands.ZenForChange, Configs.Commands.PcPointForChange, Configs.Commands.WCoinForChange, Configs.Commands.WebPointsForChange, 0, 1, 0, "Ware", "/ware <num>", Msg))
-	{
-		return true;
-	}
+    {
+        return true;
+    }
 
     if (gObj->WarehouseSave != 0)
     {
@@ -2348,7 +2348,7 @@ bool cChat::SetDropCommand(LPOBJ gObj, char *Msg, int Index)
     if(ItemIndex < 0 || (ItemLevel<0 || ItemLevel > 13) || (ItemOpt < 0 || ItemOpt > 7) || (ItemLuck < 0 || ItemLuck > 1) || (ItemExc < 0 || ItemExc > 63) || (ItemAncient < 0 || ItemAncient > 40))
     {
         MessageLog(1, c_Red, t_GM, gObj, "[SetDrop] Usage: /setdrop <ItemIndex> <ItemLvl> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>");
-        
+
         return true;
     }
 
@@ -2500,11 +2500,11 @@ bool cChat::BuyTerritoryCommand(LPOBJ gObj, char *Msg)
     }
 
     if (CheckCommand(gObj, Territory.Config.Enabled, GmSystem.NONE, Territory.Config.Terr[Terr].CostZen * Hours,
-                     Territory.Config.Terr[Terr].CostPCPoint * Hours, Territory.Config.Terr[Terr].CostWCoin * Hours, Territory.Config.Terr[Terr].CostWebPoints * Hours, Territory.Config.Terr[Terr].MinLvl, 1, 0, "Territory", "/terrbuy <territory> <hours>", Msg))
+        Territory.Config.Terr[Terr].CostPCPoint * Hours, Territory.Config.Terr[Terr].CostWCoin * Hours, Territory.Config.Terr[Terr].CostWebPoints * Hours, Territory.Config.Terr[Terr].MinLvl, 1, 0, "Territory", "/terrbuy <territory> <hours>", Msg))
         return true;
 
     TakeCommand(gObj, Territory.Config.Terr[Terr].CostZen * Hours, Territory.Config.Terr[Terr].CostPCPoint * Hours,
-                Territory.Config.Terr[Terr].CostWCoin * Hours, Territory.Config.Terr[Terr].CostWebPoints * Hours, "Territory");
+        Territory.Config.Terr[Terr].CostWCoin * Hours, Territory.Config.Terr[Terr].CostWebPoints * Hours, "Territory");
 
     MuOnlineQuery.ExecQuery("UPDATE Character SET Territory_Time = (Territory_Time + %d), Territory_Type = %d WHERE Name = '%s'", Hours * 60, Terr, gObj->Name);
     MuOnlineQuery.Fetch();
@@ -2525,9 +2525,9 @@ bool cChat::VIPListCommand(LPOBJ gObj, char *Msg)
     for (int i = 1; i <= Vip.Config.NumStates; i++)
     {
         MessageLog(1, c_Red, t_VIP, gObj, "[VipList] %s - %d PCPnt, %d WCn, %d Zen, %d hours min, %d - max",
-                   Vip.Config.VIPState[i].VIPName, Vip.Config.VIPState[i].CostPCPoints,
-                   Vip.Config.VIPState[i].CostWCoins, Vip.Config.VIPState[i].CostZen,
-                   Vip.Config.VIPState[i].MinHours, Vip.Config.VIPState[i].MaxHours);
+            Vip.Config.VIPState[i].VIPName, Vip.Config.VIPState[i].CostPCPoints,
+            Vip.Config.VIPState[i].CostWCoins, Vip.Config.VIPState[i].CostZen,
+            Vip.Config.VIPState[i].MinHours, Vip.Config.VIPState[i].MaxHours);
     }
     return true;
 }
@@ -2585,11 +2585,11 @@ bool cChat::BuyVIPCommand(LPOBJ gObj, char *Msg)
     }
 
     if (CheckCommand(gObj, Vip.Config.VIPState[RealState].EnabledCmd, GmSystem.NONE, Vip.Config.VIPState[RealState].CostZen * Hours,
-                     Vip.Config.VIPState[RealState].CostPCPoints * Hours, Vip.Config.VIPState[RealState].CostWCoins * Hours, Vip.Config.VIPState[RealState].CostWebPoints * Hours, 0, 1, 0, "VIPBuy", "/vipbuy <state> <hours>", Msg))
+        Vip.Config.VIPState[RealState].CostPCPoints * Hours, Vip.Config.VIPState[RealState].CostWCoins * Hours, Vip.Config.VIPState[RealState].CostWebPoints * Hours, 0, 1, 0, "VIPBuy", "/vipbuy <state> <hours>", Msg))
         return true;
 
     TakeCommand(gObj, Vip.Config.VIPState[RealState].CostZen * Hours, Vip.Config.VIPState[RealState].CostPCPoints * Hours,
-                Vip.Config.VIPState[RealState].CostWCoins * Hours, Vip.Config.VIPState[RealState].CostWebPoints * Hours, "BuyVIP");
+        Vip.Config.VIPState[RealState].CostWCoins * Hours, Vip.Config.VIPState[RealState].CostWebPoints * Hours, "BuyVIP");
 
     MuOnlineQuery.ExecQuery("UPDATE Character SET %s = (%s + %d), %s = %d WHERE Name = '%s'", Vip.Config.ColumnDate, Vip.Config.ColumnDate, Hours * 60, Vip.Config.Column, RealState, gObj->Name);
     MuOnlineQuery.Fetch();
@@ -2606,13 +2606,13 @@ bool cChat::BuyVIPCommand(LPOBJ gObj, char *Msg)
 bool cChat::GuildPost(LPOBJ gObj, char *Msg)
 {
     if (gObj->GuildStatus == 128 || gObj->GuildStatus == 64)
-	{
+    {
         GDGuildNoticeSave(gObj->GuildName, Msg);
-	}
+    }
     else
-	{
+    {
         MessageLog(1, c_Red, t_Default, gObj, "You aren't guild master or assistant");
-	}
+    }
 
     return true;
 }
@@ -2620,9 +2620,9 @@ bool cChat::GuildPost(LPOBJ gObj, char *Msg)
 bool cChat::SetZenCommand(LPOBJ gObj, char* Msg, int Index)
 {
     if(CheckCommand(gObj, Configs.Commands.IsSetZen, GmSystem.cSetZen, 0, 0, 0, 0, 0, 1, Index, "SetZen", "[Name] /setzen <Zen>", Msg))
-	{
+    {
         return true;
-	}
+    }
 
     DWORD Zen = 0;
 
@@ -2656,9 +2656,9 @@ bool cChat::SetZenCommand(LPOBJ gObj, char* Msg, int Index)
 bool cChat::VipOnCommand(LPOBJ gObj)
 {
     if (CheckCommand(gObj, Vip.Config.Enabled, GmSystem.NONE, 0, 0, 0, 0, 0, 0, 0, "VipON", COMMAND_VIP_ON, ""))
-	{
+    {
         return true;
-	}
+    }
 
     if (AddTab[gObj->m_Index].VIP_Type <= 0)
     {
@@ -2793,9 +2793,9 @@ bool cChat::OffTradeCommand(LPOBJ gObj)
 {
 #ifdef _GS
     if(CheckCommand(gObj, OfflineTrade.Configs.Enabled, GmSystem.NONE, OfflineTrade.Configs.PriceZen, 0, 0, 0, OfflineTrade.Configs.LevelReq, 0, 0, "OffTrade", "/off", ""))
-	{
+    {
         return true;
-	}
+    }
 
     if(gObj->m_bPShopOpen == false)
     {
@@ -2858,37 +2858,37 @@ void ExchangeHighToLow(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
     switch (Type)
     {
-        case 1:
+    case 1:
         {
             PCPoint.UpdatePoints(gObj, Final, PLUS, PCPOINT);
             PCPoint.UpdatePoints(gObj, Sell, MINUS, WCOIN);
 
             break;
         }
-        case 2:
+    case 2:
         {
             PCPoint.UpdatePoints(gObj, Final, PLUS, WEBPOINTS);
             PCPoint.UpdatePoints(gObj, Sell, MINUS, WCOIN);
 
             break;
         }
-        case 3:
+    case 3:
         {
-        
+
             gObj->Money += Final;
             GCMoneySend(gObj->m_Index, gObj->Money);
             PCPoint.UpdatePoints(gObj, Sell, MINUS, WCOIN);
 
             break;
         }
-        case 5:
+    case 5:
         {
             PCPoint.UpdatePoints(gObj, Final, PLUS, PCPOINT);
             PCPoint.UpdatePoints(gObj, Sell, MINUS, WEBPOINTS);
 
             break;
         }
-        case 6:
+    case 6:
         {
             gObj->Money += Final;
             GCMoneySend(gObj->m_Index, gObj->Money);
@@ -2896,7 +2896,7 @@ void ExchangeHighToLow(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
             break;
         }
-        case 7:
+    case 7:
         {
             gObj->Money += Final;
             GCMoneySend(gObj->m_Index, gObj->Money);
@@ -2937,28 +2937,28 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
     switch (Type)
     {
-        case 4:
+    case 4:
         {
             PCPoint.UpdatePoints(gObj, Buy, PLUS, WCOIN);
             PCPoint.UpdatePoints(gObj, Final, MINUS, WEBPOINTS);
 
             break;
         }
-        case 8:
+    case 8:
         {
             PCPoint.UpdatePoints(gObj, Buy, PLUS, WCOIN);
             PCPoint.UpdatePoints(gObj, Final, MINUS, PCPOINT);
 
             break;
         }
-        case 9:
+    case 9:
         {
             PCPoint.UpdatePoints(gObj, Buy, PLUS, WEBPOINTS);
             PCPoint.UpdatePoints(gObj, Final, MINUS, PCPOINT);
 
             break;
         }
-        case 10:
+    case 10:
         {
             PCPoint.UpdatePoints(gObj, Buy, PLUS, WCOIN);
             gObj->Money -= Final;
@@ -2966,7 +2966,7 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
             break;
         }
-        case 11:
+    case 11:
         {
             PCPoint.UpdatePoints(gObj, Buy, PLUS, PCPOINT);
             gObj->Money -= Final;
@@ -2974,7 +2974,7 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
             break;
         }
-        case 12:
+    case 12:
         {
             PCPoint.UpdatePoints(gObj, Buy, PLUS, WEBPOINTS);
             gObj->Money -= Final;
@@ -2999,317 +2999,317 @@ bool cChat::ExchangeCommands(LPOBJ gObj, char *Msg, int Type)
     switch (Type)
     {
     case 1:// wcoin-pcpoint >
-    {
-        if(CheckCommand(gObj, Configs.Commands.ExchangeWcPp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/wcoin-pcpoint <num>", Msg))
         {
+            if(CheckCommand(gObj, Configs.Commands.ExchangeWcPp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/wcoin-pcpoint <num>", Msg))
+            {
+                return true;
+            }
+
+            DWORD Buy;
+            int SellKind = gObj->m_wCashPoint;
+            int BuyKind = AddTab[gObj->m_Index].PC_PlayerPoints;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WCoin_PcPoint;
+            DWORD MaxBuy = PCPoint.Config.MaximumPCPoints;
+
+            char KindOfSell[] = "WCoin";
+            char KindOfBuy[] = "PCPoints";
+
+            ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
         }
-
-        DWORD Buy;
-        int SellKind = gObj->m_wCashPoint;
-        int BuyKind = AddTab[gObj->m_Index].PC_PlayerPoints;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WCoin_PcPoint;
-        DWORD MaxBuy = PCPoint.Config.MaximumPCPoints;
-
-        char KindOfSell[] = "WCoin";
-        char KindOfBuy[] = "PCPoints";
-
-        ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        break;
     case 2: // wcoin-webpoint >
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangeWcWp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/wcoin-webpoint <num>", Msg))
         {
+            if (CheckCommand(gObj, Configs.Commands.ExchangeWcWp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/wcoin-webpoint <num>", Msg))
+            {
+                return true;
+            }
+
+            DWORD Buy;
+            int SellKind = gObj->m_wCashPoint;
+            int BuyKind;
+
+            if (PCPoint.Config.WebColumnFloat)
+            {
+                BuyKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
+            }
+            else
+            {
+                BuyKind = AddTab[gObj->m_Index].WEB_Points;
+            }
+
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WCoin_WebPoint;
+            DWORD MaxBuy = PCPoint.Config.MaximumWebPoints;
+
+            char KindOfSell[] = "WCoin";
+            char KindOfBuy[] = "WebPoints";
+
+            ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
         }
-
-        DWORD Buy;
-        int SellKind = gObj->m_wCashPoint;
-        int BuyKind;
-
-        if (PCPoint.Config.WebColumnFloat)
-        {
-            BuyKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
-        }
-        else
-        {
-            BuyKind = AddTab[gObj->m_Index].WEB_Points;
-        }
-
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WCoin_WebPoint;
-        DWORD MaxBuy = PCPoint.Config.MaximumWebPoints;
-
-        char KindOfSell[] = "WCoin";
-        char KindOfBuy[] = "WebPoints";
-
-        ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        break;
     case 3: // wcoin-zen >
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangeWcZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/wcoin-zen <num>", Msg))
+        {
+            if (CheckCommand(gObj, Configs.Commands.ExchangeWcZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/wcoin-zen <num>", Msg))
+                return true;
+
+            DWORD Buy;
+            int SellKind = gObj->m_wCashPoint;
+            int BuyKind = gObj->Money;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WCoin_Zen;
+            DWORD MaxBuy = 2000000000;
+
+            char KindOfSell[] = "WCoin";
+            char KindOfBuy[] = "Zen";
+
+            ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
-
-        DWORD Buy;
-        int SellKind = gObj->m_wCashPoint;
-        int BuyKind = gObj->Money;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WCoin_Zen;
-        DWORD MaxBuy = 2000000000;
-
-        char KindOfSell[] = "WCoin";
-        char KindOfBuy[] = "Zen";
-
-        ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        }
+        break;
     case 4: // webpoint-wcoin <
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangeWpWc, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/webpoint-wcoin <num>", Msg))
+        {
+            if (CheckCommand(gObj, Configs.Commands.ExchangeWpWc, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/webpoint-wcoin <num>", Msg))
+                return true;
+
+            DWORD Buy;
+            int SellKind;
+
+            if (PCPoint.Config.WebColumnFloat)
+            {
+                SellKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
+            }
+            else
+            {
+                SellKind = AddTab[gObj->m_Index].WEB_Points;
+            }
+
+            int BuyKind = gObj->m_wCashPoint;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WCoin_WebPoint;
+            DWORD MaxBuy = PCPoint.Config.MaximumWCPoints;
+
+            char KindOfSell[] = "WebPoints";
+            char KindOfBuy[] = "WCoin";
+
+            ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
-
-        DWORD Buy;
-        int SellKind;
-
-        if (PCPoint.Config.WebColumnFloat)
-        {
-            SellKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
         }
-        else
-        {
-            SellKind = AddTab[gObj->m_Index].WEB_Points;
-        }
-
-        int BuyKind = gObj->m_wCashPoint;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WCoin_WebPoint;
-        DWORD MaxBuy = PCPoint.Config.MaximumWCPoints;
-
-        char KindOfSell[] = "WebPoints";
-        char KindOfBuy[] = "WCoin";
-
-        ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        break;
     case 5: // webpoint-pcpoint >
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangeWpPp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/webpoint-pcpoint <num>", Msg))
+        {
+            if (CheckCommand(gObj, Configs.Commands.ExchangeWpPp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/webpoint-pcpoint <num>", Msg))
+                return true;
+
+            DWORD Buy;
+            int SellKind;
+
+            if (PCPoint.Config.WebColumnFloat)
+                SellKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
+            else
+                SellKind = AddTab[gObj->m_Index].WEB_Points;
+
+            int BuyKind = AddTab[gObj->m_Index].PC_PlayerPoints;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WebPoint_PcPoint;
+            DWORD MaxBuy = PCPoint.Config.MaximumPCPoints;
+
+            char KindOfSell[] = "WebPoints";
+            char KindOfBuy[] = "PCPoints";
+
+            ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
-
-        DWORD Buy;
-        int SellKind;
-
-        if (PCPoint.Config.WebColumnFloat)
-            SellKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
-        else
-            SellKind = AddTab[gObj->m_Index].WEB_Points;
-
-        int BuyKind = AddTab[gObj->m_Index].PC_PlayerPoints;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WebPoint_PcPoint;
-        DWORD MaxBuy = PCPoint.Config.MaximumPCPoints;
-
-        char KindOfSell[] = "WebPoints";
-        char KindOfBuy[] = "PCPoints";
-
-        ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        }
+        break;
     case 6: // webpoint-zen >
-    {
-        if(CheckCommand(gObj, Configs.Commands.ExchangeWpZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/webpoint-zen <num>", Msg))
         {
+            if(CheckCommand(gObj, Configs.Commands.ExchangeWpZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/webpoint-zen <num>", Msg))
+            {
+                return true;
+            }
+
+            DWORD Buy;
+            int SellKind;
+
+            if (PCPoint.Config.WebColumnFloat)
+            {
+                SellKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
+            }
+            else
+            {
+                SellKind = AddTab[gObj->m_Index].WEB_Points;
+            }
+
+            int BuyKind = gObj->Money;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WebPoint_Zen;
+            DWORD MaxBuy = 2000000000;
+
+            char KindOfSell[] = "WebPoints";
+            char KindOfBuy[] = "Zen";
+
+            ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
         }
-
-        DWORD Buy;
-        int SellKind;
-
-        if (PCPoint.Config.WebColumnFloat)
-        {
-            SellKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
-        }
-        else
-        {
-            SellKind = AddTab[gObj->m_Index].WEB_Points;
-        }
-
-        int BuyKind = gObj->Money;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WebPoint_Zen;
-        DWORD MaxBuy = 2000000000;
-
-        char KindOfSell[] = "WebPoints";
-        char KindOfBuy[] = "Zen";
-
-        ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        break;
     case 7: // pcpoint-zen >
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangePpZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/pcpoint-zen <num>", Msg))
         {
+            if (CheckCommand(gObj, Configs.Commands.ExchangePpZen, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/pcpoint-zen <num>", Msg))
+            {
+                return true;
+            }
+
+            DWORD Buy;
+            int SellKind = AddTab[gObj->m_Index].PC_PlayerPoints;
+            int BuyKind = gObj->Money;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.PcPoint_Zen;
+            DWORD MaxBuy = 2000000000;
+
+            char KindOfSell[] = "PcPoints";
+            char KindOfBuy[] = "Zen";
+
+            ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
         }
-
-        DWORD Buy;
-        int SellKind = AddTab[gObj->m_Index].PC_PlayerPoints;
-        int BuyKind = gObj->Money;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.PcPoint_Zen;
-        DWORD MaxBuy = 2000000000;
-
-        char KindOfSell[] = "PcPoints";
-        char KindOfBuy[] = "Zen";
-
-        ExchangeHighToLow(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        break;
     case 8: // pcpoint-wcoin <
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangePpWc, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/pcpoint-wcoin <num>", Msg))
+        {
+            if (CheckCommand(gObj, Configs.Commands.ExchangePpWc, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/pcpoint-wcoin <num>", Msg))
+                return true;
+
+            DWORD Buy;
+            int SellKind = AddTab[gObj->m_Index].PC_PlayerPoints;
+            int BuyKind = gObj->m_wCashPoint;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WCoin_PcPoint;
+            DWORD MaxBuy = PCPoint.Config.MaximumWCPoints;
+
+            char KindOfSell[] = "PcPoints";
+            char KindOfBuy[] = "WCoin";
+
+            ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
-
-        DWORD Buy;
-        int SellKind = AddTab[gObj->m_Index].PC_PlayerPoints;
-        int BuyKind = gObj->m_wCashPoint;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WCoin_PcPoint;
-        DWORD MaxBuy = PCPoint.Config.MaximumWCPoints;
-
-        char KindOfSell[] = "PcPoints";
-        char KindOfBuy[] = "WCoin";
-
-        ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        }
+        break;
     case 9: // pcpoint-webpoint <
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangePpWp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/pcpoint-webpoint <num>", Msg))
+        {
+            if (CheckCommand(gObj, Configs.Commands.ExchangePpWp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/pcpoint-webpoint <num>", Msg))
+                return true;
+
+            DWORD Buy;
+            int SellKind = AddTab[gObj->m_Index].PC_PlayerPoints;
+            int BuyKind;
+
+            if (PCPoint.Config.WebColumnFloat)
+                BuyKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
+            else
+                BuyKind = AddTab[gObj->m_Index].WEB_Points;
+
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WebPoint_PcPoint;
+            DWORD MaxBuy = PCPoint.Config.MaximumWebPoints;
+
+            char KindOfSell[] = "PcPoints";
+            char KindOfBuy[] = "WebPoints";
+
+            ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
-
-        DWORD Buy;
-        int SellKind = AddTab[gObj->m_Index].PC_PlayerPoints;
-        int BuyKind;
-
-        if (PCPoint.Config.WebColumnFloat)
-            BuyKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
-        else
-            BuyKind = AddTab[gObj->m_Index].WEB_Points;
-
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WebPoint_PcPoint;
-        DWORD MaxBuy = PCPoint.Config.MaximumWebPoints;
-
-        char KindOfSell[] = "PcPoints";
-        char KindOfBuy[] = "WebPoints";
-
-        ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        }
+        break;
     case 10: // zen-wcoin <
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangeZenWc, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/zen-wcoin <num>", Msg))
+        {
+            if (CheckCommand(gObj, Configs.Commands.ExchangeZenWc, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/zen-wcoin <num>", Msg))
+                return true;
+
+            DWORD Buy;
+            int SellKind = gObj->Money;
+            int BuyKind = gObj->m_wCashPoint;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WCoin_Zen;
+            DWORD MaxBuy = PCPoint.Config.MaximumWCPoints;
+
+            char KindOfSell[] = "Zen";
+            char KindOfBuy[] = "WCoin";
+
+            ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
             return true;
-
-        DWORD Buy;
-        int SellKind = gObj->Money;
-        int BuyKind = gObj->m_wCashPoint;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WCoin_Zen;
-        DWORD MaxBuy = PCPoint.Config.MaximumWCPoints;
-
-        char KindOfSell[] = "Zen";
-        char KindOfBuy[] = "WCoin";
-
-        ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-        return true;
-    }
-    break;
+        }
+        break;
     case 11: // zen-pcpoint <
-    {
-        if (CheckCommand(gObj, Configs.Commands.ExchangeZenPp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/zen-pcpoint <num>", Msg))
+        {
+            if (CheckCommand(gObj, Configs.Commands.ExchangeZenPp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/zen-pcpoint <num>", Msg))
+                return true;
+
+            DWORD Buy;
+            int SellKind = gObj->Money;
+            int BuyKind = AddTab[gObj->m_Index].PC_PlayerPoints;
+            sscanf(Msg, "%d", &Buy);
+
+            DWORD ConfigBuy = Configs.Commands.PcPoint_Zen;
+            DWORD MaxBuy = PCPoint.Config.MaximumPCPoints;
+
+            char KindOfSell[] = "Zen";
+            char KindOfBuy[] = "PcPoints";
+
+            ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
             return true;
-
-        DWORD Buy;
-        int SellKind = gObj->Money;
-        int BuyKind = AddTab[gObj->m_Index].PC_PlayerPoints;
-        sscanf(Msg, "%d", &Buy);
-
-        DWORD ConfigBuy = Configs.Commands.PcPoint_Zen;
-        DWORD MaxBuy = PCPoint.Config.MaximumPCPoints;
-
-        char KindOfSell[] = "Zen";
-        char KindOfBuy[] = "PcPoints";
-
-        ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-        return true;
-    }
-    break;
+        }
+        break;
     case 12: // zen-webpoint <
-    {
-        if(CheckCommand(gObj, Configs.Commands.ExchangeZenWp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/zen-webpoint <num>", Msg))
-		{
+        {
+            if(CheckCommand(gObj, Configs.Commands.ExchangeZenWp, GmSystem.NONE, 0, 0, 0, 0, Configs.Commands.ExchangeMinLvl, 1, 0, "Exchanger", "/zen-webpoint <num>", Msg))
+            {
+                return true;
+            }
+
+            DWORD Buy;
+            int SellKind = gObj->Money;
+            int BuyKind;
+
+            if (PCPoint.Config.WebColumnFloat)
+            {
+                BuyKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
+            }
+            else
+            {
+                BuyKind = AddTab[gObj->m_Index].WEB_Points;
+            }
+
+            sscanf(Msg,"%d",&Buy);
+
+            DWORD ConfigBuy = Configs.Commands.WebPoint_Zen;
+            DWORD MaxBuy = PCPoint.Config.MaximumWebPoints;
+
+            char KindOfSell[] = "Zen";
+            char KindOfBuy[] = "WebPoints";
+
+            ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
+
             return true;
-		}
-
-        DWORD Buy;
-        int SellKind = gObj->Money;
-        int BuyKind;
-
-        if (PCPoint.Config.WebColumnFloat)
-		{
-            BuyKind = (int)ceil(AddTab[gObj->m_Index].WEB_Points_Float);
-		}
-        else
-		{
-            BuyKind = AddTab[gObj->m_Index].WEB_Points;
-		}
-
-        sscanf(Msg,"%d",&Buy);
-
-        DWORD ConfigBuy = Configs.Commands.WebPoint_Zen;
-        DWORD MaxBuy = PCPoint.Config.MaximumWebPoints;
-
-        char KindOfSell[] = "Zen";
-        char KindOfBuy[] = "WebPoints";
-
-        ExchangeLowToHigh(gObj, Type, Buy, KindOfSell, KindOfBuy, SellKind, BuyKind, ConfigBuy, MaxBuy);
-
-        return true;
-    }
-    break;
+        }
+        break;
     }
     return true;
 }
@@ -3323,65 +3323,65 @@ bool cChat::ResetCommand(LPOBJ gObj)
 
 bool cChat::EvoCommand(LPOBJ gObj)
 {
-	if(CheckCommand(gObj, Configs.Commands.EvoCommandEnabled, GmSystem.NONE, Configs.Commands.EvoPriceZen,  Configs.Commands.EvoPricePcPoint, Configs.Commands.EvoPriceWCoin, Configs.Commands.EvoPriceWebPoint, Configs.Commands.EvoLevelReq, 0, 0, "Evo", COMMAND_EVO,""))
-	{
-		return true;
-	}
+    if(CheckCommand(gObj, Configs.Commands.EvoCommandEnabled, GmSystem.NONE, Configs.Commands.EvoPriceZen,  Configs.Commands.EvoPricePcPoint, Configs.Commands.EvoPriceWCoin, Configs.Commands.EvoPriceWebPoint, Configs.Commands.EvoLevelReq, 0, 0, "Evo", COMMAND_EVO,""))
+    {
+        return true;
+    }
 
-	if((gObj->DbClass == 1) || (gObj->DbClass == 17) || (gObj->DbClass == 33) || (gObj->DbClass == 48) || (gObj->DbClass == 64) || (gObj->DbClass == 81))
-	{	
-		TakeCommand(gObj, Configs.Commands.EvoPriceZen, Configs.Commands.EvoPricePcPoint, Configs.Commands.EvoPriceWCoin, Configs.Commands.EvoPriceWebPoint,"Evo");
+    if((gObj->DbClass == 1) || (gObj->DbClass == 17) || (gObj->DbClass == 33) || (gObj->DbClass == 48) || (gObj->DbClass == 64) || (gObj->DbClass == 81))
+    {	
+        TakeCommand(gObj, Configs.Commands.EvoPriceZen, Configs.Commands.EvoPricePcPoint, Configs.Commands.EvoPriceWCoin, Configs.Commands.EvoPriceWebPoint,"Evo");
 
-		gObj->DbClass += 2;
-		BYTE btClass = (gObj->Class * 32) + 24;
-		GCSendQuestPrize(gObj->m_Index, 204, btClass);
+        gObj->DbClass += 2;
+        BYTE btClass = (gObj->Class * 32) + 24;
+        GCSendQuestPrize(gObj->m_Index, 204, btClass);
         gObjCalCharacter(Utilits.GetPlayerIndex(gObj->Name));
         GCLevelUpMsgSend(gObj->m_Index,gObj->Level);
 
-		Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Evo] Parabens! Voce completou a terceira quest.");
+        Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Evo] Parabens! Voce completou a terceira quest.");
     }
-	else if((gObj->DbClass == 3) || (gObj->DbClass == 19) || (gObj->DbClass == 35) || (gObj->DbClass == 50) || (gObj->DbClass == 66) || (gObj->DbClass == 83))
-	{
-		Chat.MessageLog(1, c_Red, t_COMMANDS, gObj,"[Evo] Desculpe, voce ja e um mestre.");
+    else if((gObj->DbClass == 3) || (gObj->DbClass == 19) || (gObj->DbClass == 35) || (gObj->DbClass == 50) || (gObj->DbClass == 66) || (gObj->DbClass == 83))
+    {
+        Chat.MessageLog(1, c_Red, t_COMMANDS, gObj,"[Evo] Desculpe, voce ja e um mestre.");
     }
-	else
-	{
-		Chat.MessageLog(1, c_Red, t_COMMANDS, gObj,"[Evo] Voce precisa ter a segunda quest.");
-	}
+    else
+    {
+        Chat.MessageLog(1, c_Red, t_COMMANDS, gObj,"[Evo] Voce precisa ter a segunda quest.");
+    }
 
-	return true;
+    return true;
 }
 
 bool cChat::ZenCommand(LPOBJ gObj,char *Msg)
 {
-/*
-if(CheckCommand(gObj, Configs.Commands.IsMultyVault, GmSystem.NONE, Configs.Commands.ZenForChange, Configs.Commands.PcPointForChange, Configs.Commands.WCoinForChange, Configs.Commands.WebPointsForChange, 0, 1, 0, "Ware", "/ware <num>", Msg))
-{
-	return true;
-}
+    /*
+    if(CheckCommand(gObj, Configs.Commands.IsMultyVault, GmSystem.NONE, Configs.Commands.ZenForChange, Configs.Commands.PcPointForChange, Configs.Commands.WCoinForChange, Configs.Commands.WebPointsForChange, 0, 1, 0, "Ware", "/ware <num>", Msg))
+    {
+    return true;
+    }
     */
-	if
-    (
+    if
+        (
         CheckCommand
         (
-            gObj,
-            Configs.Commands.ZenCommandEnabled,
-            GmSystem.NONE,
-            0,
-            Configs.Commands.ZenPricePcPoint,
-            Configs.Commands.ZenPriceWCoin,
-            Configs.Commands.ZenPriceWebPoint,
-            Configs.Commands.ZenLevelReq,
-            1,
-            0,
-            "Zen",
-            "/zen <quantia>",
-            Msg
+        gObj,
+        Configs.Commands.ZenCommandEnabled,
+        GmSystem.NONE,
+        0,
+        Configs.Commands.ZenPricePcPoint,
+        Configs.Commands.ZenPriceWCoin,
+        Configs.Commands.ZenPriceWebPoint,
+        Configs.Commands.ZenLevelReq,
+        1,
+        0,
+        "Zen",
+        "/zen <quantia>",
+        Msg
         )
-    )
-	{
-		return true;
-	}
+        )
+    {
+        return true;
+    }
     else
     {
         int Buffer = atoi(Msg);
@@ -3421,6 +3421,7 @@ bool cChat::IsMarryCommand(LPOBJ gObj, char *Msg)
     char Target[11];
     sscanf(Msg, "%10s", &Target);
     int Index = Utilits.GetPlayerIndex(Target);
+
     if (Index == -1)
     {
         MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Marry] Player's offline or doesn't exist!!!");
@@ -3456,20 +3457,22 @@ bool cChat::MarryOnlineCommand(LPOBJ gObj)
     }
 
     if (Utilits.GetPlayerIndex(AddTab[gObj->m_Index].MarryName) == -1)
-	{
+    {
         MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Marry] %s is offline", AddTab[gObj->m_Index].MarryName);
-	}
+    }
     else
-	{
+    {
         MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Marry] %s is now online!", AddTab[gObj->m_Index].MarryName);
-	}
+    }
 
     return true;
 }
 bool cChat::MarryTraceCommand(LPOBJ gObj)
 {
     if (CheckCommand(gObj, Marry.Config.MarryTrace, GmSystem.NONE, 0, 0, 0, 0, Marry.Config.MarryTraceLvl, 0, 0, "Marry", COMMAND_MARRY_TRACE, ""))
+    {
         return true;
+    }
 
     int Index = Utilits.GetPlayerIndex(AddTab[gObj->m_Index].MarryName);
 
@@ -3498,9 +3501,9 @@ bool cChat::MarryTraceCommand(LPOBJ gObj)
 bool cChat::MarryDivorce(LPOBJ gObj)
 {
     if (CheckCommand(gObj, Marry.Config.IsDivorce, GmSystem.NONE, Marry.Config.DivorceCostZen,Marry.Config.DivorceCostPCPoint, Marry.Config.DivorceCostWCoin, 0, Marry.Config.DivorceMinLvl, 0, 0, "Divorce", COMMAND_DIVORCE, ""))
-	{
+    {
         return true;
-	}
+    }
 
     if (AddTab[gObj->m_Index].IsMarried == 0)
     {
@@ -3529,18 +3532,18 @@ bool cChat::MarryDivorce(LPOBJ gObj)
     AddTab[gObj->m_Index].IsMarried = 0;
 
     if (Utilits.GetPlayerIndex(AddTab[gObj->m_Index].MarryName) != -1)
-	{
+    {
         AddTab[tObj->m_Index].IsMarried = 0;
-	}
+    }
 
     TakeCommand(gObj, Marry.Config.DivorceCostZen, Marry.Config.DivorceCostPCPoint, Marry.Config.DivorceCostWCoin, 0, "Divorce");
 
     MessageLog(1, c_Red, t_COMMANDS, gObj, "[Marry] You are divorced!");
 
     if (Utilits.GetPlayerIndex(AddTab[gObj->m_Index].MarryName) != -1)
-	{
+    {
         MessageLog(1, c_Red, t_COMMANDS, tObj, "[Marry] You divorced with %s!", gObj->Name);
-	}
+    }
 
     return true;
 }
@@ -3550,33 +3553,33 @@ bool cChat::YesCommand(LPOBJ gObj)
     int TypeMarry = -1;
 
     if(AddTab[gObj->m_Index].MarryType != -1)
-	{
+    {
         TypeMarry = AddTab[gObj->m_Index].MarryType;
-	}
+    }
 
     switch(TypeMarry)
     {
-		case 0:
-		{
-			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "Devias Marriage!!!");
-			Marry.NpcUse = false;
+        case 0:
+        {
+            Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "Devias Marriage!!!");
+            Marry.NpcUse = false;
 
-			break;
-		}
-		default:
-		{
-			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] Yes!", gObj->Name);
-			AddTab[gObj->m_Index].MarryType = 3;
-			
-			if (AddTab[Marry.gObj1->m_Index].MarryType == 3 && AddTab[Marry.gObj2->m_Index].MarryType == 3)
-			{
-				Marry.EndMarriageTrue();	//RUN THEARD
-			}
+            break;
+        }
+        default:
+        {
+            Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] Yes!", gObj->Name);
+            AddTab[gObj->m_Index].MarryType = 3;
 
-			Marry.NpcUse = false;
+            if (AddTab[Marry.gObj1->m_Index].MarryType == 3 && AddTab[Marry.gObj2->m_Index].MarryType == 3)
+            {
+                Marry.EndMarriageTrue();	//RUN THEARD
+            }
 
-			break;
-		}
+            Marry.NpcUse = false;
+
+            break;
+        }
     }
 
     return true;
@@ -3587,68 +3590,68 @@ bool cChat::NoCommand(LPOBJ gObj)
     int TypeMarry = -1;
 
     if (AddTab[gObj->m_Index].MarryType != -1)
-	{
+    {
         TypeMarry = AddTab[gObj->m_Index].MarryType;
-	}
+    }
 
     LPOBJ nObj = Marry.NpcObj;
 
     switch (TypeMarry)
     {
-		case 0:
-		{
-			if (nObj == NULL)
-			{
-				Chat.Message(1, gObj, "You cancel marriage");
-			}
-			else
-			{
-				Monster.NPCMessage(gObj->m_Index, nObj, "You cancel marriage");	  //PRIVAT
-			}
+        case 0:
+        {
+            if (nObj == NULL)
+            {
+                Chat.Message(1, gObj, "You cancel marriage");
+            }
+            else
+            {
+                Monster.NPCMessage(gObj->m_Index, nObj, "You cancel marriage");	  //PRIVAT
+            }
 
-			if (Marry.gObj1 != NULL)
-			{
-				AddTab[Marry.gObj1->m_Index].MarryType = -1;
-			}
+            if (Marry.gObj1 != NULL)
+            {
+                AddTab[Marry.gObj1->m_Index].MarryType = -1;
+            }
 
-			if (Marry.gObj2 != NULL)
-			{
-				AddTab[Marry.gObj2->m_Index].MarryType = -1;
-			}
+            if (Marry.gObj2 != NULL)
+            {
+                AddTab[Marry.gObj2->m_Index].MarryType = -1;
+            }
 
-			Marry.NpcUse = false;
+            Marry.NpcUse = false;
 
-			Marry.gObj1 = NULL;
-			Marry.gObj2 = NULL;
-			Marry.NpcObj = NULL;
+            Marry.gObj1 = NULL;
+            Marry.gObj2 = NULL;
+            Marry.NpcObj = NULL;
 
-			break;
-		}
-		default:
-		{
-			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] No!", gObj->Name);
+            break;
+        }
+        default:
+        {
+            Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] No!", gObj->Name);
 
-			Monster.NPCMessageNear(nObj, "Marriage canceled by %s!!!", gObj->Name);
-			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[Marriage] Marriage canceled by %s!!!", gObj->Name);
+            Monster.NPCMessageNear(nObj, "Marriage canceled by %s!!!", gObj->Name);
+            Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[Marriage] Marriage canceled by %s!!!", gObj->Name);
 
-			if (Marry.gObj1 != NULL)
-			{
-				AddTab[Marry.gObj1->m_Index].MarryType = -1;
-			}
+            if (Marry.gObj1 != NULL)
+            {
+                AddTab[Marry.gObj1->m_Index].MarryType = -1;
+            }
 
-			if (Marry.gObj2 != NULL)
-			{
-				AddTab[Marry.gObj2->m_Index].MarryType = -1;
-			}
+            if (Marry.gObj2 != NULL)
+            {
+                AddTab[Marry.gObj2->m_Index].MarryType = -1;
+            }
 
-			Marry.NpcUse = false;
+            Marry.NpcUse = false;
 
-			Marry.gObj1 = NULL;
-			Marry.gObj2 = NULL;
-			Marry.NpcObj = NULL;
+            Marry.gObj1 = NULL;
+            Marry.gObj2 = NULL;
+            Marry.NpcObj = NULL;
 
-			break;
-		}
+            break;
+        }
     }
 
     return true;
