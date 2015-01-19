@@ -1,20 +1,11 @@
-// ================================================== //
-// #		GameServer 1.00.90		    # //
-// #		Imagination Arts		    # //
-// #		Julia Project 1.1.x		    # //
-// ================================================== //
-// #	http://imaginationarts.net/forum/	    # //
-// #	http://mu.raklion.ru/			    # //
-// ================================================== //
-
 [GoldenDrop]
-Enable	= 1
+Enable = 1
 
 //-------------------------------------------------------------------------------------------//
-// Golden monsters drop
-// How much lines, so much items will drop (20 - max for one golden)
-// If there is no drop or line commented, it drops default
-// To disable drop from Golden Mob put Index = -1
+// Drop dos monstros dourados
+// How much lines, so much items will drop (Maximo 20 por monstro)
+// Se nao houver a linha do monstro, sera dropado o item padrao de cada monstro
+// Para desativar o drop do monstro, adicione -1 a coluna index do monstro
 //-------------------------------------------------------------------------------------------//
 //	IDMob	Index	ID	Level	Opt	Luck	Skill	Dur	Exc	Anc
 //-------------------------------------------------------------------------------------------// 

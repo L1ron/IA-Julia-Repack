@@ -1,13 +1,3 @@
-// ================================================== //
-// #			GameServer 1.00.90					# //
-// #			Imagination Arts					# //
-// #			Julia Project 1.1.x					# //
-// ================================================== //
-// #	http://imaginationarts.net/forum/			# //
-// #	http://mu.raklion.ru/						# //
-//				coded by MaThreeX & PsychoGod		  //
-// ================================================== //
-
 #include "StdAfx.h"
 #include "MarrySystem.h"
 
@@ -31,15 +21,6 @@ cMarry Marry;
 // 6. Команды для Женатых 100%
 // 7. Бонусы женатым 100%
 // 8. Свадьба 100%
-
-
-cMarry::cMarry()
-{
-}
-
-cMarry::~cMarry()
-{
-}
 
 void cMarry::ResetConfigs()
 {

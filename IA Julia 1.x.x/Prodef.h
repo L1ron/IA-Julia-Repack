@@ -686,7 +686,7 @@ struct PMSG_ITEMTHROW
 //================================================//
 //CalcCharacter									  //
 //================================================//
-#define AttackDamageMin_Bow_StrDexDiv_Elf1 (0x004E91C9+1)//Default 7
+#define AttackDamageMin_Bow_StrDexDiv_Elf1 (0x004E91C9+1) // Default 7
 #define AttackDamageMin_Bow_StrDexDiv_Elf2 (0x004E91F8+1)
 #define AttackDamageMax_Bow_StrDexDiv_Elf1 (0x004E91E0+2)
 #define AttackDamageMax_Bow_StrDexDiv_Elf2 (0x004E920F+2)

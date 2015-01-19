@@ -1,12 +1,3 @@
-// ================================================== //
-// #			GameServer 1.00.90					# //
-// #			Imagination Arts					# //
-// #			Julia Project 1.1.x					# //
-// ================================================== //
-// #	http://imaginationarts.net/forum/			# //
-// #	http://mu.raklion.ru/						# //
-// ================================================== //
-
 #include "StdAfx.h"
 #include "TradeSystem.h"
 #include "ChatCommands.h"
@@ -377,6 +368,7 @@ BYTE gObjInventoryMoveItemEx(int aIndex, BYTE source, BYTE target, int& durSsend
     int bSourceIsPShop = 0;
 
     OBJECTSTRUCT *lpObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex);
+
     if(sFlag == 2 || tFlag == 2)
     {
         if(lpObj->m_IfState.type != 6)
@@ -429,13 +421,19 @@ BYTE gObjInventoryMoveItemEx(int aIndex, BYTE source, BYTE target, int& durSsend
         break;
     case 4: // from Personal Shop
         if(lpObj->m_bPShopOpen == 1)
+		{
             return -1;
+		}
 
         if(source < MAIN_INVENTORY_SIZE || source > (INVENTORY_SIZE - 1))
+		{
             return -1;
+		}
 
         if(lpObj->pInventory[source].m_Type < 0)
+		{
             return -1;
+		}
 
         sitem = &lpObj->pInventory[source];
 

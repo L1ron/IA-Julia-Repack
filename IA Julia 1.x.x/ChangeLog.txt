@@ -1,3 +1,7 @@
+# 1.1.0.329 # - Fixed Santa Claus attack event
+# 1.1.0.328 # - Added /Clear command (To clear inventory) and their configs
+# 1.1.0.327 # - Fixed /post command delay Removed post seconds count from MainTick() (OMFG!!!)
+# 1.1.0.326 # - Fixed Zen command
 # 1.1.0.325 # - Fixed Helpers zens required
 # 1.1.0.324 # - Fixed money reduce for Reset system
 # 1.1.0.323 # - Removed commands work from whisper chat

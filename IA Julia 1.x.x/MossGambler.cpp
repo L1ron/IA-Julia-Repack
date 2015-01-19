@@ -330,42 +330,42 @@ BOOL cMoss::BuyItem(int aIndex, unsigned char * aRecv)
 
 	switch(aRecv[3])
 	{
-	case 0:
+		case 0:
 		{
 			BuyType = 0;
 
 			break;
 		}
-	case 2:
+		case 2:
 		{
 			BuyType = rand() % 2 + 1;
 
-			if (BuyType == 2)
+			if(BuyType == 2)
 			{
 				BuyType = 3;
 			}
 
 			break;
 		}
-	case 4:
+		case 4:
 		{
 			BuyType = 2;
 
 			break;
 		}
-	case 6:
+		case 6:
 		{
 			BuyType = 4;
 
 			break;
 		}
-	case 24:
+		case 24:
 		{
 			BuyType = 5;
 
 			break;
 		}
-	default:
+		default:
 		{
 			break;
 		}
@@ -427,42 +427,42 @@ int cMoss::RandValue(int IndexOption)
 
 	switch(IndexOption)
 	{
-	case OPT_LEVEL:
+		case OPT_LEVEL:
 		{
 			rValue = rand()%100+1;
 			rValue > Config.RandLevel ?	rValue =  0 : rValue =  rand()%(Config.MaxLevel + 1);
 
 			break;
 		}
-	case OPT_SKILL:
+		case OPT_SKILL:
 		{
 			rValue = rand()%100+1;
 			rValue > Config.RandSkill ? rValue =  0 : rValue =  1;
 
 			break;
 		}
-	case OPT_LUCK:
+		case OPT_LUCK:
 		{
 			rValue = rand()%100+1;
 			rValue > Config.RandLuck ? rValue =  0 : rValue =  1;
 
 			break;
 		}
-	case OPT_ADD:
+		case OPT_ADD:
 		{
 			rValue = rand()%100+1;
 			rValue > Config.RandOptAdd ? rValue =  0 : rValue =  rand()%(Config.MaxOptAdd + 1);
 
 			break;
 		}
-	case OPT_EXC:
+		case OPT_EXC:
 		{
 			rValue = rand()%100+1;
 			rValue > Config.RandExc ? rValue =  0 : rValue =  Utilits.GenExcOpt(rand()%(Config.MaxExcOpt + 1));
 
 			break;
 		}
-	case OPT_ANC:
+		case OPT_ANC:
 		{
 			rValue = rand()%100+1;
 			rValue > Config.RandAncient ? rValue =  0 : rValue =  10;

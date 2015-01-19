@@ -18,7 +18,7 @@ typedef	struct sAddTab
     DWORD	ADD_Value;
 
     //Post Delay
-    int		POST_Delay;
+    time_t	POST_Delay;
 
     CTime	POST_BanTime;
     bool	POST_BanSignal;

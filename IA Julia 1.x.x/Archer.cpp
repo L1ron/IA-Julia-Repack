@@ -24,7 +24,7 @@ void cGoldenArcher::ResetConfig()
 void cGoldenArcher::Load()
 {
 	ResetConfig();
-	Config.Enabled				= Configs.GetInt(0, 1, 1, "GoldenArcher", "ArcherEnabled", IAJuliaArcher);
+	Config.Enabled = Configs.GetInt(0, 1, 1, "GoldenArcher", "ArcherEnabled", IAJuliaArcher);
 
 	if(!Config.Enabled)
 	{
@@ -40,10 +40,11 @@ void cGoldenArcher::Load()
 	FILE *file;
 	file = fopen(IAJuliaArcher,"r");
 
-	if (file == NULL)
+	if(file == NULL)
 	{
-		Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [Golden Archer]\tCan`t Find %s", IAJuliaArcher);
+		Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [Golden Archer]\tImpossivel abrir %s", IAJuliaArcher);
 		Config.Enabled = 0;
+
 		return;
 	}
 
@@ -60,7 +61,7 @@ void cGoldenArcher::Load()
 			continue;
 		}
 
-		if (Flag == 1)
+		if(Flag == 1)
 		{
 			int n[9];
 			sscanf(Buff,"%d %d %d %d %d %d %d %d %d", &n[0], &n[1], &n[2], &n[3], &n[4], &n[5], &n[6], &n[7], &n[8]);
@@ -80,7 +81,8 @@ void cGoldenArcher::Load()
 	}
 
 	fclose(file);
-	Log.ConsoleOutPut(1, c_Yellow, t_ARCHER, "[û] [Golden Archer]\tGolden Archer Items Loaded [%d]", ArcherItemsCount);
+
+	Log.ConsoleOutPut(1, c_Yellow, t_ARCHER, "[û] [Golden Archer]\tCarregados %d itens.", ArcherItemsCount);
 }
 
 void cGoldenArcher::GoldenArcherClick(LPOBJ gObj)
@@ -89,7 +91,7 @@ void cGoldenArcher::GoldenArcherClick(LPOBJ gObj)
 
 	if(AddTab[gObj->m_Index].Resets > Config.ResetLimit)
 	{
-		Chat.Message(1, gObj,"[Golden Archer] You are strong now and don't need my help.");
+		Chat.Message(1, gObj,"[Golden Archer] Voce ja e um forte guerreiro e nao precisa de minha ajuda.");
 
 		return;
 	}
@@ -103,7 +105,7 @@ void cGoldenArcher::GoldenArcherClick(LPOBJ gObj)
 
 	if (!this->ChekingRena(gObj,INV_CHECK))
 	{
-		Chat.Message(1, gObj,"[Golden Archer] Your haven't Rena's in Inventory. Search Rena's and come back to me.");
+		Chat.Message(1, gObj,"[Golden Archer] Voce nao tem Renas no inventario. Busque Renas e me entregue.");
 
 		return;
 	}
@@ -113,7 +115,7 @@ void cGoldenArcher::GoldenArcherClick(LPOBJ gObj)
 
 	if (*CurrentRena < Config.NeedRenaAmount )
 	{
-		Chat.Message(1, gObj,"[Golden Archer] Your Rena accepted. You have %d Rena's, for reward need %d more",*CurrentRena,Config.NeedRenaAmount - *CurrentRena);
+		Chat.Message(1, gObj,"[Golden Archer] Voce registrou %d Renas, serao necessarias mais %d Renas.",*CurrentRena,(Config.NeedRenaAmount - *CurrentRena));
 	}
 
 	if (*CurrentRena == Config.NeedRenaAmount)
@@ -147,7 +149,7 @@ void cGoldenArcher::GoldenArcherClick(LPOBJ gObj)
 			Exc   = rand() % 100 + 1 < ItemsPrize[PrizeIndex].RateExc   ? Exc = Utilits.GenExcOpt(rand()%(ItemsPrize[PrizeIndex].MaxExcOpt + 1)) : Exc = 0;
 
 			*CurrentRena = 0;
-			Chat.Message(1, gObj,"[Golden Archer] Thank you for renas! Take my rewards for you.");
+			Chat.Message(1, gObj,"[Golden Archer] Obrigado pelas Renas!");
 			Log.ConsoleOutPut(1,c_Magenta,t_ARCHER,"[Golden Archer] Drop\t%d %d %d %d %d %d %d 0",ItemsPrize[PrizeIndex].Index,ItemsPrize[PrizeIndex].ItemID,Level,Skill,Luck,Opt,Exc);
 
 			int Item = ITEMGET(ItemsPrize[PrizeIndex].Index,ItemsPrize[PrizeIndex].ItemID);
@@ -165,26 +167,26 @@ void cGoldenArcher::GoldenArcherClick(LPOBJ gObj)
 
 			gObj->Money = UpdateZen;
 			GCMoneySend(gObj->m_Index,UpdateZen);
-			Chat.Message(1, gObj,"[Golden Archer] Added Zen:%d", Config.ZenReward);
+			Chat.Message(1, gObj,"[Golden Archer] Adicionado %d zens.", Config.ZenReward);
 		}
 
 		if (Config.WCoinsReward > 0)
 		{
 			PCPoint.UpdatePoints(gObj,Config.WCoinsReward,PLUS,WCOIN);
-			Chat.Message(1, gObj,"[Golden Archer] Added Coins:%d", Config.WCoinsReward);
+			Chat.Message(1, gObj,"[Golden Archer] Adicionado %d wCoins.", Config.WCoinsReward);
 		}
 
 		if (Config.PCPointsReward > 0)
 		{
 			PCPoint.UpdatePoints(gObj,Config.PCPointsReward,PLUS,PCPOINT);
-			Chat.Message(1, gObj,"[Golden Archer] Added PCPoints:%d", Config.PCPointsReward);
+			Chat.Message(1, gObj,"[Golden Archer] Adicionado %d PCPoints.", Config.PCPointsReward);
 		}
 	}
 }
 
 bool cGoldenArcher::ChekingRena(LPOBJ gObj,int Mode)
 {
-	for (BYTE i = 12; i<76; i++ )
+	for (BYTE i = 12;i < 76;i++ )
 	{
 		if((gObj->pInventory[i].m_Type == 0x01C15) && (gObj->pInventory[i].m_Level == 0))
 		{

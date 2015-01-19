@@ -63,7 +63,7 @@ BYTE ProtocolServerENG(BYTE Type)
 //=====================================================================================
 BYTE ProtocolClientENG(BYTE Tipo)
 {
-    switch (Tipo)
+    switch(Tipo)
     {
 		case 0xD4:
 		{
@@ -77,9 +77,9 @@ BYTE ProtocolClientENG(BYTE Tipo)
 		{
 			return 0xDC;
 		}
-    }
+	}
 
-    return Tipo;
+	return Tipo;
 }
 #endif
 
@@ -279,18 +279,19 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
             if (aRecv[3] == 0x05)
             {
                 PCPoint.BuyItem(aIndex, aRecv[4]);
+
                 return true;
             }
 
-            if(aRecv[3] == 0x06 && aRecv[1] == 0x04)
+            if((aRecv[3] == 0x06) && (aRecv[1] == 0x04))
             {
-                if (gObj->MapNumber == 0 || gObj->MapNumber == 2 || gObj->MapNumber == 3 || gObj->MapNumber == 51)
+                if((gObj->MapNumber == 0) || (gObj->MapNumber == 2) || (gObj->MapNumber == 3) || (gObj->MapNumber == 51))
                 {
                     PCPoint.OpenShop(aIndex);
                 }
                 else
                 {
-                    Chat.Message(1, gObj, "[PointShop] Allow Only in Lorencia,Devias,Noria,Elbeland");
+                    Chat.Message(1, gObj, "[PointShop] Permitido apenas em Lorencia, Devias, Noria, Elbeland.");
                     BYTE pNewProtocol[0x05] = { 0xC1, 0x05, 0x18, 0x01, 0x7A };
                     DataRecv(RecvTable[pNewProtocol[2]], pNewProtocol, pNewProtocol[1], aIndex, Encrypt, Serial);
                 }
@@ -305,9 +306,9 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
             bool bResult = Monster.NPCTalkEx(gObj, (aRecv[4] + aRecv[3] * 256));
 
             if (bResult)
-		    {
-			    return true;
-		    }
+			{
+				return true;
+			}
 
             break;
         }
@@ -386,7 +387,7 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
             break;
         }
 #else
-#if (IS_PROTOCOL_JPN == 0)
+#if(IS_PROTOCOL_JPN == 0)
         case 0xF1: //Login protocol (Season 4) ENG
         {
             aRecv[1] -= 0x0A;
