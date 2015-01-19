@@ -95,7 +95,7 @@ public:
         int PostPriceWCoin;
         int PostPriceWebPoint;
         int PostColor;
-        int PostDelay;
+        time_t PostDelay;
 
         int IsBanPost;
         int IsBanAcc;
@@ -164,6 +164,13 @@ public:
         int ZenPricePcPoint;
         int ZenPriceWCoin;
         int ZenPriceWebPoint;
+
+		int ClearCommandEnabled;
+		int ClearZenReq;
+        int ClearLevelReq;
+        int ClearPricePcPoint;
+        int ClearPriceWCoin;
+        int ClearPriceWebPoint;
     } Commands;
 
     struct cZen
