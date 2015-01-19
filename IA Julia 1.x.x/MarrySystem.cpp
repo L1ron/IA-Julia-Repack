@@ -10,17 +10,18 @@
 #include "Monster.h"
 #include "Utilits.h"
 #include "Query.h"
+
 cMarry Marry;
 
-//#TODO
-// 1. Считывание конфигов 100%
-// 2. Отчистка переменных от мусора 100%
-// 3. Проверка пола 100%
-// 4. Проверка свидетелей и забирание бабла 100%
-// 5. Считывание из базы и занесение в переменную 100%
-// 6. Команды для Женатых 100%
-// 7. Бонусы женатым 100%
-// 8. Свадьба 100%
+// # A FAZER
+// 1. Ler configs 100%
+// 2. Limpando as variбveis de detritos 100%
+// 3. Verifique o piso 100%
+// 4. Verificaзгo de testemunhas e tomar de volta a bolha 100%
+// 5. Leia a partir de um banco de dados e entrar em uma variбvel de 100%
+// 6. Comandos para Casado 100%
+// 7. Bфnus casado 100%
+// 8. Wedding 100%
 
 void cMarry::ResetConfigs()
 {
@@ -74,8 +75,12 @@ void cMarry::Init()
     ResetConfigs();
 
     Config.MarrySystemEnabled		= Configs.GetInt(0, 1,				1,		"MarrySystem",	"MarrySystemEnabled",			IAMarrySystem);
+
     if(!Config.MarrySystemEnabled)
+	{
         return;
+	}
+
     Config.MarryHomoSexual			= Configs.GetInt(0, 1,				1,		"MarrySystem",	"MarryHomoSexual",				IAMarrySystem);
     Config.MarryCostZen				= Configs.GetInt(0, 2000000000,		1000000,"MarrySystem",	"MarryCostZen",					IAMarrySystem);
     Config.MarryCostPCPoint			= Configs.GetInt(0, PCPoint.Config.MaximumPCPoints,0,		"MarrySystem",	"MarryCostPCPoint",				IAMarrySystem);
@@ -100,6 +105,7 @@ void cMarry::Init()
     Config.TakeItemsForMarry		= Configs.GetInt(0, 20,				2,		"MarrySystem",	"TakeItemsForMarry",			IAMarrySystem);
 
     char Items[40];
+
     if(Config.TakeItemsForMarry != 0)
     {
         for(int y = 0; y < Config.TakeItemsForMarry; y++)
@@ -129,6 +135,7 @@ void cMarry::Init()
             Config.MarryItems[y].Exc		= Configs.GetInt(0, 63, 0, "MarrySystem", Items, IAMarrySystem);
         }
     }
+
     Log.ConsoleOutPut(1, c_Yellow, t_Default, "[ы] [Marry System]\tLoaded");
 }
 
@@ -146,6 +153,7 @@ bool cMarry::CheckMarryCost(int aIndex, int tIndex, int Delete)
 
         return false;
     }
+
     if(Config.MarryCostZen > gObj->Money)
     {
         if(tObj == NULL)
@@ -155,6 +163,7 @@ bool cMarry::CheckMarryCost(int aIndex, int tIndex, int Delete)
 
         return false;
     }
+
     if(Config.MarryCostPCPoint > AddTab[gObj->m_Index].PC_PlayerPoints)
     {
         if(tObj == NULL)
@@ -164,6 +173,7 @@ bool cMarry::CheckMarryCost(int aIndex, int tIndex, int Delete)
 
         return false;
     }
+
     if(Config.MarryCostWCoin > gObj->m_wCashPoint)
     {
         if(tObj == NULL)
@@ -247,43 +257,65 @@ bool cMarry::CheckGender(int aIndex, int tIndex) //Returnes True if Gender check
     OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(tIndex);
 
     if (tObj == NULL || gObj == NULL)
+	{
         return false;
+	}
 
     int aGender = MAN, tGender = MAN;
+
     switch(gObj->DbClass)
     {
-    case 32:
-    case 33:
-    case 34:
-    case 35:
-        aGender = WOMAN;
-        break;
-    case 80:
-    case 81:
-    case 82:
-    case 83:
-        aGender = WOMAN;
-        break;
-    default:
-        aGender = MAN;
-    }
+		case 32:
+		case 33:
+		case 34:
+		case 35:
+		{
+			aGender = WOMAN;
 
-    switch(tObj->DbClass)
-    {
-    case 32:
-    case 33:
-    case 34:
-    case 35:
-        tGender = WOMAN;
-        break;
-    case 80:
-    case 81:
-    case 82:
-    case 83:
-        tGender = WOMAN;
-        break;
-    default:
-        tGender = MAN;
+			break;
+		}
+		case 80:
+		case 81:
+		case 82:
+		case 83:
+		{
+			aGender = WOMAN;
+
+			break;
+		}
+		default:
+		{
+			aGender = MAN;
+
+			break;
+		}
+	}
+
+	switch(tObj->DbClass)
+	{
+		case 32:
+		case 33:
+		case 34:
+		case 35:
+		{
+			tGender = WOMAN;
+
+			break;
+		}
+		case 80:
+		case 81:
+		case 82:
+		case 83:
+		{
+			tGender = WOMAN;
+			break;
+		}
+		default:
+		{
+			tGender = MAN;
+			
+			break;
+		}
     }
 
     if(tGender == aGender)
@@ -304,8 +336,11 @@ bool cMarry::CheckGender(int aIndex, int tIndex) //Returnes True if Gender check
             else
             {
                 Chat.MessageAll(0, 0, gObj, "[Marriage] It would be lesbian wedding!");	  //AROUND
+
                 if(tObj != NULL)
+				{
                     Monster.NPCMessageNear(tObj, "It will be lesbian wedding!");	  //AROUND
+				}
 
                 return true;
             }
@@ -333,7 +368,9 @@ bool cMarry::CheckMarryItem(int Index)
     int x_NumItem = 0;
 
     for(int xo = 0; xo < 76; xo++)
+	{
         Config.MarrySerial[xo] = false;
+	}
 
     for(int x = 0; x < NumItem; x++)
     {
@@ -375,22 +412,31 @@ void cMarry::CheckMarryItemSerial(int Index, BYTE Serial)
         if(gObj->pInventory[i].m_Number == Ser)
             Config.MarrySerial[i] = true;
 }
+
 unsigned long __stdcall TickMarriage(int Index)
 {
     LPOBJ nObj = Marry.NpcObj;
     LPOBJ kObj1 = Marry.gObj1;
     LPOBJ kObj2 = Marry.gObj2;
+
     Marry.NpcUse = true;
     OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
     int i;
+
     if(nObj == NULL)
-        Chat.Message(1, gObj, "[Marriage] Write /yes or /no for answer. You have 30 secs.");
+	{
+        Chat.Message(1, gObj, "Digite %s ou %s. Voce tem 30s.", Chat.COMMAND_YES, Chat.COMMAND_NO);
+	}
     else
     {
         Sleep(3000);
-        if(!Marry.NpcUse) return 1;
-        Monster.NPCMessage(Index, nObj, "Write /yes or /no for answer. You have 30 secs.");
+        if(!Marry.NpcUse)
+		{
+			return 1;
+		}
+
+        Monster.NPCMessage(Index, nObj, "Digite %s ou %s. Voce tem 30s.", Chat.COMMAND_YES, Chat.COMMAND_NO);
     }
 
     for(i = 0; i < 150; i++)
@@ -398,69 +444,104 @@ unsigned long __stdcall TickMarriage(int Index)
         Sleep(100);
         if(!Marry.NpcUse) return 1;
     }
+
     if(nObj == NULL)
-        Chat.Message(1, gObj, "[Marriage] You have 15 secs more for answer...");
+	{
+        Chat.Message(1, gObj, "[Marriage] 15 Segundos para responder.");
+	}
     else
-        Monster.NPCMessage(Index, nObj, "You have 15 secs more for answer...");
+	{
+        Monster.NPCMessage(Index, nObj, "15 Segundos para responder.");
+	}
 
     for(i = 0; i < 50; i++)
     {
         Sleep(100);
         if(!Marry.NpcUse) return 1;
     }
+
     if(nObj == NULL)
-        Chat.Message(1, gObj, "[Marriage] You have 10 secs more for answer...");
+	{
+        Chat.Message(1, gObj, "[Marriage] 10 Segundos para responder.");
+	}
     else
-        Monster.NPCMessage(Index, nObj, "You have 10 secs more for answer...");
+	{
+        Monster.NPCMessage(Index, nObj, "15 Segundos para responder.");
+	}
 
     for(i = 0; i < 50; i++)
     {
         Sleep(100);
         if(!Marry.NpcUse) return 1;
     }
+
     if(nObj == NULL)
-        Chat.Message(1, gObj, "[Marriage] You have 5 secs more for answer...");
+	{
+        Chat.Message(1, gObj, "[Marriage] 5 Segundos para responder.");
+	}
     else
-        Monster.NPCMessage(Index, nObj, "You have 5 secs more for answer...");
+	{
+        Monster.NPCMessage(Index, nObj, "5 Segundos para responder.");
+	}
 
     for(i = 0; i < 20; i++)
     {
         Sleep(100);
+
+        if(!Marry.NpcUse) return 1;
+    }
+
+    if(nObj == NULL)
+	{
+        Chat.Message(1, gObj, "[Marriage] 3 Segundos para responder.");
+	}
+    else
+	{
+        Monster.NPCMessage(Index, nObj, "3 Segundos para responder.");
+	}
+
+    for(i = 0; i < 10; i++)
+    {
+        Sleep(100);
+
         if(!Marry.NpcUse) return 1;
     }
     if(nObj == NULL)
-        Chat.Message(1, gObj, "[Marriage] You have 3 secs more for answer...");
+	{
+        Chat.Message(1, gObj, "[Marriage] 2 Segundos para responder.");
+	}
     else
-        Monster.NPCMessage(Index, nObj, "You have 3 secs more for answer...");
+	{
+        Monster.NPCMessage(Index, nObj, "2 Segundos para responder.");
+	}
 
     for(i = 0; i < 10; i++)
     {
         Sleep(100);
         if(!Marry.NpcUse) return 1;
     }
+
     if(nObj == NULL)
-        Chat.Message(1, gObj, "[Marriage] You have 2 secs more for answer...");
+	{
+        Chat.Message(1, gObj, "[Marriage] 1 Segundo para responder.");
+	}
     else
-        Monster.NPCMessage(Index, nObj, "You have 2 secs more for answer...");
+	{
+        Monster.NPCMessage(Index, nObj, "1 Segundo para responder.");
+	}
 
     for(i = 0; i < 10; i++)
     {
         Sleep(100);
-        if(!Marry.NpcUse) return 1;
-    }
-    if(nObj == NULL)
-        Chat.Message(1, gObj, "[Marriage] You have 1 sec more for answer...");
-    else
-        Monster.NPCMessage(Index, nObj, "You have 1 sec more for answer...");
 
-    for(i = 0; i < 10; i++)
-    {
-        Sleep(100);
         if(!Marry.NpcUse) return 1;
     }
 
     if(AddTab[Index].MarryType < 10)
+	{
         Marry.EndMarriageFalse(Index);
+	}
+
     return 1;
 }
 

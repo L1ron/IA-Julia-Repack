@@ -222,7 +222,7 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
 
     if(aIndex < OBJECT_MIN || aIndex > OBJECT_MAX)
     {
-        Log.ConsoleOutPut(0,c_Red,t_NULL,"[AntiHack] OBJECT ERROR!!!");
+        Log.ConsoleOutPut(0,c_Red,t_NULL,"[AntiHack] Erro de Objeto!");
 
         return 1;
     }

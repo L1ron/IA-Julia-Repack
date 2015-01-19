@@ -19,6 +19,9 @@ class cChat
 		void MessageAllLog(int Type, int Type2, sColor LogColor, sLogType LogType, LPOBJ gObj, char* Msg,...);
 		void MessageAll(int Type, int Type2, LPOBJ gObj, char* Msg,...);
 
+		char COMMAND_YES[25];
+		char COMMAND_NO[25];
+
 	private:
 		void AntiInject(char* message);
 
@@ -170,8 +173,6 @@ class cChat
 		char COMMAND_MARRY_ONLINE[25];
 		char COMMAND_MARRY_TRACE[25];
 		char COMMAND_DIVORCE[25];
-		char COMMAND_YES[25];
-		char COMMAND_NO[25];
 };
 
 extern cChat Chat;

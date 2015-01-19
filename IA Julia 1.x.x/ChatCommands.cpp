@@ -3590,6 +3590,11 @@ bool cChat::MarryDivorce(LPOBJ gObj)
 
 bool cChat::YesCommand(LPOBJ gObj)
 {
+	if(!Marry.NpcUse)
+	{
+		return true;
+	}
+
 	int TypeMarry = -1;
 
 	if(AddTab[gObj->m_Index].MarryType != -1)
@@ -3599,19 +3604,20 @@ bool cChat::YesCommand(LPOBJ gObj)
 
 	switch(TypeMarry)
 	{
-	case 0:
+		case 0:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "Devias Marriage!!!");
+			Chat.MessageAllLog(0,0,c_Green,t_Default,gObj,"Casamento em Devias!");
+
 			Marry.NpcUse = false;
 
 			break;
 		}
-	default:
+		default:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] Yes!", gObj->Name);
+			Chat.MessageAllLog(0,0,c_Green,t_Default, gObj,"[%s] %s!",gObj->Name,COMMAND_YES);
 			AddTab[gObj->m_Index].MarryType = 3;
 
-			if (AddTab[Marry.gObj1->m_Index].MarryType == 3 && AddTab[Marry.gObj2->m_Index].MarryType == 3)
+			if(AddTab[Marry.gObj1->m_Index].MarryType == 3 && AddTab[Marry.gObj2->m_Index].MarryType == 3)
 			{
 				Marry.EndMarriageTrue();	//RUN THEARD
 			}
@@ -3627,34 +3633,40 @@ bool cChat::YesCommand(LPOBJ gObj)
 
 bool cChat::NoCommand(LPOBJ gObj)
 {
+	if(!Marry.NpcUse)
+	{
+		return true;
+	}
+
 	int TypeMarry = -1;
 
-	if (AddTab[gObj->m_Index].MarryType != -1)
+	if(AddTab[gObj->m_Index].MarryType != -1)
 	{
 		TypeMarry = AddTab[gObj->m_Index].MarryType;
 	}
 
 	LPOBJ nObj = Marry.NpcObj;
 
-	switch (TypeMarry)
+	switch(TypeMarry)
 	{
-	case 0:
+		case 0:
 		{
-			if (nObj == NULL)
+			if(nObj == NULL)
 			{
-				Chat.Message(1, gObj, "You cancel marriage");
+				Chat.Message(1,gObj,"Voce cancelou o casamento");
 			}
 			else
 			{
-				Monster.NPCMessage(gObj->m_Index, nObj, "You cancel marriage");	  //PRIVAT
+				// Private
+				Monster.NPCMessage(gObj->m_Index,nObj, "Voce cancelou o casamento");
 			}
 
-			if (Marry.gObj1 != NULL)
+			if(Marry.gObj1 != NULL)
 			{
 				AddTab[Marry.gObj1->m_Index].MarryType = -1;
 			}
 
-			if (Marry.gObj2 != NULL)
+			if(Marry.gObj2 != NULL)
 			{
 				AddTab[Marry.gObj2->m_Index].MarryType = -1;
 			}
@@ -3669,17 +3681,18 @@ bool cChat::NoCommand(LPOBJ gObj)
 		}
 		default:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] No!", gObj->Name);
+			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] %s!", gObj->Name,COMMAND_NO);
 
-			Monster.NPCMessageNear(nObj, "Marriage canceled by %s!!!", gObj->Name);
-			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[Marriage] Marriage canceled by %s!!!", gObj->Name);
+			Monster.NPCMessageNear(nObj, "O casamento foi cancelado por %s!", gObj->Name);
 
-			if (Marry.gObj1 != NULL)
+			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[Marriage] Casamento cancelado por %s!", gObj->Name);
+
+			if(Marry.gObj1 != NULL)
 			{
 				AddTab[Marry.gObj1->m_Index].MarryType = -1;
 			}
 
-			if (Marry.gObj2 != NULL)
+			if(Marry.gObj2 != NULL)
 			{
 				AddTab[Marry.gObj2->m_Index].MarryType = -1;
 			}
