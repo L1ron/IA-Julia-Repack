@@ -1,3 +1,4 @@
+# 1.0.0.330 # - Fixed GS / CS Crash when use /sim and /no commands when NPC is not in use
 # 1.1.0.329 # - Fixed Santa Claus attack event
 # 1.1.0.328 # - Added /Clear command (To clear inventory) and their configs
 # 1.1.0.327 # - Fixed /post command delay Removed post seconds count from MainTick() (OMFG!!!)
