@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+ï»¿#include "StdAfx.h"
 #include "Configs.h"
 #include "Logger.h"
 #include "ChatCommands.h"
@@ -149,7 +149,7 @@ void cConfigs::CalcCharacter()
 	*(unsigned char*)Defense_Sum = GetPrivateProfileInt("Defense", "Defense__SUM", 3, IACalcCharacter);
 	*(unsigned char*)Defense_DW_MG = GetPrivateProfileInt("Defense", "Defense__DW_MG", 4, IACalcCharacter);
 
-	Log.ConsoleOutPut(1,c_Green,t_Default,"[û] [CalcCharacter]\tIniciado.");
+	Log.ConsoleOutPut(1,c_Green,t_Default,"[Ã»] [CalcCharacter]\tIniciado.");
 }
 void cConfigs::MaxStats()
 {
@@ -194,7 +194,7 @@ void cConfigs::MaxStats()
 	MaxMG_Vitality = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxMG_Vitality", IAJuliaMaximum);
 	MaxMG_Energy = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxMG_Energy", IAJuliaMaximum);
 
-	Log.ConsoleOutPut(1, c_Magenta, t_Default, "[û] [MaxStats]\tIniciado.");
+	Log.ConsoleOutPut(1, c_Magenta, t_Default, "[Ã»] [MaxStats]\tIniciado.");
 }
 
 void cConfigs::ZenFixes()

@@ -95,6 +95,7 @@ void cChat::LoadChatCommands()
 	GetPrivateProfileString("Strings", "COMMAND_RESET", "/reset", COMMAND_RESET, sizeof(COMMAND_RESET), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_EVO", "/evo", COMMAND_EVO, sizeof(COMMAND_EVO), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_ZEN", "/zen", COMMAND_ZEN, sizeof(COMMAND_ZEN), IAJuliaChatCommands);
+	GetPrivateProfileString("Strings", "COMMAND_CLEAR", "/clear", COMMAND_CLEAR, sizeof(COMMAND_CLEAR), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_ISMARRY", "/ismarry", COMMAND_ISMARRY, sizeof(COMMAND_ISMARRY), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_MARRY_ONLINE", "/ismarry", COMMAND_MARRY_ONLINE, sizeof(COMMAND_MARRY_ONLINE), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_MARRY_TRACE", "/marrytrace", COMMAND_MARRY_TRACE, sizeof(COMMAND_MARRY_TRACE), IAJuliaChatCommands);
@@ -232,6 +233,11 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 	if (!memcmp(lpChat->chatmsg, COMMAND_SET_ZEN, strlen(COMMAND_SET_ZEN)))
 	{
 		bResult = SetZenCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_ZEN), gObj->m_Index);
+	}
+
+	if (!memcmp(lpChat->chatmsg, COMMAND_CLEAR, strlen(COMMAND_CLEAR)))
+	{
+		bResult = ClearInvCommand(gObj);
 	}
 
 	if (!memcmp(lpChat->chatmsg, COMMAND_SKIN, strlen(COMMAND_SKIN)))
@@ -714,19 +720,27 @@ void cChat::MessageAll(int Type, int Type2, LPOBJ gObj, char *Msg, ...)
 }
 
 bool cChat::CheckCommand
-	(
-	LPOBJ gObj, int lConfig, cGmSystem::Commands Command,
-	int NeedZen, int NeedPcPoint, int NeedWCoin, int NeedWebPoints,
-	int NeedLvl, int Filled, int CheckPlayer,
-	char *CommandName, char *CommandUsage, char *Msg
-	)
+(
+	LPOBJ gObj,
+	int lConfig,
+	cGmSystem::Commands Command,
+	int NeedZen,
+	int NeedPcPoint,
+	int NeedWCoin,
+	int NeedWebPoints,
+	int NeedLvl,
+	int Filled,
+	int CheckPlayer,
+	char *CommandName,
+	char *CommandUsage, char *Msg
+)
 {
 	bool bResult = false;
 
 	int spaces = 0;
 	const unsigned int slen = strlen(Msg);
 
-	for(unsigned int i = 0; i < slen; i++)
+	for(unsigned int i = 0; i < slen;i++)
 	{
 		if((Msg[i] == ' ') && (Msg[i - 1] != ' '))
 		{
@@ -734,9 +748,9 @@ bool cChat::CheckCommand
 		}
 	}
 
-	if (lConfig == 0)
+	if(lConfig == 0)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Funcao temporariamente inativa.", CommandName);
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Funcao inativa.", CommandName);
 
 		return true;
 	}
@@ -748,7 +762,7 @@ bool cChat::CheckCommand
 		return true;
 	}
 
-	if ((Filled > 0) && ((Filled > spaces) || (((slen < 1) || (slen == 1)) && (Msg[0] == ' '))))
+	if((Filled > 0) && ((Filled > spaces) || (((slen < 1) || (slen == 1)) && (Msg[0] == ' '))))
 	{
 		MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Uso: %s", CommandName, CommandUsage);
 
@@ -772,12 +786,14 @@ bool cChat::CheckCommand
 	if (PCPoint.Config.Enabled && NeedPcPoint > 0 && NeedPcPoint > AddTab[gObj->m_Index].PC_PlayerPoints)
 	{
 		MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %d PcPoints.", CommandName, NeedPcPoint - AddTab[gObj->m_Index].PC_PlayerPoints);
+
 		bResult = true;
 	}
 
 	if (PCPoint.Config.Enabled && NeedWCoin > 0 && NeedWCoin > gObj->m_wCashPoint)
 	{
 		MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %d WCoins.", CommandName, NeedWCoin - gObj->m_wCashPoint);
+
 		bResult = true;
 	}
 
@@ -786,12 +802,14 @@ bool cChat::CheckCommand
 		if(PCPoint.Config.WebColumnFloat && (NeedWebPoints > AddTab[gObj->m_Index].WEB_Points_Float))
 		{
 			MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %.2f WebPoints.", CommandName,NeedWebPoints - AddTab[gObj->m_Index].WEB_Points_Float);
+
 			bResult = true;
 		}
 
 		if (!PCPoint.Config.WebColumnFloat && (NeedWebPoints > AddTab[gObj->m_Index].WEB_Points))
 		{
 			MessageLog(1, c_Red, t_COMMANDS, gObj, "[%s] Voce precisa de mais %d WebPoints.", CommandName,NeedWebPoints - AddTab[gObj->m_Index].WEB_Points);
+
 			bResult = true;
 		}
 	}
@@ -923,15 +941,15 @@ bool cChat::DiskCommand(LPOBJ gObj, int Index)
 	}
 
 	OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
-	MessageLog(1, c_Green, t_GM, gObj, "[Disconnect] %s was disconnected.", tObj->Name);
+	MessageLog(1, c_Green, t_GM, gObj, "[Disconnect] %s foi desconectado.", tObj->Name);
 
 	if(GmSystem.IsAdmin(gObj->Name) == 1)
 	{
-		MessageLog(1, c_Green, t_GM, tObj, "[Disconnect] You was disconnected by [Admin] %s", gObj->Name);
+		MessageLog(1, c_Green, t_GM, tObj, "[Disconnect] Voce foi desconectado por [Admin] %s", gObj->Name);
 	}
 	else if(GmSystem.IsAdmin(gObj->Name) == 2)
 	{
-		MessageLog(1, c_Green, t_GM, tObj, "[Disconnect] You was disconnected by [GM] %s", gObj->Name);
+		MessageLog(1, c_Green, t_GM, tObj, "[Disconnect] Voce foi desconectado por [GM] %s", gObj->Name);
 	}
 
 	CloseClient(Index);
@@ -972,7 +990,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 		{
 			if (gObj->pInventory[8].m_Type == ITEMGET(13, 2) || gObj->pInventory[8].m_Type == ITEMGET(13, 3))
 			{
-				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Cant warp to Atlans with this pet");
+				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Impossivel ir a Atlans com esse Pet.");
 
 				return true;
 			}
@@ -980,7 +998,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 
 		if(gObj->m_PK_Level >= 5)
 		{
-			MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Fonomans can't move");
+			MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Fonomans nao podem se mover.");
 
 			return true;
 		}
@@ -989,13 +1007,14 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 		{
 			if (AddTab[gObj->m_Index].VIP_Type < MoveReq.MoveReqInfo[Index].VIP)
 			{
-				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] This Map is for VIP users.");
+				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Esse mapa e somente para VIPs.");
 
 				return true;
 			}
+
 			if (!AddTab[gObj->m_Index].VIP_On && MoveReq.MoveReqInfo[Index].VIP)
 			{
-				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Turn on vip and try again.");
+				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Ative seu VIP e tente novamente.");
 
 				return true;
 			}
@@ -1007,7 +1026,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 		{
 			if (gObj->Level < TempLvl - ceil(TempLvl / 100.0f * 34))
 			{
-				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] You have low level!");
+				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Level insuficiente!");
 				return true;
 			}
 		}
@@ -1015,7 +1034,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 		{
 			if(gObj->Level < TempLvl)
 			{
-				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] You have low level!");
+				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Level insuficiente!");
 				return true;
 			}
 		}
@@ -1028,7 +1047,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 	}
 	else
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Such map doesn't exists.");
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Esse mapa nao existe.");
 
 		return true;
 	}
@@ -1049,42 +1068,59 @@ bool cChat::PostCommand(LPOBJ gObj, char *Msg)
 
 	MuOnlineQuery.Close();
 
-	if (BanChat)
+	if(BanChat)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[BanChat] You chat is banned!");
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[BanChat] Seu chat foi banido!");
+
 		return true;
 	}
 
-	if (Banned == 1)
+	if(Banned > 0)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[ANTI-FLOOD] You post is banned!");
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[ANTI-FLOOD] Seu post foi banido!");
+
 		return true;
 	}
 
-	if (AddTab[gObj->m_Index].POST_Delay > 0)
+	time_t Seconds = time(NULL);
+
+	if(Seconds - Configs.Commands.PostDelay < AddTab[gObj->m_Index].POST_Delay)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[ANTI-FLOOD] Wait %d sec until you can post!", AddTab[gObj->m_Index].POST_Delay);
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[ANTI-FLOOD] Aguarde %lds para re-postar.",Configs.Commands.PostDelay - (Seconds - AddTab[gObj->m_Index].POST_Delay));
+
 		return true;
+	}
+
+	if(!GmSystem.IsAdmin(gObj->Name))
+	{
+		AddTab[gObj->m_Index].POST_Delay = Seconds;
 	}
 
 	TakeCommand(gObj, Configs.Commands.PostPriceZen, Configs.Commands.PostPricePCPoint, Configs.Commands.PostPriceWCoin, Configs.Commands.PostPriceWebPoint, "Post");
+
 	switch (Configs.Commands.PostColor)
 	{
-	case 0:
-	case 1:
-		MessageAll(2, 1, gObj, "[POST] %s", Msg);
-		break;
-	case 2:
-		MessageAll(2, 0, gObj, "@[POST] %s", Msg);
-		break;
-	case 3:
-		MessageAll(2, 0, gObj, "~[POST] %s", Msg);
-		break;
+		case 0: case 1:
+		{
+			MessageAll(2, 1, gObj, "[POST] %s", Msg);
+
+			break;
+		}
+		case 2:
+		{
+			MessageAll(2, 0, gObj, "@[POST] %s", Msg);
+
+			break;
+		}
+		case 3:
+		{
+			MessageAll(2, 0, gObj, "~[POST] %s", Msg);
+
+			break;
+		}
 	}
 
 	Log.ConsoleOutPut(0, c_Green, t_POST, "[POST] %s: %s", gObj->Name, Msg);
-	if (!GmSystem.IsAdmin(gObj->Name))
-		AddTab[gObj->m_Index].POST_Delay = Configs.Commands.PostDelay;
 
 	return true;
 }
@@ -1092,7 +1128,9 @@ bool cChat::PostCommand(LPOBJ gObj, char *Msg)
 bool cChat::BanPostCommand(LPOBJ gObj, char *Msg, int Index)
 {
 	if (CheckCommand(gObj, Configs.Commands.IsBanPost, GmSystem.cBanPost, 0, 0, 0, 0, 0, 0, Index, "BanPost", "[Name] /banpost", ""))
+	{
 		return true;
+	}
 
 	OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
@@ -1107,26 +1145,6 @@ bool cChat::BanPostCommand(LPOBJ gObj, char *Msg, int Index)
 	}
 	else
 	{
-		/*
-		int Min = 0, Hour = 0, Day = 0, Month = 0, Year = 0;
-
-		sscanf(Msg, "%d %d %d %d %d", &Min, &Hour, &Day, &Month, &Year);
-
-		CTime ct = CTime::GetCurrentTime();
-		CTimeSpan cts = CTimeSpan(Year*365 + Month*30 + Day, Hour, Min, 0);
-		ct = ct + cts;
-		AddTab[tObj->m_Index].POST_BanTime = ct;
-
-		char QueryTempTime[50];
-		strcpy(QueryTempTime, Utilits.SetDate(ct));
-
-		MuOnlineQuery.ExecQuery("UPDATE Character SET BanPostTime = '%s', BanPost = 1 WHERE Name = '%s'", QueryTempTime, tObj->Name);
-		MuOnlineQuery.Fetch();
-		MuOnlineQuery.Close();
-
-		MessageLog(1, c_Red, t_BAN, gObj, "[BanPost] %s post banned till %d:%d %d/%d/%d", tObj->Name, ct.GetHour(), ct.GetMinute(), ct.GetDay(), ct.GetMonth(), ct.GetYear());
-		MessageLog(1, c_Red, t_BAN, tObj, "[BanPost] Your post was banned by %s till %d:%d %d/%d/%d", gObj->Name, ct.GetHour(), ct.GetMinute(), ct.GetDay(), ct.GetMonth(), ct.GetYear());
-		*/
 		MuOnlineQuery.ExecQuery("UPDATE Character SET BanPost = 1 WHERE Name = '%s'", tObj->Name);
 		MuOnlineQuery.Fetch();
 		MuOnlineQuery.Close();
@@ -1141,7 +1159,9 @@ bool cChat::BanPostCommand(LPOBJ gObj, char *Msg, int Index)
 bool cChat::UnBanPostCommand(LPOBJ gObj, int Index)
 {
 	if (CheckCommand(gObj, Configs.Commands.IsBanPost, GmSystem.cBanPost, 0, 0, 0, 0, 0, 0, Index, "UnBanPost", "[Name] /unbanpost", ""))
+	{
 		return true;
+	}
 
 	OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
@@ -1153,6 +1173,7 @@ bool cChat::UnBanPostCommand(LPOBJ gObj, int Index)
 	if (Banned == 0)
 	{
 		MessageLog(1, c_Red, t_BAN, gObj, "[BanPost] %s's post is not banned", tObj->Name);
+
 		return true;
 	}
 	else
@@ -1161,7 +1182,6 @@ bool cChat::UnBanPostCommand(LPOBJ gObj, int Index)
 		MessageLog(1, c_Red, t_BAN, tObj, "[BanPost] Your post sucsessfuly UnBanned by %s!", gObj->Name);
 	}
 
-	//MuOnlineQuery.ExecQuery("UPDATE Character SET BanPostTime = 0, BanPost = 0 WHERE Name = '%s'", tObj->Name);
 	MuOnlineQuery.ExecQuery("UPDATE Character SET BanPost = 0 WHERE Name = '%s'", tObj->Name);
 	MuOnlineQuery.Fetch();
 	MuOnlineQuery.Close();
@@ -1188,25 +1208,6 @@ bool cChat::BanCharCommand(LPOBJ gObj, char *Msg, int Index)
 	}
 	else
 	{
-		/*
-		int Min = 0, Hour = 0, Day = 0, Month = 0, Year = 0;
-
-		sscanf(Msg, "%d %d %d %d %d", &Min, &Hour, &Day, &Month, &Year);
-
-		CTime ct = CTime::GetCurrentTime();
-		CTimeSpan cts = CTimeSpan(Year*365 + Month*30 + Day, Hour, Min, 0);
-		ct = ct + cts;
-
-		char QueryTempTime[50];
-		strcpy(QueryTempTime, Utilits.SetDate(ct));
-
-		MuOnlineQuery.ExecQuery("UPDATE Character SET BanCharTime = '%s', CtlCode = 1 WHERE Name = '%s'", QueryTempTime, tObj->Name);
-		MuOnlineQuery.Fetch();
-		MuOnlineQuery.Close();
-
-		MessageLog(1, c_Red, t_BAN, gObj, "[BanChar] %s banned till %d:%d %d/%d/%d", tObj->Name, ct.GetHour(), ct.GetMinute(), ct.GetDay(), ct.GetMonth(), ct.GetYear());
-		MessageLog(1, c_Red, t_BAN, tObj, "[BanChar] Your character was banned by %s till %d:%d %d/%d/%d", gObj->Name, ct.GetHour(), ct.GetMinute(), ct.GetDay(), ct.GetMonth(), ct.GetYear());
-		*/
 		MuOnlineQuery.ExecQuery("UPDATE Character SET CtlCode = 1 WHERE Name = '%s'", tObj->Name);
 		MuOnlineQuery.Fetch();
 		MuOnlineQuery.Close();
@@ -1225,23 +1226,6 @@ bool cChat::BanAccCommand(LPOBJ gObj, char *Msg, int Index)
 		return true;
 
 	OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
-	/*
-	int Min = 0, Hour = 0, Day = 0, Month = 0, Year = 0;
-
-	sscanf(Msg, "%d %d %d %d %d", &Min, &Hour, &Day, &Month, &Year);
-
-	CTime ct = CTime::GetCurrentTime();
-	CTimeSpan cts = CTimeSpan(Year*365 + Month*30 + Day, Hour, Min, 0);		// другой класс
-	ct = ct + cts;
-
-	char QueryTempTime[50];
-	strcpy(QueryTempTime, Utilits.SetDate(ct));
-
-	MessageLog(1, c_Red, t_BAN, gObj, "[BanAcc] %s banned till %d:%d %d/%d/%d", tObj->Name, ct.GetHour(), ct.GetMinute(), ct.GetDay(), ct.GetMonth(), ct.GetYear());
-	MessageLog(1, c_Red, t_BAN, tObj, "[BanAcc] Your character was banned by %s till %d:%d %d/%d/%d", gObj->Name, ct.GetHour(), ct.GetMinute(), ct.GetDay(), ct.GetMonth(), ct.GetYear());
-
-	Me_MuOnlineQuery.ExecQuery("UPDATE MEMB_INFO SET BanAccTime = '%s', bloc_code = 1 WHERE memb___id = '%s'", QueryTempTime, tObj->AccountID);
-	*/
 
 	MessageLog(1, c_Red, t_BAN, gObj, "[BanAcc] %s banned,", tObj->Name);
 	MessageLog(1, c_Red, t_BAN, tObj, "[BanAcc] Your character was banned by %s.", gObj->Name);
@@ -1271,7 +1255,6 @@ bool cChat::UnBanCharCommand(LPOBJ gObj, char* Target)
 	}
 	else
 	{
-		//MuOnlineQuery.ExecQuery("UPDATE Character SET BanCharTime = 0, CtlCode = 0 WHERE Name = '%s'", Target);
 		MuOnlineQuery.ExecQuery("UPDATE Character SET CtlCode = 0 WHERE Name = '%s'", Target);
 		MuOnlineQuery.Fetch();
 		MuOnlineQuery.Close();
@@ -1283,7 +1266,9 @@ bool cChat::UnBanCharCommand(LPOBJ gObj, char* Target)
 bool cChat::UnBanAccCommand(LPOBJ gObj, char* Target)
 {
 	if (CheckCommand(gObj, Configs.Commands.IsBanAcc, GmSystem.cBanPlayer, 0, 0, 0, 0, 0, 0, 0, "UnBanAcc", "[Name] /unbanacc", ""))
+	{
 		return true;
+	}
 
 	Me_MuOnlineQuery.ExecQuery("SELECT bloc_code FROM MEMB_INFO WHERE memb___id = '%s'", Target);
 	Me_MuOnlineQuery.Fetch();
@@ -1297,7 +1282,6 @@ bool cChat::UnBanAccCommand(LPOBJ gObj, char* Target)
 	}
 	else
 	{
-		//Me_MuOnlineQuery.ExecQuery("UPDATE MEMB_INFO SET BanAccTime = 0, bloc_code = 0 WHERE memb___id = '%s'", Target);
 		Me_MuOnlineQuery.ExecQuery("UPDATE MEMB_INFO SET bloc_code = 0 WHERE memb___id = '%s'", Target);
 		Me_MuOnlineQuery.Fetch();
 		Me_MuOnlineQuery.Close();
@@ -1310,7 +1294,9 @@ bool cChat::UnBanAccCommand(LPOBJ gObj, char* Target)
 bool cChat::TimeCommand(LPOBJ gObj)
 {
 	if (CheckCommand(gObj, Configs.Commands.IsTime, GmSystem.NONE, 0, 0, 0, 0, 0, 0, 0, "Time", COMMAND_TIME, ""))
+	{
 		return true;
+	}
 
 	SYSTEMTIME t;
 	GetLocalTime(&t);
@@ -1321,6 +1307,7 @@ bool cChat::TimeCommand(LPOBJ gObj)
 bool cChat::LevelCommand(LPOBJ gObj)
 {
 	MessageLog(1, c_Red, t_GM, gObj, "Level: %d, Master Level: %d", gObj->Level, gObj->MLevel);
+
 	return true;
 }
 
@@ -1341,11 +1328,16 @@ bool cChat::DropCommand(LPOBJ gObj, char *Msg, int Index)
 
 	sscanf(Msg, "%d %d %d %d %d %d %d %d %d", &ItemCount, &ItemType, &ItemIndex, &ItemLevel, &ItemSkill, &ItemLuck, &ItemOpt, &ItemExc, &ItemAncient);
 	int Item = ItemType * 512 + ItemIndex;
+
 	if ((ItemCount < 0) || (ItemCount > 20))
+	{
 		ItemCount = 1;
+	}
+
 	if (ItemIndex < 0 || (ItemType < 0 || ItemType > 15) || (ItemLevel<0 || ItemLevel > 13) || (ItemOpt < 0 || ItemOpt > 7) || (ItemLuck < 0 || ItemLuck > 1) || (ItemSkill < 0 || ItemSkill > 1) || (ItemExc < 0 || ItemExc > 63) || (ItemAncient < 0 || ItemAncient > 40))
 	{
 		MessageLog(1, c_Red, t_GM, gObj, "[Drop] Usage: /drop <ItemCount> <ItemType> <ItemIndex> <ItemLvl> <ItemSkill> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>");
+
 		return true;
 	}
 	else
@@ -1353,10 +1345,14 @@ bool cChat::DropCommand(LPOBJ gObj, char *Msg, int Index)
 		OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
 		for (int i = 0; i < ItemCount; i++)
+		{
 			ItemSerialCreateSend(Index, tObj->MapNumber, (int)tObj->X, (int)tObj->Y, Item, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, Index, ItemExc, ItemAncient);
+		}
 
-		if (tObj == gObj)
+		if(tObj == gObj)
+		{
 			MessageLog(1, c_Green, t_GM, gObj, "[Drop] %d Item Created %d %d %d %d %d %d %d %d - Success", ItemCount, ItemType, ItemIndex, ItemLevel, ItemSkill, ItemLuck, ItemOpt, ItemExc, ItemAncient);
+		}
 		else
 		{
 			MessageLog(1, c_Green, t_GM, gObj, "[Drop] %d Item Created to %s %d %d %d %d %d %d %d %d - Success", ItemCount, tObj->Name, ItemType, ItemIndex, ItemLevel, ItemSkill, ItemLuck, ItemOpt, ItemExc, ItemAncient);
@@ -1869,75 +1865,85 @@ bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
 #pragma warning(disable: 4018 4244)
 bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 {
-	switch (Type)
+	char StatsUsage[12];
+
+	switch(Type)
 	{
-	case 0:
+		case 0:
 		{
-			if(CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/str <num>", Msg))
-			{
-				return true;
-			}
+			strcpy(StatsUsage,"/str <num>");
 
 			break;
 		}
-	case 1:
+		case 1:
 		{
-			if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/agi <num>", Msg))
-			{
-				return true;
-			}
+			strcpy(StatsUsage,"/agi <num>");
 
 			break;
 		}
-	case 2:
+		case 2:
 		{
-			if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/vit <num>", Msg))
-			{
-				return true;
-			}
+			strcpy(StatsUsage,"/vit <num>");
 
 			break;
 		}
-	case 3:
+		case 3:
 		{
-			if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/ene <num>", Msg))
-			{
-				return true;
-			}
+			strcpy(StatsUsage,"/ene <num>");
 
 			break;
 		}
-	case 4:
+		case 4:
 		{
-			if (CheckCommand(gObj, Configs.Commands.AddPointEnabled, GmSystem.NONE, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, Configs.Commands.AddPointLevelReq, 1, 0, "AddStats", "/cmd <num>", Msg))
+			if(gObj->Class != 4)
 			{
-				return true;
-			}
-
-			if (gObj->Class != 4)
-			{
-				MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] You are not Dark Lord!!!");
+				MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] Voce nao e um Dark Lord!!!");
 
 				return true;
 			}
+
+			strcpy(StatsUsage,"/cmd <num>");
 
 			break;
 		}
 	}
 
-	int Points;
-	sscanf(Msg, "%d", &Points);
-
-	if (Configs.Commands.MaxAddedStats > 0 && Configs.Commands.MaxAddedStats <= Points)
+	if
+	(
+		CheckCommand
+		(
+			gObj,
+			Configs.Commands.AddPointEnabled,
+			GmSystem.NONE,
+			Configs.Commands.AddPriceZen,
+			Configs.Commands.AddPricePCPoint,
+			Configs.Commands.AddPriceWCoin,
+			Configs.Commands.AddPriceWebPoints,
+			Configs.Commands.AddPointLevelReq,
+			1,
+			0,
+			"AddStats",
+			StatsUsage,
+			Msg
+		)
+	)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] You can't add more than %d stats!!!", Configs.Commands.MaxAddedStats);
+		return true;
+	}
+
+	int Points;
+	sscanf(Msg,"%d",&Points);
+
+	if(Configs.Commands.MaxAddedStats > 0 && Configs.Commands.MaxAddedStats <= Points)
+	{
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] Voce nao pode adicionar mais do que %d pontos!", Configs.Commands.MaxAddedStats);
 
 		return true;
 	}
 
 	int MaxPoints = 32000;
 
-	if (Configs.Enable65kStats >= 1)
+	if(Configs.Enable65kStats)
 	{
 		MaxPoints = -536;
 	}
@@ -1945,13 +1951,13 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 	int Stats = 0;
 	bool bResult = false;
 
-	switch (Type)
+	switch(Type)
 	{
-	case 0x00:
+		case 0x00:
 		{
 			Stats = gObj->Strength;
 
-			if (Configs.MaxStatsSystemEnable)
+			if(Configs.MaxStatsSystemEnable)
 			{
 				if (gObj->Class == 0)
 					MaxPoints = Configs.MaxDW_Strength;
@@ -1969,7 +1975,7 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 			break;
 		}
-	case 0x01:
+		case 0x01:
 		{
 			Stats = gObj->Dexterity;
 
@@ -1991,7 +1997,7 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 			break;
 		}
-	case 0x02:
+		case 0x02:
 		{
 			Stats = gObj->Vitality;
 
@@ -2013,7 +2019,7 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 			break;
 		}
-	case 0x03:
+		case 0x03:
 		{
 			Stats = gObj->Energy;
 
@@ -2035,7 +2041,7 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 			break;
 		}
-	case 0x04:
+		case 0x04:
 		{
 			Stats = gObj->Leadership;
 
@@ -2060,7 +2066,7 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 	if (((MaxPoints > 0) && (Stats >= MaxPoints || Stats < 0)) || ((MaxPoints < 0) && (Stats < 0) && (Stats >= MaxPoints)))
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] You have max points for this type!!!");
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] Voce ja esta full nesse stats!");
 
 		return true;
 	}
@@ -2070,19 +2076,19 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 	if(gObj->LevelUpPoint < Points)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] You don't have enough points to add. Need %d more.", Points - gObj->LevelUpPoint);
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] Pontos insuficientes, necessario mais %d pontos.", Points - gObj->LevelUpPoint);
 
 		return true;
 	}
 
 	if (((MaxPoints > 0) && (Stats > MaxPoints || Stats < 0)) || ((MaxPoints < 0) && (Stats < 0) && (Stats > MaxPoints)))
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] You can't add more than %d points for this type!!!", MaxPoints - StatsTemp);
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddStats] Voce nao pode adicionar mais do que %d pontos nesse stats!", MaxPoints - StatsTemp);
 
 		return true;
 	}
 
-	TakeCommand(gObj, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints, "AddStats");
+	TakeCommand(gObj, Configs.Commands.AddPriceZen, Configs.Commands.AddPricePCPoint, Configs.Commands.AddPriceWCoin, Configs.Commands.AddPriceWebPoints,"AddStats");
 
 	// Efeito Gelo (3) :D
 	if(Configs.Commands.AddPointEffect > 0)
@@ -2094,7 +2100,7 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 	switch (Type)
 	{
-	case 0x00:
+		case 0x00:
 		{
 			PMSG_STAT_UPDATE pMsg;
 			PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
@@ -2112,11 +2118,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
-
 			return true;
 		}
-	case 0x01:
+		case 0x01:
 		{
 			PMSG_STAT_UPDATE pMsg;
 
@@ -2134,11 +2138,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
-
 			return true;
 		}
-	case 0x02:
+		case 0x02:
 		{
 			PMSG_STAT_UPDATE pMsg;
 
@@ -2157,11 +2159,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
-
 			return true;
 		}
-	case 0x03:
+		case 0x03:
 		{
 			PMSG_STAT_UPDATE pMsg;
 
@@ -2180,11 +2180,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
-
 			return true;
 		}
-	case 0x04:
+		case 0x04:
 		{
 			PMSG_STAT_UPDATE pMsg;
 
@@ -2202,11 +2200,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
-			Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj, "[AddStats] Your stats successfully added!");
-
 			return true;
 		}
-	default:
+		default:
 		{
 			if(Configs.Commands.AddPointEffect > 0)
 			{
@@ -2229,7 +2225,7 @@ bool cChat::WareCommand(LPOBJ gObj, char *Msg)
 
 	if (gObj->WarehouseSave != 0)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] Close your vault first!");
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] Feche seu bau antes!");
 
 		return true;
 	}
@@ -2309,7 +2305,10 @@ bool cChat::AddMobCommand(LPOBJ gObj, char *Msg)
 		//Mob,Map,Speed,x1,y1,x2,y2,dir,count
 		//17	9	30	119	80	150	115	-1	35 // Cyclops
 		if(Count == 1)
+		{
 			Dir = gObj->Dir;
+		}
+
 		if(Distance > 0)
 		{
 			X1 -= Distance;
@@ -2321,10 +2320,12 @@ bool cChat::AddMobCommand(LPOBJ gObj, char *Msg)
 		fprintf(AddMobFile, "\n%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", Mob, Map, Speed, X1, Y1, X2, Y2, Dir, Count);
 		fclose(AddMobFile);
 	}
+
 	for(int i = 0; i < Count; i++)
 	{
 		Monster.MonsterAddAndSpawn(Mob, Map, Speed, X1, Y1, X2, Y2, Dir);
 	}
+
 	MessageLog(1, c_Red, t_COMMANDS, gObj, "[AddMob] %d Mob Successfully spawned (Map: %d, X: %d, Y: %d, MobID: %d)", Count,Map,X1,Y1, Mob);
 #endif
 	return true;
@@ -2333,7 +2334,9 @@ bool cChat::AddMobCommand(LPOBJ gObj, char *Msg)
 bool cChat::SetDropCommand(LPOBJ gObj, char *Msg, int Index)
 {
 	if (CheckCommand(gObj, Configs.Commands.IsDrop, GmSystem.cDrop, 0, 0, 0, 0, 0, 1, Index, "SetDrop", "[Name] /setdrop <ItemIndex> <ItemLvl> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>", Msg))
+	{
 		return true;
+	}
 
 	int ItemIndex = 0;
 	int ItemLevel = 0;
@@ -2347,7 +2350,7 @@ bool cChat::SetDropCommand(LPOBJ gObj, char *Msg, int Index)
 
 	if(ItemIndex < 0 || (ItemLevel<0 || ItemLevel > 13) || (ItemOpt < 0 || ItemOpt > 7) || (ItemLuck < 0 || ItemLuck > 1) || (ItemExc < 0 || ItemExc > 63) || (ItemAncient < 0 || ItemAncient > 40))
 	{
-		MessageLog(1, c_Red, t_GM, gObj, "[SetDrop] Usage: /setdrop <ItemIndex> <ItemLvl> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>");
+		MessageLog(1, c_Red, t_GM, gObj, "[SetDrop] Uso: /setdrop <ItemIndex> <ItemLvl> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>");
 
 		return true;
 	}
@@ -3354,31 +3357,25 @@ bool cChat::EvoCommand(LPOBJ gObj)
 
 bool cChat::ZenCommand(LPOBJ gObj,char *Msg)
 {
-	/*
-	if(CheckCommand(gObj, Configs.Commands.IsMultyVault, GmSystem.NONE, Configs.Commands.ZenForChange, Configs.Commands.PcPointForChange, Configs.Commands.WCoinForChange, Configs.Commands.WebPointsForChange, 0, 1, 0, "Ware", "/ware <num>", Msg))
-	{
-	return true;
-	}
-	*/
 	if
-		(
+	(
 		CheckCommand
 		(
-		gObj,
-		Configs.Commands.ZenCommandEnabled,
-		GmSystem.NONE,
-		0,
-		Configs.Commands.ZenPricePcPoint,
-		Configs.Commands.ZenPriceWCoin,
-		Configs.Commands.ZenPriceWebPoint,
-		Configs.Commands.ZenLevelReq,
-		1,
-		0,
-		"Zen",
-		"/zen <quantia>",
-		Msg
+			gObj,
+			Configs.Commands.ZenCommandEnabled,
+			GmSystem.NONE,
+			0,
+			Configs.Commands.ZenPricePcPoint,
+			Configs.Commands.ZenPriceWCoin,
+			Configs.Commands.ZenPriceWebPoint,
+			Configs.Commands.ZenLevelReq,
+			1,
+			0,
+			"Zen",
+			"/zen <quantia>",
+			Msg
 		)
-		)
+	)	
 	{
 		return true;
 	}
@@ -3386,26 +3383,69 @@ bool cChat::ZenCommand(LPOBJ gObj,char *Msg)
 	{
 		int Buffer = atoi(Msg);
 
-		if(Buffer <= 0)
+		if(Buffer > 0)
 		{
-			MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Zen] Desculpe, valor fora do padrao.");
+			if(((gObj->Money + Buffer) >= 2000000000) || (gObj->Money < 0) || (Buffer >= 2000000000))
+			{
+				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Zen] Impossivel carregar mais do que 2000000000 zens.");
+			}
+			else
+			{
+				gObj->Money += Buffer;
+				GCMoneySend(gObj->m_Index,gObj->Money);
 
-			return true;
-		}
-
-		if((gObj->Money + Buffer >= 2000000000) || (gObj->Money >= 2000000000) || (Buffer >= 2000000000))
-		{
-			MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Zen] Desculpe, voce nao pode ter mais do que 2000000000 zens.");
+				TakeCommand(gObj,0,Configs.Commands.ZenPricePcPoint,Configs.Commands.ZenPriceWCoin,Configs.Commands.ZenPriceWebPoint,"Zen");
+			}
 		}
 		else
 		{
-			gObj->Money += Buffer;
-			GCMoneySend(gObj->m_Index,gObj->Money);
-
-			TakeCommand(gObj,0,Configs.Commands.ZenPricePcPoint,Configs.Commands.ZenPriceWCoin,Configs.Commands.ZenPriceWebPoint,"Zen");
-
-			MessageLog(1, c_Blue, t_COMMANDS, gObj, "[Zen] Voce acaba de receber %d Zens.",Buffer);
+			MessageLog(1, c_Red, t_COMMANDS, gObj, "[Zen] Desculpe, valor fora do padrao.");
 		}
+	}
+
+	return true;
+}
+
+bool cChat::ClearInvCommand(LPOBJ gObj)
+{
+	if
+	(
+		CheckCommand
+		(
+			gObj,
+			Configs.Commands.ClearCommandEnabled,
+			GmSystem.NONE,
+			Configs.Commands.ClearZenReq,
+			Configs.Commands.ClearPricePcPoint,
+			Configs.Commands.ClearPriceWCoin,
+			Configs.Commands.ClearPriceWebPoint,
+			Configs.Commands.ClearLevelReq,
+			0,
+			0,
+			"Clear Intventory",
+			"/clear",
+			""
+		)
+	)	
+	{
+		return true;
+	}
+	else
+	{
+		TakeCommand(gObj,Configs.Commands.ClearZenReq,Configs.Commands.ClearPricePcPoint,Configs.Commands.ClearPriceWCoin,Configs.Commands.ClearPriceWebPoint,"Clear");
+
+		/*
+			i = 0 Limpar TUDO!
+			i = 12 Limpar somente inventario e deixar SET, Armas, Pendantes, Pet e Asa
+		*/
+
+		for(BYTE i = 12; i < 76;i ++)
+		{
+			gObjInventoryDeleteItem(gObj->m_Index,i);
+			GCInventoryItemDeleteSend(gObj->m_Index,i,1);
+		}
+
+		Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Clear] Voce limpou seu inventario!");
 	}
 
 	return true;
@@ -3413,7 +3453,7 @@ bool cChat::ZenCommand(LPOBJ gObj,char *Msg)
 
 bool cChat::IsMarryCommand(LPOBJ gObj, char *Msg)
 {
-	if (CheckCommand(gObj, Marry.Config.IsMarry, GmSystem.NONE, 0, 0, 0, 0, 0, 1, 0, "Marry", "/ismarry <name>", Msg))
+	if(CheckCommand(gObj, Marry.Config.IsMarry, GmSystem.NONE, 0, 0, 0, 0, 0, 1, 0, "Marry", "/ismarry <name>", Msg))
 	{
 		return true;
 	}
@@ -3627,7 +3667,7 @@ bool cChat::NoCommand(LPOBJ gObj)
 
 			break;
 		}
-	default:
+		default:
 		{
 			Chat.MessageAllLog(0, 0, c_Green, t_Default, gObj, "[%s] No!", gObj->Name);
 
