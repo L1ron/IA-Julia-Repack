@@ -8,10 +8,10 @@ void GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, in
 
 	/*
 	    Criar alguma config para deixar funcionando em varios mains :D
-	    //PHeadSetB((LPBYTE)&pResult, 0x11, sizeof(pResult)); // (1.03O main)
+	    //PHeadSetB((LPBYTE)&pResult, 0x11, sizeof(pResult));	// (1.03O main)
 	*/
 
-	PHeadSetB((LPBYTE)&pResult, 0xDC, sizeof(pResult));	// (1.03P main)
+	PHeadSetB((LPBYTE)&pResult,0xDC,sizeof(pResult));	// (1.03P main)
 
 	pResult.NumberH = SET_NUMBERH(TargetIndex);
 	pResult.NumberL = SET_NUMBERL(TargetIndex);
@@ -45,7 +45,7 @@ void GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, in
 		DataSend(TargetIndex, (LPBYTE)&pResult, pResult.h.size);
 	}
 
-	if(gObj->Type == OBJECT_USER )
+	if(gObj->Type == OBJECT_USER)
 	{
 		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 	}

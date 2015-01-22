@@ -228,99 +228,99 @@ g_DuelRespawns [MAX_DUEL_ROOMS] =
 //## Class;
 class cDuelSystem
 {
-private:
-    DWORD UpdateTickCount;
-    DWORD UpdateLifebarTime;
+	private:
+		DWORD UpdateTickCount;
+		DWORD UpdateLifebarTime;
 
-public:
-    DUEL_ROOM	g_DuelRooms[MAX_DUEL_ROOMS];
+	public:
+		DUEL_ROOM	g_DuelRooms[MAX_DUEL_ROOMS];
 
-    cDuelSystem(void);
-    ~cDuelSystem(void);
+		cDuelSystem(void);
+		~cDuelSystem(void);
 
-    struct sConfig
-    {
-        int Enabled;
-        int Ranking;
-        int Logging;
-        int DuelGate;
-    } Config;
+		struct sConfig
+		{
+			int Enabled;
+			int Ranking;
+			int Logging;
+			int DuelGate;
+		} Config;
 
-    void Load();
-    void Run();
-    void DuelProtocolCore(LPOBJ lpObj, unsigned char * lpPacket);
-    void KillUserProc ( LPOBJ lpObj, LPOBJ lpTarget);
-    int GetUserDuelRoom(LPOBJ lpObj);
-    int GetFreeRoomIndex();
-    DWORD _DuelThread(void *param);
+		void Load();
+		void Run();
+		void DuelProtocolCore(LPOBJ lpObj, unsigned char * lpPacket);
+		void KillUserProc ( LPOBJ lpObj, LPOBJ lpTarget);
+		int GetUserDuelRoom(LPOBJ lpObj);
+		int GetFreeRoomIndex();
+		DWORD _DuelThread(void *param);
 
-    static void RunThread(LPVOID param)
-    {
-        while(true)
-        {
-            cDuelSystem* This = (cDuelSystem*)param;
+		static void RunThread(LPVOID param)
+		{
+			while(true)
+			{
+				cDuelSystem* This = (cDuelSystem*)param;
         
-            This->Run();
+				This->Run();
         
-            Sleep(1000);
-        }
-    }
+				Sleep(1000);
+			}
+		}
 
-    void DuelCreateThread()
-    {
-        DWORD ThreadID;
+		void DuelCreateThread()
+		{
+			DWORD ThreadID;
     
-        HANDLE dThread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)RunThread, (LPVOID)this, 0, &ThreadID); /*False	2	92	V513	Use _beginthreadex/_endthreadex functions instead of CreateThread/ExitThread functions.	IA Julia 1.x.x	duelmanager.h	283	False*/
+			HANDLE dThread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)RunThread, (LPVOID)this, 0, &ThreadID); /*False	2	92	V513	Use _beginthreadex/_endthreadex functions instead of CreateThread/ExitThread functions.	IA Julia 1.x.x	duelmanager.h	283	False*/
     
-        if(!dThread)
-        {
-            MessageBoxA(0, "Cannot start Duel System", "Error", MB_OK | MB_ICONERROR);
-            exit(0);
-        }
+			if(!dThread)
+			{
+				MessageBoxA(0, "Cannot start Duel System", "Error", MB_OK | MB_ICONERROR);
+				exit(0);
+			}
 
-    }
+		}
 
-    bool IsDuelEnable(int aIndex);
-    bool DuelCheck(LPOBJ lpObj);
-    bool DuelCheck(LPOBJ lpObj, LPOBJ lpObj2);
-    void UserDuelInfoReset(LPOBJ lpObj);
-    void RoomReset(short iRoom, bool dontMove = false, bool dontSendEnd = false);
-    void RemoveUser(LPOBJ lpObj);
-    void SetDuelOption(int lpObj, BOOL bState);
-    bool IsOnDuel(int lpObj);
-    bool IsOnDuel2(int lpObj, int lpObj2);
-    void PlayerScore(LPOBJ lpObj);
-    int GetSpectatorCount(short iRoom);
-    void SendDuelStatus(LPOBJ lpObj);
-    void UpdateDuelScore(short iRoom);
-    void WinnerBuff(LPOBJ lpObj);
-    void DeletePotion(LPOBJ lpObj);
-    bool IsSpectacor(short index);
+		bool IsDuelEnable(int aIndex);
+		bool DuelCheck(LPOBJ lpObj);
+		bool DuelCheck(LPOBJ lpObj, LPOBJ lpObj2);
+		void UserDuelInfoReset(LPOBJ lpObj);
+		void RoomReset(short iRoom, bool dontMove = false, bool dontSendEnd = false);
+		void RemoveUser(LPOBJ lpObj);
+		void SetDuelOption(int lpObj, BOOL bState);
+		bool IsOnDuel(int lpObj);
+		bool IsOnDuel2(int lpObj, int lpObj2);
+		void PlayerScore(LPOBJ lpObj);
+		int GetSpectatorCount(short iRoom);
+		void SendDuelStatus(LPOBJ lpObj);
+		void UpdateDuelScore(short iRoom);
+		void WinnerBuff(LPOBJ lpObj);
+		void DeletePotion(LPOBJ lpObj);
+		bool IsSpectacor(short index);
 
-    void RecvDuelRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_START* lpMsg);
-    void RecvDuelAnswer(LPOBJ lpObj, PMSG_DUEL_ANSWER_START* lpMsg);
-    void RecvWatchRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_WATCH* lpMsg);
-    void RespawnDuelers(LPOBJ lpObj, LPOBJ lpTargetObj);
-    void SendRefuseDuel(LPOBJ lpObj);
+		void RecvDuelRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_START* lpMsg);
+		void RecvDuelAnswer(LPOBJ lpObj, PMSG_DUEL_ANSWER_START* lpMsg);
+		void RecvWatchRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_WATCH* lpMsg);
+		void RespawnDuelers(LPOBJ lpObj, LPOBJ lpTargetObj);
+		void SendRefuseDuel(LPOBJ lpObj);
 
 
-    static void TimerThreadEP(void * pThis)
-    {
-        cDuelSystem * pt = (cDuelSystem*)pThis;
-    }
+		static void TimerThreadEP(void * pThis)
+		{
+			cDuelSystem * pt = (cDuelSystem*)pThis;
+		}
 
-    void SendEndDuel(LPOBJ lpObj);
-    void SendEndDuelNotification(LPOBJ lpObj, char* Winner, char* Looser);
-    void SendLifebarStatus(short iRoom);
-    void SendLifebarStatus(LPOBJ lpObj, int iRoom);
-    void SendLifebarInit(LPOBJ lpObj, int iRoom);
-    void SendSpectatorList(short iRoom);
-    void SendSpectatorList(LPOBJ lpObj, int iRoom);
-    void SendSpectatorAdd(short iSpecIndex, int iRoom);
-    void SendSpectatorRemove(short iSpecIndex, int iRoom);
+		void SendEndDuel(LPOBJ lpObj);
+		void SendEndDuelNotification(LPOBJ lpObj, char* Winner, char* Looser);
+		void SendLifebarStatus(short iRoom);
+		void SendLifebarStatus(LPOBJ lpObj, int iRoom);
+		void SendLifebarInit(LPOBJ lpObj, int iRoom);
+		void SendSpectatorList(short iRoom);
+		void SendSpectatorList(LPOBJ lpObj, int iRoom);
+		void SendSpectatorAdd(short iSpecIndex, int iRoom);
+		void SendSpectatorRemove(short iSpecIndex, int iRoom);
 
-    void DuelSetInfo(LPOBJ lpObj, int DuelWins, int DuelLoses);
-    void SaveDuel(char FirstAcc[11], char FirstName[11], char SecondAcc[11], char SecondName[11], int Point1, int Point2);
+		void DuelSetInfo(LPOBJ lpObj, int DuelWins, int DuelLoses);
+		void SaveDuel(char FirstAcc[11], char FirstName[11], char SecondAcc[11], char SecondName[11], int Point1, int Point2);
 };
 
 extern cDuelSystem DuelSystem;

@@ -18,9 +18,9 @@ struct PMSG_ATTACKRESULT
 	BYTE btShieldDamageH; // 8
 	BYTE btShieldDamageL; // 9
 
-	float Life; //A
-	float MaxLife; //E
-	float AddLife; //Inner bug hp bar fix.
+	float Life;		//A
+	float MaxLife;	//E
+	float AddLife;	//Inner bug hp bar fix.
 };
 
 void GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage);

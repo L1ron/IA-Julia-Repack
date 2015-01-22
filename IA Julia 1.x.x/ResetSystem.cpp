@@ -358,12 +358,12 @@ void RSystem::Reset(LPOBJ gObj)
 		}
 	}
 
+	GCLevelUpMsgSend(gObj->m_Index,gObj->Level);
 	gObjCalCharacter(Utilits.GetPlayerIndex(gObj->Name));
-	GCLevelUpMsgSend(gObj->m_Index,1);
 
 	/*
-	Efeito Skill (Novo)
-	GCMagicAttackNumberSend(gObj,72,gObj->m_Index,1);
+		Efeito Skill (Novo)
+		GCMagicAttackNumberSend(gObj,72,gObj->m_Index,1);
 	*/
 
 	AddTab[gObj->m_Index].Resets++;
@@ -373,12 +373,12 @@ void RSystem::Reset(LPOBJ gObj)
 	MuOnlineQuery.Close();
 
 	/*
-	//Force player to reconnect (POOR Method!)
-	#pragma warning(disable: 4309)
-	{
-	char sBuf[] = {0xC3,0x05,0xF1,0x02,0x02};
-	DataSend(gObj->m_Index, (PBYTE)sBuf,sBuf[1]);
-	}
+		// Force player to reconnect (POOR Method!)
+		#pragma warning(disable: 4309)
+		{
+			char sBuf[] = {0xC3,0x05,0xF1,0x02,0x02};
+			DataSend(gObj->m_Index, (PBYTE)sBuf,sBuf[1]);
+		}
 	*/
 
 	if(State[NumState].Clear.Skills)
