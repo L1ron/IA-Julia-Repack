@@ -61,11 +61,6 @@ DWORD MainTick()
 				continue;
 			}
 
-			/*if(AddTab[gObj->m_Index].POST_Delay > 0)
-			{
-				AddTab[gObj->m_Index].POST_Delay--;
-			}*/
-
 			if (AddTab[gObj->m_Index].OfflineTrade != true)
 			{
 				User.OnlineTimeTick(gObj);
