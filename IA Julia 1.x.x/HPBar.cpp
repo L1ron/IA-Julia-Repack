@@ -2,21 +2,21 @@
 #include "StdAfx.h"
 #include "Utilits.h"
 
-void GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage)
+void GCDamageSend(int aIndex,int TargetIndex,int AttackDamage,int MSBFlag,int MSBDamage,int iShieldDamage)
 {
 	PMSG_ATTACKRESULT pResult;
 
-	/*
-	    Criar alguma config para deixar funcionando em varios mains :D
-	    //PHeadSetB((LPBYTE)&pResult, 0x11, sizeof(pResult));	// (1.03O main)
-	*/
-
-	PHeadSetB((LPBYTE)&pResult,0xDC,sizeof(pResult));	// (1.03P main)
+#if (IS_PROTOCOL_JPN == 0)
+	PHeadSetB((LPBYTE)&pResult,0x11,sizeof(pResult));	// (1.03P 1.03.16 main)
+#else
+	PHeadSetB((LPBYTE)&pResult,0xDC,sizeof(pResult));	// (1.03K 1.03.11 main)
+#endif
 
 	pResult.NumberH = SET_NUMBERH(TargetIndex);
 	pResult.NumberL = SET_NUMBERL(TargetIndex);
 	pResult.DamageH = SET_NUMBERH(AttackDamage);
 	pResult.DamageL = SET_NUMBERL(AttackDamage);
+
 	pResult.btShieldDamageH = SET_NUMBERH(iShieldDamage);
 	pResult.btShieldDamageL = SET_NUMBERL(iShieldDamage);
 
