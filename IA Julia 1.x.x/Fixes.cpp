@@ -180,14 +180,20 @@ void cFixes::ASMFixes()
 
     // CheckSum
     if (Configs.UseChecksum)
+	{
         Utilits.SetByte(0x00438D3A, 0x74);// CheckSum On
-    else {
+	}
+    else
+	{
         Utilits.SetByte(0x00438D3A, 0xEB);// CheckSum Off
         Utilits.SetByte(0x0052DD40, 0xEB);// CheckSumTime Off
     }
+
     // Personal ID
     if (Configs.PersonalIDFix)
+	{
         Utilits.SetNop(0x0043B9D6, 5);// Personal ID Fix
+	}
 
     // Guild ID
     if (Configs.GuildIDFix)
@@ -266,6 +272,7 @@ void cFixes::ASMFixes()
         Utilits.SetByte(0x00474909,0x74);
         Utilits.SetByte(0x00474966,0x74);
     }
+
     if (Configs.FixBloodCastle)
     {
         Utilits.SetByte(0x005883A4,0x74); //
@@ -387,6 +394,12 @@ void cFixes::ASMFixes()
         BYTE Opt284[1] = { 0x07};
         memcpy((int*)0x00501F89,Opt284,sizeof(Opt284));
     }
+
+	if(Configs.MaxItemLevel)
+	{
+		Utilits.SetByte(0x0042F290+2,0x0F);		//+ 15 Items
+		Utilits.SetByte(0x00501EE2+2,0x0F);		//+ 15 Items
+	}
 
     // Maximum Stats (65535)
     if (Configs.Enable65kStats)
@@ -761,6 +774,7 @@ void cFixes::ASMFixes()
     BYTE FixMShield1[] = { 0xB9, 0xBC, 0x02, 0x00, 0x00 };
     memcpy((int*)0x004DB03D,FixMShield1,sizeof(FixMShield1));
     memcpy((int*)0x004FAA9A,FixMShield1,sizeof(FixMShield1));
+
     BYTE FixMShield2[] = { 0xBE, 0x20, 0x03, 0x00, 0x00 };
     memcpy((int*)0x004DB05D,FixMShield2,sizeof(FixMShield2));
     memcpy((int*)0x004FAABA,FixMShield2,sizeof(FixMShield2));
@@ -1056,6 +1070,12 @@ void cFixes::ASMFixes()
         BYTE Opt284[1] = {0x07};
         memcpy((int*)0x0054A830,Opt284,sizeof(Opt284));
     }
+
+	if(Configs.MaxItemLevel)
+	{
+		Utilits.SetByte(0x00430BF0+2,0x0F);		//+ 15 Items
+		Utilits.SetByte(0x005137B2+2,0x0F);		//+ 15 Items
+	}
 
     Utilits.SetRRetn(0x00403297);		// Destroy Giocp
     Utilits.SetRRetn(0x00407158);		// Serial 0x00000000 fix
