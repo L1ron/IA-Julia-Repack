@@ -180,6 +180,9 @@
     <ClCompile Include="Maps.cpp">
       <Filter>Source\Standart</Filter>
     </ClCompile>
+    <ClCompile Include="ChaosMachine.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>Source\Standart</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaosMachine.h">
+      <Filter>Source\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

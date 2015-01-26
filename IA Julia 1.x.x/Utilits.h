@@ -25,6 +25,8 @@ class cUtilits
 		bool IsBadFileLine(char *FileLine, int &Flag);
 		void SendEffect(LPOBJ gObj, BYTE btType);
 		void TeleToStandart(int aIndex);
+		int gObjGetItemCountInChaosbox(int aIndex, short type);
+		unsigned char RandomSucess(unsigned char range);
 
 		//CTime GetDate(char* Text);
 		//char* SetDate(CTime Time);

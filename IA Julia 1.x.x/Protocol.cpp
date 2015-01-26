@@ -12,6 +12,7 @@
 #include "Jewels.h"
 #include "OffTradeProtocol.h"
 #include "Utilits.h"
+#include "ChaosMachine.h"
 
 BYTE RecvTable[256] =
 {
@@ -335,12 +336,20 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
 
             break;
         }
+#ifdef _GS
+		case 0x86: // Chaos Machine
+		{
+			CM.ChaosboxCombinationEx(aIndex,aRecv[3]);
+
+			break;
+		}
+#endif
         case 0xAA:
         {
 #ifdef _GS
-            if (DuelSystem.Config.Enabled)
+            if(DuelSystem.Config.Enabled)
             {
-                DuelSystem.DuelProtocolCore(gObj, aRecv);
+                DuelSystem.DuelProtocolCore(gObj,aRecv);
 
                 return true;
             }
@@ -374,7 +383,7 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
 #endif
         case 0x32:
         {
-            if (Moss.Config.Enable)
+            if(Moss.Config.Enable)
             {
                 if (Moss.BuyItem(aIndex,aRecv) == TRUE)
                 {

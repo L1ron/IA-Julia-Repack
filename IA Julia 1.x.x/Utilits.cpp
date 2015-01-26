@@ -52,7 +52,6 @@ int cUtilits::GetPlayerIndex(char *Name)
 	return -1;
 }
 
-
 BOOL cUtilits::gObjIsConnected(int Index)
 {
 	OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
@@ -80,17 +79,26 @@ int cUtilits::GetNumberByPercent(int Proc, int Min, int Max)
 	int Random = rand()%100;
 
 	if(Proc == 0 || Max == Min)
+	{
 		return Min;
+	}
 
 	if(Random <= Proc)
+	{
 		return Max;
-
+	}
 	if(Proc > 50)
+	{
 		return GetNumberByPercent(Proc/2, Min, Max-1);
+	}
 	else if(Proc < 30)
+	{
 		return GetNumberByPercent(Proc*3/2, Min, Max-1);
+	}
 	else
+	{
 		return GetNumberByPercent(Proc, Min, Max-1);
+	}
 }
 
 int cUtilits::TakeExcNum(int Exc)
@@ -315,4 +323,28 @@ void cUtilits::TeleToStandart(int aIndex)
 	int RandY = rand() % 5;
 
 	gObjTeleport(aIndex, 0, 139 + RandX, 132 + RandY);
+}
+
+int cUtilits::gObjGetItemCountInChaosbox(int aIndex, short type)
+{
+	int count = 0;
+
+	OBJECTSTRUCT * gObj = (OBJECTSTRUCT*) OBJECT_POINTER (aIndex);
+
+	for(unsigned i=0; i<32; i++)
+	{
+		if(gObj->pChaosBox[i].m_Type == type)
+			
+		count++;
+	}
+
+	return count;
+}
+
+unsigned char cUtilits::RandomSucess(unsigned char range)
+{
+	srand(static_cast<int>(time(NULL)));
+
+	return (rand() % range);
+
 }

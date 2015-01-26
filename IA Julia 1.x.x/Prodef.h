@@ -292,6 +292,8 @@ struct PMSG_ITEMTHROW
 #define GCSendQuestPrize ((void(*)(int aIndex, unsigned char Type, unsigned char Count)) 0x00461C80)
 #define GJSetCharacterInfo ((void(*)(OBJECTSTRUCT* lpObj, int Index, BOOL bMapServerMove)) 0x0042E970)	// Set Info (After Move?)
 #define GCMagicAttackNumberSend ((void(*)(OBJECTSTRUCT*, unsigned char, int, unsigned char)) 0x00406A96) // ??
+#define ChaosBoxInit					((void(*) (OBJECTSTRUCT*)) 0x00404EDF)
+#define GCUserChaosBoxSend				((void(*) (OBJECTSTRUCT*, int)) 0x00406FFF)
 #endif
 
 #ifdef _GS_CS
@@ -509,6 +511,7 @@ struct PMSG_ITEMTHROW
 //Illusion Temple								  //
 //================================================//
 #define GS_ITPLAYER			(0x005DE535+6)
+
 //================================================//
 //Item Looting Time								  //
 //================================================//
@@ -555,6 +558,12 @@ struct PMSG_ITEMTHROW
 #define GS_CM_MIX_11_13_LUCK	(0x005EB7F3+6)
 #define GS_CM_MIX_LUCK_ADD		(0x005EB7D8+2)
 #define DEFAULTMIXRATE			(0x005EB7A9+6)
+
+//================================================//
+//Custom Chaos Machine						      //
+//================================================//
+#define CHAOS_ADR_RETURN			0x0051F874
+#define CHAOS_ADR_ITEM_ALLOW		0x0051F8
 
 //================================================//
 //Dark Lord Pet Rates							  //
