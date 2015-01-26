@@ -1,6 +1,8 @@
-# 1.0.0.332 # - Fixed Summoner creation in Characters screen
-# 1.0.0.331 # - Fixed Castle Deep Event config in CommonServer.cfg
-# 1.0.0.330 # - Fixed GS / CS Crash when use /sim and /no commands when NPC is not in use
+# 1.1.0.334 # - Fix +15 itens (GS and GS_CS)
+# 1.1.0.333 # - Added a option to Change Table storage for VIP: In MEMB_INFO or Chracter
+# 1.1.0.332 # - Fixed Summoner creation in Characters screen
+# 1.1.0.331 # - Fixed Castle Deep Event config in CommonServer.cfg
+# 1.1.0.330 # - Fixed GS / CS Crash when use /sim and /no commands when NPC is not in use
 # 1.1.0.329 # - Fixed Santa Claus attack event
 # 1.1.0.328 # - Added /Clear command (To clear inventory) and their configs
 # 1.1.0.327 # - Fixed /post command delay Removed post seconds count from MainTick() (OMFG!!!)
