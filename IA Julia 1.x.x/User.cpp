@@ -543,7 +543,7 @@ void cUser::PlayerConnect(LPOBJ gObj)
 
 	if(Vip.Config.Enabled)
 	{
-		MuOnlineQuery.ExecQuery("SELECT %s, %s, VIP_ONOFF FROM Character WHERE Name = '%s'", Vip.Config.Column, Vip.Config.ColumnDate, gObj->Name);
+		MuOnlineQuery.ExecQuery("SELECT %s, %s, VIP_ONOFF FROM %s WHERE %s = '%s'", Vip.Config.Column, Vip.Config.ColumnDate, Vip.Config.Table, (Vip.Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
 		MuOnlineQuery.Fetch();
 		AddTab[gObj->m_Index].VIP_Type	= MuOnlineQuery.GetAsInteger(Vip.Config.Column);
 		AddTab[gObj->m_Index].VIP_Min	= MuOnlineQuery.GetAsInteger(Vip.Config.ColumnDate);
