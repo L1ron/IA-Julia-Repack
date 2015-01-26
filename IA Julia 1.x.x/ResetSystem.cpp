@@ -358,7 +358,7 @@ void RSystem::Reset(LPOBJ gObj)
 		}
 	}
 
-	GCLevelUpMsgSend(gObj->m_Index,gObj->Level);
+	GCLevelUpMsgSend(gObj->m_Index,gObj->Level);		// Warning shits :D
 	gObjCalCharacter(Utilits.GetPlayerIndex(gObj->Name));
 
 	/*
