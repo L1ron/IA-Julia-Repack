@@ -39,6 +39,7 @@ public:
     int DisableHarmonyOpt;
     int Disable380Opt;
     int MaxLifeOpt;
+	int MaxItemLevel;
     int CSSkillsOnNOrmal;
     int Enable65kStats;
     int DumpFile;

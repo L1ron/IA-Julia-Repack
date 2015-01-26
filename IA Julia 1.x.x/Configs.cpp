@@ -64,6 +64,7 @@ void cConfigs::LoadAll()
 #endif
 	Marry.Init();
 }
+
 void cConfigs::CalcCharacter()
 {
 	//============================= Fairy_Elf ============================================
@@ -151,6 +152,7 @@ void cConfigs::CalcCharacter()
 
 	Log.ConsoleOutPut(1,c_Green,t_Default,"[û] [CalcCharacter]\tIniciado.");
 }
+
 void cConfigs::MaxStats()
 {
 	int MaxPoints = 32000;
@@ -491,6 +493,7 @@ void cConfigs::LoadFixes()
 	AllowJohAnc			= GetInt(0, 1, 1, "SpecialItem", "AllowJohAnc", IAJuliaItems);
 	AllowExeSock		= GetInt(0, 1, 1, "SpecialItem", "AllowExeSock", IAJuliaItems);
 	MaxLifeOpt			= GetInt(0, 1, 1, "SpecialItem", "MaxLifeOpt", IAJuliaItems);
+	MaxItemLevel		= GetInt(0, 1, 1, "SpecialItem", "MaxItemLevel", IAJuliaItems);
 	CashShopExe			= GetInt(0, 1, 1, "SpecialItem", "CashShopExe", IAJuliaItems);
 
 	CSSkillsOnNOrmal	= GetInt(0, 1, 1, "Skills", "CSSkillsOnNOrmal", IAJuliaSkills);
