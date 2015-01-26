@@ -99,6 +99,7 @@
     <ClCompile Include="HappyHour.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="HPBar.cpp" />
+    <ClCompile Include="Inteface.cpp" />
     <ClCompile Include="Jewels.cpp" />
     <ClCompile Include="MarrySystem.cpp" />
     <ClCompile Include="OffTrade.cpp" />
@@ -139,8 +140,10 @@
     <ClInclude Include="HappyHour.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="HPBar.h" />
+    <ClInclude Include="Interface.h" />
     <ClInclude Include="Jewels.h" />
     <ClInclude Include="MarrySystem.h" />
+    <ClInclude Include="Offsets.h" />
     <ClInclude Include="OffTrade.h" />
     <ClInclude Include="OffTradeProtocol.h" />
     <ClInclude Include="PlayerSystem.h" />

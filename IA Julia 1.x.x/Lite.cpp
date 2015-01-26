@@ -22,6 +22,7 @@
 #include "Socket.h"
 #include "TradeSystem.h"
 #include "HPBar.h"
+#include "Interface.h"
 
 DWORD MainTick()
 {
@@ -108,6 +109,7 @@ extern "C" __declspec(dllexport) void __cdecl RMST()
 		Log.ConsoleOutPut(0, c_Green, t_NULL, "Data: %s %s", __DATE__, __TIME__);
 		Log.ConsoleOutPut(0, c_Green, t_NULL, "Creditos: Comunidade MuOnline, WebZen\n");
 
+		InterfaceLoad();
 		LoadQuery();
 		Maps.MapInit();
 		Fixes.ASMFixes();

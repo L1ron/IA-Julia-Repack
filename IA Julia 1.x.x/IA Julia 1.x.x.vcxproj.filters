@@ -67,6 +67,9 @@
     <Filter Include="Configs\GameServerCS\DATA">
       <UniqueIdentifier>{e37fd55d-ec6c-4ee4-85a6-da5a721674df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Interface">
+      <UniqueIdentifier>{e028872d-0700-40b3-9ddb-eb02c88d6e6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Configs.cpp">
@@ -182,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="ChaosMachine.cpp">
       <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Inteface.cpp">
+      <Filter>Source\Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="ChaosMachine.h">
       <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Source\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Offsets.h">
+      <Filter>Source\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
