@@ -128,7 +128,7 @@ void gObjTradeOkButton(int aIndex)
 
 void gObjPlayerKiller(LPOBJ lpObj, LPOBJ lpTargetObj)
 {
-    if (MapSystem.Maps[lpObj->MapNumber].PVP == 3 && lpTargetObj->Type == OBJECT_USER && lpObj->Type == OBJECT_USER)
+    if(MapSystem.Maps[lpObj->MapNumber].PVP == 3 && lpTargetObj->Type == OBJECT_USER && lpObj->Type == OBJECT_USER)
 	{
         return;
 	}
@@ -165,6 +165,7 @@ BOOL gObjAttack(LPOBJ lpObj, LPOBJ lpTargetObj, class CMagicInf* lpMagic, int ma
 #endif
     int MonsterTerr = Territory.CheckTerritory(lpTargetObj);
     int UserTerr = Territory.CheckTerritory(lpObj);
+
     if (MonsterTerr >= 0)
     {
         if (AddTab[lpObj->m_Index].TERR_Type != MonsterTerr || UserTerr != MonsterTerr)
@@ -190,13 +191,13 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
 {
     OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex);
 
-    if (!Configs.Unicode32)
+    if(!Configs.Unicode32)
     {
-        if (protoNum == 0xF3)
+        if(protoNum == 0xF3)
         {
             PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)aRecv;
 
-            switch (lpDef->subcode)
+            switch(lpDef->subcode)
             {
 				case 0x01:
 				{
@@ -225,6 +226,7 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
         case 0x01:
         {
             CloseClient(aIndex);
+
             return true;
 
             break;
@@ -362,8 +364,6 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
 
             break;
         }
-    
-
         case 0xDB: // Skill ENG
         {
             protoNum = 0xD7;
@@ -392,6 +392,7 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
         {
             aRecv[1] -= 0x0A;
             aLen = aRecv[1];
+
             for (int i = 24; i < 50; i++)
             {
                 aRecv[i] = aRecv[i + 10];
