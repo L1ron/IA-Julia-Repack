@@ -1519,16 +1519,21 @@ bool cChat::SetCharCommand(LPOBJ gObj, char* Msg, int Index)
 bool cChat::OnlineCommand(LPOBJ gObj, char *Msg)
 {
 	if (CheckCommand(gObj, Configs.Commands.IsOnline, GmSystem.NONE, 0, 0, 0, 0, 0, 0, 0, "Online", COMMAND_ONLINE, Msg))
+	{
 		return true;
+	}
 
 	MessageLog(1, c_Blue, t_COMMANDS, gObj, "[ONLINE]: %d Player(s), %d GM(s)", Log.Online_All - Log.Online_Gms, Log.Online_Gms);
+
 	return true;
 }
 
 bool cChat::SetPKCommand(LPOBJ gObj, char *Msg, int Index)
 {
 	if (CheckCommand(gObj, Configs.Commands.IsSetPK, GmSystem.cSetPK, 0, 0, 0, 0, 0, 1, Index, "SetPK", "[Name] /setpk <pklvl>", Msg))
+	{
 		return true;
+	}
 
 	int SetLevel;
 	sscanf(Msg, "%d", &SetLevel);
@@ -2402,9 +2407,11 @@ bool cChat::CheckCommand(LPOBJ gObj, char *Msg)
 bool cChat::CheckVIPCommand(LPOBJ gObj, char *Msg)
 {
 	if (CheckCommand(gObj, Vip.Config.Enabled, GmSystem.NONE, 0, 0, 0, 0, 0, 0, 0, "VipCheck", COMMAND_VIPCHECK, Msg))
+	{
 		return true;
+	}
 
-	if (AddTab[gObj->m_Index].VIP_Type > 0)
+	if(AddTab[gObj->m_Index].VIP_Type > 0)
 	{
 		MessageLog(1, c_Red, t_VIP, gObj, "[VIP] You have %d min(s) left.", AddTab[gObj->m_Index].VIP_Min);
 	}
@@ -2594,7 +2601,7 @@ bool cChat::BuyVIPCommand(LPOBJ gObj, char *Msg)
 	TakeCommand(gObj, Vip.Config.VIPState[RealState].CostZen * Hours, Vip.Config.VIPState[RealState].CostPCPoints * Hours,
 		Vip.Config.VIPState[RealState].CostWCoins * Hours, Vip.Config.VIPState[RealState].CostWebPoints * Hours, "BuyVIP");
 
-	MuOnlineQuery.ExecQuery("UPDATE Character SET %s = (%s + %d), %s = %d WHERE Name = '%s'", Vip.Config.ColumnDate, Vip.Config.ColumnDate, Hours * 60, Vip.Config.Column, RealState, gObj->Name);
+	MuOnlineQuery.ExecQuery("UPDATE %s SET %s = (%s + %d), %s = %d WHERE Name = '%s'", Vip.Config.Table, Vip.Config.ColumnDate, Vip.Config.ColumnDate, Hours * 60, Vip.Config.Column, RealState, gObj->Name);
 	MuOnlineQuery.Fetch();
 	MuOnlineQuery.Close();
 
@@ -2693,7 +2700,7 @@ bool cChat::VipOnCommand(LPOBJ gObj)
 		return true;
 	}
 
-	MuOnlineQuery.ExecQuery("UPDATE Character SET VIP_ONOFF = 1 WHERE Name = '%s'", gObj->Name);
+	MuOnlineQuery.ExecQuery("UPDATE %s SET VIP_ONOFF = 1 WHERE Name = '%s'", Vip.Config.Table, gObj->Name);
 	MuOnlineQuery.Fetch();
 	MuOnlineQuery.Close();
 
@@ -2742,13 +2749,14 @@ bool cChat::VipOffCommand(LPOBJ gObj)
 		return true;
 	}
 
-	MuOnlineQuery.ExecQuery("UPDATE Character SET VIP_ONOFF = 0 WHERE Name = '%s'", gObj->Name);
+	MuOnlineQuery.ExecQuery("UPDATE %s SET VIP_ONOFF = 0 WHERE Name = '%s'", Vip.Config.Table, gObj->Name);
 	MuOnlineQuery.Fetch();
 	MuOnlineQuery.Close();
 
 	AddTab[gObj->m_Index].VIP_On = 0;
 
 	MessageLog(1, c_Red, t_VIP, gObj, "[VipOff] Your %s vip stoped!", Vip.Config.VIPState[i].VIPName);
+
 	return true;
 }
 

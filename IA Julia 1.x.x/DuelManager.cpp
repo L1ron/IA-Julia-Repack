@@ -190,7 +190,7 @@ void cDuelSystem::Run()
                         
                             if(Config.Logging)
                             {
-                                Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System]Character [%s] Added Invisible",
+                                Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Character [%s] Added Invisible",
                                                   this->g_DuelRooms[i].szSeparators[s]->Name);
                             }
                         

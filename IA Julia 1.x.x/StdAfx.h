@@ -21,9 +21,9 @@
 #include <sql.h>
 #include <sqltypes.h>
 #include <sqlext.h>
-#include <Rpc.h> // Protectl
+#include <Rpc.h>
 
-#pragma comment(lib, "Rpcrt4.lib")
+#pragma comment(lib,"Rpcrt4.lib")
 #pragma comment(lib,"comctl32.lib")
 #pragma comment(lib,"WS2_32.lib")
 

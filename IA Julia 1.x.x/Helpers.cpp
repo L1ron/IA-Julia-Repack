@@ -89,13 +89,13 @@ void cHelpers::Connect(LPOBJ gObj)
 		if(Config.UseTimes > 0)
 		{
 			MuOnlineQuery.ExecQuery
-				(
+			(
 				"SELECT %s FROM %s WHERE %s = '%s'",
 				Config.Column,
 				Config.Table,
 				(Config.Table[0] = 'M') ? "memb___id" : "AccountID",
 				gObj->AccountID
-				);
+			);
 
 			MuOnlineQuery.Fetch();
 			AddTab[gObj->m_Index].HELPER_UsedTimes = MuOnlineQuery.GetAsInteger(Config.Column);
