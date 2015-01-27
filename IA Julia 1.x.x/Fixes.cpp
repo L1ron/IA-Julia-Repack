@@ -7,6 +7,7 @@
 cFixes Fixes;
 
 DWORD Exc;
+
 __declspec(naked) void ExcShop()
 {
     Exc = 0;
@@ -106,6 +107,144 @@ void __declspec(naked) FixNewPetDurabDown()
 }
 #endif
 
+#ifdef _GS
+DWORD RET1 = 0;
+__declspec(naked) void CC_Func1(void)
+{
+	__asm
+	{
+		POP RET1
+		CMP DWORD PTR SS:[EBP+0x0C],0x0D
+		JE RETURN2
+		CMP DWORD PTR SS:[EBP+0x0C],0x0E
+		JNZ ITEM15
+		MOV EDX,DWORD PTR SS:[EBP+0x08]
+		IMUL EDX,EDX,0x70
+		XOR EAX,EAX
+		MOV AL,BYTE PTR DS:[EDX+0x07B135F0]
+		MOV ECX,DWORD PTR SS:[EBP+0x0C]
+		LEA EDX,DWORD PTR DS:[EAX+ECX*0x02+0x0B]
+		MOV DWORD PTR SS:[EBP-0x04],EDX
+		MOV EDI, 0x00558C8D
+		JMP EDI
+ITEM15:
+		CMP DWORD PTR SS:[EBP+0x0C],0x0F
+		JNZ RETURN1
+		MOV EDX,DWORD PTR SS:[EBP+0x08]
+		IMUL EDX,EDX,0x70
+		XOR EAX,EAX
+		MOV AL,BYTE PTR DS:[EDX+0x07B135F0]
+		MOV ECX,DWORD PTR SS:[EBP+0x0C]
+		LEA EDX,DWORD PTR DS:[EAX+ECX*0x02+0x11]
+		MOV DWORD PTR SS:[EBP-0x04],EDX
+		MOV EDI, 0x00558C8D
+		JMP EDI
+RETURN1:
+		MOV EDI, 0x00558C75
+		JMP EDI
+RETURN2:
+		PUSH RET1
+		RET
+	}
+}
+
+DWORD RET2 = 0;
+__declspec(naked) void CC_Func2(void)
+{
+	__asm
+	{
+		POP RET2
+		CMP DWORD PTR SS:[EBP-0x04],0x0D
+		JE RETURN1
+		CMP DWORD PTR SS:[EBP-0x04],0x0F
+		JL ITEM14
+		MOV AL,0x09
+		MOV EDI,0x005262F0
+		JMP EDI
+ITEM14:
+		CMP DWORD PTR SS:[EBP-0x04],0x0E
+		JL ITEM12
+		MOV AL,0x08
+		MOV EDI,0x005262F0
+		JMP EDI
+ITEM12:
+		MOV EDI,0x0052629A
+		JMP EDI
+RETURN1:
+		PUSH RET2
+		RET
+	}
+}
+#else
+DWORD RET1 = 0;
+__declspec(naked) void CC_Func1(void)
+{
+	__asm
+	{
+		POP RET1
+		CMP DWORD PTR SS:[EBP+0x0C],0x0D
+		JE RETURN2
+		CMP DWORD PTR SS:[EBP+0x0C],0x0E
+		JNZ ITEM15
+		MOV EDX,DWORD PTR SS:[EBP+0x08]
+		IMUL EDX,EDX,0x70
+		XOR EAX,EAX
+		MOV AL,BYTE PTR DS:[EDX+0x03F1E3B8]
+		MOV ECX,DWORD PTR SS:[EBP+0x0C]
+		LEA EDX,DWORD PTR DS:[EAX+ECX*0x02+0x0B]
+		MOV DWORD PTR SS:[EBP-0x04],EDX
+		MOV EDI, 0x0056BCAD
+		JMP EDI
+ITEM15:
+		CMP DWORD PTR SS:[EBP+0x0C],0x0F
+		JNZ RETURN1
+		MOV EDX,DWORD PTR SS:[EBP+0x08]
+		IMUL EDX,EDX,0x70
+		XOR EAX,EAX
+		MOV AL,BYTE PTR DS:[EDX+0x03F1E3B8]
+		MOV ECX,DWORD PTR SS:[EBP+0x0C]
+		LEA EDX,DWORD PTR DS:[EAX+ECX*0x02+0x11]
+		MOV DWORD PTR SS:[EBP-0x04],EDX
+		MOV EDI, 0x0056BCAD
+		JMP EDI
+RETURN1:
+		MOV EDI, 0x0056BC95
+		JMP EDI
+RETURN2:
+		PUSH RET1
+		RET
+	}
+}
+
+DWORD RET2 = 0;
+__declspec(naked) void CC_Func2(void)
+{
+	__asm
+	{
+		POP RET2
+		CMP DWORD PTR SS:[EBP-0x04],0x0D
+		JE RETURN2
+		CMP DWORD PTR SS:[EBP-0x04],0x0F
+		JL ITEM14
+		MOV AL,0x09
+		MOV EDI,0x00538969
+		JMP EDI
+ITEM14:
+		CMP DWORD PTR SS:[EBP-0x04],0x0E
+		JL ITEM12
+		MOV AL,0x08
+		MOV EDI,0x00538969
+		JMP EDI
+ITEM12:
+		MOV EDI,0x00538913
+		JMP EDI
+RETURN2:
+		PUSH RET2
+		RET
+	}
+}
+#endif
+
 void cFixes::ASMFixes()
 {
     Configs.LoadFixes();
@@ -171,10 +310,13 @@ void cFixes::ASMFixes()
     00527237     FF75 F8        PUSH DWORD PTR SS:[EBP-8]
     0052723A     FF15 50B07100  CALL DWORD PTR DS:[71B050]
     */
-    BYTE ViewPortPatch[] = { 0xFF, 0x75, 0xF8, 0xFF, 0x15, 0x50,
-                             0xB0, 0x71, 0x00, 0x5F, 0x5E, 0x5B,
-                             0x8B, 0xE5, 0x5D, 0xC3
-                           };
+    BYTE ViewPortPatch[] =
+	{
+		0xFF, 0x75, 0xF8, 0xFF, 0x15, 0x50,
+		0xB0, 0x71, 0x00, 0x5F, 0x5E, 0x5B,
+		0x8B, 0xE5, 0x5D, 0xC3
+	};
+
     memcpy((int*)0x00527237,ViewPortPatch,sizeof(ViewPortPatch));
     *(unsigned int*)0x0071B050  = (unsigned int)gObjViewportPatchExecute;
 
@@ -301,6 +443,7 @@ void cFixes::ASMFixes()
     {
         Utilits.SetNop(0x004EB921,5);
     }
+
     if(Configs.DisableHarmonyOpt)
     {
         Utilits.SetNop(0x004EB92D,5);
@@ -351,6 +494,7 @@ void cFixes::ASMFixes()
 
     BYTE KundumDropLuckFix[7]= {0xC7, 0x45, 0xE0, 0x01, 0x00, 0x00, 0x00};
     memcpy((int*)0x0049D3CB,KundumDropLuckFix,sizeof(KundumDropLuckFix));
+
     BYTE KundumDropExeOptionsFix[2]= {0x51, 0x90 };
     memcpy((int*)0x0049D3B9,KundumDropExeOptionsFix,sizeof(KundumDropExeOptionsFix));
 
@@ -397,10 +541,29 @@ void cFixes::ASMFixes()
 
 	if(Configs.MaxItemLevel)
 	{
-		Utilits.SetByte(0x0042F290+2,0x0F);		//+ 15 Items
-		Utilits.SetByte(0x00501EE2+2,0x0F);		//+ 15 Items
-	}
+		// Working but durability won't fix!
+		//Utilits.SetByte(0x0042F290+2,0x0F);		//+ 15 Items
+		//Utilits.SetByte(0x00501EE2+2,0x0F);		//+ 15 Items
 
+		// durability patch +14 and +15
+		//Codecave(0x00558C55, CC_Func1, 1);		// Lacking Codecave function for this offset (CC_Func1 are OK)
+
+		// LevelSmallConvert patch +14 and +15
+		//Codecave(0x00526290, CC_Func2, 1);		/// Lacking Codecave function for this offset (CC_Func2 are OK)
+
+		// Fix Item Level Max to +15
+		BYTE FixItemLevelMax1[] = {0x83, 0xFA, 0x0F};
+		memcpy((int*)0x0042F290,FixItemLevelMax1,sizeof(FixItemLevelMax1));
+
+		BYTE FixItemLevelMax2[] = {0x83, 0xF9, 0x0F};
+		memcpy((int*)0x00501EE2,FixItemLevelMax2,sizeof(FixItemLevelMax2));
+
+		BYTE FixItemLevelMax3[] = {0x83, 0x7D, 0xFC, 0x0F};
+		memcpy((int*)0x00526290,FixItemLevelMax3,sizeof(FixItemLevelMax3));
+
+		BYTE FixItemLevelMax4[] = {0x83, 0x7D, 0x08, 0x0F};
+		memcpy((int*)0x00526329,FixItemLevelMax4,sizeof(FixItemLevelMax4));
+	}
     // Maximum Stats (65535)
     if (Configs.Enable65kStats)
     {
@@ -748,6 +911,14 @@ void cFixes::ASMFixes()
     Utilits.SetByte(0x005609E0,0x90); // GM Move M key
     Utilits.SetByte(0x005609E1,0x8B); // GM Move M key
 
+	//Fix Indulgence
+	Utilits.SetByte(0x0045D82E,0x81);
+	Utilits.SetByte(0x0045D82E+1,0xFA);
+	Utilits.SetByte(0x0045D82E+2,0x3C);
+	Utilits.SetByte(0x0045D82E+3,0x1A);
+	Utilits.SetByte(0x0045D82E+4,0x00);
+	Utilits.SetByte(0x0045D82E+5,0x00);
+
     // Fix Potions Bugs;
     BYTE FixPotions[] = {0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90};
     memcpy((int*)0x0042F64B, FixPotions, sizeof(FixPotions));
@@ -1073,8 +1244,25 @@ void cFixes::ASMFixes()
 
 	if(Configs.MaxItemLevel)
 	{
+		// Working but need fix durability
 		Utilits.SetByte(0x00430BF0+2,0x0F);		//+ 15 Items
 		Utilits.SetByte(0x005137B2+2,0x0F);		//+ 15 Items
+
+		// durability patch +14 and +15
+		//Codecave(0x0056BC75, CC_Func1, 1);	// Lacking Codecave function for this offset (CC_Func1 are OK)
+
+		// Level Small Convert patch +14 and +15
+		//Codecave(0x00538909, CC_Func2, 1);	// Lacking Codecave function for this offset (CC_Func2 are OK)
+
+		//Fix Item Level Max to +15
+		/*BYTE FixItemLevelMax1[] = { 0x83, 0xFA, 0x0F };
+		memcpy((int*)0x00430BF0,FixItemLevelMax1,sizeof(FixItemLevelMax1));
+		BYTE FixItemLevelMax2[] = { 0x83, 0xF9, 0x0F };
+		memcpy((int*)0x005137B2,FixItemLevelMax2,sizeof(FixItemLevelMax2));
+		BYTE FixItemLevelMax3[] = { 0x83, 0x7D, 0xFC, 0x0F};
+		memcpy((int*)0x00538870,FixItemLevelMax3,sizeof(FixItemLevelMax3));
+		BYTE FixItemLevelMax4[] = { 0x83, 0x7D, 0x08, 0x0F};
+		memcpy((int*)0x00538909,FixItemLevelMax4,sizeof(FixItemLevelMax4));*/
 	}
 
     Utilits.SetRRetn(0x00403297);		// Destroy Giocp
@@ -1115,6 +1303,14 @@ void cFixes::ASMFixes()
     //Fix GM Windows 7
     BYTE FixGMEnter[2] = {0xEB,0x42};
     memcpy((int*)0x00516B39,FixGMEnter,sizeof(FixGMEnter));
+
+	//Fixe Indulgence
+	Utilits.SetByte(0x0045FFCA,0x81);
+	Utilits.SetByte(0x0045FFCA+1,0xFA);
+	Utilits.SetByte(0x0045FFCA+2,0x3C);
+	Utilits.SetByte(0x0045FFCA+3,0x1A);
+	Utilits.SetByte(0x0045FFCA+4,0x00);
+	Utilits.SetByte(0x0045FFCA+5,0x00);
 
     // Fix Crash Dump File
     if(Configs.DumpFile == 0)
