@@ -80,9 +80,9 @@ enum CHAOS_TYPE
 
 void ChaosboxItemsRegardingEx();
 
-#define FailtureMessage		"Chaos Combination Has Failed."
-#define	SuccededMessage		"Chaos Combination Has Succeeded."
-#define LowMoneyMessage		"You don't have enough money to Execute The Combination."
+#define FailtureMessage		"Chaos combination has failed."
+#define	SuccededMessage		"Chaos combination has succeeded."
+#define LowMoneyMessage		"You don't have enough money to execute the combination."
 
 class ChaosMachineNew
 {

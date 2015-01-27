@@ -5,6 +5,7 @@
 #include "ChaosMachine.h"
 #include "ChatCommands.h"
 #include "Utilits.h"
+#include "Configs.h"
 
 CHAOSMACHINESTRUCT ChaosCfg;
 ChaosMachineNew CM;
@@ -78,16 +79,20 @@ void __declspec(naked) ChaosboxItemsRegardingEx()
 
 void ChaosMachineNew::ChaosMachineLoadConfig()
 {	
-	ChaosCfg.DimensionBookSucces		= GetPrivateProfileInt("ChaosMachine","DimensionBookSuccess",100,IAJuliaItems);
-	ChaosCfg.DimensionBookPrice			= GetPrivateProfileInt("ChaosMachine","DimensionBookPrice",1000000,IAJuliaItems);
-	ChaosCfg.Upgrade14Success			= GetPrivateProfileInt("ChaosMachine","Upgrade14Success",30,IAJuliaItems);
-	ChaosCfg.Upgrade14Price				= GetPrivateProfileInt("ChaosMachine","Upgrade14Price",10000000,IAJuliaItems);
-	ChaosCfg.Upgrade15Success			= GetPrivateProfileInt("ChaosMachine","Upgrade15Success",30,IAJuliaItems);
-	ChaosCfg.Upgrade15Price				= GetPrivateProfileInt("ChaosMachine","Upgrade15Price",12000000,IAJuliaItems);
-	ChaosCfg.GoldenSealedBoxSuccess		= GetPrivateProfileInt("ChaosMachine","GoldenSealedBoxSuccess",100,IAJuliaItems);
-	ChaosCfg.GoldenSealedBoxPrice		= GetPrivateProfileInt("ChaosMachine","GoldenSealedBoxPrice",5000000,IAJuliaItems);
-	ChaosCfg.SilverSealedBoxSuccess		= GetPrivateProfileInt("ChaosMachine","SilverSealedBoxSuccess",100,IAJuliaItems);
-	ChaosCfg.SilverSealedBoxPrice		= GetPrivateProfileInt("ChaosMachine","SilverSealedBoxPrice",5000000,IAJuliaItems);
+	ChaosCfg.DimensionBookSucces	= Configs.GetInt(0,100,30,"ChaosMachineMixes","DimensionBookSuccess",IAJuliaItems);
+	ChaosCfg.DimensionBookPrice		= Configs.GetInt(0,2000000000,1000000,"ChaosMachineMixes","DimensionBookPrice",IAJuliaItems);
+
+	ChaosCfg.Upgrade14Success		= Configs.GetInt(0,100,30,"ChaosMachineMixes","Upgrade14Success",IAJuliaItems);
+	ChaosCfg.Upgrade14Price			= Configs.GetInt(0,2000000000,10000000,"ChaosMachineMixes","Upgrade14Price",IAJuliaItems);
+		
+	ChaosCfg.Upgrade15Success		= Configs.GetInt(0,100,30,"ChaosMachineMixes","Upgrade15Success",IAJuliaItems);
+	ChaosCfg.Upgrade15Price			= Configs.GetInt(0,2000000000,12000000,"ChaosMachineMixes","Upgrade15Price",IAJuliaItems);
+
+	ChaosCfg.GoldenSealedBoxSuccess	= Configs.GetInt(0,100,30,"ChaosMachineMixes","GoldenSealedBoxSuccess",IAJuliaItems);
+	ChaosCfg.GoldenSealedBoxPrice	= Configs.GetInt(0,2000000000,5000000,"ChaosMachineMixes","GoldenSealedBoxPrice",IAJuliaItems);
+
+	ChaosCfg.SilverSealedBoxSuccess	= Configs.GetInt(0,100,30,"ChaosMachineMixes","SilverSealedBoxSuccess",IAJuliaItems);
+	ChaosCfg.SilverSealedBoxPrice	= Configs.GetInt(0,2000000000,5000000,"ChaosMachineMixes","SilverSealedBoxPrice",IAJuliaItems);
 }
 
 void ChaosMachineNew::ChaosboxCombinationEx(int aIndex, unsigned char mixid) 
@@ -118,6 +123,7 @@ void ChaosMachineNew::ChaosboxCombinationEx(int aIndex, unsigned char mixid)
 				
 					gObj->Money = gObj->Money - ChaosCfg.DimensionBookPrice;
 					GCMoneySend(aIndex, gObj->Money);
+
 					return;
 				}
 				else
@@ -144,7 +150,7 @@ void ChaosMachineNew::ChaosboxCombinationEx(int aIndex, unsigned char mixid)
 			{
 				int pChaosNum = 0;
 
-				for(int i=0;i<31;i++)
+				for(int i=0;i < 31;i++)
 				{
 					if(gObj->pChaosBox[i].m_Type != -1 && gObj->pChaosBox[i].m_Type != 0x1C0D && gObj->pChaosBox[i].m_Type != 0x1C0E && gObj->pChaosBox[i].m_Type != 0x180F)
 					{
@@ -177,6 +183,7 @@ void ChaosMachineNew::ChaosboxCombinationEx(int aIndex, unsigned char mixid)
 
 					gObj->Money = gObj->Money - ChaosCfg.Upgrade14Price;
 					GCMoneySend(aIndex, gObj->Money);
+
 					return;
 				}
 				else
@@ -279,7 +286,7 @@ void ChaosMachineNew::ChaosboxCombinationEx(int aIndex, unsigned char mixid)
 				if(Utilits.RandomSucess(100) <= ChaosCfg.SilverSealedBoxSuccess)
 				{
 					CItem CBItem;
-					CBItem.m_Type		= 0x1C7C; // Silver Box
+					CBItem.m_Type = 0x1C7C; // Silver Box
 					CBItem.m_Durability = 255.0;
 					ChaosboxSuccess(&CBItem, aIndex,  CHAOS_TYPE_SEALED_BOX);
 					Chat.MessageLog(1, c_Blue, t_NULL, gObj, SuccededMessage);
@@ -348,16 +355,19 @@ bool ChaosMachineNew::ChaosboxCanExecute(int aIndex, CHAOS_TYPE mixid)
 	//==============
 	// +14 Upgrade
 	//==============
-	if (mixid == CHAOS_TYPE_UPGRADE_14)
+	if(mixid == CHAOS_TYPE_UPGRADE_14)
 	{
 		if(Utilits.gObjGetItemCountInChaosbox(aIndex, 0x1C0E) == 5 && Utilits.gObjGetItemCountInChaosbox(aIndex, 0x1C0D) == 5 && Utilits.gObjGetItemCountInChaosbox(aIndex, 0x180F) > 0)
 		{
 			if(gObj->Money >= ChaosCfg.Upgrade14Price)
-			return true;
+			{
+				return true;
+			}
 		}
 		else
 		{
 			Chat.MessageLog(1, c_Red, t_NULL, gObj, LowMoneyMessage);
+
 			return false;
 		}
 	}
