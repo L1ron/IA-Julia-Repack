@@ -1,15 +1,12 @@
-#include "Stdafx.h"
-#include "Interface.h"
+ï»¿#include "Stdafx.h"
 #include "Offsets.h"
+#include "Interface.h"
 #include "Utilits.h"
 
 char DISPLAY_TEXT[2][30] =
 {
-#ifdef _GS
-	"GameServer Season 4.6",
-#else
-	"GameServerCS Season 4.6"
-#endif
+	"IA Julia Season 4.6 (GS)",
+	"IA Julia Season 4.6 (CS)"
 };
 
 char SERVER_STATUS[12][32] = 
@@ -30,9 +27,9 @@ char SERVER_STATUS[12][32] =
 // -- Cor do fundo (Padrao: Branco)
 HBRUSH	  BackgroundSolidColor		= CreateSolidBrush(RGB(20, 20, 20));
 
-// -- Cores da Função (ServerStatus)
-COLORREF  COLOR_Conectado			= RGB(0, 255, 0);
-COLORREF  COLOR_Desconectado		= RGB(255, 0, 0);
+// -- Cores da FunÃ§Ã£o (ServerStatus)
+COLORREF  COLOR_CONNECTED			= RGB(0, 255, 0);
+COLORREF  COLOR_DISCONNECTED		= RGB(255, 0, 0);
 
 // -- Cores dos Logs exibidos no GS
 COLORREF  TextLogColor_01			= RGB(255, 0, 0);	
@@ -46,7 +43,7 @@ COLORREF  TextLogColor_07			= RGB(200, 200, 200);
 // -- Cor do Texto Exibido no Topo (COUNT:....)
 COLORREF  HeaderTextColor			= RGB(200, 200, 200);
 
-// -- Cor do Texto e do Backgroundo Exibido no topo (SERVER INFO DISPLAYER) {[- Common -], ]+ CASTLE +[}
+// -- Cor do Texto e do Background Exibido no topo (SERVER INFO DISPLAYER) {[- Common -], ]+[ CASTLE ]+[}
 COLORREF  ServerInfoDisplayerBG		= RGB(28, 28, 28);
 COLORREF  ServerInfoDisplayerText	= RGB(200, 200, 200);
 
@@ -232,7 +229,7 @@ void __declspec(naked) GetServersStatus()
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x4],0
 		JNZ _GOTOJOINSERVER_ON
-		PUSH COLOR_Desconectado							// -- Cor do Texto
+		PUSH COLOR_DISCONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -253,7 +250,7 @@ _GOTOJOINSERVER_ON:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x4],1
 		JNZ _GOTOGATESERVER_OFF
-		PUSH COLOR_Conectado							// -- Cor do Texto
+		PUSH COLOR_CONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -274,7 +271,7 @@ _GOTOGATESERVER_OFF:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x8],0
 		JNZ _GOTOGATESERVER_ON
-		PUSH COLOR_Desconectado							// -- Cor do Texto
+		PUSH COLOR_DISCONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -295,7 +292,7 @@ _GOTOGATESERVER_ON:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x8],1
 		JNZ _GOTODATASERVER_OFF
-		PUSH COLOR_Conectado							// -- Cor do Texto
+		PUSH COLOR_CONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -316,7 +313,7 @@ _GOTODATASERVER_OFF:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0xC],0
 		JNZ _GOTODATASERVER_ON
-		PUSH COLOR_Desconectado							// -- Cor do Texto
+		PUSH COLOR_DISCONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -337,7 +334,7 @@ _GOTODATASERVER_ON:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0xC],1
 		JNZ _GOTOEXDBSERVER_OFF
-		PUSH COLOR_Conectado							// -- Cor do Texto
+		PUSH COLOR_CONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -358,7 +355,7 @@ _GOTOEXDBSERVER_OFF:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x10],0
 		JNZ _GOTOEXDBSERVER_ON
-		PUSH COLOR_Desconectado							// -- Cor do Texto
+		PUSH COLOR_DISCONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -379,7 +376,7 @@ _GOTOEXDBSERVER_ON:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x10],1
 		JNZ _GOTOEVENTSERVER_OFF
-		PUSH COLOR_Conectado							// -- Cor do Texto
+		PUSH COLOR_CONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -400,7 +397,7 @@ _GOTOEVENTSERVER_OFF:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x14],0
 		JNZ _GOTOEVENTSERVER_ON
-		PUSH COLOR_Desconectado							// -- Cor do Texto
+		PUSH COLOR_DISCONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -421,7 +418,7 @@ _GOTOEVENTSERVER_ON:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x14],1
 		JNZ _GOTORANKINGSERVER_OFF
-		PUSH COLOR_Conectado							// -- Cor do Texto
+		PUSH COLOR_CONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -442,7 +439,7 @@ _GOTORANKINGSERVER_OFF:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x18],0
 		JNZ _GOTORANKINGSERVER_ON
-		PUSH COLOR_Desconectado							// -- Cor do Texto
+		PUSH COLOR_DISCONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -463,7 +460,7 @@ _GOTORANKINGSERVER_ON:
 		MOV EAX,DWORD PTR SS:[EBP-0x4]
 		CMP DWORD PTR DS:[EAX+0x18],1
 		JNZ _RTN
-		PUSH COLOR_Conectado							// -- Cor do Texto
+		PUSH COLOR_CONNECTED							// -- Cor do Texto
 		MOV ECX,DWORD PTR SS:[EBP-0x8]
 		PUSH ECX
 		CALL DWORD PTR DS:[INTERFACE_FUNC_SETTEXTCOLOR]	// -- SetTextColor
@@ -534,11 +531,12 @@ void InterfaceLoad()
 
 	DWORD *OffSetDisplayText = (DWORD*)(Interface_ServerInfoDisplayerTitle);
     memset(&OffSetDisplayText[0],0,30);
-	#ifdef _GS
-		memcpy(&OffSetDisplayText[0],DISPLAY_TEXT[0],strlen(DISPLAY_TEXT[0]));
-	#else
-		memcpy(&OffSetDisplayText[0],DISPLAY_TEXT[1],strlen(DISPLAY_TEXT[1]));
-	#endif
+
+#ifdef _GS
+	memcpy(&OffSetDisplayText[0],DISPLAY_TEXT[0],strlen(DISPLAY_TEXT[0]));
+#else
+	memcpy(&OffSetDisplayText[0],DISPLAY_TEXT[1],strlen(DISPLAY_TEXT[1]));
+#endif
 	
 	//-- Test
 	Utilits.SetByte(Interface_LogRealocate, 0x7D);
