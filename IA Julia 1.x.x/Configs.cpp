@@ -26,6 +26,7 @@
 #include "MarrySystem.h"
 #include "Prodef.h"
 #include "Helpers.h"
+#include "ChaosMachine.h"
 
 cConfigs Configs;
 
@@ -61,6 +62,7 @@ void cConfigs::LoadAll()
 	Moss.Load();
 	DropEvent.Init();
 	Monster.LoadGolden();
+	CM.ChaosMachineLoadConfig();
 #endif
 	Marry.Init();
 }
@@ -688,9 +690,9 @@ long cConfigs::GetInt(long Min, long Max, long Default, LPCSTR BlockName, LPCSTR
 
 	WIN32_FIND_DATAA wfd;
 
-	if (FindFirstFileA(FolderName, &wfd) == INVALID_HANDLE_VALUE)
+	if(FindFirstFileA(FolderName, &wfd) == INVALID_HANDLE_VALUE)
 	{
-		Log.ConsoleOutPut(1, c_BoldGreen, t_Error, "[X] Error configs in %s!", FolderName);
+		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Error configs in %s!", FolderName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Can't find file!");
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Taked default value for %s(%ld)", ConfigName, Default);
 
@@ -703,7 +705,7 @@ long cConfigs::GetInt(long Min, long Max, long Default, LPCSTR BlockName, LPCSTR
 
 	if(lResult == -100500)
 	{
-		Log.ConsoleOutPut(1, c_BoldGreen, t_Error, "[X] Error configs in %s!", FolderName);
+		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Error configs in %s!", FolderName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Can't find '%s' in [%s] section!", ConfigName, BlockName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Taked default value for %s(%ld)", ConfigName, Default);
 
@@ -712,7 +714,7 @@ long cConfigs::GetInt(long Min, long Max, long Default, LPCSTR BlockName, LPCSTR
 
 	if(lResult < Min || lResult > Max)
 	{
-		Log.ConsoleOutPut(1, c_BoldGreen, t_Error, "[X] Error configs in %s!", FolderName);
+		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Error configs in %s!", FolderName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "%s(%d) in [%s] is out of range!", ConfigName, lResult, BlockName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Min = %ld Max = %ld\tTaked default value(%ld)", Min, Max, Default);
 
@@ -728,9 +730,9 @@ char cConfigs::GetChar(long Min, long Max, unsigned char Default, LPCSTR BlockNa
 
 	WIN32_FIND_DATAA wfd;
 
-	if (FindFirstFileA(FolderName, &wfd) == INVALID_HANDLE_VALUE)
+	if(FindFirstFileA(FolderName, &wfd) == INVALID_HANDLE_VALUE)
 	{
-		Log.ConsoleOutPut(1, c_BoldGreen, t_Error, "[X] Error configs in %s!", FolderName);
+		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Error configs in %s!", FolderName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Can't find file!");
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] taked default value for %s(%ld)", ConfigName, Default);
 
@@ -743,7 +745,7 @@ char cConfigs::GetChar(long Min, long Max, unsigned char Default, LPCSTR BlockNa
 
 	if(cResult == -100500)
 	{	   
-		Log.ConsoleOutPut(1, c_BoldGreen, t_Error, "[X] Error configs in %s!", FolderName);
+		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Error configs in %s!", FolderName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Can't find '%s' in [%s] section!", ConfigName, BlockName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Taked default value for %s(%ld)", ConfigName, Default);
 
@@ -752,7 +754,7 @@ char cConfigs::GetChar(long Min, long Max, unsigned char Default, LPCSTR BlockNa
 
 	if(cResult < Min || cResult > Max)
 	{
-		Log.ConsoleOutPut(1, c_BoldGreen, t_Error, "[X] Error configs in %s!", FolderName);
+		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Error configs in %s!", FolderName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] %s(%d) in [%s] is out of range!", ConfigName, cResult, BlockName);
 		Log.ConsoleOutPut(1, c_BoldRed, t_Error, "[X] Min = %ld Max = %ld\tTaked default value(%ld)", Min, Max, Default);
 
