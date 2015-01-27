@@ -346,5 +346,4 @@ unsigned char cUtilits::RandomSucess(unsigned char range)
 	srand(static_cast<int>(time(NULL)));
 
 	return (rand() % range);
-
 }
