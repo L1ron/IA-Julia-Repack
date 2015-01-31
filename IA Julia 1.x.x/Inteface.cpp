@@ -5,8 +5,8 @@
 
 char DISPLAY_TEXT[2][30] =
 {
-	"IA Julia Season 4.6 (GS)",
-	"IA Julia Season 4.6 (CS)"
+	"Season 4.6 (GS)",
+	"Season 4.6 (CS)"
 };
 
 char SERVER_STATUS[12][32] = 
