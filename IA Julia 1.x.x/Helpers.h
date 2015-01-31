@@ -30,7 +30,6 @@ class cHelpers
 		} Config;
 
         int Itens;
-	    DWORD Premio;
 
 	    int Type,Index,Level,Option,Luck,Skill,Duration,Excellent;
 };
@@ -38,7 +37,7 @@ class cHelpers
 extern cHelpers Helpers;
 
 #define MaxItemsInBag 1000
- 
+
 struct sHelperItens
 {
 	BYTE Grupo;
