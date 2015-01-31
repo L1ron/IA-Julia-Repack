@@ -12,7 +12,6 @@
 #include "Jewels.h"
 #include "OffTradeProtocol.h"
 #include "Utilits.h"
-#include "ChaosMachine.h"
 
 BYTE RecvTable[256] =
 {
@@ -90,7 +89,7 @@ void gObjTradeOkButton(int aIndex)
     OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex);
     int number = gObj->TargetNumber;
 
-    if (number < 0)
+    if(number < 0)
     {
         return;
     }
@@ -294,8 +293,9 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
                 }
                 else
                 {
-                    Chat.Message(1, gObj, "[PointShop] Permitido apenas em Lorencia, Devias, Noria, Elbeland.");
-                    BYTE pNewProtocol[0x05] = { 0xC1, 0x05, 0x18, 0x01, 0x7A };
+                    Chat.Message(1, gObj, "[PointShop] Somente em Lorencia, Devias, Noria, Elbeland.");
+                    
+					BYTE pNewProtocol[0x05] = {0xC1,0x05,0x18,0x01,0x7A };
                     DataRecv(RecvTable[pNewProtocol[2]], pNewProtocol, pNewProtocol[1], aIndex, Encrypt, Serial);
                 }
 
@@ -304,17 +304,15 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
 
             break;
         }
-        case 0x30: // Click NPC Protocol
-        {
-            bool bResult = Monster.NPCTalkEx(gObj, (aRecv[4] + aRecv[3] * 256));
-
-            if (bResult)
+		case 0x30: // Click NPC Protocol
+		{
+			if(Monster.NPCTalkEx(gObj,(aRecv[4] + aRecv[3] * 256)))
 			{
 				return true;
 			}
 
-            break;
-        }
+			break;
+		}
         case 0x40:
         {
             if (Configs.IsPartyGap)
@@ -339,7 +337,7 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
 #ifdef _GS
 		case 0x86: // Chaos Machine
 		{
-			CM.ChaosboxCombinationEx(aIndex,aRecv[3]);
+			/*NOTHING TO DO WITH THAT SHIT*/
 
 			break;
 		}
