@@ -31,7 +31,7 @@ DWORD MainTick()
 		int Temp_All = 0;
 		int Temp_Gms = 0;
 
-		for (int i = 0; i < OBJECT_MIN; i++)
+		for(int i = 0; i < OBJECT_MIN; i++)
 		{
 			if (AddTab[i].TEMP_Golden_Drop)
 			{
@@ -57,19 +57,19 @@ DWORD MainTick()
 				Temp_All++;
 			}
 
-			if (gObj->Connected < PLAYER_PLAYING)
+			if(gObj->Connected < PLAYER_PLAYING)
 			{
 				continue;
 			}
 
-			if (AddTab[gObj->m_Index].OfflineTrade != true)
+			if(AddTab[gObj->m_Index].OfflineTrade != true)
 			{
 				User.OnlineTimeTick(gObj);
 			}
 
 			Territory.Tick(gObj);
 
-			if (AddTab[gObj->m_Index].OfflineTrade != true)
+			if(AddTab[gObj->m_Index].OfflineTrade != true)
 			{
 				AntiAFK.Tick(gObj);
 			}
@@ -93,21 +93,23 @@ extern "C" __declspec(dllexport) void __cdecl RMST()
 {
 	DWORD OldProtect;
 
-	if(VirtualProtect(LPVOID(0x401000), GSSIZE, PAGE_EXECUTE_READWRITE, &OldProtect))
+	if(VirtualProtect(LPVOID(0x401000),GSSIZE, PAGE_EXECUTE_READWRITE, &OldProtect))
 	{
-		CreateDirectory(IAJuliaConsoleLogs, NULL);
-		CreateDirectory(IAJuliaChatLogs, NULL);
-		CreateDirectory(IAJuliaLog, NULL);
+		CreateDirectory(IAJuliaConsoleLogs,NULL);
+		CreateDirectory(IAJuliaChatLogs,NULL);
+		CreateDirectory(IAJuliaLog,NULL);
 
-		srand((unsigned int)time(NULL));
+		if(GetPrivateProfileInt("Connect","ConsoleDebug",0,IAJuliaGS))
+		{
+			Sleep(500);
+			Log.LoggerInit();
+			Sleep(500);
 
-		Sleep(500);
-		Log.LoggerInit();
-		Sleep(500);
-		Log.ConsoleOutPut(0, c_Green, t_NULL, "IA Julia 1.1.%d.%d Season 4.6 Remake V%d", dBuild, dCommit, Remakever);
-		Log.ConsoleOutPut(0, c_Green, t_NULL, "Suporte Skype: SmileYzn@live.com");
-		Log.ConsoleOutPut(0, c_Green, t_NULL, "Data: %s %s", __DATE__, __TIME__);
-		Log.ConsoleOutPut(0, c_Green, t_NULL, "Creditos: Comunidade MuOnline, WebZen\n");
+			Log.ConsoleOutPut(0,c_Green,t_NULL,"IA Julia 1.1.%d.%d Season 4.6 Remake V%d",dBuild, dCommit, Remakever);
+			Log.ConsoleOutPut(0,c_Green,t_NULL,"Suporte Skype: SmileYzn@live.com");
+			Log.ConsoleOutPut(0,c_Green,t_NULL,"Data: %s %s",__DATE__,__TIME__);
+			Log.ConsoleOutPut(0,c_Green,t_NULL,"Creditos: Comunidade MuOnline, WebZen\n");
+		}
 
 		InterfaceLoad();
 		LoadQuery();
