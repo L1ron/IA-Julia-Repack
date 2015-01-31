@@ -102,9 +102,9 @@ int cGmSystem::IsCommand(Commands Cmd, char Character[11])
 {
     switch (Cmd)
     {
-    case NONE:
-        return 1;
+		case NONE: return 1;
     }
+
     if(IsGMBD(Character))
     {
         if (Config.IsGMSystem)
@@ -114,45 +114,50 @@ int cGmSystem::IsCommand(Commands Cmd, char Character[11])
                 {
                     switch (Cmd)
                     {
-                    case cDrop:
-                        return GM[x].Drop;
-                    case cGg:
-                        return GM[x].Gg;
-                    case cSetZen:
-                        return GM[x].SetZen;
-                    case cStatus:
-                        return GM[x].Status;
-                    case cGmove:
-                        return GM[x].Gmove;
-                    case cSetPK:
-                        return GM[x].SetPK;
-                    case cPkClear:
-                        return GM[x].PkClear;
-                    case cBanPlayer:
-                        return GM[x].BanPlayer;
-                    case cReload:
-                        return GM[x].Reload;
-                    case cSkin:
-                        return GM[x].Skin;
-                    case cBanPost:
-                        return GM[x].BanPost;
-                    case cVoskl:
-                        return GM[x].Voskl;
-                    case cDisconnect:
-                        return GM[x].Disconnect;
-                    case cTrace:
-                        return GM[x].Trace;
-                    case cDisableChat:
-                        return GM[x].DisableChat;
+						case cDrop:
+							return GM[x].Drop;
+						case cGg:
+							return GM[x].Gg;
+						case cSetZen:
+							return GM[x].SetZen;
+						case cStatus:
+							return GM[x].Status;
+						case cGmove:
+							return GM[x].Gmove;
+						case cSetPK:
+							return GM[x].SetPK;
+						case cPkClear:
+							return GM[x].PkClear;
+						case cBanPlayer:
+							return GM[x].BanPlayer;
+						case cReload:
+							return GM[x].Reload;
+						case cSkin:
+							return GM[x].Skin;
+						case cBanPost:
+							return GM[x].BanPost;
+						case cVoskl:
+							return GM[x].Voskl;
+						case cDisconnect:
+							return GM[x].Disconnect;
+						case cTrace:
+							return GM[x].Trace;
+						case cDisableChat:
+							return GM[x].DisableChat;
                     }
                 }
+
             return 0;
         }
         else
+		{
             return 1;
+		}
     }
     else
+	{
         return 0;
+	}
 }
 
 int cGmSystem::IsAdmin(char Character[11])
@@ -166,43 +171,61 @@ int cGmSystem::IsAdmin(char Character[11])
                 {
                     switch (GM[x].IsAdmin)
                     {
-                    case 0:
-                        return 0;
-                    case 1:
-                        return 1;
-                    case 2:
-                        return 2;
+						case 0:
+							return 0;
+						case 1:
+							return 1;
+						case 2:
+							return 2;
                     }
                 }
+
             return 0;
         }
         else
+		{
             return 2;
+		}
     }
-    else return 0;
+    else
+	{
+		return 0;
+	}
 }
 
 bool cGmSystem::IsGMBD(char Character[11])
 {
     if(Config.IsGMInDB == 0)
         return true;
+
     for(int i = OBJECT_MIN; i <= OBJECT_MAX; i++)
     {
         OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(i);
+
         if(gObj->Connected < PLAYER_PLAYING) continue;
+
         if(!strcmp(gObj->Name, Character) && (gObj->Authority == 32 || gObj->Authority == 8))
-            return true;
+		{
+			return true;
+		}
     }
+
     return false;
 }
 
 bool cGmSystem::IsGMBD(int aIndex)
 {
     OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex);
+
     if(gObj->Connected < PLAYER_PLAYING)
+	{
         return false;
-    if((gObj->Authority == 32 || gObj->Authority == 8))
+	}
+
+	if((gObj->Authority == 32) || (gObj->Authority == 8))
+	{
         return true;
+	}
 
     return false;
 }

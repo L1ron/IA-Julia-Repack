@@ -38,7 +38,7 @@ void cHelpers::Load()
 
 		if(File == NULL)
 		{
-			Log.ConsoleOutPut(0,c_Red,t_NULL,"[û] [NPC Helper]\tHelpers.txt nao encontrado, NPC Helper inativo.");
+			Log.ConsoleOutPut(0,c_Red,t_NULL,"[û] [NPC Helper]\t%s nao encontrado, NPC Helper inativo.",IAJuliaHelpers);
 
 			Config.Enable = 0;
 		}
@@ -75,7 +75,7 @@ void cHelpers::Load()
 
 			fclose(File);
 
-			Log.ConsoleOutPut(1,c_Yellow,t_NULL,"[û] [NPC Helper]\t%d itens foram carregados.",Itens);
+			Log.ConsoleOutPut(1,c_Yellow,t_HELPERS,"[û] [NPC Helper]\t%d itens foram carregados.",Itens);
 		}
 	}
 }
@@ -112,7 +112,7 @@ void cHelpers::HelperEllenClick(LPOBJ gObj, LPOBJ gObjNPC)
 	}
 	else
 	{
-		Monster.NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
+		Monster.NPCMessageLog(c_Blue,t_HELPERS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
 	}
 }
 
@@ -124,7 +124,7 @@ void cHelpers::HelperLukeClick(LPOBJ gObj, LPOBJ gObjNPC)
 	}
 	else
 	{
-		Monster.NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
+		Monster.NPCMessageLog(c_Blue,t_HELPERS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
 	}
 }
 
@@ -136,7 +136,7 @@ void cHelpers::HelperLeoClick(LPOBJ gObj, LPOBJ gObjNPC)
 	}
 	else
 	{
-		Monster.NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
+		Monster.NPCMessageLog(c_Blue,t_HELPERS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
 	}
 }
 
@@ -144,28 +144,28 @@ void cHelpers::CheckConditions(LPOBJ gObj, LPOBJ gObjNPC)
 {
 	if(AddTab[gObj->m_Index].HELPER_UsedTimes >= Config.UseTimes)
 	{
-		Monster.NPCMessageLog(c_Red,t_COMMANDS,gObj,gObjNPC,"Voce ja teve sua ajuda.");
+		Monster.NPCMessageLog(c_Red,t_HELPERS,gObj,gObjNPC,"Voce ja teve sua ajuda.");
 
 		return;
 	}
 
 	if(gObj->Money < Config.PriceZen)
 	{
-		Monster.NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Preciso de %d Zens!",Config.PriceZen);
+		Monster.NPCMessageLog(c_Blue,t_HELPERS,gObj,gObjNPC,"Preciso de %d Zens!",Config.PriceZen);
 
 		return;
 	}
 
 	if(AddTab[gObj->m_Index].PC_PlayerPoints < Config.PricePCPoint)
 	{
-		Monster.NPCMessageLog(c_Red,t_COMMANDS,gObj,gObjNPC,"Preciso de %d PCPoints!",Config.PricePCPoint);
+		Monster.NPCMessageLog(c_Red,t_HELPERS,gObj,gObjNPC,"Preciso de %d PCPoints!",Config.PricePCPoint);
 
 		return;
 	}
 
 	if(gObj->m_wCashPoint < Config.PriceWCoin)
 	{
-		Monster.NPCMessageLog(c_Red,t_COMMANDS,gObj,gObjNPC,"Preciso de %d WCoins!",Config.PriceWCoin);
+		Monster.NPCMessageLog(c_Red,t_HELPERS,gObj,gObjNPC,"Preciso de %d WCoins!",Config.PriceWCoin);
 
 		return;
 	}
@@ -205,7 +205,7 @@ void cHelpers::CheckConditions(LPOBJ gObj, LPOBJ gObjNPC)
 	}
 
 	this->GenerateItem(gObj->m_Index);
-	Monster.NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Boa sorte em sua jornada!");
+	Monster.NPCMessageLog(c_Blue,t_HELPERS,gObj,gObjNPC,"Boa sorte em sua jornada!");
 }
 
 void cHelpers::GenerateItem(int aIndex)
@@ -227,7 +227,7 @@ void cHelpers::GenerateItem(int aIndex)
 	}
 
 	OBJECTSTRUCT * gObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex);
-	Premio = HelperItens[i].Grupo*512+HelperItens[i].Index;
+	DWORD Premio = HelperItens[i].Grupo*512+HelperItens[i].Index;
 
 	ItemSerialCreateSend
 	(
