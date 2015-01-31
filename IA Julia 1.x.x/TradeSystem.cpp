@@ -49,7 +49,7 @@ void cTradeSystem::Load()
         EnabledWarehouse = 0;
         EnabledGround = 0;
         EnabledPersonal = 0;
-        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [Trade System]\tCan`t Find %s", IAJuliaTradeSystem);
+        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [Trade System]\tImpossivel encontrar %s", IAJuliaTradeSystem);
         return;
     }
 
@@ -63,7 +63,6 @@ void cTradeSystem::Load()
         if (Flag == 1 && EnabledTrade)
         {
             int n[8];
-            //	Group	Index	Level	Skill	Luck	Opt	Exc	Anc
             sscanf(Buff, "%d %d %d %d %d %d %d %d", &n[0], &n[1], &n[2], &n[3], &n[4], &n[5], &n[6], &n[7]);
             TradeItems[TradeItemsCount].Group	= n[0];
             TradeItems[TradeItemsCount].Index	= n[1];
@@ -80,7 +79,6 @@ void cTradeSystem::Load()
         if (Flag == 2 && EnabledWarehouse)
         {
             int n[8];
-            //	Group	Index	Level	Skill	Luck	Opt	Exc	Anc
             sscanf(Buff, "%d %d %d %d %d %d %d %d", &n[0], &n[1], &n[2], &n[3], &n[4], &n[5], &n[6], &n[7]);
             WareHouseItems[WareHouseItemsCount].Group	= n[0];
             WareHouseItems[WareHouseItemsCount].Index	= n[1];
@@ -97,7 +95,6 @@ void cTradeSystem::Load()
         if (Flag == 3 && EnabledGround)
         {
             int n[8];
-            //	Group	Index	Level	Skill	Luck	Opt	Exc	Anc
             sscanf(Buff, "%d %d %d %d %d %d %d %d", &n[0], &n[1], &n[2], &n[3], &n[4], &n[5], &n[6], &n[7]);
             GroudDropItems[GroudDropItemsCount].Group	= n[0];
             GroudDropItems[GroudDropItemsCount].Index	= n[1];
@@ -114,7 +111,6 @@ void cTradeSystem::Load()
         if (Flag == 4 && EnabledPersonal)
         {
             int n[8];
-            //	Group	Index	Level	Skill	Luck	Opt	Exc	Anc
             sscanf(Buff, "%d %d %d %d %d %d %d %d", &n[0], &n[1], &n[2], &n[3], &n[4], &n[5], &n[6], &n[7]);
             PersonalShopItems[PersonalShopItemsCount].Group	= n[0];
             PersonalShopItems[PersonalShopItemsCount].Index	= n[1];
@@ -131,13 +127,15 @@ void cTradeSystem::Load()
 
     fclose(conf);
 
-    Log.ConsoleOutPut(1, c_Magenta, t_Default, "[û] [Trade System]\tLoaded %d items." ,TradeItemsCount+WareHouseItemsCount+GroudDropItemsCount+PersonalShopItemsCount);
+    Log.ConsoleOutPut(1, c_Magenta, t_Default, "[û] [Trade System]\tCarregados %d itens." ,TradeItemsCount+WareHouseItemsCount+GroudDropItemsCount+PersonalShopItemsCount);
 }
 
 bool cTradeSystem::CheckTradeItem(LPOBJ gObj)
 {
     if(!EnabledTrade)
+	{
         return false;
+	}
 
     for (int n=0; n<32; n++)
     {
@@ -150,14 +148,17 @@ bool cTradeSystem::CheckTradeItem(LPOBJ gObj)
                     if(gObj->Trade[n].m_Type != ITEMGET(TradeItems[i].Group,TradeItems[i].Index))
                         continue;
                 }
+
                 if(TradeItems[i].Group == -1 && TradeItems[i].Index != -1)
                 {
                     int Temp = (int)floor(gObj->Trade[n].m_Type/512.0f);
+
                     if(gObj->Trade[n].m_Type != ITEMGET(Temp, TradeItems[i].Index))
                     {
                         continue;
                     }
                 }
+
                 if(TradeItems[i].Group != -1 && TradeItems[i].Index == -1)
                 {
                     if(gObj->Trade[n].m_Type < ITEMGET(TradeItems[i].Group, 0) ||
@@ -166,23 +167,35 @@ bool cTradeSystem::CheckTradeItem(LPOBJ gObj)
                 }
 
                 if(TradeItems[i].Level != -1 && gObj->Trade[n].m_Level < TradeItems[i].Level)
+				{
                     continue;
+				}
 
                 if(TradeItems[i].Skill != -1 && gObj->Trade[n].m_Option1 != TradeItems[i].Skill)
+				{
                     continue;
+				}
 
                 if(TradeItems[i].Luck != -1 && gObj->Trade[n].m_Option2 != TradeItems[i].Luck)
+				{
                     continue;
+				}
 
                 if(TradeItems[i].Opt != -1 && gObj->Trade[n].m_Option3 < TradeItems[i].Opt)
+				{
                     continue;
+
+				}
 
                 if(TradeItems[i].Exc != -1 && Utilits.TakeExcNum(gObj->Trade[n].m_NewOption) < TradeItems[i].Exc)
+				{
                     continue;
+				}
 
                 if(TradeItems[i].Anc != -1 && gObj->Trade[n].m_SetOption < TradeItems[i].Anc)
+				{
                     continue;
-
+				}
                 //# TODO Make MSG of what item can't be traded
                 return true;
             }
@@ -194,7 +207,9 @@ bool cTradeSystem::CheckTradeItem(LPOBJ gObj)
 bool cTradeSystem::CheckWarehouseItem( LPOBJ gObj, int Source )
 {
     if(!EnabledWarehouse)
+	{
         return false;
+	}
 
     if (gObj->pInventory[Source].m_Type >= 0)
     {
@@ -203,54 +218,76 @@ bool cTradeSystem::CheckWarehouseItem( LPOBJ gObj, int Source )
             if(WareHouseItems[i].Group != -1 && WareHouseItems[i].Index != -1)
             {
                 if(gObj->pInventory[Source].m_Type != ITEMGET(WareHouseItems[i].Group,WareHouseItems[i].Index))
+				{
                     continue;
+				}
             }
+
             if(WareHouseItems[i].Group == -1 && WareHouseItems[i].Index != -1)
             {
                 int Temp = (int)floor(gObj->pInventory[Source].m_Type/512.0f);
+
                 if(gObj->pInventory[Source].m_Type != ITEMGET(Temp, WareHouseItems[i].Index))
                 {
                     continue;
                 }
             }
+
             if(WareHouseItems[i].Group != -1 && WareHouseItems[i].Index == -1)
             {
-                if(gObj->pInventory[Source].m_Type < ITEMGET(WareHouseItems[i].Group, 0) ||
-                        gObj->pInventory[Source].m_Type >= ITEMGET(WareHouseItems[i].Group+1, 0))
+                if(gObj->pInventory[Source].m_Type < ITEMGET(WareHouseItems[i].Group, 0) || gObj->pInventory[Source].m_Type >= ITEMGET(WareHouseItems[i].Group+1, 0))
+				{
                     continue;
+				}
             }
 
             if(WareHouseItems[i].Level != -1 && gObj->pInventory[Source].m_Level < WareHouseItems[i].Level)
+			{
                 continue;
+			}
 
             if(WareHouseItems[i].Skill != -1 && gObj->pInventory[Source].m_Option1 != WareHouseItems[i].Skill)
+			{
                 continue;
+			}
 
             if(WareHouseItems[i].Luck != -1 && gObj->pInventory[Source].m_Option2 != WareHouseItems[i].Luck)
+			{
                 continue;
+			}
 
             if(WareHouseItems[i].Opt != -1 && gObj->pInventory[Source].m_Option3 < WareHouseItems[i].Opt)
+			{
                 continue;
+			}
 
             if(WareHouseItems[i].Exc != -1 && Utilits.TakeExcNum(gObj->pInventory[Source].m_NewOption) < WareHouseItems[i].Exc)
+			{
                 continue;
+			}
 
             if(WareHouseItems[i].Anc != -1 && gObj->pInventory[Source].m_SetOption < WareHouseItems[i].Anc)
+			{
                 continue;
+			}
 
-            Chat.MessageLog(1, c_Red, t_TRADE, gObj, "[Warehouse] You can't move that item to Warehouse!");
+            Chat.MessageLog(1, c_Red, t_TRADE, gObj, "[Warehouse] Voce nao pode mover esse item para o bau!");
+
             return true;
         }
     }
+
     return false;
 }
 
 bool cTradeSystem::CheckGroundDropItem( LPOBJ gObj, int Source )
 {
     if(!EnabledGround)
+	{
         return false;
+	}
 
-    if (gObj->pInventory[Source].m_Type >= 0)
+    if(gObj->pInventory[Source].m_Type >= 0)
     {
         for(int i = 0; i < GroudDropItemsCount; i++)
         {
@@ -292,7 +329,7 @@ bool cTradeSystem::CheckGroundDropItem( LPOBJ gObj, int Source )
             if(GroudDropItems[i].Anc != -1 && gObj->pInventory[Source].m_SetOption < GroudDropItems[i].Anc)
                 continue;
 
-            Chat.MessageLog(1, c_Red, t_TRADE, gObj, "[GroundDrop] You can't drop that item to the ground!");
+            Chat.MessageLog(1, c_Red, t_TRADE, gObj, "[GroundDrop] Voce nao pode descartar esse item!");
             return true;
         }
     }
@@ -346,7 +383,7 @@ bool cTradeSystem::CheckPersonalShopItem( LPOBJ gObj, int Source )
             if(PersonalShopItems[i].Anc != -1 && gObj->pInventory[Source].m_SetOption < PersonalShopItems[i].Anc)
                 continue;
 
-            Chat.MessageLog(1, c_Red, t_TRADE, gObj, "[PersonalStore] You can't move that item to PersonalStore!");
+            Chat.MessageLog(1, c_Red, t_TRADE, gObj, "[PersonalStore] Voce nao pode mover esse item para a PersonalStore!");
             return true;
         }
     }

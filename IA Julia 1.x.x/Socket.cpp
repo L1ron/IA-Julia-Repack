@@ -23,7 +23,7 @@ void cSocket::Load()
 
     if (file == NULL)
     {
-        Log.ConsoleOutPut(1,c_Red,t_Error,"[X] [SocketSystem]\tCan`t Find %s",IAJuliaSocket);
+        Log.ConsoleOutPut(1,c_Red,t_Error,"[X] [SocketSystem]\tImpossivel abrir %s",IAJuliaSocket);
         return;
     }
 
@@ -50,7 +50,7 @@ void cSocket::Load()
 
 
     fclose(file);
-    Log.ConsoleOutPut(1, c_Magenta, t_Default, "[+] [SocketSystem]\tItems loaded.");
+    Log.ConsoleOutPut(1, c_Magenta, t_Default, "[+] [SocketSystem]\tItens carregados");
 }
 
 BYTE CheckItemType(int iItemNumber)

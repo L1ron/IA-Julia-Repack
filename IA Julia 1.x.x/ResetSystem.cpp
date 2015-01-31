@@ -19,7 +19,7 @@ void RSystem::Init()
 
 	if(!RConf.IsResetSystem)
 	{
-		Log.ConsoleOutPut(1, c_Grey, t_RESET,"[X] [Reset System] Inativo.");
+		Log.ConsoleOutPut(1, c_Grey, t_RESET,"[X] [Reset System]\tInativo.");
 
 		return;
 	}
@@ -45,14 +45,14 @@ void RSystem::Init()
 		else
 		{
 			State[i].MaxRes =  Configs.GetInt(-1, 32000, 5, PState, "MaxResets", IAResetSystem);
-			Log.ConsoleOutPut(1, c_Red, t_RESET, "[û] [Reset System] [%d] MaxResets = %d",i+1,State[i].MaxRes);
+			Log.ConsoleOutPut(1, c_Red, t_RESET, "[û] [Reset System]\t[%d] MaxResets = %d",i+1,State[i].MaxRes);
 		}
 
 		if(i > 0)
 		{
 			if(State[i-1].MaxRes >= State[i].MaxRes)
 			{
-				Log.ConsoleOutPut(1, c_Red, t_RESET, "[X] [Reset System] Erro no MaxResets do State %d. E menor que o anterior. Funciona apemas com o %d primeiro State.",i+1,i);
+				Log.ConsoleOutPut(1, c_Red, t_RESET, "[X] [Reset System]\tErro no MaxResets do State %d. E menor que o anterior. Funciona apemas com o %d primeiro State.",i+1,i);
 				OffStates(i);
 
 				return;
@@ -138,7 +138,7 @@ void RSystem::Init()
 		}
 	}
 
-	Log.ConsoleOutPut(1, c_Green, t_RESET, "[û] [Reset System] Iniciado: %d estados de %d estao ativos.",Worked ,NumStates);
+	Log.ConsoleOutPut(1, c_Green, t_RESET, "[û] [Reset System]\tIniciado: %d estados de %d estao ativos.",Worked ,NumStates);
 }
 
 void RSystem::OffStates(int i)
@@ -335,21 +335,21 @@ void RSystem::Reset(LPOBJ gObj)
 
 	switch(gObj->DbClass)
 	{
-	case 32: case 33: case 35:
+		case 32: case 33: case 35:
 		{
 			// Noria (Todas classes Elf)
 			gObjTeleport(gObj->m_Index,3,172,115);
 
 			break;
 		}
-	case 80: case 81: case 83:
+		case 80: case 81: case 83:
 		{
 			// Elbeland (Todas Classes Summoner)
 			gObjTeleport(gObj->m_Index,51,52,225);
 
 			break;
 		}
-	default:
+		default:
 		{
 			// Lorencia (Todas Classes BK, MG, DL)
 			gObjTeleport(gObj->m_Index,0,141,132);
@@ -358,7 +358,7 @@ void RSystem::Reset(LPOBJ gObj)
 		}
 	}
 
-	GCLevelUpMsgSend(gObj->m_Index,gObj->Level);		// Warning shits :D
+	GCLevelUpMsgSend(gObj->m_Index,0);		// Warning shits :D
 	gObjCalCharacter(Utilits.GetPlayerIndex(gObj->Name));
 
 	/*
@@ -371,15 +371,6 @@ void RSystem::Reset(LPOBJ gObj)
 	MuOnlineQuery.ExecQuery("UPDATE Character SET %s = %s + 1 WHERE Name = '%s'",  RConf.ResetColumn, RConf.ResetColumn, gObj->Name);
 	MuOnlineQuery.Fetch();
 	MuOnlineQuery.Close();
-
-	/*
-		// Force player to reconnect (POOR Method!)
-		#pragma warning(disable: 4309)
-		{
-			char sBuf[] = {0xC3,0x05,0xF1,0x02,0x02};
-			DataSend(gObj->m_Index, (PBYTE)sBuf,sBuf[1]);
-		}
-	*/
 
 	if(State[NumState].Clear.Skills)
 	{
