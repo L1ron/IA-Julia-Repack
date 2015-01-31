@@ -11,6 +11,7 @@ class cChat
 	public:
 		cChat();
 		~cChat();
+		
 		void LoadChatCommands();
 		bool WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg);
 		bool ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat);

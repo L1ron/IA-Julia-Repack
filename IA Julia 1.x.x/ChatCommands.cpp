@@ -32,7 +32,6 @@ cChat::~cChat()
 
 void cChat::LoadChatCommands()
 {
-	/* CARACA VEI! OU DIGITO OU COMPRO UMA GOIABA */
 	GetPrivateProfileString("Strings", "COMMAND_GG", "/gg", COMMAND_GG, sizeof(COMMAND_GG), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_VOSKL", "!", COMMAND_VOSKL, sizeof(COMMAND_VOSKL), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_TRACE", "/trace", COMMAND_TRACE, sizeof(COMMAND_TRACE), IAJuliaChatCommands);
@@ -1311,32 +1310,50 @@ bool cChat::LevelCommand(LPOBJ gObj)
 	return true;
 }
 
-bool cChat::DropCommand(LPOBJ gObj, char *Msg, int Index)
+bool cChat::DropCommand(LPOBJ gObj,char *Msg,int Index)
 {
-	if (CheckCommand(gObj, Configs.Commands.IsDrop, GmSystem.cDrop, 0, 0, 0, 0, 0, 3, Index, "Drop", "[Name] /drop <ItemCount> <ItemType> <ItemIndex> <ItemLvl> <ItemSkill> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>", Msg))
-		return true;
-
-	int ItemCount = 0;
-	int ItemType = 0;
-	int ItemIndex = 0;
-	int ItemLevel = 0;
-	int ItemSkill = 0;
-	int ItemLuck = 0;
-	int ItemOpt = 0;
-	int ItemExc = 0;
-	int ItemAncient = 0;
-
-	sscanf(Msg, "%d %d %d %d %d %d %d %d %d", &ItemCount, &ItemType, &ItemIndex, &ItemLevel, &ItemSkill, &ItemLuck, &ItemOpt, &ItemExc, &ItemAncient);
-	int Item = ItemType * 512 + ItemIndex;
-
-	if ((ItemCount < 0) || (ItemCount > 20))
+	if(CheckCommand(gObj,Configs.Commands.IsDrop,GmSystem.cDrop,0,0,0,0,0,3,Index,"Drop", "[Name] /drop <Quant> <Tipo> <Id> <Lvl> <Skill> <Luck> <Opt> <Exc> <Anc>",Msg))
 	{
-		ItemCount = 1;
+		return true;
 	}
 
-	if (ItemIndex < 0 || (ItemType < 0 || ItemType > 15) || (ItemLevel<0 || ItemLevel > 13) || (ItemOpt < 0 || ItemOpt > 7) || (ItemLuck < 0 || ItemLuck > 1) || (ItemSkill < 0 || ItemSkill > 1) || (ItemExc < 0 || ItemExc > 63) || (ItemAncient < 0 || ItemAncient > 40))
+	int ItemArray[10] = {0};
+
+	sscanf
+	(
+		Msg,
+		"%d %d %d %d %d %d %d %d %d",
+		&ItemArray[0], // Count
+		&ItemArray[1], // Type
+		&ItemArray[2], // Index
+		&ItemArray[3], // Level
+		&ItemArray[4], // Skill
+		&ItemArray[5], // Luck
+		&ItemArray[6], // Opt
+		&ItemArray[7], // Exc
+		&ItemArray[8]  // Ancient
+	);
+
+	int Item = ItemArray[1] * 512 + ItemArray[2];
+
+	if((ItemArray[0] < 0) || (ItemArray[0] > 20))
 	{
-		MessageLog(1, c_Red, t_GM, gObj, "[Drop] Usage: /drop <ItemCount> <ItemType> <ItemIndex> <ItemLvl> <ItemSkill> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>");
+		ItemArray[0] = 1;
+	}
+
+	if
+	(
+		ItemArray[2] < 0 ||
+		(ItemArray[1] < 0 || ItemArray[1] > 15) ||
+		(ItemArray[3] < 0 || ItemArray[3] > 13) ||
+		(ItemArray[6] < 0 || ItemArray[6] > 7) ||
+		(ItemArray[5] < 0 || ItemArray[5] > 1) ||
+		(ItemArray[4] < 0 || ItemArray[4] > 1) ||
+		(ItemArray[7] < 0 || ItemArray[7] > 63) ||
+		(ItemArray[8] < 0 || ItemArray[8] > 40)
+	)
+	{
+		MessageLog(1,c_Red,t_GM,gObj,"[Drop] Uso: /drop <Quant> <Tipo> <Id> <Lvl> <Skill> <Luck> <Opt> <Exc> <Anc>");
 
 		return true;
 	}
@@ -1344,19 +1361,20 @@ bool cChat::DropCommand(LPOBJ gObj, char *Msg, int Index)
 	{
 		OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
-		for (int i = 0; i < ItemCount; i++)
+		do
 		{
-			ItemSerialCreateSend(Index, tObj->MapNumber, (int)tObj->X, (int)tObj->Y, Item, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, Index, ItemExc, ItemAncient);
+			ItemSerialCreateSend(Index,tObj->MapNumber,(int)tObj->X,(int)tObj->Y,Item,ItemArray[3],0,ItemArray[4],ItemArray[5],ItemArray[6],Index,ItemArray[7],ItemArray[8]);
 		}
+		while(--ItemArray[0]);
 
 		if(tObj == gObj)
 		{
-			MessageLog(1, c_Green, t_GM, gObj, "[Drop] %d Item Created %d %d %d %d %d %d %d %d - Success", ItemCount, ItemType, ItemIndex, ItemLevel, ItemSkill, ItemLuck, ItemOpt, ItemExc, ItemAncient);
+			MessageLog(1, c_Green, t_GM, gObj, "[Drop] %d Itens cridos %d %d %d %d %d %d %d %d", ItemArray[0],ItemArray[1],ItemArray[2], ItemArray[3], ItemArray[4], ItemArray[5], ItemArray[6], ItemArray[7], ItemArray[8]);
 		}
 		else
 		{
-			MessageLog(1, c_Green, t_GM, gObj, "[Drop] %d Item Created to %s %d %d %d %d %d %d %d %d - Success", ItemCount, tObj->Name, ItemType, ItemIndex, ItemLevel, ItemSkill, ItemLuck, ItemOpt, ItemExc, ItemAncient);
-			Message(1, gObj, "[Drop] You lucked by %s with %d items! Take them faster!", gObj->Name, ItemCount);
+			Message(1, gObj, "[Drop] Voce ganhou %d de %s!", gObj->Name, ItemArray[0]);
+			MessageLog(1, c_Green, t_GM, gObj, "[Drop] %d Itens cridos para %s %d %d %d %d %d %d %d %d", ItemArray[0],tObj->Name,ItemArray[1],ItemArray[2], ItemArray[3], ItemArray[4], ItemArray[5], ItemArray[6], ItemArray[7], ItemArray[8]);
 		}
 	}
 
@@ -1366,7 +1384,9 @@ bool cChat::DropCommand(LPOBJ gObj, char *Msg, int Index)
 bool cChat::SetCharCommand(LPOBJ gObj, char* Msg, int Index)
 {
 	if (CheckCommand(gObj, Configs.Commands.IsSetChar, GmSystem.cSetZen, 0, 0, 0, 0, 0, 1, Index, "SetChar", "[Name] /setchar <Zen> <PCPnt> <WCoins> <AddPnt> <lvl> <Prof>", Msg))
+	{
 		return true;
+	}
 
 	DWORD Zen = 0;
 	int PCPnt = 0, WCoin = 0, AddPnt = 0, Lvl = 0, Prof = 0;
@@ -1392,9 +1412,15 @@ bool cChat::SetCharCommand(LPOBJ gObj, char* Msg, int Index)
 	}
 
 	int MaximumAddPnt;
-	if (Configs.Enable65kStats == 0)MaximumAddPnt = 32000;
+
+	if (Configs.Enable65kStats == 0)
+	{
+		MaximumAddPnt = 32000;
+	}
 	else
+	{
 		MaximumAddPnt = 65000;
+	}
 
 	if (AddPnt < 0 || AddPnt > MaximumAddPnt)
 	{
@@ -1433,7 +1459,7 @@ bool cChat::SetCharCommand(LPOBJ gObj, char* Msg, int Index)
 		PCPoint.UpdatePoints(tObj, WCoin, PLUS, WCOIN);
 	}
 
-	if (AddPnt > 0)
+	if(AddPnt > 0)
 	{
 		tObj->LevelUpPoint += AddPnt;
 	}
@@ -1523,7 +1549,7 @@ bool cChat::OnlineCommand(LPOBJ gObj, char *Msg)
 		return true;
 	}
 
-	MessageLog(1, c_Blue, t_COMMANDS, gObj, "[ONLINE]: %d Player(s), %d GM(s)", Log.Online_All - Log.Online_Gms, Log.Online_Gms);
+	MessageLog(1,c_Blue,t_COMMANDS,gObj,"[ONLINE]: %d Player(s), %d GM(s)",(Log.Online_All - Log.Online_Gms),Log.Online_Gms);
 
 	return true;
 }
@@ -2128,8 +2154,8 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 		case 0x01:
 		{
 			PMSG_STAT_UPDATE pMsg;
-
 			PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
+
 			pMsg.result = 0;
 			pMsg.btFruitType = 2;
 			pMsg.btStatValue = Points;
@@ -2204,15 +2230,6 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 			gObjSetBP(aIndex);
 			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
-
-			return true;
-		}
-		default:
-		{
-			if(Configs.Commands.AddPointEffect > 0)
-			{
-				Utilits.SendEffect(gObj,1);
-			}
 
 			return true;
 		}
@@ -3347,7 +3364,7 @@ bool cChat::EvoCommand(LPOBJ gObj)
 		BYTE btClass = (gObj->Class * 32) + 24;
 		GCSendQuestPrize(gObj->m_Index, 204, btClass);
 		gObjCalCharacter(Utilits.GetPlayerIndex(gObj->Name));
-		GCLevelUpMsgSend(gObj->m_Index,gObj->Level);
+		GCLevelUpMsgSend(gObj->m_Index,0);
 
 		Chat.MessageLog(1, c_Blue, t_COMMANDS, gObj,"[Evo] Parabens! Voce completou a terceira quest.");
 	}
