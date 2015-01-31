@@ -1,4 +1,10 @@
-# 1.1.0.336 # - Added custom interface (Thanks to Marceliin) 
+# 1.1.0.342 # - Added Logs for Helpers and Quests systems
+# 1.1.0.341 # - Removed Chaos Machine and itens +15 (This S4.6 version does not need this fix)
+# 1.1.0.340 # - Removed Console (GS and GS_CS) [Beta]
+# 1.1.0.339 # - Added Quest system and their configs
+# 1.1.0.338 # - Added rounds config to duel system
+# 1.1.0.337 # - Fixed +15 itens and durability in GS
+# 1.1.0.336 # - Added GS & CS custom interface (Thanks to Marceliin) 
 # 1.1.0.335 # - Added Chaos Machine +13 > +15 Option
 # 1.1.0.334 # - Fix +15 itens (GS and GS_CS) (And their configs)
 # 1.1.0.333 # - Added a option to Change Table storage for VIP: In MEMB_INFO or Chracter
