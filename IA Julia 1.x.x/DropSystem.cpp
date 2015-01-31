@@ -8,7 +8,7 @@ cDropSystem DropSystem;
 
 void cDropSystem::ResetConfig()
 {
-    for (int j=0; j < 1000; j++)
+    for(int j=0; j < 1000; j++)
     {
         AllMobItemsDrop[j].MMap			= 0;
         AllMobItemsDrop[j].MMinLvl		= 0;
@@ -35,7 +35,7 @@ void cDropSystem::ResetConfig()
 
     AllMobArrayMaxItem = 0;
 
-    for (int i=0; i < MAX_MONSTER_ID; i++)
+    for(int i=0; i < MAX_MONSTER_ID; i++)
     {
         for (int j=0; j < MAX_ITEM_FOR_MONSTER; j++)
         {
@@ -61,6 +61,7 @@ void cDropSystem::ResetConfig()
             ItemsDrop[i][j].IAnc		= 0;
             ItemsDrop[i][j].IAncRate	= 0;
         }
+
         ArrayMaxItem[i] = 0;
     }
 }
@@ -68,13 +69,14 @@ void cDropSystem::ResetConfig()
 void cDropSystem::Load()
 {
     ResetConfig();
+
     FILE *file;
     file = fopen(IAJuliaDropSystem,"r");
 
     if (file == NULL)
     {
-        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [Drop System]\tCan`t Find %s", IAJuliaDropSystem);
-        return;
+		Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [Drop System]\tImpossivel abrir %s", IAJuliaDropSystem);
+		return;
     }
 
     char Buff[256];
@@ -85,9 +87,11 @@ void cDropSystem::Load()
         fgets(Buff,256,file);
 
         if(Utilits.IsBadFileLine(Buff, Flag))
+		{
             continue;
+		}
 
-        if (Flag == 1)
+        if(Flag == 1)
         {
             int n[22];
             sscanf(Buff, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", &n[0], &n[1], &n[2], &n[3], &n[4], &n[5], &n[6], &n[7], &n[8], &n[9], &n[10], &n[11], &n[12], &n[13], &n[14], &n[15], &n[16], &n[17], &n[18], &n[19], &n[20], &n[21]);
@@ -95,8 +99,12 @@ void cDropSystem::Load()
             if(n[0] == -1)
             {
                 int j = AllMobArrayMaxItem;
-                if(j >= 1000)
-                    continue;
+
+				if(j >= 1000)
+				{
+					continue;
+				}
+
                 AllMobItemsDrop[j].MMap			= n[1];
                 AllMobItemsDrop[j].MMinLvl		= n[2];
                 AllMobItemsDrop[j].MMaxLvl		= n[3];
@@ -125,8 +133,12 @@ void cDropSystem::Load()
             {
                 int MobId = n[0];
                 int j = ArrayMaxItem[MobId];
-                if(j >= MAX_ITEM_FOR_MONSTER)
-                    continue;
+
+				if(j >= MAX_ITEM_FOR_MONSTER)
+				{
+					continue;
+				}
+
                 ItemsDrop[MobId][j].MMap		= n[1];
                 ItemsDrop[MobId][j].MMinLvl		= n[2];
                 ItemsDrop[MobId][j].MMaxLvl		= n[3];
@@ -155,15 +167,19 @@ void cDropSystem::Load()
     }
 
     fclose(file);
-    Log.ConsoleOutPut(1, c_Yellow, t_DROP, "[û] [Drop System]\tDrop System Items Loaded");
+    Log.ConsoleOutPut(1, c_Yellow, t_DROP, "[û] [Drop System]\tItens carregados");
 }
 
 bool cDropSystem::DropItem(LPOBJ mObj,LPOBJ pObj)
 {
     if(ArrayMaxItem[mObj->Class] == 0)
+	{
         return DropItem2(mObj, pObj, AllMobItemsDrop, AllMobArrayMaxItem);
+	}
     else
+	{
         return DropItem2(mObj, pObj, ItemsDrop[mObj->Class], ArrayMaxItem[mObj->Class]);
+	}
 }
 
 bool cDropSystem::DropItem2(LPOBJ mObj,LPOBJ pObj, sItemsDrop ItemDrop[], unsigned int MaxItem)
@@ -186,22 +202,29 @@ bool cDropSystem::DropItem2(LPOBJ mObj,LPOBJ pObj, sItemsDrop ItemDrop[], unsign
 
     for(int j = 0; j < CountArrayItem; j++)
     {
-        if((ItemDrop[MapArrayItem[j]].MMinLvl <= mObj->Level &&
-                ItemDrop[MapArrayItem[j]].MMaxLvl >= mObj->Level) ||
-                ItemDrop[MapArrayItem[j]].MMaxLvl == 0)
+        if((ItemDrop[MapArrayItem[j]].MMinLvl <= mObj->Level && ItemDrop[MapArrayItem[j]].MMaxLvl >= mObj->Level) || ItemDrop[MapArrayItem[j]].MMaxLvl == 0)
         {
             LvlArrayItem[CountLvlArrayItem] = MapArrayItem[j];
             CountLvlArrayItem++;
         }
     }
 
-    if(CountLvlArrayItem == 0) return false;
+    if(CountLvlArrayItem == 0)
+	{
+		return false;
+
+	}
 
     int RandomValue = rand() % 10000 + 1;
+
     if(LastRandomValue == RandomValue)
+	{
         return false;
+	}
     else
+	{
         LastRandomValue = RandomValue;
+	}
 
     int d = 0;
     int RandomItem = -1;
@@ -210,21 +233,31 @@ bool cDropSystem::DropItem2(LPOBJ mObj,LPOBJ pObj, sItemsDrop ItemDrop[], unsign
 
     for(int f = 0; f < CountLvlArrayItem; f++)
     {
-        if (d_start > 10000) d_start = 10000;
-        d_end = d_start + ItemDrop[LvlArrayItem[f]].IDropRate;
-        if (d_end > 10000) d_end = 10000;
+        if(d_start > 10000) d_start = 10000;
 
-        if (RandomValue >= d_start && RandomValue <= d_end)
+        d_end = d_start + ItemDrop[LvlArrayItem[f]].IDropRate;
+
+        if(d_end > 10000)
+		{
+			d_end = 10000;
+		}
+
+        if(RandomValue >= d_start && RandomValue <= d_end)
         {
             RandomItem = LvlArrayItem[f];
+
             break;
         }
-        else {
+        else
+		{
             d_start += ItemDrop[LvlArrayItem[f]].IDropRate;
         }
     }
 
-    if(RandomItem == -1) return false;
+    if(RandomItem == -1)
+	{
+		return false;
+	}
 
     // make opt
     int Level=0, Skill=0, Luck=0, Opt=0, Exc=0, ExcNum=0, Group=0, Index=0, Anc=0;
@@ -234,32 +267,32 @@ bool cDropSystem::DropItem2(LPOBJ mObj,LPOBJ pObj, sItemsDrop ItemDrop[], unsign
     if(Group == -1)
     {
         if(Index == 15 || Index == 20 || Index == 23 || Index == 32 || Index == 37 || Index == 47 || Index == 48)
+		{
             Group = rand()%4+8;
+		}
         else
+		{
             Group = rand()%5+7;
+		}
     }
-    Level	= Utilits.GetNumberByPercent(ItemDrop[RandomItem].ILvlRate,
-                                         ItemDrop[RandomItem].IMinLvl,
-                                         ItemDrop[RandomItem].IMaxLvl);
-    Opt		= Utilits.GetNumberByPercent(ItemDrop[RandomItem].IOptRate,
-                                         ItemDrop[RandomItem].IMinOpt,
-                                         ItemDrop[RandomItem].IMaxOpt);
-    Skill	= Utilits.GetNumberByPercent(ItemDrop[RandomItem].ISkillRate, 0,
-                                         ItemDrop[RandomItem].ISkill);
-    Luck	= Utilits.GetNumberByPercent(ItemDrop[RandomItem].ILuckRate, 0,
-                                         ItemDrop[RandomItem].ILuck);
+    Level	= Utilits.GetNumberByPercent(ItemDrop[RandomItem].ILvlRate,ItemDrop[RandomItem].IMinLvl,ItemDrop[RandomItem].IMaxLvl);
+    Opt		= Utilits.GetNumberByPercent(ItemDrop[RandomItem].IOptRate,ItemDrop[RandomItem].IMinOpt,ItemDrop[RandomItem].IMaxOpt);
+    Skill	= Utilits.GetNumberByPercent(ItemDrop[RandomItem].ISkillRate,0,ItemDrop[RandomItem].ISkill);
+    Luck	= Utilits.GetNumberByPercent(ItemDrop[RandomItem].ILuckRate,0,ItemDrop[RandomItem].ILuck);
 
     if(ItemDrop[RandomItem].IExcRate > 0)
     {
-        ExcNum	= Utilits.GetNumberByPercent(ItemDrop[RandomItem].IExcRate,
-                                             ItemDrop[RandomItem].IMinExc,
-                                             ItemDrop[RandomItem].IMaxExc);
+        ExcNum	= Utilits.GetNumberByPercent(ItemDrop[RandomItem].IExcRate,ItemDrop[RandomItem].IMinExc,ItemDrop[RandomItem].IMaxExc);
         Exc		= Utilits.GenExcOpt(ExcNum);
     }
 
     if(ItemDrop[RandomItem].IAnc > 0)
+	{
         if(ItemDrop[RandomItem].IAncRate > rand()%100)
+		{
             Anc = ItemDrop[RandomItem].IAnc;
+		}
+	}
 
     int Item = ITEMGET(Group,Index);
 

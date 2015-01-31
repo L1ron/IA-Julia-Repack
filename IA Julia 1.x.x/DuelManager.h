@@ -5,7 +5,7 @@
 #include "Prodef.h"
 #include "User.h"
 
-#define MAX_DUEL_WIN_POINTS	10
+// #define MAX_DUEL_WIN_POINTS	10		// Config.WinRounds
 #define MAX_DUEL_ROOMS	    4
 #define MAX_DUEL_SEPARATORS	10
 #define MAX_DUEL_TIME		30
@@ -244,6 +244,7 @@ class cDuelSystem
 			int Ranking;
 			int Logging;
 			int DuelGate;
+			int WinRounds;
 		} Config;
 
 		void Load();
@@ -274,10 +275,10 @@ class cDuelSystem
     
 			if(!dThread)
 			{
-				MessageBoxA(0, "Cannot start Duel System", "Error", MB_OK | MB_ICONERROR);
+				MessageBoxA(0,"Impossivel iniciar o sistema de Duelo", "Erro",MB_OK | MB_ICONERROR);
+
 				exit(0);
 			}
-
 		}
 
 		bool IsDuelEnable(int aIndex);

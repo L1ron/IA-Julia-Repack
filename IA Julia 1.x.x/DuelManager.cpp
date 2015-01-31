@@ -18,7 +18,6 @@ static const struct DUEL_GATES
     int SeparatorGate;
 }
 
-
 g_DuelGates[MAX_DUEL_ROOMS] =
 {
     {295, 296, 303},
@@ -26,7 +25,6 @@ g_DuelGates[MAX_DUEL_ROOMS] =
     {299, 300, 305},
     {301, 302, 306}
 };
-
 
 cDuelSystem::cDuelSystem(void)
 {
@@ -48,11 +46,15 @@ cDuelSystem::~cDuelSystem(void)
 
 void cDuelSystem::Load()
 {
-    Config.Enabled					= Configs.GetInt(0, 1,					1,		"DuelManager",	"DuelEnabled",					IAJuliaCommon);
-    if(!Config.Enabled)return;
-    Config.Ranking					= Configs.GetInt(0, 1,					0,		"DuelManager",	"DuelRanking",					IAJuliaCommon);
-    Config.Logging					= Configs.GetInt(0, 1,					1,		"DuelManager",	"DuelLogging",					IAJuliaCommon);
-    Config.DuelGate					= Configs.GetInt(0, 65535,				294,	"DuelManager", "DuelOutGate",					IAJuliaCommon);
+    Config.Enabled = Configs.GetInt(0, 1, 1, "DuelManager","DuelEnabled", IAJuliaCommon);
+
+    if(!Config.Enabled)
+	{
+		Config.Ranking = Configs.GetInt(0, 1, 0, "DuelManager",	"DuelRanking", IAJuliaCommon);
+		Config.Logging = Configs.GetInt(0, 1, 1, "DuelManager",	"DuelLogging", IAJuliaCommon);
+		Config.DuelGate = Configs.GetInt(0, 65535, 294,	"DuelManager",	"DuelOutGate", IAJuliaCommon);
+		Config.WinRounds = Configs.GetInt(1,30,10,"DuelManager","DuelWinRounds",IAJuliaCommon);
+	}
 }
 
 
@@ -65,6 +67,7 @@ int cDuelSystem::GetUserDuelRoom(LPOBJ lpObj)
             return i;
         }
     }
+
     return -1;
 }
 
@@ -102,12 +105,10 @@ void cDuelSystem::Run()
 
                         if(Config.Logging)
                         {
-                            Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Spectator [%s] Leave [%d] Room",
-                                              this->g_DuelRooms[i].szSeparators[u]->Name, i + 1);
+                            Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Spectator [%s] Leave [%d] Room",this->g_DuelRooms[i].szSeparators[u]->Name, i + 1);
                         }
                     
                         this->SendSpectatorRemove(u, i);
-                    
                         this->g_DuelRooms[i].szSeparators[u] = NULL;
                     }
                 }
@@ -119,40 +120,45 @@ void cDuelSystem::Run()
                     }
                 
                     this->g_DuelRooms[i].szSeparators[u] = NULL;
-                
                     this->SendSpectatorList(i);
                 }
+
                 SendSpectatorList(i);
             }
         
             if(this->g_DuelRooms[i].szlpObjOne != NULL || this->g_DuelRooms[i].szlpObjTy != NULL)
             {
-                if(Utilits.gObjIsConnected(this->g_DuelRooms[i].szlpObjOne->m_Index) == FALSE ||
-                        Utilits.gObjIsConnected(this->g_DuelRooms[i].szlpObjTy->m_Index)  == FALSE )
+                if
+				(
+					Utilits.gObjIsConnected(this->g_DuelRooms[i].szlpObjOne->m_Index) == FALSE ||
+					Utilits.gObjIsConnected(this->g_DuelRooms[i].szlpObjTy->m_Index)  == FALSE
+				)
                 {
                     this->RoomReset(i);
+
+                    continue;
+                }
+                else if
+				(
+					(this->g_DuelRooms[i].szlpObjOne->MapNumber != 0x40 || this->g_DuelRooms[i].szlpObjTy->MapNumber  != 0x40) && this->g_DuelRooms[i].szWinner == FALSE
+				)
+                {
+                    this->RoomReset(i);
+
                     continue;
                 }
             
-                else if((this->g_DuelRooms[i].szlpObjOne->MapNumber != 0x40 ||
-                         this->g_DuelRooms[i].szlpObjTy->MapNumber  != 0x40) &&
-                        this->g_DuelRooms[i].szWinner == FALSE)
+                else if(this->g_DuelRooms[i].szlpObjOne->Connected < PLAYER_PLAYING || this->g_DuelRooms[i].szlpObjTy->Connected  < PLAYER_PLAYING)
                 {
                     this->RoomReset(i);
-                    continue;
-                }
-            
-                else if(this->g_DuelRooms[i].szlpObjOne->Connected < PLAYER_PLAYING ||
-                        this->g_DuelRooms[i].szlpObjTy->Connected  < PLAYER_PLAYING)
-                {
-                    this->RoomReset(i);
+
                     continue;
                 }
             }
-        
             else
             {
                 this->RoomReset(i);
+
                 continue;
             }
         
@@ -167,7 +173,7 @@ void cDuelSystem::Run()
                 if(this->g_DuelRooms[i].dwTicketCount < GetTickCount())
                 {
                     this->RoomReset(i);
-                    // ---
+                    
                     if(Config.Logging)
                     {
                         Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Room [%d] Cleaned", i + 1);
@@ -175,8 +181,7 @@ void cDuelSystem::Run()
                 }
             }
         
-            if(this->g_DuelRooms[i].RoomFree == FALSE && this->g_DuelRooms[i].DuelWaiting == FALSE &&
-                    this->g_DuelRooms[i].szWinner == FALSE)
+            if(this->g_DuelRooms[i].RoomFree == FALSE && this->g_DuelRooms[i].DuelWaiting == FALSE && this->g_DuelRooms[i].szWinner == FALSE)
             {
                 for(short s = 0; s < MAX_DUEL_SEPARATORS; s++)
                 {
@@ -190,8 +195,7 @@ void cDuelSystem::Run()
                         
                             if(Config.Logging)
                             {
-                                Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Character [%s] Added Invisible",
-                                                  this->g_DuelRooms[i].szSeparators[s]->Name);
+                                Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Character [%s] Added Invisible", this->g_DuelRooms[i].szSeparators[s]->Name);
                             }
                         
                             AddTab[this->g_DuelRooms[i].szSeparators[s]->m_Index].DUEL_SpecVisible = 0;
@@ -206,17 +210,16 @@ void cDuelSystem::Run()
     {
         if(this->g_DuelRooms[n].DuelWaiting == TRUE)
         {
-            if(Utilits.gObjIsConnected(this->g_DuelRooms[n].szlpObjOne->m_Index) == FALSE ||
-                    Utilits.gObjIsConnected(this->g_DuelRooms[n].szlpObjTy->m_Index)  == FALSE )
+            if(Utilits.gObjIsConnected(this->g_DuelRooms[n].szlpObjOne->m_Index) == FALSE || Utilits.gObjIsConnected(this->g_DuelRooms[n].szlpObjTy->m_Index)  == FALSE )
             {
                 this->RoomReset(n);
+
                 continue;
             }
-        
-            else if(this->g_DuelRooms[n].szlpObjOne->Connected < PLAYER_PLAYING ||
-                    this->g_DuelRooms[n].szlpObjTy->Connected  < PLAYER_PLAYING)
+            else if(this->g_DuelRooms[n].szlpObjOne->Connected < PLAYER_PLAYING || this->g_DuelRooms[n].szlpObjTy->Connected  < PLAYER_PLAYING)
             {
                 this->RoomReset(n);
+
                 continue;
             }
         }
@@ -233,8 +236,10 @@ void cDuelSystem::Run()
                 this->SendDuelStatus(lpObj);
             }
         }
+
         this->UpdateTickCount = GetTickCount() + 6000;
     }
+
     return;
 }
 
@@ -265,12 +270,23 @@ void cDuelSystem::UpdateDuelScore(short iRoom)
 
     if(Config.Logging)
     {
-        Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Room [%d] Results [%s][%s] VS [%s][%s] Rank [%d] : [%d]",
-                          iRoom + 1, gObj->AccountID, gObj->Name, lpObj->AccountID, lpObj->Name,
-                          g_DuelRooms[iRoom].szPointsOne, g_DuelRooms[iRoom].szPointsTy);
+        Log.ConsoleOutPut
+		(
+			1,
+			c_Blue,
+			t_Duel,
+			"[Duel System] Room [%d] Results [%s][%s] VS [%s][%s] Rank [%d] : [%d]",
+			iRoom + 1,
+			gObj->AccountID,
+			gObj->Name,
+			lpObj->AccountID,
+			lpObj->Name,
+            g_DuelRooms[iRoom].szPointsOne,
+			g_DuelRooms[iRoom].szPointsTy
+		);
     }
 
-    if(g_DuelRooms[iRoom].szPointsOne >= MAX_DUEL_WIN_POINTS)
+	if(g_DuelRooms[iRoom].szPointsOne >= Config.WinRounds)
     {
         if(Config.Ranking)
         {
@@ -279,7 +295,7 @@ void cDuelSystem::UpdateDuelScore(short iRoom)
         }
     }
 
-    if(g_DuelRooms[iRoom].szPointsTy >= MAX_DUEL_WIN_POINTS)
+    if(g_DuelRooms[iRoom].szPointsTy >= Config.WinRounds)
     {
         if(Config.Ranking)
         {
@@ -297,6 +313,7 @@ void cDuelSystem::UpdateDuelScore(short iRoom)
         {
             continue;
         }
+
         DataSend(this->g_DuelRooms[iRoom].szSeparators[i]->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
     }
 }
@@ -327,13 +344,13 @@ void cDuelSystem::SendEndDuel(LPOBJ lpObj)
     {
         return;
     }
+
     if(Utilits.gObjIsConnected(lpObj->m_Index) == FALSE)
     {
         return;
     }
 
     BYTE lpMsgClose[5] = {0xC1, 0x05, 0xAA, 0x03, 0x00};
-
     DataSend(lpObj->m_Index, &lpMsgClose[0], lpMsgClose[1]);
 }
 
@@ -353,6 +370,7 @@ int cDuelSystem::GetSpectatorCount(short iRoom)
             szCount++;
         }
     }
+
     return szCount;
 }
 
@@ -394,6 +412,7 @@ void cDuelSystem::SendDuelStatus(LPOBJ lpObj)
             memcpy(&pMsg.pRoomStatus[i].szName2[0], &this->g_DuelRooms[i].szlpObjTy->Name[0], 10);
         }
     }
+
     DataSend(lpObj->m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
@@ -409,6 +428,7 @@ int cDuelSystem::GetFreeRoomIndex()
             }
         }
     }
+
     return -1;
 }
 
@@ -429,7 +449,7 @@ void cDuelSystem::UserDuelInfoReset(LPOBJ lpObj)
 
 void cDuelSystem::RoomReset(short iRoom, bool dontMove, bool dontSendEnd)
 {
-    if(this->g_DuelRooms[iRoom].szlpObjOne != NULL) //  Игрок номер 1
+    if(this->g_DuelRooms[iRoom].szlpObjOne != NULL) // Player 1
     {
         if(Utilits.gObjIsConnected(this->g_DuelRooms[iRoom].szlpObjOne->m_Index))
         {
@@ -450,7 +470,7 @@ void cDuelSystem::RoomReset(short iRoom, bool dontMove, bool dontSendEnd)
         this->UserDuelInfoReset(this->g_DuelRooms[iRoom].szlpObjOne);
     }
 
-    if(this->g_DuelRooms[iRoom].szlpObjTy != NULL)  // Игрок номер 2
+    if(this->g_DuelRooms[iRoom].szlpObjTy != NULL)  // Player 2
     {
         if(Utilits.gObjIsConnected(this->g_DuelRooms[iRoom].szlpObjTy->m_Index))
         {
@@ -488,6 +508,7 @@ void cDuelSystem::RoomReset(short iRoom, bool dontMove, bool dontSendEnd)
     
         this->g_DuelRooms[iRoom].szSeparators[i] = NULL;
     }
+
     this->g_DuelRooms[iRoom].szlpObjOne   = NULL;
     this->g_DuelRooms[iRoom].szPointsOne  = 0;
 
@@ -565,7 +586,6 @@ void cDuelSystem::SendSpectatorAdd(short iSpecIndex, int iRoom)
             DataSend(this->g_DuelRooms[iRoom].szSeparators[i]->m_Index, (BYTE*)&pMsg, pMsg.h.size);
         }
     }
-
 }
 
 void cDuelSystem::SendSpectatorRemove(short iSpecIndex, int iRoom)
@@ -722,7 +742,6 @@ void cDuelSystem::SendLifebarStatus(LPOBJ lpObj, int iRoom)
     pMsg.btShield02 = this->g_DuelRooms[iRoom].szlpObjTy->iShield / ((this->g_DuelRooms[iRoom].szlpObjTy->iMaxShield + this->g_DuelRooms[iRoom].szlpObjTy->iAddShield) / 100);
 
     DataSend(lpObj->m_Index, (BYTE*)&pMsg, pMsg.h.size);
-
 }
 
 void cDuelSystem::SendLifebarInit(LPOBJ lpObj, int iRoom)
@@ -766,7 +785,6 @@ void cDuelSystem::SendLifebarInit(LPOBJ lpObj, int iRoom)
     DataSend(lpObj->m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
-//## Процесс убиства игрока
 void cDuelSystem::KillUserProc(LPOBJ lpObj, LPOBJ lpTarget)
 {
     if(!this->DuelCheck(lpObj, lpTarget))
@@ -785,7 +803,7 @@ void cDuelSystem::KillUserProc(LPOBJ lpObj, LPOBJ lpTarget)
 
     int Points = ((lpObj == this->g_DuelRooms[iDuelRoom].szlpObjOne) ? this->g_DuelRooms[iDuelRoom].szPointsOne : this->g_DuelRooms[iDuelRoom].szPointsTy);
 
-    if(Points >= MAX_DUEL_WIN_POINTS)
+    if(Points >= Config.WinRounds)
     {
         this->g_DuelRooms[iDuelRoom].szWinner = TRUE;
     
@@ -819,51 +837,60 @@ void cDuelSystem::KillUserProc(LPOBJ lpObj, LPOBJ lpTarget)
         this->g_DuelRooms[iDuelRoom].dwTicketCount = GetTickCount() + 10000;
     
         Chat.MessageAll(0, 0, NULL, "Duel: %s Won, %s Lose.", lpObj->Name, lpTarget->Name);
-        Log.ConsoleOutPut(1, c_Blue,t_Duel,"[Duel System] [%s][%s] Has Won Duel, Looser [%s][%s] Room [%d]",
-                          lpObj->AccountID, lpObj->Name, lpTarget->AccountID, lpTarget->Name, iDuelRoom+1);
+
+        Log.ConsoleOutPut
+		(
+			1,
+			c_Blue,
+			t_Duel,
+			"[Duel System] [%s][%s] Has Won Duel, Looser [%s][%s] Room [%d]",
+			lpObj->AccountID,
+			lpObj->Name,
+			lpTarget->AccountID,
+			lpTarget->Name,
+			iDuelRoom+1
+		);
     }
 }
 
-
-//## Протокол Дуэль системы
 void cDuelSystem::DuelProtocolCore(LPOBJ lpObj, unsigned char * lpPacket)
 {
     PMSG_DEFAULT2* pMsg = (PMSG_DEFAULT2*)lpPacket;
 
     switch(pMsg->subcode)
     {
-    case 0x01:
-    {
-        this->RecvDuelRequest(lpObj, (PMSG_DUEL_REQUEST_START*)lpPacket);
-    }
-    break;
+		case 0x01:
+		{
+			this->RecvDuelRequest(lpObj, (PMSG_DUEL_REQUEST_START*)lpPacket);
 
-    case 0x02:
-    {
-        this->RecvDuelAnswer(lpObj, (PMSG_DUEL_ANSWER_START*)lpPacket);
-    }
-    break;
+			break;
+		}
+		case 0x02:
+		{
+			this->RecvDuelAnswer(lpObj, (PMSG_DUEL_ANSWER_START*)lpPacket);
 
-    case 0x07:
-    {
-        this->RecvWatchRequest(lpObj, (PMSG_DUEL_REQUEST_WATCH*)lpPacket);
-    }
-    break;
+			break;
+		}
+		case 0x07:
+		{
+			this->RecvWatchRequest(lpObj, (PMSG_DUEL_REQUEST_WATCH*)lpPacket);
 
-    case 0x09:
-    {
-        if(lpObj->MapNumber == 0x40)
-        {
-            gObjMoveGate(lpObj->m_Index, DuelSystem.Config.DuelGate);
-        }
-    }
-    break;
-    
-    Run();
+			break;
+		}
+		case 0x09:
+		{
+			if(lpObj->MapNumber == 0x40)
+			{
+				gObjMoveGate(lpObj->m_Index, DuelSystem.Config.DuelGate);
+			}
+
+			break;
+		}
+
+		Run();
     }
 }
 
-//## функция сепаратора для протокола
 void cDuelSystem::RecvWatchRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_WATCH* lpMsg)
 {
     if(lpObj->m_IfState.use == 0 || lpObj->m_IfState.type != 20)
@@ -879,6 +906,7 @@ void cDuelSystem::RecvWatchRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_WATCH* lpMsg)
         if(this->g_DuelRooms[lpMsg->btRoomIndex].RoomFree == TRUE)
         {
             GCServerMsgStringSend("Sorry, but this room is free!", lpObj->m_Index, 1);
+
             return;
         }
     
@@ -900,8 +928,7 @@ void cDuelSystem::RecvWatchRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_WATCH* lpMsg)
                 
                     if(Config.Logging)
                     {
-                        Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System][%s][%s] Spectator join to room: [%d]",
-                                          lpObj->AccountID, lpObj->Name, lpMsg->btRoomIndex + 1);
+                        Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System][%s][%s] Spectator join to room: [%d]",lpObj->AccountID, lpObj->Name, lpMsg->btRoomIndex + 1);
                     }
                 
                     GCStateInfoSendg(lpObj, 1, 98);
@@ -916,16 +943,19 @@ void cDuelSystem::RecvWatchRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_WATCH* lpMsg)
                 
                     return;
                 }
+
                 GCServerMsgStringSend("Failed to move to Duel Room!", lpObj->m_Index, 1);
+
                 return;
             }
         }
+
         GCServerMsgStringSend("Sorry, but this room is full!", lpObj->m_Index, 1);
+
         return;
     }
 }
 
-//## Функция для вызывания дуэли;
 void cDuelSystem::RecvDuelAnswer(LPOBJ lpObj, PMSG_DUEL_ANSWER_START* lpMsg)
 {
     int iDuelIndex = -1;
@@ -982,9 +1012,13 @@ void cDuelSystem::RecvDuelAnswer(LPOBJ lpObj, PMSG_DUEL_ANSWER_START* lpMsg)
     
         if(lpMsg->bDuelOK)
         {
-            if((gObjs->MapNumber >= 11 && gObjs->MapNumber <= 17) || gObjs->MapNumber == 52  || (gObjs->MapNumber >= 18 &&
-                    gObjs->MapNumber <= 23) || gObjs->MapNumber == 53 ||  gObjs->MapNumber == 9 || gObjs->MapNumber == 32 ||
-                    (gObjs->MapNumber >= 45 && gObjs->MapNumber <= 50))
+            if
+			(
+				(gObjs->MapNumber >= 11 && gObjs->MapNumber <= 17) || gObjs->MapNumber == 52  ||
+				(gObjs->MapNumber >= 18 && gObjs->MapNumber <= 23) || gObjs->MapNumber == 53 ||
+				gObjs->MapNumber == 9 || gObjs->MapNumber == 32 ||
+				(gObjs->MapNumber >= 45 && gObjs->MapNumber <= 50)
+			)
             {
                 GCServerMsgStringSend("Duels are not allowed in event maps.", lpObj->m_Index, 1);
             
@@ -1055,12 +1089,14 @@ void cDuelSystem::RecvDuelAnswer(LPOBJ lpObj, PMSG_DUEL_ANSWER_START* lpMsg)
                     if(gObjMoveGate(lpObj->m_Index, g_DuelGates[iDuelRoom].Gate01) == false)
                     {
                         this->RoomReset(iDuelRoom, true, true);
+
                         return;
                     }
                 
                     if(gObjMoveGate(iDuelIndex, g_DuelGates[iDuelRoom].Gate02) == false)
                     {
                         this->RoomReset(iDuelRoom, true, true);
+
                         return;
                     }
                 
@@ -1101,14 +1137,14 @@ void cDuelSystem::RecvDuelAnswer(LPOBJ lpObj, PMSG_DUEL_ANSWER_START* lpMsg)
                 
                     Chat.MessageAllLog(0, 0, c_Cyan, t_Duel, lpObj, "Duel %s VS %s in %d Room", lpObj->Name, gObjs->Name, iDuelRoom + 1);
 
-                    Log.ConsoleOutPut(1, c_Blue,t_Duel,"[Duel System] Duel Started [%s][%s] VS [%s][%s] on Room[%d]",
-                                      lpObj->AccountID, lpObj->Name, gObjs->AccountID, gObjs->Name, iDuelRoom + 1);
+                    Log.ConsoleOutPut(1, c_Blue,t_Duel,"[Duel System] Duel Started [%s][%s] VS [%s][%s] on Room[%d]",lpObj->AccountID, lpObj->Name, gObjs->AccountID, gObjs->Name, iDuelRoom + 1);
                 }
             }
             else
             {
                 this->RoomReset(iDuelRoom);
                 DataSend(iDuelIndex, (LPBYTE)&pMsgSend, pMsgSend.h.size);
+
                 return;
             }
         }
@@ -1116,13 +1152,12 @@ void cDuelSystem::RecvDuelAnswer(LPOBJ lpObj, PMSG_DUEL_ANSWER_START* lpMsg)
         {
             this->RoomReset(iDuelRoom);
             DataSend(iDuelIndex, (LPBYTE)&pMsgSend, pMsgSend.h.size);
+
             return;
         }
     }
 }
 
-
-//## Функция Сервера для дуэль системы для клиента;
 void cDuelSystem::RecvDuelRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_START* lpMsg)
 {
     int iDuelIndex = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
@@ -1132,6 +1167,7 @@ void cDuelSystem::RecvDuelRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_START* lpMsg)
     if(!OBJECT_MAXRANGE(iDuelIndex))
     {
         Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] [%s][%s] Try duel with NO_PLAYER object!", lpObj->AccountID, lpObj->Name);
+
         return;
     }
 
@@ -1312,6 +1348,7 @@ void cDuelSystem::RecvDuelRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_START* lpMsg)
         if(lpObj->SelfDefense[n] >= 0 || gObjs->SelfDefense[n] >= 0)
         {
             GCServerMsgStringSend("Self-defense is active. You cannot Duel.", lpObj->m_Index, 1);
+
             return;
         }
     }
@@ -1319,6 +1356,7 @@ void cDuelSystem::RecvDuelRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_START* lpMsg)
     if(lpObj->m_IfState.use > 0)
     {
         GCServerMsgStringSend("You cannot Duel while trading.", lpObj->m_Index, 1);
+
         return;
     }
 
@@ -1390,8 +1428,7 @@ void cDuelSystem::RecvDuelRequest(LPOBJ lpObj, PMSG_DUEL_REQUEST_START* lpMsg)
 
     if(Config.Logging)
     {
-        Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System][%s][%s] Requested to Start Duel to [%s][%s] on Room [%d]",
-                          lpObj->AccountID, lpObj->Name, gObjs->AccountID, gObjs->Name, iDuelRoom + 1);
+        Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System][%s][%s] Requested to Start Duel to [%s][%s] on Room [%d]",lpObj->AccountID, lpObj->Name, gObjs->AccountID, gObjs->Name, iDuelRoom + 1);
     }
 }
 
@@ -1433,29 +1470,25 @@ void cDuelSystem::SetDuelOption(int lpObj, BOOL bState)
     }
 }
 
-//## Проверяем если в дуэли
 bool cDuelSystem::IsOnDuel(int lpObj)
 {
     bool bResult = false;
-// ----
+
     for(short i = 0; i < MAX_DUEL_ROOMS; i++)
     {
         DUEL_ROOM room = this->g_DuelRooms[i];
 
-        if ((room.szlpObjOne != NULL && room.szlpObjOne->m_Index == lpObj)
-                || (room.szlpObjTy != NULL && room.szlpObjTy->m_Index == lpObj))
+        if ((room.szlpObjOne != NULL && room.szlpObjOne->m_Index == lpObj) || (room.szlpObjTy != NULL && room.szlpObjTy->m_Index == lpObj))
         {
-            if(!room.DuelWaiting)
-                bResult = true;
+            if(!room.DuelWaiting) bResult = true;
         
             break;
         }
     }
-// ----
+
     return bResult;
 }
 
-//## Проверяем если в дуэли 2
 bool cDuelSystem::IsOnDuel2(int lpObj, int lpObj2)
 {
     for(short i = 0; i < MAX_DUEL_ROOMS; i++)
@@ -1485,30 +1518,25 @@ bool cDuelSystem::IsOnDuel2(int lpObj, int lpObj2)
     return false;
 }
 
-//## Добовляем баф винеру;
 void cDuelSystem::WinnerBuff(LPOBJ lpObj)
 {
     if(Utilits.gObjIsConnected(lpObj->m_Index))
     {
-        AddBuff(lpObj, 103, 20, 10, 0, 0, 3600);
+        AddBuff(lpObj,103,20,10,0,0,3600);
     
         if(Config.Logging)
         {
-            Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Winner : [%s][%s] received a Gladiator Glory Buff",
-                              lpObj->AccountID, lpObj->Name);
+            Log.ConsoleOutPut(1, c_Blue, t_Duel,"[Duel System] Winner : [%s][%s] received a Gladiator Glory Buff",lpObj->AccountID, lpObj->Name);
         }
     }
 }
 
-//## для выхода сепараторов;
 bool cDuelSystem::IsSpectacor(short Index)
 {
     for(short a = 0; a < MAX_DUEL_ROOMS; a++)
     {
-    
         for(short i = 0; i < MAX_DUEL_SEPARATORS; ++i)
         {
-        
             if(this->g_DuelRooms[a].RoomFree == FALSE)
             {
                 if(this->g_DuelRooms[a].szSeparators[i] != NULL)
@@ -1519,13 +1547,12 @@ bool cDuelSystem::IsSpectacor(short Index)
                     }
                 }
             }
-        
         }
     }
+
     return false;
 }
 
-//## проверка для появления;
 void cDuelSystem::RespawnDuelers(LPOBJ lpObj, LPOBJ lpTargetObj)
 {
     if(lpObj->MapNumber != 0x40 && lpTargetObj->MapNumber != 0x40)
@@ -1534,19 +1561,16 @@ void cDuelSystem::RespawnDuelers(LPOBJ lpObj, LPOBJ lpTargetObj)
     }
 }
 
-//## результат проверки дуэля;
 bool cDuelSystem::DuelCheck(LPOBJ lpObj)
 {
     return this->IsOnDuel(lpObj->m_Index);
 }
 
-//## Результат проверки дуэля 2;
 bool cDuelSystem::DuelCheck(LPOBJ lpObj, LPOBJ lpObj2)
 {
     return this->IsOnDuel2(lpObj->m_Index, lpObj2->m_Index);
 }
 
-//## отменя дуэля;
 void cDuelSystem::SendRefuseDuel(LPOBJ lpObj)
 {
     if(lpObj == NULL)
@@ -1569,9 +1593,10 @@ void cDuelSystem::SendRefuseDuel(LPOBJ lpObj)
 bool HookSetDuelOption(int lpObj, BOOL bState)
 {
     DuelSystem.SetDuelOption(lpObj, bState);
+
     return true;
 }
-// --------------------------------------------------------------------------------------------
+
 bool HookIsDuelEnable(int aIndex)
 {
     if(!DuelSystem.IsDuelEnable(aIndex))
@@ -1583,7 +1608,6 @@ bool HookIsDuelEnable(int aIndex)
         return true;
     }
 }
-// --------------------------------------------------------------------------------------------
 
 bool HookIsOnDuel(int lpObj, int lpObj2)
 {
@@ -1596,7 +1620,6 @@ bool HookIsOnDuel(int lpObj, int lpObj2)
         return true;
     }
 }
-// --------------------------------------------------------------------------------------------
 
 bool HookDuelCheck1(LPOBJ lpObj)
 {
@@ -1605,13 +1628,17 @@ bool HookDuelCheck1(LPOBJ lpObj)
     if(lpObj->Type == OBJECT_USER)
     {
         if(DuelSystem.DuelCheck(lpObj))
+		{
             bResult = true;
+		}
         else
-            bResult = goBjHoookLoad1(lpObj);
+		{
+			bResult = goBjHoookLoad1(lpObj);
+		}
     }
+
     return bResult;
 }
-// --------------------------------------------------------------------------------------------
 
 bool HookDuelCheck2(LPOBJ lpObj, LPOBJ lpTargetObj)
 {
@@ -1620,13 +1647,17 @@ bool HookDuelCheck2(LPOBJ lpObj, LPOBJ lpTargetObj)
     if(lpObj->Type == OBJECT_USER || lpTargetObj->Type == OBJECT_USER)
     {
         if(DuelSystem.DuelCheck(lpObj, lpTargetObj))
+		{
             cResult = true;
+		}
         else
+		{
             goBjHoookLoad2(lpObj, lpTargetObj);
+		}
     }
+
     return cResult;
 }
-// --------------------------------------------------------------------------------------------
 
 void GSgObjUserDie(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpTargetObj)
 {
@@ -1643,10 +1674,7 @@ void GSgObjUserDie(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpTargetObj)
     }
     gObjUserDie(lpObj, lpTargetObj);
 }
-// --------------------------------------------------------------------------------------------
 
-// --------------------------------------------------------------------------------------------
-// This Function For Set Duel Info in Game;
 void cDuelSystem::DuelSetInfo( LPOBJ lpObj, int DuelWins, int DuelLoses )
 {
     int All = DuelWins + DuelLoses;
@@ -1654,14 +1682,13 @@ void cDuelSystem::DuelSetInfo( LPOBJ lpObj, int DuelWins, int DuelLoses )
     AddTab[lpObj->m_Index].DUEL_Lose = DuelLoses;
     AddTab[lpObj->m_Index].DUEL_AllDuels = All;
 }
-// --------------------------------------------------------------------------------------------
 
 void cDuelSystem::SaveDuel(char FirstAcc[11], char FirstName[11], char SecondAcc[11], char SecondName[11], int Point1, int Point2)
 {
-    MuOnlineQuery.ExecQuery("UPDATE Character SET DuelWins=DuelWins+1, DuelsTotal = DuelsTotal+1 WHERE AccountID = '%s' AND Name = '%s'", FirstAcc, FirstName);
+    MuOnlineQuery.ExecQuery("UPDATE Character SET DuelWins = DuelWins + 1, DuelsTotal = DuelsTotal + 1 WHERE AccountID = '%s' AND Name = '%s'", FirstAcc, FirstName);
     MuOnlineQuery.Fetch();
     MuOnlineQuery.Close();
-    MuOnlineQuery.ExecQuery("UPDATE Character SET DuelLoses=DuelLoses+1, DuelsTotal = DuelsTotal+1 WHERE AccountID = '%s' AND Name = '%s'", SecondAcc, SecondName);
+    MuOnlineQuery.ExecQuery("UPDATE Character SET DuelLoses = DuelLoses + 1, DuelsTotal = DuelsTotal + 1 WHERE AccountID = '%s' AND Name = '%s'", SecondAcc, SecondName);
     MuOnlineQuery.Fetch();
     MuOnlineQuery.Close();
 }
