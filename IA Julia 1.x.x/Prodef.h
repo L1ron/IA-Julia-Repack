@@ -232,12 +232,12 @@ struct PMSG_ITEMTHROW
 #define GSgObjTradeOkButton ((void(*)(int aIndex)) 0x00525910)
 #define ChatTargetSend ((void(*)(OBJECTSTRUCT *lpObj, char*, DWORD)) 0x00439260)
 #define GSCheckInventoryEmptySpace ((int(*) (LPOBJ lpObj, int iItemHeight, int iItemWidth)) 0x0051C770 )
-#define GSItemGetSize		((void(*) (int index, int & width, int & height)) 0x00558AE0 )
-#define gObjDel				((short(*) (int)) 0x00403AE4)
+#define GSItemGetSize ((void(*) (int index, int & width, int & height)) 0x00558AE0 )
+#define gObjDel ((short(*) (int)) 0x00403AE4)
 #define gObjCloseSet ((void(*) (int,int)) 0x004FFEA0)
-#define gObjAddMonster		((short(*)(int iMapNumber)) 0x00508910)
-#define gObjSetPosMonster	((int(*)(int aIndex, int PosTableNum)) 0x00506870)
-#define gObjSetMonster		((int(*)(int aIndex, int MonsterClass)) 0x00506CA0)
+#define gObjAddMonster ((short(*)(int iMapNumber)) 0x00508910)
+#define gObjSetPosMonster ((int(*)(int aIndex, int PosTableNum)) 0x00506870)
+#define gObjSetMonster ((int(*)(int aIndex, int MonsterClass)) 0x00506CA0)
 #define goBjHoookLoad1 ((bool(*) (LPOBJ)) 0x0053E7E0)
 #define goBjHoookLoad2 ((int(*) (LPOBJ, LPOBJ)) 0x0053E860)
 #define gObjInventoryDeleteItem ((void(*)(int,int)) 0x00402464)
@@ -263,7 +263,6 @@ struct PMSG_ITEMTHROW
 #define ItemSerialCreateSend ((int(*)(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)) 0x00430100)
 #define GCKillPlayerExpSend ((void(*)(int aIndex, int TargetIndex, long exp, int AttackDamage, int MSBFlag)) 0x00455EC0)
 #define gObjCalCharacter ((void(*)(int)) 0x004E8AC0)
-#define CloseClient ((void(*)(DWORD))0x0040788D)
 #define GCEquipmentSend	((void(*)(int)) 0x0043C7B0)
 #define GCItemListSend	((void(*)(int)) 0x0042E780)
 #define gObjMakePreviewCharSet ((void(*)(int)) 0x005263D0)
@@ -292,8 +291,8 @@ struct PMSG_ITEMTHROW
 #define GCSendQuestPrize ((void(*)(int aIndex, unsigned char Type, unsigned char Count)) 0x00461C80)
 #define GJSetCharacterInfo ((void(*)(OBJECTSTRUCT* lpObj, int Index, BOOL bMapServerMove)) 0x0042E970)	// Set Info (After Move?)
 #define GCMagicAttackNumberSend ((void(*)(OBJECTSTRUCT*, unsigned char, int, unsigned char)) 0x00406A96) // ??
-#define ChaosBoxInit					((void(*) (OBJECTSTRUCT*)) 0x00404EDF)
-#define GCUserChaosBoxSend				((void(*) (OBJECTSTRUCT*, int)) 0x00406FFF)
+#define ChaosBoxInit ((void(*) (OBJECTSTRUCT*)) 0x00404EDF)
+#define GCUserChaosBoxSend ((void(*) (OBJECTSTRUCT*, int)) 0x00406FFF)
 #endif
 
 #ifdef _GS_CS
@@ -372,6 +371,7 @@ struct PMSG_ITEMTHROW
 #define IAJuliaEventTime		"..\\IA Julia\\EventTimer.dat"
 #define IAJuliaArcher			"..\\IA Julia\\GoldenArcher.txt"
 #define IAJuliaHelpers          "..\\IA Julia\\Helpers.txt"
+#define IAJuliaQuests			"..\\IA Julia\\Quests.ini"
 #define IAJuliaItems			"..\\IA Julia\\Items.ini"
 #define IAJuliaMossGambler		"..\\IA Julia\\MossGambler.ini"
 #define IAJuliaPcPoints			"..\\IA Julia\\PCPoints_WCoins.dat"
@@ -714,11 +714,13 @@ struct PMSG_ITEMTHROW
 #define AttackDamageMin_DexStrDiv_Elf2 (0x004E92ED+1)
 #define AttackDamageMax_DexStrDiv_Elf1 (0x004E9304+2)
 #define AttackDamageMax_DexStrDiv_Elf2 (0x004E92D5+2)
+
 // DK
 #define AttackDamageMin_StrDiv_DK1 (0x004E932F+1)
 #define AttackDamageMin_StrDiv_DK2 (0x004E9358+1)
 #define AttackDamageMax_StrDiv_DK1 (0x004E9343+2)
 #define AttackDamageMax_StrDiv_DK2 (0x004E936C+2)
+
 // MG
 #define AttackDamageMin_StrDiv_MG1 (0x004E939B+1)
 #define AttackDamageMin_StrDiv_MG2 (0x004E93E3+1)
@@ -728,6 +730,7 @@ struct PMSG_ITEMTHROW
 #define AttackDamageMin_EneDiv_MG2 (0x004E93F0+1)
 #define AttackDamageMax_EneDiv_MG1 (0x004E93CC+2)
 #define AttackDamageMax_EneDiv_MG2 (0x004E9414+2)
+
 // DL
 #define AttackDamageMin_StrDiv_DL1 (0x004E948B+1)
 #define AttackDamageMin_StrDiv_DL2 (0x004E9445+1)
@@ -737,11 +740,13 @@ struct PMSG_ITEMTHROW
 #define AttackDamageMax_StrDiv_DL2 (0x004E94AE+1)
 #define AttackDamageMax_EneDiv_DL1 (0x004E9475+1)
 #define AttackDamageMax_EneDiv_DL2 (0x004E94BB+1)
+
 // Sumoner
 #define AttackDamageMin_StrDiv_SUM1 (0x004E94EA+1)
 #define AttackDamageMin_StrDiv_SUM2 (0x004E9519+1)
 #define AttackDamageMax_StrDiv_SUM1 (0x004E9501+2)
 #define AttackDamageMax_StrDiv_SUM2 (0x004E9530+2)
+
 // DW
 #define AttackDamageMin_StrDiv_DW1 (0x004E9547+2)
 #define AttackDamageMin_StrDiv_DW2 (0x004E9571+2)
@@ -990,6 +995,7 @@ struct PMSG_ITEMTHROW
 #define GS_GFMASTER02				(0x0050C935+1)
 #define NormalGreatForitiuteTime	(0x004EC141+1)
 #define MasterGreatForitiuteTime	(0x0050C962+1)
+
 //================================================//
 //PK Kill Limit									  //
 //================================================//
@@ -1034,11 +1040,13 @@ struct PMSG_ITEMTHROW
 #define AttackDamageMin_DexStrDiv_Elf2 (0x004FAE8D+1)
 #define AttackDamageMax_DexStrDiv_Elf1 (0x004FAEA4+2)
 #define AttackDamageMax_DexStrDiv_Elf2 (0x004FAE75+2)
+
 // DK
 #define AttackDamageMin_StrDiv_DK1 (0x004FAECF+1)
 #define AttackDamageMin_StrDiv_DK2 (0x004FAEF8+1)
 #define AttackDamageMax_StrDiv_DK1 (0x004FAEE3+2)
 #define AttackDamageMax_StrDiv_DK2 (0x004FAF0C+2)
+
 // MG
 #define AttackDamageMin_StrDiv_MG1 (0x004FAF3B+1)
 #define AttackDamageMin_StrDiv_MG2 (0x004FAF83+1)
@@ -1058,11 +1066,13 @@ struct PMSG_ITEMTHROW
 #define AttackDamageMax_StrDiv_DL2 (0x004FB04E+1)
 #define AttackDamageMax_EneDiv_DL1 (0x004FB015+1)
 #define AttackDamageMax_EneDiv_DL2 (0x004FB05B+1)
+
 // Summoner
 #define AttackDamageMin_StrDiv_SUM1 (0x004FB08A+1)
 #define AttackDamageMin_StrDiv_SUM2 (0x004FB0B9+1)
 #define AttackDamageMax_StrDiv_SUM1 (0x004FB0A1+2)
 #define AttackDamageMax_StrDiv_SUM2 (0x004FB0D0+2)
+
 // DW
 #define AttackDamageMin_StrDiv_DW1 (0x004FB0E7+2)
 #define AttackDamageMin_StrDiv_DW2 (0x004FB111+2)
@@ -1070,6 +1080,7 @@ struct PMSG_ITEMTHROW
 #define AttackDamageMax_StrDiv_DW2 (0x004FB126+2)
 #define AttackDamageMin_EneDiv_DW1 (0x004FB0EC+2)
 #define AttackDamageMax_EneDiv_DW2 (0x004FB116+2)
+
 // a Speed
 #define AttackSpeed_Elf1 (0x004FB923+1) //32
 #define AttackSpeed_Elf2 (0x004FB937+1) //32
@@ -1081,11 +1092,13 @@ struct PMSG_ITEMTHROW
 #define AttackSpeed_DW2 (0x004FB9FF+1) //14
 #define AttackSpeed_Sum1 (0x004FBA15+1) //14
 #define AttackSpeed_Sum2 (0x004FBA29+1) //0A
+
 // Block
 #define SuccessfulBlocking_Elf (0x004FBFC4+2)
 #define SuccessfulBlocking_DW_DK_MG (0x004FBFEC+1)
 #define SuccessfulBlocking_DL (0x004FC02A+1)
 #define SuccessfulBlocking_Sum (0x004FC00A+2)
+
 // Defense
 #define Defense_Elf (0x004FC535+1)
 #define Defense_DK (0x004FC55F+1)
@@ -1120,7 +1133,9 @@ struct PMSG_ITEMTHROW
 #define OBJECT_POINTER(aIndex) ((aIndex * OBJECT_SIZE) + OBJECT_BASE)
 #define OBJECT_TABINDEX(lpObj) ((lpObj - OBJECT_BASE) / OBJECT_SIZE)
 
-#define MAX_USER_GUILD			80 // don?t change this
+// Do not change this
+#define MAX_USER_GUILD			80
+
 enum OBJECT_TYPE
 {
     OBJECT_EMPTY = -1,

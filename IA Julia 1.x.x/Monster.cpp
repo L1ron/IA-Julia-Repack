@@ -17,17 +17,18 @@
 #include "MarrySystem.h"
 #include "ResetSystem.h"
 #include "Helpers.h"
+#include "Quests.h"
 
 cMonster Monster;
 
 void __cdecl MonsterDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 {
-    if (OBJECT_MAXRANGE(lpTargetObj->m_Index) == FALSE)
+    if(OBJECT_MAXRANGE(lpTargetObj->m_Index) == FALSE)
 	{
         return;
 	}
 
-    if (OBJECT_MAXRANGE(lpObj->m_Index) == FALSE)
+    if(OBJECT_MAXRANGE(lpObj->m_Index) == FALSE)
 	{
         return;
 	}
@@ -63,7 +64,7 @@ void __cdecl MonsterDie(LPOBJ lpObj, LPOBJ lpTargetObj)
         lpObj->m_wItemDropRate = 100;
     }
 
-    gObjMonsterDieGiveItem(lpObj, lpTargetObj);
+    gObjMonsterDieGiveItem(lpObj,lpTargetObj);
 }
 
 #ifdef _GS
@@ -143,7 +144,6 @@ void cMonster::ReadMonsterAdd()
     {
         MessageBox(NULL,"Impossivel encontrar MonsterSpawn.ini","MonsterSpawn",0);
 
-
         return;
     }
 
@@ -217,8 +217,8 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
     WORD mIndex = 0;
     WORD aIndex = 0;
 
-    memcpy(&mIndex, b_mIndex+0x00,sizeof(WORD));
-    memcpy(&aIndex, a_aIndex+0x00,sizeof(WORD));
+    memcpy(&mIndex,b_mIndex+0x00,sizeof(WORD));
+    memcpy(&aIndex,a_aIndex+0x00,sizeof(WORD));
 
     if(aIndex < OBJECT_MIN || aIndex > OBJECT_MAX)
     {
@@ -232,7 +232,6 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
 
     int NewMoney = Utilits.gObjZenSingle(pObj,mObj,500,700);
     mObj->Money = (NewMoney/1000) * Configs.Zen.NormalZen;
-
 
     if(pObj->PartyNumber != -1)
     {
@@ -296,10 +295,17 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
 
     // Fix summoner ZEN drop for 3 prof (+180%)
     if (pObj->DbClass == 83)
+	{
         mObj->Money += (int)floor(mObj->Money * 1.8);
+	}
+
+	// Quests System
+	if(Quests.Config.Enable)
+	{
+		Quests.QuestMobDrop(pObj,mObj);
+	}
 
     // Drop System
-
     if(DropSystem.DropItem(mObj,pObj))
     {
         return 1;
@@ -317,7 +323,7 @@ int MygEventMonsterItemDrop(BYTE *b_MonsterDataAddr,BYTE *a_gObjAddr)
 void MyItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
 {
 #ifdef _GS
-    if (Monster.GoldenDropFunc(aIndex, MapNumber, x, y, type, level, dur, Op1, Op2, Op3, LootIndex, NewOption, SetOption))
+    if(Monster.GoldenDropFunc(aIndex, MapNumber, x, y, type, level, dur, Op1, Op2, Op3, LootIndex, NewOption, SetOption))
     {
         return;
     }
@@ -336,6 +342,7 @@ char Messages1[1024];
 void cMonster::NPCMessage(int IndexPlayer, LPOBJ mObj, char* Msg,...)
 {
     Messages1[0] = 0;
+
     va_list pArguments1;
     va_start(pArguments1, Msg);
     vsprintf_s(Messages1, Msg, pArguments1);
@@ -347,18 +354,20 @@ void cMonster::NPCMessage(int IndexPlayer, LPOBJ mObj, char* Msg,...)
 void cMonster::NPCMessageLog(sColor LogColor, sLogType LogType, LPOBJ gObj, LPOBJ mObj, char* Msg,...)
 {
     Messages1[0] = 0;
+
     va_list pArguments1;
     va_start(pArguments1, Msg);
     vsprintf_s(Messages1, Msg, pArguments1);
     va_end(pArguments1);
 
-    ChatTargetSend(mObj, Messages1, gObj->m_Index);
+    ChatTargetSend(mObj,Messages1, gObj->m_Index);
     Log.ConsoleOutPut(1, LogColor, LogType, "[NPC] [%s]:\t%s", gObj->Name, Messages1);
 }
 
 void cMonster::NPCMessageNear(LPOBJ mObj, char* Msg,...)
 {
     Messages1[0] = 0;
+
     va_list pArguments1;
     va_start(pArguments1, Msg);
     vsprintf_s(Messages1, Msg, pArguments1);
@@ -408,11 +417,11 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
     }
 
 	if(gObjNPC->Class == 414)
-    {
-		Helpers.HelperEllenClick(gObj, gObjNPC);
+	{
+		Helpers.HelperEllenClick(gObj,gObjNPC);
 
-        bResult = true;
-    }
+		bResult = true;
+	}
 
 	if(gObjNPC->Class == 371)
     {
@@ -427,6 +436,13 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
 
         bResult = true;
     }
+
+	if(gObjNPC->Class == Quests.Config.QuestNPCID)
+	{
+		Quests.QuestNPCClick(gObj,gObjNPC);
+
+		bResult = true;
+	}
 
     if((gObjNPC->Class == Marry.Config.MarryNpcNum) && !AddTab[gObj->m_Index].IsMarried)
     {
@@ -825,72 +841,134 @@ bool cMonster::GoldenDropFunc( int aIndex, BYTE MapNumber, BYTE x, BYTE y, int t
     OBJECTSTRUCT *mObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex);
 
     int IDMob = -1;
-    switch (mObj->Class)
+
+    switch(mObj->Class)
     {
-    case 44:
-            IDMob = 0;
-        break;
-    case 43:
-            IDMob = 1;
-        break;
-    case 78:
-            IDMob = 2;
-        break;
-    case 53:
-            IDMob = 3;
-        break;
-    case 54:
-            IDMob = 4;
-        break;
-    case 79:
-            IDMob = 5;
-        break;
-    case 80:
-            IDMob = 6;
-        break;
-    case 81:
-            IDMob = 7;
-        break;
-    case 82:
-            IDMob = 8;
-        break;
-    case 83:
-            IDMob = 9;
-        break;
-    case 493:
-            IDMob = 10;
-        break;
-    case 494:
-            IDMob = 11;
-        break;
-    case 495:
-            IDMob = 12;
-        break;
-    case 496:
-            IDMob = 13;
-        break;
-    case 497:
-            IDMob = 14;
-        break;
-    case 498:
-            IDMob = 15;
-        break;
-    case 499:
-            IDMob = 16;
-        break;
-    case 500:
-            IDMob = 17;
-        break;
-    case 501:
-            IDMob = 18;
-        break;
-    case 502:
-            IDMob = 19;
-        break;
+		case 44:
+		{
+			IDMob = 0;
+
+			break;
+		}
+		case 43:
+		{
+			IDMob = 1;
+
+			break;
+		}
+		case 78:
+		{
+			IDMob = 2;
+
+			break;
+		}
+		case 53:
+		{
+			IDMob = 3;
+
+			break;
+		}
+		case 54:
+		{
+			IDMob = 4;
+
+			break;
+		}
+		case 79:
+		{
+			IDMob = 5;
+
+			break;
+		}
+		case 80:
+		{
+			IDMob = 6;
+
+			break;
+		}
+		case 81:
+		{
+			IDMob = 7;
+
+			break;
+		}
+		case 82:
+		{
+			IDMob = 8;
+
+			break;
+		}
+		case 83:
+		{
+			IDMob = 9;
+			break;
+		}
+		case 493:
+		{
+			IDMob = 10;
+
+			break;
+		}
+		case 494:
+		{
+			IDMob = 11;
+
+			break;
+		}
+		case 495:
+		{
+			IDMob = 12;
+
+			break;
+		}
+		case 496:
+		{
+			IDMob = 13;
+
+			break;
+		}
+		case 497:
+		{
+			IDMob = 14;
+
+			break;
+		}
+		case 498:
+		{
+			IDMob = 15;
+
+			break;
+		}
+		case 499:
+		{
+			IDMob = 16;
+
+			break;
+		}
+		case 500:
+		{
+			IDMob = 17;
+
+			break;
+		}
+		case 501:
+		{
+			IDMob = 18;
+
+			break;
+		}
+		case 502:
+		{
+			IDMob = 19;
+
+			break;
+		}
     }
 
-    if (IDMob == -1)
+    if(IDMob == -1)
+	{
         return false;
+	}
 
     if (AddTab[mObj->m_Index].TEMP_Golden_Drop)
         return true;

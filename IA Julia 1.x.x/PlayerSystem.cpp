@@ -102,7 +102,8 @@ int cPlayerSystem::GetBonus(LPOBJ gObj, eBonus Type)
             continue;
         }
 
-        if(
+        if
+		(
             (Config[i].First == 1 && gObj->ChangeUP == 0 && gObj->ChangeUP2 == 0) ||
             (Config[i].Second == 1 && gObj->ChangeUP == 1 && gObj->ChangeUP2 == 0) ||
             (Config[i].Third == 1 && gObj->ChangeUP == 1 && gObj->ChangeUP2 == 1)

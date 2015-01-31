@@ -166,6 +166,7 @@ void cPCPoint::Tick(LPOBJ gObj)
         {
             AddTab[gObj->m_Index].PC_OnlineTimer = 0;
             PCPoint.UpdatePoints(gObj,PCPoint.Config.AddPCPointsCount,PLUS,PCPOINT);
+
             Chat.Message(1, gObj,"[PointShop] You earned %d Points for being online!", PCPoint.Config.AddPCPointsCount);
             Chat.Message(1, gObj,"[PointShop] You have been online %d Hours!", AddTab[gObj->m_Index].ON_Hour);
         }
@@ -352,6 +353,7 @@ void cPCPoint::UpdatePoints(LPOBJ gObj,int CountPoints,eModeUpdate Mode,eTypePoi
             }
         }
     }
+
     if (Type == PCPOINT)
     {
         if(gObj->Connected < PLAYER_PLAYING)
@@ -366,6 +368,7 @@ void cPCPoint::UpdatePoints(LPOBJ gObj,int CountPoints,eModeUpdate Mode,eTypePoi
             return;
         }
     }
+
     if (Type ==  WCOIN )
     {
         if(gObj->Connected < PLAYER_LOGGED)
@@ -454,27 +457,35 @@ void cPCPoint::RewardsPointsKillMob(LPOBJ gObj,LPOBJ mObj,eTypePoint Type)
 {
     switch (Type)
     {
-    case PCPOINT:
-    {
-        for (int i = 0; i < AmountRecords[1]; i++)
-            if ( PCMonsters[i].MobID == mObj->Class )
-            {
-                this->UpdatePoints(gObj,PCMonsters[i].PCPoints,PLUS,Type);
-                Chat.Message(1, gObj,"[PCPoint] You earned %d PCPoints",PCMonsters[i].PCPoints);
-                return;
-            }
-        return;
-    }
-    case WCOIN:
-    {
-        for (int i = 0; i < AmountRecords[2]; i++)
-            if ( WCoinMonsters[i].MobID == mObj->Class )
-            {
-                this->UpdatePoints(gObj,WCoinMonsters[i].WCoins,PLUS,Type);
-                Chat.Message(1, gObj,"[WCoin] You earned %d WCoins",WCoinMonsters[i].WCoins);
-                return;
-            }
-        return;
-    }
+		case PCPOINT:
+		{
+			for (int i = 0; i < AmountRecords[1]; i++)
+			{
+				if ( PCMonsters[i].MobID == mObj->Class )
+				{
+					this->UpdatePoints(gObj,PCMonsters[i].PCPoints,PLUS,Type);
+					Chat.Message(1, gObj,"[PCPoint] You earned %d PCPoints",PCMonsters[i].PCPoints);
+					
+					return;
+				}
+			}
+
+			return;
+		}
+		case WCOIN:
+		{
+			for (int i = 0; i < AmountRecords[2]; i++)
+			{
+				if ( WCoinMonsters[i].MobID == mObj->Class )
+				{
+					this->UpdatePoints(gObj,WCoinMonsters[i].WCoins,PLUS,Type);
+					Chat.Message(1, gObj,"[WCoin] You earned %d WCoins",WCoinMonsters[i].WCoins);
+
+					return;
+				}
+			}
+
+			return;
+		}
     }
 }
