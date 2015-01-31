@@ -55,9 +55,6 @@
     <Filter Include="Source\SocketSystem">
       <UniqueIdentifier>{2e5b6e11-c50a-499d-9269-31ca15cb6fc4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\MarrySystem">
-      <UniqueIdentifier>{463c60c5-002a-4eda-875b-aa3aad85a1e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\StdAfx">
       <UniqueIdentifier>{6da01cfc-b3df-4c7e-9b17-c03ada23dc54}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="Source\Interface">
       <UniqueIdentifier>{e028872d-0700-40b3-9ddb-eb02c88d6e6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Systems\MarrySystem">
+      <UniqueIdentifier>{463c60c5-002a-4eda-875b-aa3aad85a1e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,9 +100,6 @@
       <Filter>Source\Player</Filter>
     </ClCompile>
     <ClCompile Include="AntiAFK.cpp">
-      <Filter>Source\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="ChatCommands.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
     <ClCompile Include="DropSystem.cpp">
@@ -169,7 +166,7 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="MarrySystem.cpp">
-      <Filter>Source\MarrySystem</Filter>
+      <Filter>Source\Systems\MarrySystem</Filter>
     </ClCompile>
     <ClCompile Include="Utilits.cpp">
       <Filter>Source\Events</Filter>
@@ -183,11 +180,14 @@
     <ClCompile Include="Maps.cpp">
       <Filter>Source\Standart</Filter>
     </ClCompile>
-    <ClCompile Include="ChaosMachine.cpp">
-      <Filter>Source\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Inteface.cpp">
       <Filter>Source\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatCommands.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,7 +291,7 @@
       <Filter>Source\SocketSystem</Filter>
     </ClInclude>
     <ClInclude Include="MarrySystem.h">
-      <Filter>Source\MarrySystem</Filter>
+      <Filter>Source\Systems\MarrySystem</Filter>
     </ClInclude>
     <ClInclude Include="HPBar.h">
       <Filter>Source\Player</Filter>
@@ -305,14 +305,14 @@
     <ClInclude Include="Monster.h">
       <Filter>Source\Standart</Filter>
     </ClInclude>
-    <ClInclude Include="ChaosMachine.h">
-      <Filter>Source\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Interface.h">
       <Filter>Source\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Offsets.h">
       <Filter>Source\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Quests.h">
+      <Filter>Source\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
