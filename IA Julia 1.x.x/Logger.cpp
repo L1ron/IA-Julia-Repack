@@ -35,8 +35,8 @@ char* Logger::LoggerTittle()
 
 void Logger::LoggerInit()
 {
-	Online_Max = GetPrivateProfileInt("GameServerInfo", "NumberOfMaxUser", 0, "..\\Data\\CommonServer.cfg");
-	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)LoggerCore, 0, 0, &PiD); 
+	Online_Max = GetPrivateProfileInt("GameServerInfo", "NumberOfMaxUser",0,"..\\Data\\CommonServer.cfg");
+	CreateThread(0,0,(LPTHREAD_START_ROUTINE)LoggerCore, 0, 0, &PiD); 
 }
 
 void Logger::CheckProcent(char* message)
@@ -79,55 +79,55 @@ void Logger::ConsoleOutPut(int WOL, sColor Color, sLogType Type, const char* For
 
 	switch (Color)
 	{
-	case c_BoldGreen:
+		case c_BoldGreen:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_INTENSITY);
 
 			break;
 		}
-	case c_BoldRed:
+		case c_BoldRed:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_RED);
 
 			break;
 		}
-	case c_Red:
+		case c_Red:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_RED | FOREGROUND_INTENSITY);
 
 			break;
 		}
-	case c_Green:
+		case c_Green:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 
 			break;
 		}
-	case c_Blue:
+		case c_Blue:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
 			break;
 		}
-	case c_Cyan:
+		case c_Cyan:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
 			break;
 		}
-	case c_Yellow:
+		case c_Yellow:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 
 			break;
 		}
-	case c_Magenta:
+		case c_Magenta:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
 
 			break;
 		}
-	case c_Grey:
+		case c_Grey:
 		{
 			SetConsoleTextAttribute(this->Handle(FALSE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
@@ -177,7 +177,10 @@ void Logger::CreateLog(sLogType Type, const char* Format, ...)
 	char TerritoryLog[55];
 	char ArcherLog[55];
 	char ResetLog[55];
+	char HelpersLog[55];
+	char QuestsLog[55];
 	char TestLog[55];
+
 	sprintf(Date, "..\\IA Julia\\ConsoleLogs\\%02d-%02d-%02d\\", now.wDay, now.wMonth, now.wYear);
 	CreateDirectory(Date, NULL);
 
@@ -198,6 +201,8 @@ void Logger::CreateLog(sLogType Type, const char* Format, ...)
 	sprintf(TerritoryLog, "..\\IA Julia\\ConsoleLogs\\%02d-%02d-%02d\\Territory.log", now.wDay, now.wMonth, now.wYear);
 	sprintf(ArcherLog, "..\\IA Julia\\ConsoleLogs\\%02d-%02d-%02d\\Archer.log", now.wDay, now.wMonth, now.wYear);
 	sprintf(ResetLog, "..\\IA Julia\\ConsoleLogs\\%02d-%02d-%02d\\Reset.log", now.wDay, now.wMonth, now.wYear);
+	sprintf(HelpersLog, "..\\IA Julia\\ConsoleLogs\\%02d-%02d-%02d\\Helpers.log", now.wDay, now.wMonth, now.wYear);
+	sprintf(QuestsLog, "..\\IA Julia\\ConsoleLogs\\%02d-%02d-%02d\\Quests.log", now.wDay, now.wMonth, now.wYear);
 	sprintf(TestLog, "..\\IA Julia\\ConsoleLogs\\%02d-%02d-%02d\\Test.log", now.wDay, now.wMonth, now.wYear);
 
 	va_list pArguments1;
@@ -207,51 +212,51 @@ void Logger::CreateLog(sLogType Type, const char* Format, ...)
 
 	switch (Type)
 	{
-	case t_NULL:
+		case t_NULL:
 		{
 			break;
 		}
-	case t_Error:
+		case t_Error:
 		{
 			SaveFile(ErrorLog, Message);
 
 			break;
 		}
-	case t_Default:
+		case t_Default:
 		{
 			SaveFile(ConsoleLog, Message);
 
 			break;
 		}
-	case t_PCPOINT:
+		case t_PCPOINT:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(PcPointLog, Message);
 
 			break;
 		}
-	case t_IPBLOCK:
+		case t_IPBLOCK:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(IpBlockLog, Message);
 
 			break;
 		}
-	case t_GM:
+		case t_GM:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(GMLog, Message);
 
 			break;
 		}
-	case t_COMMANDS:
+		case t_COMMANDS:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(CommandsLog, Message);
 
 			break;
 		}
-	case t_POST:
+		case t_POST:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(PostLog, Message);
@@ -259,7 +264,7 @@ void Logger::CreateLog(sLogType Type, const char* Format, ...)
 
 			break;
 		}
-	case t_GPOST:
+		case t_GPOST:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(GPostLog, Message);
@@ -268,7 +273,7 @@ void Logger::CreateLog(sLogType Type, const char* Format, ...)
 
 			break;
 		}
-	case t_DROP:
+		case t_DROP:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(DropLog, Message);
@@ -277,7 +282,7 @@ void Logger::CreateLog(sLogType Type, const char* Format, ...)
 
 			break;
 		}
-	case t_BAN:
+		case t_BAN:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(BanLog, Message);
@@ -286,55 +291,67 @@ void Logger::CreateLog(sLogType Type, const char* Format, ...)
 
 			break;
 		}
-	case t_Duel:
+		case t_Duel:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(DuelLog, Message);
 
 			break;
 		}
-	case t_SQL:
+		case t_SQL:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(SqlLog, Message);
 
 			break;
 		}
-	case t_VIP:
+		case t_VIP:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(VipLog, Message);
 
 			break;
 		}
-	case t_TRADE:
+		case t_TRADE:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(TradeLog, Message);
 
 			break;
 		}
-	case t_TERRITORY:
+		case t_TERRITORY:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(TerritoryLog, Message);
 
 			break;
 		}
-	case t_ARCHER:
+		case t_ARCHER:
 		{
 			SaveFile(ConsoleLog, Message);
 			SaveFile(ArcherLog, Message);
 
 			break;
 		}
-	case t_RESET:
+		case t_RESET:
 		{
 			SaveFile(ResetLog, Message);
 
 			break;
 		}
-	case t_TEST:
+		case t_HELPERS:
+		{
+			SaveFile(HelpersLog, Message);
+
+			break;
+		}
+		case t_QUEST:
+		{
+			SaveFile(QuestsLog, Message);
+
+			break;
+		}
+		case t_TEST:
 		{
 			SaveFile(TestLog, Message);
 
@@ -350,7 +367,7 @@ void Logger::SaveFile(char *logString, char *Message)
 
 	if(stream != nullptr)
 	{
-		fprintf(stream,"%s",Message);
+		fprintf(stream,Message);
 		fclose(stream);
 	}
 }

@@ -36,7 +36,9 @@ enum sLogType
 	t_TERRITORY,
 	t_ARCHER,
 	t_RESET,
-	t_TEST
+	t_TEST,
+	t_HELPERS,
+	t_QUEST
 };
 
 class Logger
