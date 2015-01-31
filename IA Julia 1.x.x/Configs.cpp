@@ -26,7 +26,7 @@
 #include "MarrySystem.h"
 #include "Prodef.h"
 #include "Helpers.h"
-#include "ChaosMachine.h"
+#include "Quests.h"
 
 cConfigs Configs;
 
@@ -39,6 +39,7 @@ void cConfigs::LoadAll()
 	AntiAFK.Load();
 	GoldenArcher.Load();
 	Helpers.Load();
+	Quests.Load();
 	Vip.Load();
 	Monster.LoadPkClear();
 	DropSystem.Load();
@@ -62,7 +63,6 @@ void cConfigs::LoadAll()
 	Moss.Load();
 	DropEvent.Init();
 	Monster.LoadGolden();
-	CM.ChaosMachineLoadConfig();
 #endif
 	Marry.Init();
 }
@@ -235,8 +235,8 @@ void cConfigs::LoadPets()
 
 void cConfigs::LoadNotice()
 {
-	ConnectInfo = GetInt(0, 1, 1, "Connect", "ConnectInfo", IAJuliaGS);
-	GetPrivateProfileString("Connect", "ConnectNotice", "Powered by IA Julia 1.1.x", ConnectNotice, sizeof(ConnectNotice), IAJuliaGS);
+	ConnectInfo = GetInt(0,1,1,"Connect","ConnectInfo", IAJuliaGS);
+	GetPrivateProfileString("Connect","ConnectNotice","Powered by IA Julia 1.1.x",ConnectNotice, sizeof(ConnectNotice), IAJuliaGS);
 	Log.CheckProcent(ConnectNotice);
 }
 
@@ -489,13 +489,12 @@ void cConfigs::LoadFixes()
 	UseChecksum			= GetInt(0, 1, 0, "CheckSum", "UseCheckSum", IAJuliaCommon);
 	PersonalIDFix		= GetInt(0, 1, 1, "Bypasseres", "PersonalIDBypasser", IAJuliaCommon);
 	GuildIDFix			= GetInt(0, 1, 1, "Bypasseres", "GuildIDBypasser", IAJuliaCommon);
-	DisableLogs			= GetInt(0, 1, 0, "Logs", "DisableLogs", IAJuliaCommon);
+	DisableLogs			= GetInt(0, 1, 0, "Logs","DisableLogs", IAJuliaCommon);
 
 	AllowExeAnc			= GetInt(0, 1, 1, "SpecialItem", "AllowExeAnc", IAJuliaItems);
 	AllowJohAnc			= GetInt(0, 1, 1, "SpecialItem", "AllowJohAnc", IAJuliaItems);
 	AllowExeSock		= GetInt(0, 1, 1, "SpecialItem", "AllowExeSock", IAJuliaItems);
 	MaxLifeOpt			= GetInt(0, 1, 1, "SpecialItem", "MaxLifeOpt", IAJuliaItems);
-	MaxItemLevel		= GetInt(0, 1, 1, "SpecialItem", "MaxItemLevel", IAJuliaItems);
 	CashShopExe			= GetInt(0, 1, 1, "SpecialItem", "CashShopExe", IAJuliaItems);
 
 	CSSkillsOnNOrmal	= GetInt(0, 1, 1, "Skills", "CSSkillsOnNOrmal", IAJuliaSkills);
