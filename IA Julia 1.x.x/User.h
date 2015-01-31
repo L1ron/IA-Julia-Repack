@@ -91,7 +91,12 @@ typedef	struct sAddTab
     bool    CloseSetCheck;
 
     //Helper
-    int     HELPER_UsedTimes; 
+    int     HELPER_UsedTimes;
+
+	// Quests
+	int		QUEST_State; // 0 = None, 1 = Pending, 2 = Done
+	int		QUEST_Number;
+	int		QUEST_MobCount;
 
     LPBYTE aRecv;
 

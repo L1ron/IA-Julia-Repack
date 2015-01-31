@@ -17,6 +17,7 @@
 #include "ResetSystem.h"
 #include "MarrySystem.h"
 #include "Helpers.h"
+#include "Quests.h"
 
 sAddTab AddTab[OBJECT_MAX];
 cUser User;
@@ -294,6 +295,7 @@ void GCKillPlayerExpSendHook(int aIndex, int TargetIndex, long exp, int AttackDa
 
 	//HappyHour Exp
 	int IsHappyHour = HappyHour.IsHappyHour(lpObj->MapNumber);
+
 	if(IsHappyHour)
 	{
 		Proc += HappyHour.HappyStruct[IsHappyHour].P_Exp;
@@ -336,6 +338,7 @@ void MyObjCalCharacter(int aIndex)
 		lpObj->m_MagicSpeed				+= Configs.Panda.PetPandaMagicSpeed;
 		lpObj->m_AttackSpeed			+= Configs.Panda.PetPandaAttackSpeed;
 	}
+
 	if(lpObj->pInventory[10].m_Type == 0x1A4C || lpObj->pInventory[11].m_Type == 0x1A4C) // Panda Ring
 	{
 		lpObj->m_Defense				+= Configs.Panda.PandaRingDefense;
@@ -349,6 +352,7 @@ void MyObjCalCharacter(int aIndex)
 		lpObj->m_AttackSpeed			+= Configs.Panda.PandaRingAttackSpeed;
 	}
 }
+
 //Wait 2 miliseconds for update
 void TradeSystem__Cancel(void * lpParam)
 {
@@ -358,8 +362,7 @@ void TradeSystem__Cancel(void * lpParam)
 		OBJECTSTRUCT * gObj = (OBJECTSTRUCT*)OBJECT_POINTER(i);
 		if(gObj->Connected == PLAYER_PLAYING)
 		{
-			if(gObj->pInventory[RING_01].m_Type == 0x1A7A
-				|| gObj->pInventory[RING_02].m_Type == 0x1A7A) //Skeleton Ring
+			if(gObj->pInventory[RING_01].m_Type == 0x1A7A || gObj->pInventory[RING_02].m_Type == 0x1A7A) //Skeleton Ring
 			{
 				gObj->m_Change = 14;
 
@@ -367,12 +370,14 @@ void TradeSystem__Cancel(void * lpParam)
 			}
 		}
 	}
+
 	_endthread();
 }
 
 bool cUser::CharacterCreate(PMSG_CHARCREATE* lpMsg, int aIndex)
 {
 	bool bResult = false;
+
 	for(int i = 0; i < sizeof(lpMsg->Name); i++)
 	{
 		if(!isalnum(lpMsg->Name[i]) && lpMsg->Name[i] != ' ' && lpMsg->Name[i] != NULL)
@@ -380,6 +385,7 @@ bool cUser::CharacterCreate(PMSG_CHARCREATE* lpMsg, int aIndex)
 			bResult = true;
 		}
 	}
+
 	return bResult;
 }
 
@@ -403,6 +409,7 @@ bool cUser::GuildMasterInfoSave(int aIndex,PMSG_GUILDINFOSAVE* lpMsg)
 
 		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 	}
+
 	return bResult;
 }
 void GCEquipmentSendHook(int aIndex)
@@ -432,15 +439,15 @@ void GCEquipmentSendHook(int aIndex)
 		}
 	}
 
-	if(gObj->pInventory[RING_01].m_Type == 0x1A7A
-		|| gObj->pInventory[RING_02].m_Type == 0x1A7A) //Skeleton Ring
-		_beginthread( TradeSystem__Cancel, 0, NULL  );
+	if(gObj->pInventory[RING_01].m_Type == 0x1A7A || gObj->pInventory[RING_02].m_Type == 0x1A7A) //Skeleton Ring
+	{
+		_beginthread(TradeSystem__Cancel, 0, NULL);
+	}
 }
 
 void cUser::RingSkin(LPOBJ gObj)
 {
-	if(gObj->pInventory[RING_01].m_Type == 0x1A4C && gObj->m_Change != 503 ||
-		gObj->pInventory[RING_02].m_Type == 0x1A4C && gObj->m_Change != 503)
+	if(gObj->pInventory[RING_01].m_Type == 0x1A4C && gObj->m_Change != 503 || gObj->pInventory[RING_02].m_Type == 0x1A4C && gObj->m_Change != 503)
 	{
 		gObj->m_Change = 503;
 		gObjViewportListProtocolCreate(gObj);
@@ -451,7 +458,7 @@ void cUser::CheckRingSend(LPOBJ gObj, unsigned char* aSend)
 {
 	if(aSend[4] == RING_01 || aSend[4] == RING_02)
 	{
-		if(gObj->pInventory[RING_01].m_Type == 0x1A4C && gObj->m_Change != 503 ||gObj->pInventory[RING_02].m_Type == 0x1A4C && gObj->m_Change != 503)
+		if(gObj->pInventory[RING_01].m_Type == 0x1A4C && gObj->m_Change != 503 || gObj->pInventory[RING_02].m_Type == 0x1A4C && gObj->m_Change != 503)
 		{
 			gObj->m_Change = 503;
 			gObjViewportListProtocolCreate(gObj);
@@ -482,18 +489,26 @@ bool cUser::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, int aIndex)
 	OBJECTSTRUCT *pObj = (OBJECTSTRUCT*)OBJECT_POINTER(number);
 
 	if ( number < 0 || number > OBJECT_MAX-1)
+	{
 		return false;
+	}
+
 	if(!Utilits.gObjIsConnected(number))
+	{
 		return false;
+	}
+
 	if(gObj->Level > pObj->Level && gObj->Level - pObj->Level >= Configs.PartyGapLvl)
 	{
 		Chat.MessageLog(1, c_Red, t_Default, gObj, "[Party] You can't stay with %s in party! %s needs %d more lvl.", pObj->Name, pObj->Name, gObj->Level-Configs.PartyGapLvl - pObj->Level);
+		
 		return true;
 	}
 
 	if(gObj->Level < pObj->Level && pObj->Level - gObj->Level >= Configs.PartyGapLvl)
 	{
 		Chat.MessageLog(1, c_Red, t_Default, gObj, "[Party] You can't stay with %s in party! You need %d more lvl.", pObj->Name, pObj->Level - Configs.PartyGapLvl - gObj->Level);
+		
 		return true;
 	}
 	return false;
@@ -501,12 +516,18 @@ bool cUser::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, int aIndex)
 
 void cUser::CheckTeleport(LPOBJ gObj)
 {
-	if(gObj->MapNumber == 9 ||
+	if
+	(
+		(gObj->MapNumber == 9) ||
 		(gObj->MapNumber >= 11 && gObj->MapNumber <= 29) ||
-		gObj->MapNumber == 32 || gObj->MapNumber == 36 ||
+		(gObj->MapNumber == 32) ||
+		(gObj->MapNumber == 36) ||
 		(gObj->MapNumber >= 41 && gObj->MapNumber <= 50) ||
-		gObj->MapNumber == 52 || gObj->MapNumber == 53 ||
-		gObj->MapNumber == 58 || gObj->MapNumber == 62)
+		(gObj->MapNumber == 52) ||
+		(gObj->MapNumber == 53) ||
+		(gObj->MapNumber == 58) ||
+		(gObj->MapNumber == 62)
+	)
 	{
 		Utilits.TeleToStandart(gObj->m_Index);
 	}
@@ -579,7 +600,6 @@ void cUser::PlayerConnect(LPOBJ gObj)
 	}
 
 	// Warehouse check
-
 	MuOnlineQuery.ExecQuery("SELECT UsedSlot FROM warehouse WHERE AccountID = '%s'", gObj->AccountID);
 	MuOnlineQuery.Fetch();
 	int UsedSlot = MuOnlineQuery.GetAsInteger("UsedSlot");
@@ -624,6 +644,7 @@ void cUser::PlayerConnect(LPOBJ gObj)
 	AddTab[gObj->m_Index].VIP_X				= 0;
 	AddTab[gObj->m_Index].VIP_Y				= 0;
 	AddTab[gObj->m_Index].OfflineTrade		= false;
+
 	CTime ct = CTime::GetCurrentTime();
 	AddTab[gObj->m_Index].POST_BanSignal	= false;
 	AddTab[gObj->m_Index].POST_BanTime		= ct;
@@ -651,6 +672,7 @@ void cUser::PlayerConnect(LPOBJ gObj)
 	Vip.Connect(gObj);
 	Territory.Connect(gObj);
 	Helpers.Connect(gObj);
+	Quests.Connect(gObj);
 }
 
 void cUser::LoginMsg(LPOBJ gObj)
@@ -659,10 +681,10 @@ void cUser::LoginMsg(LPOBJ gObj)
 
 	if (Configs.ConnectInfo == 1)
 	{
-		Chat.Message(1, gObj, "Total Online: %d/%d", Log.Online_All, Log.Online_Max);
-
 		SYSTEMTIME t;
 		GetLocalTime(&t);
+
+		Chat.Message(1,gObj,"Online: %d Player(s), %d GM(s)",(Log.Online_All - Log.Online_Gms),Log.Online_Gms);
 		Chat.Message(1, gObj,"Hora e data: %02d:%02d:%02d (%02d-%02d-%04d)", t.wHour, t.wMinute, t.wSecond, t.wDay, t.wMonth, t.wYear);
 	}
 
@@ -687,13 +709,13 @@ void cUser::LoginMsg(LPOBJ gObj)
 	{
 	case 1:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s join the game!", gObj->Name);
+			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s conectado!", gObj->Name);
 
 			break;
 		}
 	case 2:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s join the game!", gObj->Name);
+			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s conectado!", gObj->Name);
 
 			break;
 		}
@@ -708,13 +730,13 @@ BOOL gObjGameClose_Func(int aIndex)
 	{
 	case 1:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s exit the game!", gObj->Name);
+			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s saiu do servidor!", gObj->Name);
 
 			break;
 		}
 	case 2:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s exit the game!", gObj->Name);
+			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s saiu do servidor!", gObj->Name);
 
 			break;
 		}
@@ -732,12 +754,14 @@ void GSItemDurRepaire( LPOBJ lpObj, CItem * DurItem, int pos, int RequestPos )
 	PHeadSetB((LPBYTE)&pResult, 0x34, sizeof(pResult));
 	int itemtype = DurItem->m_Type;
 
-	if (itemtype == ITEMGET(13,76) || itemtype == ITEMGET(13,80) || itemtype == ITEMGET(13,67))
+	if(itemtype == ITEMGET(13,76) || itemtype == ITEMGET(13,80) || itemtype == ITEMGET(13,67))
 	{
 		pResult.Money = 0;
 		DataSend(lpObj->m_Index, (LPBYTE)&pResult, pResult.h.size);
+
 		return;
 	}
+
 	ItemDurRepaire(lpObj, DurItem, pos, RequestPos);
 }
 
