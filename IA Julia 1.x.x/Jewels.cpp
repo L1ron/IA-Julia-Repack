@@ -40,7 +40,7 @@ void cJewels::Load()
 
     if(conf == NULL)
     {
-        Log.ConsoleOutPut(1, c_Cyan, t_Default, "[X] Jewels System not active. Config file not found: %s", IAJuliaJewelSystem);
+        Log.ConsoleOutPut(1, c_Cyan, t_Default, "[X] Impossivel abrir %s.", IAJuliaJewelSystem);
         return;
     }
 
@@ -75,7 +75,7 @@ void cJewels::Load()
 
     fclose(conf);
     AmountJewel = i;
-    Log.ConsoleOutPut(1, c_Magenta, t_Default, "[û] [JewelsSystem]\tLoaded %d jewels.", AmountJewel+1);
+    Log.ConsoleOutPut(1, c_Magenta, t_Default, "[û] [JewelsSystem]\tCarregado %d joias.", AmountJewel+1);
 }
 
 void cJewels::IdentifyJewel(PMSG_USE_ITEM_RECV * lpmsg, int aIndex)
@@ -88,31 +88,33 @@ void cJewels::IdentifyJewel(PMSG_USE_ITEM_RECV * lpmsg, int aIndex)
     {
         if (lpItem->m_Type == ITEMGET(14,ArrayJewelConf[i].id))
         {
-            if (Verification(ArrayJewelConf[i].opt1,ArrayJewelConf[i].opt2,ArrayJewelConf[i].minopt1,ArrayJewelConf[i].minopt2,
-                             ArrayJewelConf[i].maxopt1,ArrayJewelConf[i].maxopt2,ArrayJewelConf[i].successfully1,ArrayJewelConf[i].successfully2,
-                             ProtochItem))
+            if
+			(
+				Verification(ArrayJewelConf[i].opt1,ArrayJewelConf[i].opt2,ArrayJewelConf[i].minopt1,ArrayJewelConf[i].minopt2,
+				ArrayJewelConf[i].maxopt1,ArrayJewelConf[i].maxopt2,ArrayJewelConf[i].successfully1,ArrayJewelConf[i].successfully2,ProtochItem)
+			)
             {
                 RATE = rand()%100+1;
                 if (RATE <= ArrayJewelConf[i].rate)
                 {
-                    Chat.Message(1,gObj,"[Jewel] Congratulation, Item Update is Successfully");
-                    this->Successfully(ArrayJewelConf[i].opt1,ArrayJewelConf[i].opt2,ArrayJewelConf[i].maxopt1,ArrayJewelConf[i].maxopt2,
-                                       ArrayJewelConf[i].successfully1,ArrayJewelConf[i].successfully2,ProtochItem);
+                    Chat.Message(1,gObj,"[Jewel] Item atualizado com sucesso!");
+
+                    this->Successfully(ArrayJewelConf[i].opt1,ArrayJewelConf[i].opt2,ArrayJewelConf[i].maxopt1,ArrayJewelConf[i].maxopt2,ArrayJewelConf[i].successfully1,ArrayJewelConf[i].successfully2,ProtochItem);
                     this->DeleteItem(aIndex,lpmsg->SourceSlot);
                     GCInventoryItemOneSend(aIndex, lpmsg->TargetSlot);
                 }
                 else
                 {
-                    Chat.Message(1,gObj,"[Jewel] Sorry, Item Update is Fail");
-                    this->Fail(ArrayJewelConf[i].opt1,ArrayJewelConf[i].opt2,ArrayJewelConf[i].fail1,ArrayJewelConf[i].fail2,
-                               ArrayJewelConf[i].failopt1,ArrayJewelConf[i].failopt2,ProtochItem);
+                    Chat.Message(1,gObj,"[Jewel] Desculpe, falha ao atualizar item!");
+
+                    this->Fail(ArrayJewelConf[i].opt1,ArrayJewelConf[i].opt2,ArrayJewelConf[i].fail1,ArrayJewelConf[i].fail2,ArrayJewelConf[i].failopt1,ArrayJewelConf[i].failopt2,ProtochItem);
                     this->DeleteItem(aIndex,lpmsg->SourceSlot);
                     GCInventoryItemOneSend(aIndex, lpmsg->TargetSlot);
                 }
             }
             else
             {
-                Chat.Message(1,gObj,"[Jewel] Sorry, you can`t not use jewel on this item");
+                Chat.Message(1,gObj,"[Jewel] Desculpe, Voce nao pode usar essa joina nesse item.");
             }
         }
     }
