@@ -20,10 +20,8 @@ static unsigned char bBuxCode[3]= {0xFC, 0xCF, 0xAB};	// Xox Key for some intere
 
 void BuxConvert(char* buf, int size)
 {
-    int n;
-
-    for (n=0; n<size; n++)
+    for(int n=0;n < size;n++)
     {
-        buf[n]^=bBuxCode[n%3] ;		// Nice trick from WebZen
+        buf[n] ^= bBuxCode[n%3] ;		// Nice trick from WebZen
     }
 }

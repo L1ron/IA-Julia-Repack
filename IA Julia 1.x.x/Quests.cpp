@@ -125,7 +125,7 @@ void cQuests::QuestNPCClick(LPOBJ gObj, LPOBJ gObjNPC)
 					c_Blue,
 					t_QUEST,
 					gObj,
-					"[%s] Missao: Matar %d %s%s",
+					"[%s] Missao: Eliminar %d %s%s",
 					Config.QuestName,
 					MobsNeeded,
 					QuestsItens[AddTab[gObj->m_Index].QUEST_Number].MobName,
@@ -166,7 +166,7 @@ void cQuests::QuestNPCClick(LPOBJ gObj, LPOBJ gObjNPC)
 					{
 						AddTab[gObj->m_Index].QUEST_State = 2;
 
-						Monster.NPCMessageLog(c_Blue,t_QUEST,gObj,gObjNPC,"[%s] Parabens! Voce completo todas as missoes!",Config.QuestName);
+						Monster.NPCMessageLog(c_Blue,t_QUEST,gObj,gObjNPC,"[%s] Parabens! Voce completou todas as missoes!",Config.QuestName);
 					}
 
 					MuOnlineQuery.ExecQuery
@@ -189,7 +189,7 @@ void cQuests::QuestNPCClick(LPOBJ gObj, LPOBJ gObjNPC)
 						c_Blue,
 						t_QUEST,
 						gObj,
-						"[%s] Ei, encontre mais %d %s%s quando terminar apresente-se!",
+						"[%s] Ei, elimine mais %d %s%s quando terminar apresente-se!",
 						Config.QuestName,
 						MobsNeeded,
 						QuestsItens[AddTab[gObj->m_Index].QUEST_Number].MobName,

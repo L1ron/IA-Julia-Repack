@@ -41,11 +41,12 @@ void cUtilits::SetByte(DWORD dwOffset, BYTE btValue)
 
 int cUtilits::GetPlayerIndex(char *Name)
 {
-	for(int i = OBJECT_MIN; i <= OBJECT_MAX; i++)
+	for(int i = OBJECT_MIN;i <= OBJECT_MAX;i++)
 	{
 		OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(i);
 
 		if(gObj->Connected < PLAYER_PLAYING) continue;
+
 		if(!strcmp(gObj->Name, Name)) return i;
 	}
 
@@ -108,7 +109,9 @@ int cUtilits::TakeExcNum(int Exc)
 	for(int j = 0; j < 6; j++)
 	{
 		if((Exc>>j)&1)
+		{
 			Count++;
+		}
 	}
 
 	return Count;

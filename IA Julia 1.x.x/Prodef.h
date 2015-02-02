@@ -188,6 +188,7 @@ struct PMSG_USE_ITEM_RECV
 struct PMSG_CHATDATA_WHISPER
 {
     PBMSG_HEAD h;	// C1:02
+
     char id[10];	// 3
     char chatmsg[60];	// D
 };

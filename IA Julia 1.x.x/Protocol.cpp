@@ -233,10 +233,10 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
         }
         case 0x02:
         {
-            if(Chat.WisperChat(gObj, (PMSG_CHATDATA_WHISPER *)aRecv))
-            {
-                return true;
-            }
+			if(Chat.WisperChat(gObj,(PMSG_CHATDATA_WHISPER *)aRecv))
+			{
+				return true;
+			}
 
             break;
         }

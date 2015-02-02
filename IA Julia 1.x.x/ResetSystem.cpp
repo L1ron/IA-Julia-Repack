@@ -235,7 +235,7 @@ void RSystem::Reset(LPOBJ gObj)
 	}
 
 	gObj->Level = 1;
-	gObj->Experience = 1;
+	gObj->Experience = 0;
 
 	if(State[NumState].Need.WCoin > 0)
 	{
@@ -265,7 +265,7 @@ void RSystem::Reset(LPOBJ gObj)
 	{
 		if(State[NumState].Need.NumItems > 0)
 		{
-			for ( BYTE i = 0 ; i < 76 ; i ++ )
+			for(BYTE i = 0; i < 76;i ++)
 			{
 				if(State[NumState].Serial[i])
 				{

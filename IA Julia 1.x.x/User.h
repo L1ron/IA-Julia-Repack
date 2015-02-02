@@ -61,7 +61,6 @@ typedef	struct sAddTab
     int		PC_InfoReceived;
     int		PC_PlayerPoints;
     int		PC_OnlineTimer;
-    //int		PC_POINT_TEST;
 
     //Web Points
     int		WEB_Points;
