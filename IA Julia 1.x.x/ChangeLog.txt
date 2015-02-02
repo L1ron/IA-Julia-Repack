@@ -1,3 +1,6 @@
+# 1.1.0.345 # - Fixed Whisper chat (Now is working bitch :)
+# 1.1.0.344 # - Fixed some warnings
+# 1.1.0.343 # - Try to fix Floats to (unsigned short)
 # 1.1.0.342 # - Added Logs for Helpers and Quests systems
 # 1.1.0.341 # - Removed Chaos Machine and itens +15 (This S4.6 version does not need this fix)
 # 1.1.0.340 # - Removed Console (GS and GS_CS) [Beta]
