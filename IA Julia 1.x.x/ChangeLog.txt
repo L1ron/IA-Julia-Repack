@@ -1,3 +1,6 @@
+# 1.1.0.348 # - Fixed high CPU usage from GameServers
+# 1.1.0.347 # - Fixed counting time for all events
+# 1.1.0.346 # - Fixed Main tick are not counting
 # 1.1.0.345 # - Fixed Whisper chat (Now is working bitch :)
 # 1.1.0.344 # - Fixed some warnings
 # 1.1.0.343 # - Try to fix Floats to (unsigned short)
