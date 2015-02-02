@@ -107,7 +107,8 @@ public:
     BYTE headcode;
 };
 
-struct PMSG_USE_STAT_FRUIT {
+struct PMSG_USE_STAT_FRUIT
+{
     struct PBMSG_HEAD h;
     unsigned char result;
     unsigned short btStatValue;
