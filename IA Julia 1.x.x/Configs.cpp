@@ -246,8 +246,8 @@ void cConfigs::LoadConfigsInGS()
 	DWORD *LoreGuard = (DWORD*)GUARD_SAY;
 
 	char Lore[25];
-	GetPrivateProfileString("Connect","GuardSay","Nao enche :P",Lore,25,IAJuliaGS);
-	memset(&LoreGuard[0],0,25);
+	GetPrivateProfileString("Connect","GuardSay","Nao enche :P",Lore,sizeof(Lore),IAJuliaGS);
+	memset(&LoreGuard[0],0,sizeof(Lore));
 	memcpy(&LoreGuard[0],Lore,strlen(Lore));
 #endif
 
