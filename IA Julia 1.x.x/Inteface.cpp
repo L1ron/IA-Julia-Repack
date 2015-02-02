@@ -25,7 +25,7 @@ char SERVER_STATUS[12][32] =
 	"RankingServer: Conectado"
 };
 // -- Cor do fundo (Padrao: Branco)
-HBRUSH	  BackgroundSolidColor		= CreateSolidBrush(RGB(20, 20, 20));
+HBRUSH	  BackgroundSolidColor		= CreateSolidBrush(RGB(28, 28, 28));
 
 // -- Cores da Função (ServerStatus)
 COLORREF  COLOR_CONNECTED			= RGB(0, 255, 0);
