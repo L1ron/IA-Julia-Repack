@@ -76,17 +76,18 @@ DWORD MainTick()
 
 			PCPoint.Tick(gObj);
 			Vip.Tick(gObj);
-			HappyHour.TickTimerHappyHour();
-#ifdef _GS
-			Moss.CheckTime();
-#endif
-			Sleep(1000);
-			Log.Online_All = Temp_All;
-			Log.Online_Gms = Temp_Gms;
 		}
 
-		return 1;
+		HappyHour.TickTimerHappyHour();
+#ifdef _GS
+		Moss.CheckTime();
+#endif
+		Sleep(1000);
+		Log.Online_All = Temp_All;
+		Log.Online_Gms = Temp_Gms;
 	}
+
+	return 1; // Very very important fix :D
 }
 
 extern "C" __declspec(dllexport) void __cdecl IAJuliaMain()

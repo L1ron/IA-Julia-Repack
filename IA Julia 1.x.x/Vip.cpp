@@ -150,19 +150,14 @@ void cVip::Tick(LPOBJ gObj)
 
             if(CheckVipTime(AddTab[gObj->m_Index].VIP_Min))
             {
-                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] You have %d more vip minutes", AddTab[gObj->m_Index].VIP_Min);
+                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Restam %d minutos do seu VIP.", AddTab[gObj->m_Index].VIP_Min);
             }
 
-            if (AddTab[gObj->m_Index].VIP_Min <= 0)
+            if(AddTab[gObj->m_Index].VIP_Min > 0)
             {
-                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Your vip time is over! You are normal player again.");
-                AddTab[gObj->m_Index].VIP_Type = 0;
-                AddTab[gObj->m_Index].VIP_Min = 0;
-               
-				MuOnlineQuery.ExecQuery("UPDATE %s SET %s = 0, %s = 0 WHERE %s = '%s'", Config.Table, Config.Column, Config.ColumnDate,(Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
+                MuOnlineQuery.ExecQuery("UPDATE %s SET %s = (%s - 1) WHERE %s = '%s'", Config.Table, Config.ColumnDate, Config.ColumnDate, (Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
                 MuOnlineQuery.Fetch();
                 MuOnlineQuery.Close();
-
                 MuOnlineQuery.ExecQuery("SELECT %s, %s FROM %s WHERE %s = '%s'", Config.Column, Config.ColumnDate, Config.Table, (Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
                 MuOnlineQuery.Fetch();
                 AddTab[gObj->m_Index].VIP_Type = MuOnlineQuery.GetAsInteger(Config.Column);
@@ -171,12 +166,17 @@ void cVip::Tick(LPOBJ gObj)
             }
             else
             {
-                MuOnlineQuery.ExecQuery("UPDATE %s SET %s = (%s - 1) WHERE %s = '%s'", Config.Table, Config.ColumnDate, Config.ColumnDate, (Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
+                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Seu VIP acabou!");
+                
+				AddTab[gObj->m_Index].VIP_Type = 0;
+                AddTab[gObj->m_Index].VIP_Min = 0;
+               
+				MuOnlineQuery.ExecQuery("UPDATE %s SET %s = 0, %s = 0 WHERE %s = '%s'", Config.Table, Config.Column, Config.ColumnDate,(Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
                 MuOnlineQuery.Fetch();
                 MuOnlineQuery.Close();
+
                 MuOnlineQuery.ExecQuery("SELECT %s, %s FROM %s WHERE %s = '%s'", Config.Column, Config.ColumnDate, Config.Table, (Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
                 MuOnlineQuery.Fetch();
-
                 AddTab[gObj->m_Index].VIP_Type = MuOnlineQuery.GetAsInteger(Config.Column);
                 AddTab[gObj->m_Index].VIP_Min = MuOnlineQuery.GetAsInteger(Config.ColumnDate);
                 MuOnlineQuery.Close();
