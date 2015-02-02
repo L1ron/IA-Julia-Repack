@@ -88,7 +88,7 @@ void cPCPoint::LoadConfigs()
     if (file == NULL)
     {
         Config.Enabled = 0;
-        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [PC Point]\tCan`t Find %s", IAJuliaPcPoints);
+        Log.ConsoleOutPut(1, c_Red, t_Error, "[X] [PC Point]\tImpossivel abrir %s", IAJuliaPcPoints);
         return;
     }
 
@@ -151,10 +151,12 @@ void cPCPoint::LoadConfigs()
             AmountRecords[2]++;
         }
     }
+
     fclose(file);
-    Log.ConsoleOutPut(1, c_Cyan, t_PCPOINT, "[û] [PC Point]\tPC Shop Item Loaded [%d]", AmountRecords[0]);
-    Log.ConsoleOutPut(1, c_Cyan, t_PCPOINT, "[û] [PC Point]\tTotal Monster Loaded [%d]", AmountRecords[1]);
-    Log.ConsoleOutPut(1, c_Cyan, t_PCPOINT, "[û] [WCoin]\t\tTotal Monster Loaded [%d]", AmountRecords[2]);
+
+    Log.ConsoleOutPut(1, c_Cyan, t_PCPOINT, "[û] [PC Point]\tPC Shop Itens [%d]", AmountRecords[0]);
+    Log.ConsoleOutPut(1, c_Cyan, t_PCPOINT, "[û] [PC Point]\tMobs [%d]", AmountRecords[1]);
+    Log.ConsoleOutPut(1, c_Cyan, t_PCPOINT, "[û] [WCoin]\t\tMobs  [%d]", AmountRecords[2]);
 }
 
 void cPCPoint::Tick(LPOBJ gObj)
@@ -167,13 +169,19 @@ void cPCPoint::Tick(LPOBJ gObj)
             AddTab[gObj->m_Index].PC_OnlineTimer = 0;
             PCPoint.UpdatePoints(gObj,PCPoint.Config.AddPCPointsCount,PLUS,PCPOINT);
 
-            Chat.Message(1, gObj,"[PointShop] You earned %d Points for being online!", PCPoint.Config.AddPCPointsCount);
-            Chat.Message(1, gObj,"[PointShop] You have been online %d Hours!", AddTab[gObj->m_Index].ON_Hour);
+            Chat.Message
+			(
+				1,
+				gObj,
+				"[PointShop] Ganhou %d PCPoints. (Tempo online %d:%d)",
+				PCPoint.Config.AddPCPointsCount,
+				AddTab[gObj->m_Index].ON_Hour,
+				AddTab[gObj->m_Index].ON_Min
+			);
         }
     }
 }
 
-//#pragma warning(disable: 4018 4244)
 void cPCPoint::CreatePacketShop()
 {
     int PacketSize = 0;
