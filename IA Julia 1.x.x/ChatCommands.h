@@ -13,7 +13,7 @@ class cChat
 		~cChat();
 		
 		void LoadChatCommands();
-		bool WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg);
+		bool WisperChat(LPOBJ gObj,PMSG_CHATDATA_WHISPER* lpMsg);
 		bool ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat);
 		void MessageLog(int Type, sColor LogColor, sLogType LogType, LPOBJ gObj, char* Msg,...);
 		void Message(int Type, LPOBJ gObj, char* Msg,...);

@@ -105,46 +105,50 @@ void cChat::LoadChatCommands()
 
 char Messages[1024];
 
-void cChat::AntiInject(char* message)
+void cChat::AntiInject(char* Message)
 {
-	for(UINT i = 0; i <= strlen(message); i++)
+	for(unsigned int i = 0;i <= strlen(Message);i++)
 	{
-		if(message[i] == '\'')
+		if(Message[i] == '\'')
 		{
-			message[i] = ' ';
+			Message[i] = ' ';
 		}
 	}
 }
 
 bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
 {
-	/*
-	gObj			- object struct of sender
-	lpMsg->id		- nickname of receiver
-	lpMsg->chatmsg	- msg
-	*/
-
+/*
+		gObj			- Object Struct of sender
+		lpMsg->id		- Id do sender
+		lpMsg->chatmsg	- String recebida
+*/
 	AntiInject(lpMsg->chatmsg);
 
 	char TempName[10];
-	memcpy(TempName, lpMsg->id, sizeof(TempName));
+	memcpy(TempName,lpMsg->id,sizeof(TempName));
+
 	int Index = Utilits.GetPlayerIndex(TempName);
 
-	if(!memcmp(lpMsg->chatmsg, COMMAND_AT, strlen(COMMAND_AT)) || !memcmp(lpMsg->chatmsg, "@@", strlen("@@")) || !memcmp(lpMsg->chatmsg, "~", strlen("~")))
+	// If is the same player or player not found, log the error and save the result for protocol !
+	PrivateLog(gObj, TempName, lpMsg,(Index != -1) ? true : false);
+	
+	if(!memcmp(lpMsg->chatmsg,"@",strlen("@")) || !memcmp(lpMsg->chatmsg,"@@",strlen("@@")) || !memcmp(lpMsg->chatmsg,"~",strlen("~")))
 	{
 		PMSG_CHATDATA pMsg = {0};
 
-		pMsg.h.set((LPBYTE)&pMsg, 0x00, sizeof(pMsg));
-		memcpy(pMsg.chatid, lpMsg->id, sizeof(pMsg.chatid));
-		memcpy(pMsg.chatmsg, lpMsg->chatmsg, sizeof(pMsg.chatmsg));
+		pMsg.h.set((LPBYTE)&pMsg,0x00,sizeof(pMsg));
+		memcpy(pMsg.chatid,lpMsg->id,sizeof(pMsg.chatid));
+		memcpy(pMsg.chatmsg,lpMsg->chatmsg,sizeof(pMsg.chatmsg));
 
-		PChatProc(&pMsg, gObj->m_Index);
+		PChatProc(&pMsg,gObj->m_Index);
 
 		return true;
 	}
 
 	MuOnlineQuery.ExecQuery("SELECT BanChat FROM Character WHERE Name = '%s'", gObj->Name);
 	MuOnlineQuery.Fetch();
+	
 	int BanChat = MuOnlineQuery.GetAsInteger("BanChat");
 	MuOnlineQuery.Close();
 
@@ -152,33 +156,24 @@ bool cChat::WisperChat(LPOBJ gObj, PMSG_CHATDATA_WHISPER* lpMsg)
 	{
 		gObj->Penalty |= 2;
 		Chat.MessageLog(1, c_Blue, t_BAN, gObj, "[BanChat] Seu chat foi banido!");
-
+	
 		return true;
 	}
 	else
 	{
 		gObj->Penalty &= ~2;
 	}
-
-	if (Index != -1)
-	{
-		PrivateLog(gObj, TempName, lpMsg, true);
-	}
-	else
-	{
-		PrivateLog(gObj, TempName, lpMsg, false);
-	}
-
-	return true;
+	
+	return false;
 }
 
 bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 {
-	/*
-	gObj			- Object Struct of sender
-	lpMsg->id		- Id do sender
-	lpMsg->chatmsg	- String recebida
-	*/
+/*
+		gObj			- Object Struct of sender
+		lpMsg->id		- Id do sender
+		lpMsg->chatmsg	- String recebida
+*/
 
 	AntiInject(lpChat->chatmsg);
 
@@ -437,7 +432,7 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 	/*
 	if (!memcmp(lpChat->chatmsg, COMMAND_SET_ZEN, strlen(COMMAND_SET_ZEN)))
 	{
-	bResult = SetZenCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_ZEN), gObj->m_Index);
+		bResult = SetZenCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_ZEN), gObj->m_Index);
 	}
 	*/
 
@@ -533,7 +528,7 @@ void cChat::PrivateLog(LPOBJ gObj, char *Name, PMSG_CHATDATA_WHISPER* lpMsg, boo
 	char Msg[512] = { 0 };;
 	char Suc;
 
-	if (Success)
+	if(Success)
 	{
 		Suc = '>';
 	}
@@ -646,6 +641,7 @@ void cChat::Message(int Type, LPOBJ gObj, char *Msg, ...)
 	va_start(pArguments1, Msg);
 	vsprintf_s(Messages, Temp, pArguments1);
 	va_end(pArguments1);
+
 	GCServerMsgStringSend(Messages, gObj->m_Index, Type);
 
 	// Type = 1 - Mensagems em bloco
@@ -703,16 +699,18 @@ void cChat::MessageAll(int Type, int Type2, LPOBJ gObj, char *Msg, ...)
 	vsprintf_s(Messages, Temp, pArguments1);
 	va_end(pArguments1);
 
-	if (Type == 2)
+	if(Type == 2)
 	{
-		MsgSrv(gObj, Messages, Type2);
+		MsgSrv(gObj,Messages,Type2);
 	}
 	else
 	{
-		for (int i = OBJECT_MIN; i <= OBJECT_MAX; i++)
+		for(int i = OBJECT_MIN;i <= OBJECT_MAX;i++)
 		{
 			OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(i);
-			if (gObj->Connected < PLAYER_PLAYING)	continue;
+
+			if(gObj->Connected < PLAYER_PLAYING) continue;
+
 			GCServerMsgStringSend(Messages, i, Type);
 		}
 	}
@@ -1054,7 +1052,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 
 bool cChat::PostCommand(LPOBJ gObj, char *Msg)
 {
-	if (CheckCommand(gObj, Configs.Commands.IsPost, GmSystem.NONE, Configs.Commands.PostPriceZen, Configs.Commands.PostPricePCPoint, Configs.Commands.PostPriceWCoin, Configs.Commands.PostPriceWebPoint, Configs.Commands.PostLvl, 1, 0, "Post", "/post <msg>", Msg))
+	if(CheckCommand(gObj, Configs.Commands.IsPost, GmSystem.NONE, Configs.Commands.PostPriceZen, Configs.Commands.PostPricePCPoint, Configs.Commands.PostPriceWCoin, Configs.Commands.PostPriceWebPoint, Configs.Commands.PostLvl, 1, 0, "Post", "/post <msg>", Msg))
 	{
 		return true;
 	}
@@ -1081,45 +1079,48 @@ bool cChat::PostCommand(LPOBJ gObj, char *Msg)
 		return true;
 	}
 
-	time_t Seconds = time(NULL);
-
-	if(Seconds - Configs.Commands.PostDelay < AddTab[gObj->m_Index].POST_Delay)
+	if(Configs.Commands.PostDelay)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[ANTI-FLOOD] Aguarde %lds para re-postar.",Configs.Commands.PostDelay - (Seconds - AddTab[gObj->m_Index].POST_Delay));
+		time_t Seconds = time(NULL);
 
-		return true;
-	}
+		if((Seconds - Configs.Commands.PostDelay) < AddTab[gObj->m_Index].POST_Delay)
+		{
+			MessageLog(1, c_Red, t_COMMANDS, gObj, "[ANTI-FLOOD] Aguarde %lds para re-postar.",Configs.Commands.PostDelay - (Seconds - AddTab[gObj->m_Index].POST_Delay));
 
-	if(!GmSystem.IsAdmin(gObj->Name))
-	{
-		AddTab[gObj->m_Index].POST_Delay = Seconds;
+			return true;
+		}
+
+		if(!GmSystem.IsAdmin(gObj->Name))
+		{
+			AddTab[gObj->m_Index].POST_Delay = Seconds;
+		}
 	}
 
 	TakeCommand(gObj, Configs.Commands.PostPriceZen, Configs.Commands.PostPricePCPoint, Configs.Commands.PostPriceWCoin, Configs.Commands.PostPriceWebPoint, "Post");
 
-	switch (Configs.Commands.PostColor)
+	switch(Configs.Commands.PostColor)
 	{
 		case 0: case 1:
 		{
-			MessageAll(2, 1, gObj, "[POST] %s", Msg);
+			this->MessageAll(2, 1, gObj, "[POST] %s", Msg);
 
 			break;
 		}
 		case 2:
 		{
-			MessageAll(2, 0, gObj, "@[POST] %s", Msg);
+			this->MessageAll(2, 0, gObj, "@[POST] %s", Msg);
 
 			break;
 		}
 		case 3:
 		{
-			MessageAll(2, 0, gObj, "~[POST] %s", Msg);
+			this->MessageAll(2, 0, gObj, "~[POST] %s", Msg);
 
 			break;
 		}
 	}
 
-	Log.ConsoleOutPut(0, c_Green, t_POST, "[POST] %s: %s", gObj->Name, Msg);
+	Log.ConsoleOutPut(0, c_Green, t_POST, "[POST] %s: %s", gObj->Name,Msg);
 
 	return true;
 }
@@ -1893,7 +1894,6 @@ bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
 	return true;
 }
 
-#pragma warning(disable: 4018 4244)
 bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 {
 	char StatsUsage[12];
@@ -2144,9 +2144,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 			DataSend(gObj->m_Index,(LPBYTE)&pMsg, pMsg.h.size);
 			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+			GCReFillSend(gObj->m_Index, (unsigned short)gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
 			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+			GCManaSend(gObj->m_Index, (unsigned short)gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
 			return true;
@@ -2164,9 +2164,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 			DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+			GCReFillSend(gObj->m_Index, (unsigned short)gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
 			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+			GCManaSend(gObj->m_Index, (unsigned short)gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
 			return true;
@@ -2185,9 +2185,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 			DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+			GCReFillSend(gObj->m_Index, (unsigned short)gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
 			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+			GCManaSend(gObj->m_Index, (unsigned short)gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
 			return true;
@@ -2206,9 +2206,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 			DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+			GCReFillSend(gObj->m_Index, (unsigned short)gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
 			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+			GCManaSend(gObj->m_Index, (unsigned short)gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
 			return true;
@@ -2226,9 +2226,9 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 			DataSend(gObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			gObjCalCharacter(aIndex);
-			GCReFillSend(gObj->m_Index, gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
+			GCReFillSend(gObj->m_Index, (unsigned short)gObj->MaxLife + gObj->AddLife, 0xFE, 0, gObj->iMaxShield + gObj->iAddShield);
 			gObjSetBP(aIndex);
-			GCManaSend(gObj->m_Index, gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
+			GCManaSend(gObj->m_Index, (unsigned short)gObj->MaxMana + gObj->AddMana, 0xFE, 0, gObj->MaxBP + gObj->AddBP);
 			GCLevelUpMsgSend(gObj->m_Index, 0);
 
 			return true;
@@ -2879,7 +2879,7 @@ void ExchangeHighToLow(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
 	DWORD ConfigTax = Configs.Commands.ExchangeTax;
 	float temp = (float)(Buy / 100)*ConfigTax;
-	DWORD Tax = ceil(temp);
+	DWORD Tax = (unsigned short)ceil(temp);
 
 	DWORD Sell = Buy / ConfigBuy;
 	DWORD Final = Buy - Tax;
