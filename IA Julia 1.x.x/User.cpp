@@ -572,13 +572,10 @@ void cUser::PlayerConnect(LPOBJ gObj)
 		MuOnlineQuery.Close();
 	}
 
-#pragma warning(disable: 4018 4244)
-	{
-		Me_MuOnlineQuery.ExecQuery("SELECT CSPoints FROM MEMB_INFO WHERE memb___id = '%s'", gObj->AccountID);
-		Me_MuOnlineQuery.Fetch();
-		gObj->m_wCashPoint = Me_MuOnlineQuery.GetAsInteger("CSPoints");
-		Me_MuOnlineQuery.Close();
-	}
+	Me_MuOnlineQuery.ExecQuery("SELECT CSPoints FROM MEMB_INFO WHERE memb___id = '%s'", gObj->AccountID);
+	Me_MuOnlineQuery.Fetch();
+	gObj->m_wCashPoint = (unsigned short)Me_MuOnlineQuery.GetAsInteger("CSPoints");
+	Me_MuOnlineQuery.Close();
 
 	PCPoint.InitPCPointForPlayer(gObj, PcPoints);
 
@@ -609,6 +606,7 @@ void cUser::PlayerConnect(LPOBJ gObj)
 	{
 		bool Result = false;
 		char szTemp[128];
+
 		for(int i=1; i<=Configs.Commands.NumberOfVaults; i++)
 		{
 			byte Temp[1920];
@@ -677,20 +675,21 @@ void cUser::PlayerConnect(LPOBJ gObj)
 
 void cUser::LoginMsg(LPOBJ gObj)
 {
-	Chat.Message(0, gObj, Configs.ConnectNotice); //fixed here
+	Chat.Message(0,gObj,Configs.ConnectNotice);
 
-	if (Configs.ConnectInfo == 1)
+	if(Configs.ConnectInfo == 1)
 	{
 		SYSTEMTIME t;
 		GetLocalTime(&t);
 
-		Chat.Message(1,gObj,"Online: %d Player(s), %d GM(s)",(Log.Online_All - Log.Online_Gms),Log.Online_Gms);
-		Chat.Message(1, gObj,"Hora e data: %02d:%02d:%02d (%02d-%02d-%04d)", t.wHour, t.wMinute, t.wSecond, t.wDay, t.wMonth, t.wYear);
+		Chat.Message(1,gObj,"Online: %d Player(s), %d GM(s)",(Log.Online_All - Log.Online_Gms), Log.Online_Gms);
+		Chat.Message(1,gObj,"Hora e data: %02d:%02d:%02d (%02d-%02d-%04d)", t.wHour, t.wMinute, t.wSecond, t.wDay, t.wMonth, t.wYear);
 	}
 
 	if (AddTab[gObj->m_Index].IsMarried)
 	{
 		OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Utilits.GetPlayerIndex(AddTab[gObj->m_Index].MarryName));
+		
 		if(AddTab[gObj->m_Index].MarryName[0] != '\0')
 		{
 			if(Utilits.gObjIsConnected(Utilits.GetPlayerIndex(AddTab[gObj->m_Index].MarryName)))
@@ -707,13 +706,13 @@ void cUser::LoginMsg(LPOBJ gObj)
 
 	switch(GmSystem.IsAdmin(gObj->Name))
 	{
-	case 1:
+		case 1:
 		{
 			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s conectado!", gObj->Name);
 
 			break;
 		}
-	case 2:
+		case 2:
 		{
 			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s conectado!", gObj->Name);
 

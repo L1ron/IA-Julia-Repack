@@ -173,7 +173,7 @@ void cPCPoint::Tick(LPOBJ gObj)
     }
 }
 
-#pragma warning(disable: 4018 4244)
+//#pragma warning(disable: 4018 4244)
 void cPCPoint::CreatePacketShop()
 {
     int PacketSize = 0;
@@ -193,10 +193,10 @@ void cPCPoint::CreatePacketShop()
     {
         BYTE ItemInfo[13];
 
-		ItemInfo[0] = PCShop[i].SlotX;
+		ItemInfo[0] = (BYTE)PCShop[i].SlotX;
         ItemInfo[1] = PCShop[i].Reward & 0xFF;
         ItemInfo[2] = (PCShop[i].Level * 8) | (PCShop[i].Skill * 128) | (PCShop[i].Luck * 4) | (PCShop[i].Opt & 3);
-        ItemInfo[3] = PCShop[i].Dur;
+        ItemInfo[3] = (BYTE)PCShop[i].Dur;
         ItemInfo[4] = (PCShop[i].Reward & 0x100) >> 1;
 
         if(PCShop[i].Opt > 3)
@@ -205,14 +205,14 @@ void cPCPoint::CreatePacketShop()
 		}
 
         ItemInfo[4] |= PCShop[i].Exc;
-        ItemInfo[5] = PCShop[i].Ancient;
+        ItemInfo[5] = (BYTE)PCShop[i].Ancient;
         ItemInfo[6] = (PCShop[i].Reward & 0x1E00 ) >> 5;
-        ItemInfo[7] = PCShop[i].NewOpt1;
-        ItemInfo[8] = PCShop[i].NewOpt2;
-        ItemInfo[9] = PCShop[i].NewOpt3;
-        ItemInfo[10] = PCShop[i].NewOpt4;
-        ItemInfo[11] = PCShop[i].NewOpt5;
-        ItemInfo[12] = PCShop[i].Cost;
+        ItemInfo[7] = (BYTE)PCShop[i].NewOpt1;
+        ItemInfo[8] = (BYTE)PCShop[i].NewOpt2;
+        ItemInfo[9] = (BYTE)PCShop[i].NewOpt3;
+        ItemInfo[10] = (BYTE)PCShop[i].NewOpt4;
+        ItemInfo[11] = (BYTE)PCShop[i].NewOpt5;
+        ItemInfo[12] = (BYTE)PCShop[i].Cost;
 
         PacketSize = (sizeof(ItemInfo) * (i + 1));
         memcpy(&Packet2[PacketFlag], ItemInfo, sizeof(ItemInfo)); // #check
@@ -244,6 +244,7 @@ void cPCPoint::InitItemShop()
         GSItemGetSize(PCShop[k].Reward,PCShop[k].X,PCShop[k].Y);
         PCShop[k].SlotX = this->gObjCalcItems(PCShop[k].X,PCShop[k].Y);
     }
+
     this->CreatePacketShop();
 }
 
@@ -293,10 +294,24 @@ void cPCPoint::BuyItem(int Index,int Position)
     {
         if (PCShop[IndexItem].Cost <= AddTab[gObj->m_Index].PC_PlayerPoints)
         {
-            if ( GSCheckInventoryEmptySpace(gObj,PCShop[IndexItem].Y,PCShop[IndexItem].X) != 0 )
+            if(GSCheckInventoryEmptySpace(gObj,PCShop[IndexItem].Y,PCShop[IndexItem].X) != 0 )
             {
-
-                ItemSerialCreateSend(gObj->m_Index,236,0,0,PCShop[IndexItem].Reward,PCShop[IndexItem].Level,PCShop[IndexItem].Dur,PCShop[IndexItem].Skill,PCShop[IndexItem].Luck,PCShop[IndexItem].Opt,-1,PCShop[IndexItem].Exc,PCShop[IndexItem].Ancient);
+                ItemSerialCreateSend
+				(
+					gObj->m_Index,
+					236,
+					0,
+					0,
+					(BYTE)PCShop[IndexItem].Reward,
+					(BYTE)PCShop[IndexItem].Level,
+					(BYTE)PCShop[IndexItem].Dur,
+					(BYTE)PCShop[IndexItem].Skill,
+					(BYTE)PCShop[IndexItem].Luck,
+					(BYTE)PCShop[IndexItem].Opt,
+					-1,
+					(BYTE)PCShop[IndexItem].Exc,
+					(BYTE)PCShop[IndexItem].Ancient
+				);
 
                 Log.ConsoleOutPut(1, c_Cyan, t_PCPOINT, "[%s:%s] [PointShop]\tBuy Item [%d %d] Cost [%d]",gObj->AccountID, gObj->Name, PCShop[IndexItem].Index, PCShop[IndexItem].ID, PCShop[IndexItem].Cost);
                 this->UpdatePoints(gObj,PCShop[IndexItem].Cost,MINUS,PCPOINT);
@@ -431,7 +446,7 @@ void cPCPoint::UpdatePoints(LPOBJ gObj,int CountPoints,eModeUpdate Mode,eTypePoi
 
         Me_MuOnlineQuery.ExecQuery("SELECT CSPoints FROM MEMB_INFO WHERE memb___id = '%s'", gObj->AccountID);
         Me_MuOnlineQuery.Fetch();
-        gObj->m_wCashPoint = Me_MuOnlineQuery.GetAsInteger("CSPoints");
+        gObj->m_wCashPoint = (unsigned short)Me_MuOnlineQuery.GetAsInteger("CSPoints");
         Me_MuOnlineQuery.Close();
     }
 
