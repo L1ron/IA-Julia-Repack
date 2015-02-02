@@ -89,7 +89,7 @@ DWORD MainTick()
 	}
 }
 
-extern "C" __declspec(dllexport) void __cdecl RMST()
+extern "C" __declspec(dllexport) void __cdecl IAJuliaMain()
 {
 	DWORD OldProtect;
 
