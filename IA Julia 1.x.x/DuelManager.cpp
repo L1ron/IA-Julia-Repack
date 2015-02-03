@@ -836,7 +836,7 @@ void cDuelSystem::KillUserProc(LPOBJ lpObj, LPOBJ lpTarget)
     
         this->g_DuelRooms[iDuelRoom].dwTicketCount = GetTickCount() + 10000;
     
-        Chat.MessageAll(0, 0, NULL, "Duel: %s Won, %s Lose.", lpObj->Name, lpTarget->Name);
+        Chat.MessageAll(0, 0, NULL, "Duel: %s Vencen, %s Perdeu.", lpObj->Name, lpTarget->Name);
 
         Log.ConsoleOutPut
 		(
@@ -1135,7 +1135,7 @@ void cDuelSystem::RecvDuelAnswer(LPOBJ lpObj, PMSG_DUEL_ANSWER_START* lpMsg)
                 
                     this->UpdateDuelScore(iDuelRoom);
                 
-                    Chat.MessageAllLog(0, 0, c_Cyan, t_Duel, lpObj, "Duel %s VS %s in %d Room", lpObj->Name, gObjs->Name, iDuelRoom + 1);
+                    Chat.MessageAllLog(0, 0, c_Cyan, t_Duel, lpObj, "Duelo %s VS %s na sala %d!", lpObj->Name, gObjs->Name, iDuelRoom + 1);
 
                     Log.ConsoleOutPut(1, c_Blue,t_Duel,"[Duel System] Duel Started [%s][%s] VS [%s][%s] on Room[%d]",lpObj->AccountID, lpObj->Name, gObjs->AccountID, gObjs->Name, iDuelRoom + 1);
                 }
