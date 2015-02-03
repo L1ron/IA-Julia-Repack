@@ -564,12 +564,12 @@ void cUser::PlayerConnect(LPOBJ gObj)
 
 	if(Vip.Config.Enabled)
 	{
-		MuOnlineQuery.ExecQuery("SELECT %s, %s, VIP_ONOFF FROM %s WHERE %s = '%s'", Vip.Config.Column, Vip.Config.ColumnDate, Vip.Config.Table, (Vip.Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
-		MuOnlineQuery.Fetch();
-		AddTab[gObj->m_Index].VIP_Type	= MuOnlineQuery.GetAsInteger(Vip.Config.Column);
-		AddTab[gObj->m_Index].VIP_Min	= MuOnlineQuery.GetAsInteger(Vip.Config.ColumnDate);
-		AddTab[gObj->m_Index].VIP_On	= MuOnlineQuery.GetAsInteger("VIP_ONOFF");
-		MuOnlineQuery.Close();
+		Me_MuOnlineQuery.ExecQuery("SELECT %s, %s, VIP_ONOFF FROM MEMB_INFO WHERE memb___id = '%s'", Vip.Config.Column, Vip.Config.ColumnDate, gObj->AccountID);
+		Me_MuOnlineQuery.Fetch();
+		AddTab[gObj->m_Index].VIP_Type	= Me_MuOnlineQuery.GetAsInteger(Vip.Config.Column);
+		AddTab[gObj->m_Index].VIP_Min	= Me_MuOnlineQuery.GetAsInteger(Vip.Config.ColumnDate);
+		AddTab[gObj->m_Index].VIP_On	= Me_MuOnlineQuery.GetAsInteger("VIP_ONOFF");
+		Me_MuOnlineQuery.Close();
 	}
 
 	Me_MuOnlineQuery.ExecQuery("SELECT CSPoints FROM MEMB_INFO WHERE memb___id = '%s'", gObj->AccountID);

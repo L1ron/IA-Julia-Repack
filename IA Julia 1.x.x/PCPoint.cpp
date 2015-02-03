@@ -173,7 +173,7 @@ void cPCPoint::Tick(LPOBJ gObj)
 			(
 				1,
 				gObj,
-				"[PointShop] Ganhou %d PCPoints. (Tempo online %d:%d)",
+				"[PointShop] Ganhou %d PCPoints! (Tempo online %02d:%02d)",
 				PCPoint.Config.AddPCPointsCount,
 				AddTab[gObj->m_Index].ON_Hour,
 				AddTab[gObj->m_Index].ON_Min

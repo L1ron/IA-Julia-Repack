@@ -8,16 +8,16 @@
 #include "Utilits.h"
 #include "ChatCommands.h"
 #ifdef _GS
-//------------------------------------------------------------------------------------------------------
+
 CRITICAL_SECTION criti;
 OffTrade OfflineTrade; 
-//------------------------------------------------------------------------------------------------------
+
 OffTrade::OffTrade(void)
 {
 	//-- CONSTRUCTOR --
 }
 
-//------------------------------------------------------------------------------------------------------
+
 void OffTrade::InitOfflineTrade()
 {
 	Utilits.HookThis((DWORD)&CGPShopAnsClose_Ex,CGPShopAnsClose_Hook);
@@ -26,7 +26,7 @@ void OffTrade::InitOfflineTrade()
 	Utilits.HookThis((DWORD)&ResponErrorCloseClientEx,ResponErrorCloseClient_Hook);
 	
 }
-//------------------------------------------------------------------------------------------------------
+
 OffTrade::~OffTrade(void)
 {
 	//-- DESTRUCTOR ----
@@ -40,26 +40,29 @@ void ResponErrorCloseClientEx(int Index)
 	}
 
 	OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
+
 	if ( gObj->Connected == PLAYER_EMPTY )
 	{ 
 		return;
 	}
 
 	if(AddTab[Index].OfflineTrade == true)
+	{
 		return;
+	}
 
 	ResponErrorCloseClient(Index);
 }
 
-//------------------------------------------------------------------------------------------------------
+
 void OffTrade::CreateOfflineStore(int aIndex)
 {
 	OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex);
-	AddTab[aIndex].OfflineTrade=true;
+	AddTab[aIndex].OfflineTrade = true;
 	 
 	CloseClient(aIndex);
 }
-//------------------------------------------------------------------------------------------------------
+
 void CGPShopAnsClose_Ex(int aIndex, BYTE btResult)
 {
 	// Function calling when Personal store is closing. 
@@ -70,10 +73,11 @@ void CGPShopAnsClose_Ex(int aIndex, BYTE btResult)
 	{
 		AddTab[aIndex].OfflineTrade = false;
 		gObjDel_Ex(aIndex);
+
 		OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex); 
 	}
 }
-//------------------------------------------------------------------------------------------------------
+
 void CloseClient2Ex(_PER_SOCKET_CONTEXT_2 * lpPerSocketContext, int result)
 {
 	// Very easy function hooking. Just disable auto log-off of Disconnected Characters ;)
@@ -93,18 +97,22 @@ void CloseClient2Ex(_PER_SOCKET_CONTEXT_2 * lpPerSocketContext, int result)
 		gObjDel_Ex(index); 
 	}
 }
-//------------------------------------------------------------------------------------------------------
+
 short gObjDel_Ex(int aIndex)
 {
 	OBJECTSTRUCT *gObj = (OBJECTSTRUCT*)OBJECT_POINTER(aIndex);
 	 
 	if(AddTab[aIndex].OfflineTrade == true)
+	{
 		return 1;
-	 
+	}
+
 	if(aIndex < 8000 || AddTab[aIndex].CloseSetCheck == true)
+	{
 		return gObjDel(aIndex); 
+	}
 
 	return gObjDel(aIndex);
 }
-//------------------------------------------------------------------------------------------------------
+
 #endif

@@ -1277,7 +1277,7 @@ bool cChat::UnBanAccCommand(LPOBJ gObj, char* Target)
 
 	if (Banned == 0)
 	{
-		MessageLog(1, c_Red, t_BAN, gObj, "[UnBanAcc] %s is not baned", Target);
+		MessageLog(1, c_Red, t_BAN, gObj, "[UnBanAcc] %s nao esta banido.", Target);
 		return true;
 	}
 	else
@@ -1285,7 +1285,7 @@ bool cChat::UnBanAccCommand(LPOBJ gObj, char* Target)
 		Me_MuOnlineQuery.ExecQuery("UPDATE MEMB_INFO SET bloc_code = 0 WHERE memb___id = '%s'", Target);
 		Me_MuOnlineQuery.Fetch();
 		Me_MuOnlineQuery.Close();
-		MessageLog(1, c_Red, t_BAN, gObj, "[UnBanAcc] %s UnBaned", Target);
+		MessageLog(1, c_Red, t_BAN, gObj, "[UnBanAcc] %s ban removido.", Target);
 	}
 
 	return true;
@@ -2430,11 +2430,11 @@ bool cChat::CheckVIPCommand(LPOBJ gObj, char *Msg)
 
 	if(AddTab[gObj->m_Index].VIP_Type > 0)
 	{
-		MessageLog(1, c_Red, t_VIP, gObj, "[VIP] You have %d min(s) left.", AddTab[gObj->m_Index].VIP_Min);
+		MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Restam %d min(s) do seu VIP %s.", AddTab[gObj->m_Index].VIP_Min);
 	}
 	else
 	{
-		MessageLog(1, c_Red, t_VIP, gObj, "[VIP] You haven't bought VIP yet.");
+		MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Voce ainda nao e VIP, digite %s e veja os planos.",COMMAND_VIPLIST);
 	}
 
 	return true;
@@ -2664,17 +2664,19 @@ bool cChat::BuyVIPCommand(LPOBJ gObj, char *Msg)
 		"BuyVIP"
 	);
 
-	MuOnlineQuery.ExecQuery
+	Me_MuOnlineQuery.ExecQuery
 	(
-		"UPDATE %s SET %s = (%s + %d), %s = %d WHERE Name = '%s'",
-		Vip.Config.Table, Vip.Config.ColumnDate,
+		"UPDATE MEMB_INFO SET %s = (%s + %d), %s = %d WHERE memb___id = '%s'",
 		Vip.Config.ColumnDate,
-		Hours * 60, Vip.Config.Column,
-		RealState, gObj->Name
+		Vip.Config.ColumnDate,
+		Hours * 60,
+		Vip.Config.Column,
+		RealState,
+		gObj->AccountID
 	);
 
-	MuOnlineQuery.Fetch();
-	MuOnlineQuery.Close();
+	Me_MuOnlineQuery.Fetch();
+	Me_MuOnlineQuery.Close();
 
 	AddTab[gObj->m_Index].VIP_Min += Hours * 60;
 	AddTab[gObj->m_Index].VIP_Type = RealState;
@@ -2772,9 +2774,9 @@ bool cChat::VipOnCommand(LPOBJ gObj)
 		return true;
 	}
 
-	MuOnlineQuery.ExecQuery("UPDATE %s SET VIP_ONOFF = 1 WHERE Name = '%s'", Vip.Config.Table, gObj->Name);
-	MuOnlineQuery.Fetch();
-	MuOnlineQuery.Close();
+	Me_MuOnlineQuery.ExecQuery("UPDATE MEMB_INFO SET VIP_ONOFF = 1 WHERE memb___id = '%s'", gObj->AccountID);
+	Me_MuOnlineQuery.Fetch();
+	Me_MuOnlineQuery.Close();
 
 	AddTab[gObj->m_Index].VIP_On = 1;
 
@@ -2821,9 +2823,9 @@ bool cChat::VipOffCommand(LPOBJ gObj)
 		return true;
 	}
 
-	MuOnlineQuery.ExecQuery("UPDATE %s SET VIP_ONOFF = 0 WHERE Name = '%s'", Vip.Config.Table, gObj->Name);
-	MuOnlineQuery.Fetch();
-	MuOnlineQuery.Close();
+	Me_MuOnlineQuery.ExecQuery("UPDATE MEMB_INFO SET VIP_ONOFF = 0 WHERE memb___id = '%s'", gObj->AccountID);
+	Me_MuOnlineQuery.Fetch();
+	Me_MuOnlineQuery.Close();
 
 	AddTab[gObj->m_Index].VIP_On = 0;
 

@@ -19,7 +19,6 @@ public:
     {
         int NumStates;
         int Enabled;
-		char Table[25];
         char Column[25];
         char ColumnDate[25];
         int AllowRebuying;

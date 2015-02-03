@@ -48,24 +48,23 @@ void cVip::Load()
 		return;
 	}
 
-	GetPrivateProfileString("VipSystem", "VIPTable", "Character", Config.Table, sizeof(Config.Table), IAJuliaVIP);
     GetPrivateProfileString("VipSystem", "VIPColumn", "VIP", Config.Column, sizeof(Config.Column), IAJuliaVIP);
     GetPrivateProfileString("VipSystem", "VIPColumnDate", "VIP_DATE", Config.ColumnDate, sizeof(Config.ColumnDate), IAJuliaVIP);
 
-	MuOnlineQuery.CheckColumn(Config.Column, Config.Table, "ALTER TABLE %s ADD [%s][int] DEFAULT (0) NOT NULL", Config.Table, Config.Column);
-    MuOnlineQuery.CheckColumn(Config.ColumnDate, Config.Table, "ALTER TABLE %s ADD [%s][int] DEFAULT (0) NOT NULL", Config.Table, Config.ColumnDate);
-    MuOnlineQuery.CheckColumn("VIP_ONOFF", Config.Table, "ALTER TABLE %s ADD [VIP_ONOFF][int] DEFAULT (1) NOT NULL",Config.Table);
+	Me_MuOnlineQuery.CheckColumn(Config.Column, "MEMB_INFO", "ALTER TABLE MEMB_INFO ADD [%s][int] DEFAULT (0) NOT NULL", Config.Column);
+	Me_MuOnlineQuery.CheckColumn(Config.ColumnDate, "MEMB_INFO", "ALTER TABLE MEMB_INFO ADD [%s][int] DEFAULT (0) NOT NULL", Config.ColumnDate);
+	Me_MuOnlineQuery.CheckColumn("VIP_ONOFF", "MEMB_INFO", "ALTER TABLE MEMB_INFO ADD [VIP_ONOFF][int] DEFAULT (1) NOT NULL");
 
     Config.NumStates = Configs.GetInt(0, 10, 3, "VipSystem", "NumStates", IAJuliaVIP);
     Config.AllowRebuying = Configs.GetInt(0, 1, 0, "VipSystem", "AllowRebuying", IAJuliaVIP);
 
     char PState[10];
 
-    for (int i = 1; i <= Config.NumStates; i++)
+    for(int i = 1; i <= Config.NumStates; i++)
     {
         wsprintf(PState, "State%d", i);
 
-        GetPrivateProfileString(PState, "VIPStateName", "bronze", Config.VIPState[i].VIPName, sizeof(Config.VIPState[i].VIPName), IAJuliaVIP);
+        GetPrivateProfileString(PState, "VIPStateName", "Bronze", Config.VIPState[i].VIPName, sizeof(Config.VIPState[i].VIPName), IAJuliaVIP);
 
         Config.VIPState[i].EnabledCmd = Configs.GetInt(0, 1, 1, PState, "AllowAutoBuy", IAJuliaVIP);
         Config.VIPState[i].CostPCPoints = Configs.GetInt(0, PCPoint.Config.MaximumPCPoints, 5, PState, "CostPCPoints", IAJuliaVIP);
@@ -155,32 +154,32 @@ void cVip::Tick(LPOBJ gObj)
 
             if(AddTab[gObj->m_Index].VIP_Min > 0)
             {
-                MuOnlineQuery.ExecQuery("UPDATE %s SET %s = (%s - 1) WHERE %s = '%s'", Config.Table, Config.ColumnDate, Config.ColumnDate, (Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
-                MuOnlineQuery.Fetch();
-                MuOnlineQuery.Close();
-                MuOnlineQuery.ExecQuery("SELECT %s, %s FROM %s WHERE %s = '%s'", Config.Column, Config.ColumnDate, Config.Table, (Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
-                MuOnlineQuery.Fetch();
-                AddTab[gObj->m_Index].VIP_Type = MuOnlineQuery.GetAsInteger(Config.Column);
-                AddTab[gObj->m_Index].VIP_Min = MuOnlineQuery.GetAsInteger(Config.ColumnDate);
-                MuOnlineQuery.Close();
+				Me_MuOnlineQuery.ExecQuery("UPDATE MEMB_INFO SET %s = (%s - 1) WHERE memb___id = '%s'", Config.ColumnDate, Config.ColumnDate, gObj->AccountID);
+				Me_MuOnlineQuery.Fetch();
+				Me_MuOnlineQuery.Close();
+				Me_MuOnlineQuery.ExecQuery("SELECT %s, %s FROM MEMB_INFO WHERE memb___id = '%s'", Config.Column, Config.ColumnDate, gObj->AccountID);
+				Me_MuOnlineQuery.Fetch();
+				AddTab[gObj->m_Index].VIP_Type = Me_MuOnlineQuery.GetAsInteger(Config.Column);
+				AddTab[gObj->m_Index].VIP_Min = Me_MuOnlineQuery.GetAsInteger(Config.ColumnDate);
+				Me_MuOnlineQuery.Close();
             }
             else
-            {
-                Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Seu VIP acabou!");
-                
-				AddTab[gObj->m_Index].VIP_Type = 0;
-                AddTab[gObj->m_Index].VIP_Min = 0;
-               
-				MuOnlineQuery.ExecQuery("UPDATE %s SET %s = 0, %s = 0 WHERE %s = '%s'", Config.Table, Config.Column, Config.ColumnDate,(Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
-                MuOnlineQuery.Fetch();
-                MuOnlineQuery.Close();
+			{
+				Chat.MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Seu VIP acabou!");
 
-                MuOnlineQuery.ExecQuery("SELECT %s, %s FROM %s WHERE %s = '%s'", Config.Column, Config.ColumnDate, Config.Table, (Config.Table[0] = 'M') ? "memb___id" : "AccountID", gObj->AccountID);
-                MuOnlineQuery.Fetch();
-                AddTab[gObj->m_Index].VIP_Type = MuOnlineQuery.GetAsInteger(Config.Column);
-                AddTab[gObj->m_Index].VIP_Min = MuOnlineQuery.GetAsInteger(Config.ColumnDate);
-                MuOnlineQuery.Close();
-            }
+				AddTab[gObj->m_Index].VIP_Type = 0;
+				AddTab[gObj->m_Index].VIP_Min = 0;
+
+				Me_MuOnlineQuery.ExecQuery("UPDATE MEMB_INFO SET %s = 0, %s = 0 WHERE memb___id = '%s'", Config.Column, Config.ColumnDate, gObj->AccountID);
+				Me_MuOnlineQuery.Fetch();
+				Me_MuOnlineQuery.Close();
+
+				Me_MuOnlineQuery.ExecQuery("SELECT %s, %s FROM MEMB_INFO WHERE memb___id = '%s'", Config.Column, Config.ColumnDate, gObj->AccountID);
+				Me_MuOnlineQuery.Fetch();
+				AddTab[gObj->m_Index].VIP_Type = Me_MuOnlineQuery.GetAsInteger(Config.Column);
+				AddTab[gObj->m_Index].VIP_Min = Me_MuOnlineQuery.GetAsInteger(Config.ColumnDate);
+				Me_MuOnlineQuery.Close();
+			}
         }
     }
 }

@@ -136,7 +136,7 @@ void cMarry::Init()
         }
     }
 
-    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [Marry System]\tLoaded");
+    Log.ConsoleOutPut(1, c_Yellow, t_Default, "[û] [Marry System]\tCarregado.");
 }
 
 bool cMarry::CheckMarryCost(int aIndex, int tIndex, int Delete)

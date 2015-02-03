@@ -60,12 +60,14 @@ void RSystem::Init()
 			else
 			{
 				State[i].Work = true;
+
 				Worked++;
 			}
 		}
 		else
 		{
 			State[i].Work = true;
+
 			Worked++;
 		}
 
@@ -183,7 +185,7 @@ void RSystem::Reset(LPOBJ gObj)
 
 	if(m_NeedLvl > gObj->Level)
 	{
-		Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] You don't have %d level. Need %d level more. Now you are only %d level.", m_NeedLvl, m_NeedLvl-gObj->Level, gObj->Level);
+		Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Voce nao esta no level %d. Precisa de mais %d leveis! (Voce esta no level %d)", m_NeedLvl, m_NeedLvl-gObj->Level, gObj->Level);
 
 		return;
 	}
@@ -192,7 +194,7 @@ void RSystem::Reset(LPOBJ gObj)
 	{
 		if(gObj->Money < State[NumState].Need.Zen)
 		{
-			Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] You don't have %d zen. Need %d more zen. Now you have only %d zen.", State[NumState].Need.Zen, State[NumState].Need.Zen-gObj->Money, gObj->Money);
+			Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Voce precisa de %d zens. Faltam %d zens (Voce tem %d zens)", State[NumState].Need.Zen, State[NumState].Need.Zen-gObj->Money, gObj->Money);
 
 			return;
 		}
@@ -435,53 +437,71 @@ unsigned long __stdcall ClearQuest(char Temp[11])
 	int NewClass;
 	switch (Class)
 	{
-	case 0:
-	case 1:
-	case 2:
-	case 3:
-		NewClass = 0;
-		break;
-	case 16:
-	case 17:
-	case 18:
-	case 19:
-		NewClass = 16;
-		break;
-	case 32:
-	case 33:
-	case 34:
-	case 35:
-		NewClass = 32;
-		break;
-	case 48:
-	case 49:
-	case 50:
-		NewClass = 48;
-		break;
-	case 64:
-	case 65:
-	case 66:
-		NewClass = 64;
-		break;
-	case 80:
-	case 81:
-	case 82:
-	case 83:
-		NewClass = 80;
-		break;
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		{
+			NewClass = 0;
+			break;
+		}
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		{
+			NewClass = 16;
+			break;
+		}
+		case 32:
+		case 33:
+		case 34:
+		case 35:
+		{
+			NewClass = 32;
+			break;
+		}
+		case 48:
+		case 49:
+		case 50:
+		{
+			NewClass = 48;
+			break;
+		}
+		case 64:
+		case 65:
+		case 66:
+		{
+			NewClass = 64;
+			break;
+		}
+		case 80:
+		case 81:
+		case 82:
+		case 83:
+		{
+			NewClass = 80;
+			break;
+		}
 	}
+
 	MuOnlineQuery.ExecQuery("UPDATE Character SET Class = %d WHERE Name = '%s'", NewClass, Name);
 	MuOnlineQuery.Fetch();
 	MuOnlineQuery.Close();
+
 	return 1;
 }
 
 long int RSystem::GetPoints(LPOBJ gObj, int NumState, int Formula, int StartPoint)
 {
 	if(Formula == 1)
+	{
 		StartPoint = StartPoint + CheckRole(gObj->DbClass, NumState, Points);
+	}
 	else if(Formula == 2)
+	{
 		StartPoint = (AddTab[gObj->m_Index].Resets + 1) * CheckRole(gObj->DbClass, NumState, Points);
+	}
 
 	return StartPoint;
 }
@@ -490,60 +510,79 @@ int RSystem::GetStartPoints(unsigned char Class, ForPoints Points)
 {
 	switch (Class)
 	{
-	case 0:
-	case 1:
-	case 2:
-	case 3:
-		if(Points == Strength)return 18;
-		if(Points == Dexterity)return 18;
-		if(Points == Vitality)return 15;
-		if(Points == Energy)return 30;
-		break;
-	case 16:
-	case 17:
-	case 18:
-	case 19:
-		if(Points == Strength)return 28;
-		if(Points == Dexterity)return 20;
-		if(Points == Vitality)return 25;
-		if(Points == Energy)return 10;
-		break;
-	case 32:
-	case 33:
-	case 34:
-	case 35:
-		if(Points == Strength)return 22;
-		if(Points == Dexterity)return 25;
-		if(Points == Vitality)return 20;
-		if(Points == Energy)return 15;
-		break;
-	case 48:
-	case 49:
-	case 50:
-		if(Points == Strength)return 26;
-		if(Points == Dexterity)return 26;
-		if(Points == Vitality)return 26;
-		if(Points == Energy)return 26;
-		break;
-	case 64:
-	case 65:
-	case 66:
-		if(Points == Strength)return 26;
-		if(Points == Dexterity)return 20;
-		if(Points == Vitality)return 20;
-		if(Points == Energy)return 15;
-		if(Points == Leadership)return 25;
-		break;
-	case 80:
-	case 81:
-	case 82:
-	case 83:
-		if(Points == Strength)return 21;
-		if(Points == Dexterity)return 21;
-		if(Points == Vitality)return 18;
-		if(Points == Energy)return 23;
-		break;
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		{
+			if(Points == Strength) return 18;
+			if(Points == Dexterity) return 18;
+			if(Points == Vitality) return 15;
+			if(Points == Energy) return 30;
+
+			break;
+		}
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		{
+			if(Points == Strength) return 28;
+			if(Points == Dexterity) return 20;
+			if(Points == Vitality) return 25;
+			if(Points == Energy) return 10;
+
+			break;
+		}
+		case 32:
+		case 33:
+		case 34:
+		case 35:
+		{
+			if(Points == Strength) return 22;
+			if(Points == Dexterity) return 25;
+			if(Points == Vitality) return 20;
+			if(Points == Energy) return 15;
+
+			break;
+		}
+		case 48:
+		case 49:
+		case 50:
+		{
+			if(Points == Strength) return 26;
+			if(Points == Dexterity) return 26;
+			if(Points == Vitality) return 26;
+			if(Points == Energy) return 26;
+
+			break;
+		}
+		case 64:
+		case 65:
+		case 66:
+		{
+			if(Points == Strength) return 26;
+			if(Points == Dexterity) return 20;
+			if(Points == Vitality) return 20;
+			if(Points == Energy) return 15;
+			if(Points == Leadership) return 25;
+
+			break;
+		}
+		case 80:
+		case 81:
+		case 82:
+		case 83:
+		{
+			if(Points == Strength) return 21;
+			if(Points == Dexterity) return 21;
+			if(Points == Vitality) return 18;
+			if(Points == Energy) return 23;
+
+			break;
+		}
 	}
+
 	return 0;
 }
 
@@ -557,7 +596,9 @@ bool RSystem::CheckItem(LPOBJ gObj, int NumState)
 	int x_NumItem = 0;
 
 	for(int xo = 0; xo < 76; xo++)
+	{
 		State[NumState].Serial[xo] = false;
+	}
 
 	for(int x = 0; x < NumItem; x++)
 	{
@@ -568,13 +609,16 @@ bool RSystem::CheckItem(LPOBJ gObj, int NumState)
 
 		for(BYTE i = 12; i < 76 ; i ++ )
 		{
-			if(gObj->pInventory[i].m_Type == State[NumState].Need.Items[x].Index &&
+			if
+			(
+				gObj->pInventory[i].m_Type == State[NumState].Need.Items[x].Index &&
 				gObj->pInventory[i].m_Level == State[NumState].Need.Items[x].Lvl &&
 				gObj->pInventory[i].m_Option2 == State[NumState].Need.Items[x].Luck &&
 				gObj->pInventory[i].m_Option1 == State[NumState].Need.Items[x].Skill &&
 				gObj->pInventory[i].m_Option3 == State[NumState].Need.Items[x].Opt &&
 				gObj->pInventory[i].m_NewOption == State[NumState].Need.Items[x].Exc &&
-				m_NumSpesItem[x] < NumSpesItem)
+				m_NumSpesItem[x] < NumSpesItem
+			)
 			{
 				if(!State[NumState].Serial[i])
 				{
@@ -599,16 +643,21 @@ bool RSystem::CheckItem(LPOBJ gObj, int NumState)
 void RSystem::CheckItemSerial(LPOBJ gObj, int NumState, BYTE Serial)
 {
 	unsigned long Ser = gObj->pInventory[Serial].m_Number;
+
 	for(BYTE i = 12; i < 76 ; i ++ )
+	{
 		if(gObj->pInventory[i].m_Number == Ser)
+		{
 			State[NumState].Serial[i] = true;
+		}
+	}
 }
 
 int RSystem::CheckRole(unsigned char Class,int NumState, ForRole Role)
 {
 	switch (Class)
 	{
-	case 0: case 1: case 2: case 3:
+		case 0: case 1: case 2: case 3:
 		{
 			if(Role == NeedLvl)
 			{
@@ -621,7 +670,7 @@ int RSystem::CheckRole(unsigned char Class,int NumState, ForRole Role)
 
 			break;
 		}
-	case 16: case 17: case 18: case 19:
+		case 16: case 17: case 18: case 19:
 		{
 			if(Role == NeedLvl)
 			{
@@ -634,7 +683,7 @@ int RSystem::CheckRole(unsigned char Class,int NumState, ForRole Role)
 
 			break;
 		}
-	case 32: case 33: case 34: case 35:
+		case 32: case 33: case 34: case 35:
 		{
 			if(Role == NeedLvl)
 			{
@@ -647,7 +696,7 @@ int RSystem::CheckRole(unsigned char Class,int NumState, ForRole Role)
 
 			break;
 		}
-	case 48: case 49: case 50:
+		case 48: case 49: case 50:
 		{
 			if(Role == NeedLvl)
 			{
@@ -660,7 +709,7 @@ int RSystem::CheckRole(unsigned char Class,int NumState, ForRole Role)
 
 			break;
 		}
-	case 64: case 65: case 66:
+		case 64: case 65: case 66:
 		{
 			if(Role == NeedLvl)
 			{
@@ -673,7 +722,7 @@ int RSystem::CheckRole(unsigned char Class,int NumState, ForRole Role)
 
 			break;
 		}
-	case 80: case 81: case 82: case 83:
+		case 80: case 81: case 82: case 83:
 		{
 			if(Role == NeedLvl)
 			{

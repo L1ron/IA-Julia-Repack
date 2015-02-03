@@ -65,15 +65,10 @@ DWORD MainTick()
 			if(AddTab[gObj->m_Index].OfflineTrade != true)
 			{
 				User.OnlineTimeTick(gObj);
-			}
-
-			Territory.Tick(gObj);
-
-			if(AddTab[gObj->m_Index].OfflineTrade != true)
-			{
 				AntiAFK.Tick(gObj);
 			}
 
+			Territory.Tick(gObj);
 			PCPoint.Tick(gObj);
 			Vip.Tick(gObj);
 		}
