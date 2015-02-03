@@ -1,3 +1,4 @@
+# 1.1.0.350 # - Changed Calc Character system (Try fix it)
 # 1.1.0.349 # - Fixed Querys for VIP columns
 # 1.1.0.348 # - Fixed high CPU usage from GameServers
 # 1.1.0.347 # - Fixed counting time for all events
