@@ -69,78 +69,88 @@ void cConfigs::LoadAll()
 
 void cConfigs::CalcCharacter()
 {
-	*(unsigned int *) AttackDamageMin_Bow_StrDexDiv_Elf1 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_Bow_StrDexDiv_Elf1",IAJuliaArcher);
-	*(unsigned int *) AttackDamageMin_Bow_StrDexDiv_Elf2 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_Bow_StrDexDiv_Elf2",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_Bow_StrDexDiv_Elf1 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_Bow_StrDexDiv_Elf1",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_Bow_StrDexDiv_Elf2 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_Bow_StrDexDiv_Elf2",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_NoBow_DexDiv_Elf1 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_NoBow_DexDiv_Elf1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_NoBow_DexDiv_Elf2 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_NoBow_DexDiv_Elf2",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_NoBow_StrDiv_Elf1 = GetInt(1, 255, 14, "CalcCharacter", "AttackDamageMin_NoBow_StrDiv_Elf1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_NoBow_StrDiv_Elf2 = GetInt(1, 255, 14, "CalcCharacter", "AttackDamageMin_NoBow_StrDiv_Elf2",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_NoBow_Elf1 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_NoBow_Elf1",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_NoBow_Elf2 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_NoBow_Elf2",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_DexStrDiv_Elf1 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_DexStrDiv_Elf1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_DexStrDiv_Elf2 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_DexStrDiv_Elf2",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_DexStrDiv_Elf1 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_DexStrDiv_Elf1",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_DexStrDiv_Elf2 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_DexStrDiv_Elf2",IACalcCharacter);
+//============================= Fairy_Elf ============================================
+	*(unsigned char*)AttackDamageMin_Bow_StrDexDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_Bow_StrDexDiv", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_Bow_StrDexDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_Bow_StrDexDiv_2", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_Bow_StrDexDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_Bow_StrDexDiv", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_Bow_StrDexDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_Bow_StrDexDiv_2", 4, IACalcCharacter);
 
-	*(unsigned int *) AttackDamageMin_StrDiv_DK1 = GetInt(1, 255, 6, "CalcCharacter", "AttackDamageMin_StrDiv_DK1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_StrDiv_DK2 = GetInt(1, 255, 6, "CalcCharacter", "AttackDamageMin_StrDiv_DK2",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_StrDiv_DK1 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_StrDiv_DK1",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_StrDiv_DK2 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_StrDiv_DK2",IACalcCharacter);
+	//NOBOW
+	*(unsigned char*)AttackDamageMin_NoBow_DexDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_NoBow_DexDiv", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_NoBow_DexDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_NoBow_DexDiv_2", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_NoBow_StrDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_NoBow_StrDiv", 14, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_NoBow_StrDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_NoBow_StrDiv_2", 14, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_NoBow_DexDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_NoBow_DexDiv", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_NoBow_DexDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_NoBow_DexDiv_2", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_DexStrDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_DexStrDiv", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_DexStrDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_DexStrDiv_2", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_DexStrDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_DexStrDiv", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_DexStrDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_DexStrDiv_2", 4, IACalcCharacter);
 
-	*(unsigned int *) AttackDamageMin_StrDiv_MG1 = GetInt(1, 255, 6, "CalcCharacter", "AttackDamageMin_StrDiv_MG1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_StrDiv_MG2 = GetInt(1, 255, 6, "CalcCharacter", "AttackDamageMin_StrDiv_MG2",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_EneDiv_MG1 = GetInt(1, 255, 12, "CalcCharacter", "AttackDamageMin_EneDiv_MG1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_EneDiv_MG2 = GetInt(1, 255, 12, "CalcCharacter", "AttackDamageMin_EneDiv_MG2",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_StrDiv_MG1 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_StrDiv_MG1",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_StrDiv_MG2 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_StrDiv_MG2",IACalcCharacter);
+	//============================= Dark_Knight ============================================
+	*(unsigned char*)AttackDamageMin_StrDiv_DK1 = GetPrivateProfileInt("Dark_Knight", "DamageMin_StrDiv", 6, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_StrDiv_DK2 = GetPrivateProfileInt("Dark_Knight", "DamageMin_StrDiv_2", 6, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_DK1 = GetPrivateProfileInt("Dark_Knight", "DamageMax_StrDiv", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_DK2 = GetPrivateProfileInt("Dark_Knight", "DamageMax_StrDiv_2", 4, IACalcCharacter);
 
-	*(unsigned int *) AttackDamageMin_StrDiv_DL1 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_StrDiv_DL1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_StrDiv_DL2 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_StrDiv_DL2",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_EneDiv_DL1 = GetInt(1, 255, 14, "CalcCharacter", "AttackDamageMin_EneDiv_DL1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_EneDiv_DL2 = GetInt(1, 255, 14, "CalcCharacter", "AttackDamageMin_EneDiv_DL2",IACalcCharacter);
-	*(unsigned int *) AttackDamageMax_StrDiv_DL1 = GetInt(1, 255, 5, "CalcCharacter", "AttackDamageMax_StrDiv_DL1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMax_StrDiv_DL2 = GetInt(1, 255, 5, "CalcCharacter", "AttackDamageMax_StrDiv_DL2",IACalcCharacter);
-	*(unsigned int *) AttackDamageMax_EneDiv_DL1 = GetInt(1, 255, 10, "CalcCharacter", "AttackDamageMax_EneDiv_DL1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMax_EneDiv_DL2 = GetInt(1, 255, 10, "CalcCharacter", "AttackDamageMax_EneDiv_DL2",IACalcCharacter);
+	//============================= Magic_Gladiator ============================================
+	*(unsigned char*)AttackDamageMin_StrDiv_MG1 = GetPrivateProfileInt("Magic_Gladiator", "DamageMin_StrDiv", 6, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_StrDiv_MG2 = GetPrivateProfileInt("Magic_Gladiator", "DamageMin_StrDiv_2", 6, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_MG1 = GetPrivateProfileInt("Magic_Gladiator", "DamageMax_StrDiv", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_MG2 = GetPrivateProfileInt("Magic_Gladiator", "DamageMax_StrDiv_2", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_EneDiv_MG1 = GetPrivateProfileInt("Magic_Gladiator", "DamageMin_EneDiv", 12, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_EneDiv_MG2 = GetPrivateProfileInt("Magic_Gladiator", "DamageMin_EneDiv_2", 12, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_EneDiv_MG1 = GetPrivateProfileInt("Magic_Gladiator", "DamageMax_EneDiv", 8, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_EneDiv_MG2 = GetPrivateProfileInt("Magic_Gladiator", "DamageMax_EneDiv_2", 8, IACalcCharacter);
 
-	*(unsigned int *) AttackDamageMin_StrDiv_SUM1 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_StrDiv_SUM1",IACalcCharacter);
-	*(unsigned int *) AttackDamageMin_StrDiv_SUM2 = GetInt(1, 255, 7, "CalcCharacter", "AttackDamageMin_StrDiv_SUM2",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_StrDiv_SUM3 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_StrDiv_SUM3",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_StrDiv_SUM4 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_StrDiv_SUM4",IACalcCharacter);
+	//============================= Dark_Lord ============================================
+	*(unsigned char*)AttackDamageMin_StrDiv_DL1 = GetPrivateProfileInt("Dark_Lord", "DamageMin_StrDiv", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_StrDiv_DL2 = GetPrivateProfileInt("Dark_Lord", "DamageMin_StrDiv_2", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_EneDiv_DL1 = GetPrivateProfileInt("Dark_Lord", "DamageMin_EneDiv", 14, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_EneDiv_DL2 = GetPrivateProfileInt("Dark_Lord", "DamageMin_EneDiv_2", 14, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_DL1 = GetPrivateProfileInt("Dark_Lord", "DamageMax_StrDiv", 5, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_DL2 = GetPrivateProfileInt("Dark_Lord", "DamageMax_StrDiv_2", 5, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_EneDiv_DL1 = GetPrivateProfileInt("Dark_Lord", "DamageMax_EneDiv", 10, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_EneDiv_DL2 = GetPrivateProfileInt("Dark_Lord", "DamageMax_EneDiv_2", 10, IACalcCharacter);
 
-	*(unsigned char *) AttackDamageMin_StrDiv_DW1 = GetChar(1, 255, 7, "CalcCharacter", "AttackDamageMin_StrDiv_DW1",IACalcCharacter);
-	*(unsigned char *) AttackDamageMin_StrDiv_DW2 = GetChar(1, 255, 7, "CalcCharacter", "AttackDamageMin_StrDiv_DW2",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_StrDiv_DW1 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_StrDiv_DW1",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_StrDiv_DW2 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_StrDiv_DW2",IACalcCharacter);
+	//============================= Summoner ============================================
+	*(unsigned char*)AttackDamageMin_StrDiv_SUM1 = GetPrivateProfileInt("Summoner", "DamageMin_StrDiv", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_StrDiv_SUM2 = GetPrivateProfileInt("Summoner", "DamageMin_StrDiv_2", 7, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_SUM1 = GetPrivateProfileInt("Summoner", "DamageMax_StrDiv", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_SUM2 = GetPrivateProfileInt("Summoner", "DamageMax_StrDiv_2", 4, IACalcCharacter);
 
-	// Pode causar crash?
-	*(unsigned char *) AttackDamageMin_EneDiv_DW1 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMin_EneDiv_DW1",IACalcCharacter);
-	*(unsigned char *) AttackDamageMax_EneDiv_DW2 = GetChar(1, 255, 3, "CalcCharacter", "AttackDamageMax_EneDiv_DW2",IACalcCharacter);
-	//
+	//============================= Dark_Wizard ============================================
+	*(unsigned char*)AttackDamageMin_StrDiv_DW1 = GetPrivateProfileInt("Dark_Wizard", "DamageMin_StrDiv", 6, IACalcCharacter);
+	*(unsigned char*)AttackDamageMin_StrDiv_DW2 = GetPrivateProfileInt("Dark_Wizard", "DamageMin_StrDiv_2", 6, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_DW1 = GetPrivateProfileInt("Dark_Wizard", "DamageMax_StrDiv", 4, IACalcCharacter);
+	*(unsigned char*)AttackDamageMax_StrDiv_DW2 = GetPrivateProfileInt("Dark_Wizard", "DamageMax_StrDiv_2", 4, IACalcCharacter);
 
-	*(unsigned int *) AttackSpeed_Elf1 = GetInt(1, 255, 50, "CalcCharacter", "AttackSpeed_Elf1",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_Elf2 = GetInt(1, 255, 50, "CalcCharacter", "AttackSpeed_Elf2",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_DK_MG1 = GetInt(1, 255, 15, "CalcCharacter", "AttackSpeed_DK_MG1",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_DK_MG2 = GetInt(1, 255, 20, "CalcCharacter", "AttackSpeed_DK_MG2",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_DL1 = GetInt(1, 255, 10, "CalcCharacter", "AttackSpeed_DL1",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_DL2 = GetInt(1, 255, 10, "CalcCharacter", "AttackSpeed_DL2",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_DW1 = GetInt(1, 255, 20, "CalcCharacter", "AttackSpeed_DW1",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_DW2 = GetInt(1, 255, 20, "CalcCharacter", "AttackSpeed_DW2",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_Sum1 = GetInt(1, 255, 20, "CalcCharacter", "AttackSpeed_Sum1",IACalcCharacter);
-	*(unsigned int *) AttackSpeed_Sum2 = GetInt(1, 255, 10, "CalcCharacter", "AttackSpeed_Sum2",IACalcCharacter);
+	//============================= AtackSpeed ============================================
+	*(unsigned char*)AttackSpeed_Elf1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__Elf", 50, IACalcCharacter);
+	*(unsigned char*)AttackSpeed_DK_MG1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__DK_MG", 15, IACalcCharacter);
+	*(unsigned char*)AttackSpeed_DL1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__DL", 10, IACalcCharacter);
+	*(unsigned char*)AttackSpeed_Sum1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__SUM", 20, IACalcCharacter);
+	*(unsigned char*)AttackSpeed_DW1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__DW", 20, IACalcCharacter);
 
-	*(unsigned char *) SuccessfulBlocking_Elf = GetChar(1, 255, 3, "CalcCharacter", "SuccessfulBlocking_Elf",IACalcCharacter);
-	*(unsigned int *) SuccessfulBlocking_DW_DK_MG = GetInt(1, 255, 7, "CalcCharacter", "SuccessfulBlocking_DW_DK_MG",IACalcCharacter);
-	*(unsigned int *) SuccessfulBlocking_DL = GetInt(1, 255, 3, "CalcCharacter", "SuccessfulBlocking_DL",IACalcCharacter);
-	*(unsigned char *) SuccessfulBlocking_Sum = GetChar(1, 255, 5, "CalcCharacter", "SuccessfulBlocking_Sum",IACalcCharacter);
+	//============================= MagicSpeed ============================================
+	*(unsigned char*)AttackSpeed_Elf2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__Elf", 50, IACalcCharacter);
+	*(unsigned char*)AttackSpeed_DK_MG2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__DK_MG", 20, IACalcCharacter);
+	*(unsigned char*)AttackSpeed_DL2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__DL", 10, IACalcCharacter);
+	*(unsigned char*)AttackSpeed_Sum2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__SUM", 20, IACalcCharacter);
+	*(unsigned char*)AttackSpeed_DW2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__DW", 10, IACalcCharacter);
 
-	*(unsigned int *) Defense_Elf = GetInt(1, 255, 10, "CalcCharacter", "Defense_Elf",IACalcCharacter);
-	*(unsigned int *) Defense_DK = GetInt(1, 255, 3, "CalcCharacter", "Defense_DK",IACalcCharacter);
-	*(unsigned int *) Defense_DL = GetInt(1, 255, 7, "CalcCharacter", "Defense_DL",IACalcCharacter);
-	*(unsigned int *) Defense_Sum = GetInt(1, 255, 3, "CalcCharacter", "Defense_Sum",IACalcCharacter);
-	*(unsigned char *) Defense_DW_MG = GetChar(1, 255, 3, "CalcCharacter", "Defense_DW_MG",IACalcCharacter);
+	//============================= SuccessfulBlocking ============================================
+	*(unsigned char*)SuccessfulBlocking_Elf = GetPrivateProfileInt("SuccessfulBlocking", "SuccessfulBlocking__Elf", 4, IACalcCharacter);
+	*(unsigned char*)SuccessfulBlocking_DW_DK_MG = GetPrivateProfileInt("SuccessfulBlocking", "SuccessfulBlocking__DW_DK_MG", 7, IACalcCharacter);
+	*(unsigned char*)SuccessfulBlocking_DL = GetPrivateProfileInt("SuccessfulBlocking", "SuccessfulBlocking__DL", 4, IACalcCharacter);
+	*(unsigned char*)SuccessfulBlocking_Sum = GetPrivateProfileInt("SuccessfulBlocking", "SuccessfulBlocking__SUM", 3, IACalcCharacter);
+
+	//============================= Defense ============================================
+	*(unsigned char*)Defense_Elf = GetPrivateProfileInt("Defense", "Defense__Elf", 10, IACalcCharacter);
+	*(unsigned char*)Defense_DK = GetPrivateProfileInt("Defense", "Defense__DK", 3, IACalcCharacter);
+	*(unsigned char*)Defense_DL = GetPrivateProfileInt("Defense", "Defense__DL", 7, IACalcCharacter);
+	*(unsigned char*)Defense_Sum = GetPrivateProfileInt("Defense", "Defense__SUM", 3, IACalcCharacter);
+	*(unsigned char*)Defense_DW_MG = GetPrivateProfileInt("Defense", "Defense__DW_MG", 4, IACalcCharacter);
 
 	Log.ConsoleOutPut(1,c_Green,t_Default,"[û] [CalcCharacter]\tCarregado.");
 }
@@ -157,36 +167,36 @@ void cConfigs::MaxStats()
 		return;
 	}
 
-	MaxDL_Strength = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDL_Strength", IAJuliaMaximum);
-	MaxDL_Agility = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDL_Agility", IAJuliaMaximum);
-	MaxDL_Vitality = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDL_Vitality", IAJuliaMaximum);
-	MaxDL_Energy = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDL_Energy", IAJuliaMaximum);
-	MaxDL_Command = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDL_Command", IAJuliaMaximum);
+	MaxDL_Strength = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDL_Strength", IAJuliaMaximum);
+	MaxDL_Agility = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDL_Agility", IAJuliaMaximum);
+	MaxDL_Vitality = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDL_Vitality", IAJuliaMaximum);
+	MaxDL_Energy = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDL_Energy", IAJuliaMaximum);
+	MaxDL_Command = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDL_Command", IAJuliaMaximum);
 
-	MaxDK_Strength = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDK_Strength", IAJuliaMaximum);
-	MaxDK_Agility = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDK_Agility", IAJuliaMaximum);
-	MaxDK_Vitality = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDK_Vitality", IAJuliaMaximum);
-	MaxDK_Energy = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDK_Energy", IAJuliaMaximum);
+	MaxDK_Strength = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDK_Strength", IAJuliaMaximum);
+	MaxDK_Agility = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDK_Agility", IAJuliaMaximum);
+	MaxDK_Vitality = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDK_Vitality", IAJuliaMaximum);
+	MaxDK_Energy = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDK_Energy", IAJuliaMaximum);
 
-	MaxDW_Strength = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDW_Strength", IAJuliaMaximum);
-	MaxDW_Agility = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDW_Agility", IAJuliaMaximum);
-	MaxDW_Vitality = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDW_Vitality", IAJuliaMaximum);
-	MaxDW_Energy = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxDW_Energy", IAJuliaMaximum);
+	MaxDW_Strength = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDW_Strength", IAJuliaMaximum);
+	MaxDW_Agility = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDW_Agility", IAJuliaMaximum);
+	MaxDW_Vitality = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDW_Vitality", IAJuliaMaximum);
+	MaxDW_Energy = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxDW_Energy", IAJuliaMaximum);
 
-	MaxELF_Strength = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxELF_Strength", IAJuliaMaximum);
-	MaxELF_Agility = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxELF_Agility", IAJuliaMaximum);
-	MaxELF_Vitality = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxELF_Vitality", IAJuliaMaximum);
-	MaxELF_Energy = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxELF_Energy", IAJuliaMaximum);
+	MaxELF_Strength = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxELF_Strength", IAJuliaMaximum);
+	MaxELF_Agility = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxELF_Agility", IAJuliaMaximum);
+	MaxELF_Vitality = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxELF_Vitality", IAJuliaMaximum);
+	MaxELF_Energy = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxELF_Energy", IAJuliaMaximum);
 
-	MaxSUM_Strength = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxSUM_Strength", IAJuliaMaximum);
-	MaxSUM_Agility = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxSUM_Agility", IAJuliaMaximum);
-	MaxSUM_Vitality = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxSUM_Vitality", IAJuliaMaximum);
-	MaxSUM_Energy = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxSUM_Energy", IAJuliaMaximum);
+	MaxSUM_Strength = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxSUM_Strength", IAJuliaMaximum);
+	MaxSUM_Agility = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxSUM_Agility", IAJuliaMaximum);
+	MaxSUM_Vitality = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxSUM_Vitality", IAJuliaMaximum);
+	MaxSUM_Energy = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxSUM_Energy", IAJuliaMaximum);
 
-	MaxMG_Strength = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxMG_Strength", IAJuliaMaximum);
-	MaxMG_Agility = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxMG_Agility", IAJuliaMaximum);
-	MaxMG_Vitality = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxMG_Vitality", IAJuliaMaximum);
-	MaxMG_Energy = GetInt(0, MaxPoints, 10000, "MaximumStats", "MaxMG_Energy", IAJuliaMaximum);
+	MaxMG_Strength = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxMG_Strength", IAJuliaMaximum);
+	MaxMG_Agility = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxMG_Agility", IAJuliaMaximum);
+	MaxMG_Vitality = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxMG_Vitality", IAJuliaMaximum);
+	MaxMG_Energy = GetInt(0, MaxPoints, 32000, "MaximumStats", "MaxMG_Energy", IAJuliaMaximum);
 
 	Log.ConsoleOutPut(1, c_Magenta, t_Default, "[û] [MaxStats]\tIniciado.");
 }
