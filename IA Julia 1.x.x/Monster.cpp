@@ -120,8 +120,12 @@ int cMonster::MonsterAddAndSpawn(int Mob, int Map, int Speed, int X1, int Y1, in
         if(MobID>=0)
         {
             int MobNr = *(WORD *)(12 * MobCount + MonsterReads);
+
             if(X1 != X2 || Y1 != Y2)
+			{
                 SetBoxPosition(MobID, Map, X1, Y1, X2-X1, Y2-Y1);
+			}
+
             gObjSetPosMonster(MobID, MobCount);
             gObjSetMonster(MobID, MobNr);
         }
@@ -440,6 +444,13 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
 	if(gObjNPC->Class == Quests.Config.QuestNPCID)
 	{
 		Quests.QuestNPCClick(gObj,gObjNPC);
+
+		bResult = true;
+	}
+
+	if(gObjNPC->Class == 249) // Free NPC Show a random message 
+	{
+		Monster.NPCMessage(gObj->m_Index,gObjNPC,"Ola %s, seja bem vindo ao Mu!",gObj->Name);
 
 		bResult = true;
 	}
