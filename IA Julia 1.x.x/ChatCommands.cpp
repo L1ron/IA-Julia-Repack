@@ -729,7 +729,8 @@ bool cChat::CheckCommand
 	int Filled,
 	int CheckPlayer,
 	char *CommandName,
-	char *CommandUsage, char *Msg
+	char *CommandUsage,
+	char *Msg
 )
 {
 	bool bResult = false;
@@ -1805,7 +1806,7 @@ bool cChat::GmoveCommand(LPOBJ gObj, char *Msg, int Index)
 
 bool cChat::PKClearCommand(LPOBJ gObj, char *Msg, int Index)
 {
-	if (CheckCommand(gObj, Monster.ClearCommand.Enabled, GmSystem.NONE, 0, 0, 0, 0, 0, 0, Index, "PKClear", COMMAND_PKCLEAR, Msg))
+	if(CheckCommand(gObj, Monster.ClearCommand.Enabled, GmSystem.NONE, 0, 0, 0, 0, 0, 0, Index, "PKClear", COMMAND_PKCLEAR, Msg))
 	{
 		return true;
 	}
@@ -2302,7 +2303,9 @@ bool cChat::AddMobCommand(LPOBJ gObj, char *Msg)
 {
 #ifdef _GS
 	if(CheckCommand(gObj, 1, GmSystem.cSetZen, 0, 0, 0, 0, 0, 1, 0, "AddMob", "/mobadd <mobid> <count> <speed> <distance> <map> <x> <y>", Msg))
+	{
 		return true;
+	}
 
 	int Mob;
 	int Map = gObj->MapNumber;
@@ -2355,7 +2358,7 @@ bool cChat::AddMobCommand(LPOBJ gObj, char *Msg)
 
 bool cChat::SetDropCommand(LPOBJ gObj, char *Msg, int Index)
 {
-	if (CheckCommand(gObj, Configs.Commands.IsDrop, GmSystem.cDrop, 0, 0, 0, 0, 0, 1, Index, "SetDrop", "[Name] /setdrop <ItemIndex> <ItemLvl> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>", Msg))
+	if(CheckCommand(gObj, Configs.Commands.IsDrop, GmSystem.cDrop, 0, 0, 0, 0, 0, 1, Index, "SetDrop", "[Name] /setdrop <ItemIndex> <ItemLvl> <ItemLuck> <ItemOpt> <ItemExc> <ItemAnc>", Msg))
 	{
 		return true;
 	}

@@ -20,12 +20,6 @@ class cChat
 		void MessageAllLog(int Type, int Type2, sColor LogColor, sLogType LogType, LPOBJ gObj, char* Msg,...);
 		void MessageAll(int Type, int Type2, LPOBJ gObj, char* Msg,...);
 
-		char COMMAND_YES[25];
-		char COMMAND_NO[25];
-
-	private:
-		void AntiInject(char* message);
-
 		bool CheckCommand
 		(
 			LPOBJ gObj,
@@ -41,7 +35,22 @@ class cChat
 			char *Msg
 		);
 
-		void TakeCommand(LPOBJ gObj, int NeedZen, int NeedPcPoint, int NeedWCoin, int NeedWebPoints, char *CommandName);
+		void TakeCommand
+		(
+			LPOBJ gObj,
+			int NeedZen,
+			int NeedPcPoint,
+			int NeedWCoin,
+			int NeedWebPoints,
+			char *CommandName
+		);
+
+		char COMMAND_YES[25];
+		char COMMAND_NO[25];
+
+	private:
+		void AntiInject(char* message);
+
 		void PrivateLog(LPOBJ gObj, char *Name, PMSG_CHATDATA_WHISPER* lpMsg, bool Success);
 		void MassLog(LPOBJ gObj, char* Message);
 		void MsgSrv(LPOBJ gObj,char* Message, int Type2);
