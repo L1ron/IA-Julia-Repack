@@ -1,10 +1,10 @@
 [GoldenArcher]
-ArcherEnabled		= 1
-RenasCount		= 7
-WCoinsReward		= 10
-PCPointsReward		= 10
-ZenReward		= 10000000
-ResetLimit		= 5
+ArcherEnabled		= 1		; 1 Ativar o evento, 0 Deixar o evento original WebZen
+RenasCount		= 7 		; Numero de renas para o premio
+WCoinsReward		= 10 		; Recompensa em WCoins
+PCPointsReward		= 10 		; Recompensa em PCPoints
+ZenReward		= 10000000 	; Recompensa em Zens
+ResetLimit		= 5 		; Limite de Resets para usar o NPC
 
 //----------------------------------------------------------------------------------------------//
 //      Index   ItemID	%Rate	MaxLvl	%Skill	%Luck   MaxOpt	%Exc	MaxExcOpt	Name	//
