@@ -23,6 +23,7 @@ class cHelpers
             int PriceZen;
             int PricePCPoint;
             int PriceWCoin;
+			int PriceWebPoint;
             int UseTimes;
             char Table[25];
             char Column[25];

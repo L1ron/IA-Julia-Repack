@@ -8,6 +8,7 @@
 #include "PCPoint.h"
 #include "Monster.h"
 #include "Query.h"
+#include "ChatCommands.h"
 
 cHelpers Helpers;
 sHelperItens HelperItens[MaxItemsInBag];
@@ -18,11 +19,12 @@ void cHelpers::Load()
 
 	if(Config.Enable)
 	{
-		Config.UsePK        = Configs.GetInt(0,1,0,"Helpers","UsePK",IAJuliaHelpers);
-		Config.PriceZen     = Configs.GetInt(0,2000000000,100000000,"Helpers","PriceZen",IAJuliaHelpers);
-		Config.PricePCPoint = Configs.GetInt(0,PCPoint.Config.MaximumPCPoints,10,"Helpers","PricePCPoint",IAJuliaHelpers);
-		Config.PriceWCoin   = Configs.GetInt(0,PCPoint.Config.MaximumWCPoints,10,"Helpers","PriceWCoin",IAJuliaHelpers);
-		Config.UseTimes     = Configs.GetInt(0,65535,2,"Helpers","UseTimes",IAJuliaHelpers);
+		Config.UsePK			= Configs.GetInt(0,1,0,"Helpers","UsePK",IAJuliaHelpers);
+		Config.PriceZen			= Configs.GetInt(0,2000000000,100000000,"Helpers","PriceZen",IAJuliaHelpers);
+		Config.PricePCPoint		= Configs.GetInt(0,PCPoint.Config.MaximumPCPoints,10,"Helpers","PricePCPoint",IAJuliaHelpers);
+		Config.PriceWCoin		= Configs.GetInt(0,PCPoint.Config.MaximumWCPoints,10,"Helpers","PriceWCoin",IAJuliaHelpers);
+		Config.PriceWebPoint	= Configs.GetInt(0,PCPoint.Config.MaximumWebPoints,10,"Helpers","PriceWebPoint",IAJuliaHelpers);
+		Config.UseTimes			= Configs.GetInt(0,65535,2,"Helpers","UseTimes",IAJuliaHelpers);
 
 		if(Config.UseTimes > 0)
 		{
@@ -140,8 +142,13 @@ void cHelpers::HelperLeoClick(LPOBJ gObj, LPOBJ gObjNPC)
 	}
 }
 
-void cHelpers::CheckConditions(LPOBJ gObj, LPOBJ gObjNPC)
+void cHelpers::CheckConditions(LPOBJ gObj,LPOBJ gObjNPC)
 {
+	if(Chat.CheckCommand(gObj, Config.Enable, GmSystem.NONE, Config.PriceZen, Config.PricePCPoint, Config.PriceWCoin, 0, 0, 0, 0,gObjNPC->Name,"",""))
+	{
+		return;
+	}
+
 	if(AddTab[gObj->m_Index].HELPER_UsedTimes >= Config.UseTimes)
 	{
 		Monster.NPCMessageLog(c_Red,t_HELPERS,gObj,gObjNPC,"Voce ja teve sua ajuda.");
@@ -149,56 +156,43 @@ void cHelpers::CheckConditions(LPOBJ gObj, LPOBJ gObjNPC)
 		return;
 	}
 
-	if(gObj->Money < Config.PriceZen)
+	if(gObj->m_PK_Level > 3)
 	{
-		Monster.NPCMessageLog(c_Blue,t_HELPERS,gObj,gObjNPC,"Preciso de %d Zens!",Config.PriceZen);
-
+		Monster.NPCMessageLog(c_Red,t_HELPERS,gObj,gObjNPC,"Nao farei negocios com PKs!.");
+		
 		return;
 	}
 
-	if(AddTab[gObj->m_Index].PC_PlayerPoints < Config.PricePCPoint)
-	{
-		Monster.NPCMessageLog(c_Red,t_HELPERS,gObj,gObjNPC,"Preciso de %d PCPoints!",Config.PricePCPoint);
-
-		return;
-	}
-
-	if(gObj->m_wCashPoint < Config.PriceWCoin)
-	{
-		Monster.NPCMessageLog(c_Red,t_HELPERS,gObj,gObjNPC,"Preciso de %d WCoins!",Config.PriceWCoin);
-
-		return;
-	}
-
-	if(Config.PriceZen > 0)
-	{
-		gObj->Money -= Config.PriceZen;
-		GCMoneySend(gObj->m_Index,gObj->Money);
-	}
-
-	if(Config.PricePCPoint > 0)
-	{
-		PCPoint.UpdatePoints(gObj,Config.PricePCPoint,MINUS,PCPOINT);
-	}
-
-	if(Config.PriceWCoin > 0)
-	{   
-		PCPoint.UpdatePoints(gObj,Config.PriceWCoin  ,MINUS,WCOIN);
-	}
+	Chat.TakeCommand(gObj,Config.PriceZen,Config.PricePCPoint, Config.PriceWCoin,Config.PriceWebPoint,gObjNPC->Name);
 
 	if(Config.UseTimes > 0)
 	{
 		AddTab[gObj->m_Index].HELPER_UsedTimes++;
 
-		MuOnlineQuery.ExecQuery
-		(
-			"UPDATE %s SET %s = %s + 1 WHERE %s = '%s'",
-			Config.Table,
-			Config.Column,
-			Config.Column,
-			(Config.Table[0] = 'M') ? "memb___id" : "AccountID",
-			gObj->AccountID
-		);
+		if(Config.Table[0] = 'M')// Fixar!
+		{
+			Me_MuOnlineQuery.ExecQuery
+			(
+				"UPDATE %s SET %s = %s + 1 WHERE %s = '%s'",
+				Config.Table,
+				Config.Column,
+				Config.Column,
+				(Config.Table[0] = 'M') ? "memb___id" : "AccountID",
+				gObj->AccountID
+			);
+		}
+		else
+		{
+			MuOnlineQuery.ExecQuery
+			(
+				"UPDATE %s SET %s = %s + 1 WHERE %s = '%s'",
+				Config.Table,
+				Config.Column,
+				Config.Column,
+				(Config.Table[0] = 'M') ? "memb___id" : "AccountID",
+				gObj->AccountID
+			);
+		}
 
 		MuOnlineQuery.Fetch();
 		MuOnlineQuery.Close();
