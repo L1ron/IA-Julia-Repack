@@ -1,9 +1,9 @@
 [AntiAFK]
-AntiAFKEnabled 	= 1
-AntiAFKTimer 	= 300  //In Seconds 
-AntiAFKWarnings	= 3
+AntiAFKEnabled 	= 1 	// Sistema anti away
+AntiAFKTimer 	= 180 	// Segundos Away 
+AntiAFKWarnings	= 3 	// Alertas antes de mover o char
 
-//	MapID	0: Off, 1: On
+//	MapID	0: Inativo, 1: Ativo
 1
 	0	1
 	1	1

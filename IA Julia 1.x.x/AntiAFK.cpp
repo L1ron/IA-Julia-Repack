@@ -86,6 +86,7 @@ void cAntiAFK::Tick(LPOBJ gObj)
 		AddTab[Index].AFK_Timer = 0;
 		AddTab[Index].AFK_Temp = gObj->m_TotalAttackCount;
 	}
+
 	if(gObj->X != AddTab[Index].AFK_X)
 	{
 		AddTab[Index].AFK_X = gObj->X;
@@ -93,6 +94,7 @@ void cAntiAFK::Tick(LPOBJ gObj)
 		AddTab[Index].AFK_Temp = gObj->m_TotalAttackCount;
 
 	}
+
 	if(gObj->Y != AddTab[Index].AFK_Y)
 	{
 		AddTab[Index].AFK_Y = gObj->Y;
@@ -117,7 +119,7 @@ void cAntiAFK::Tick(LPOBJ gObj)
 		Chat.MessageLog(1, c_Red, t_Default, gObj,"[AntiAfk][%s] Numero do aviso atual: %d",gObj->Name,AddTab[Index].AFK_Warnings);
 	}
 
-	if(gObj->m_TotalAttackCount != AddTab[Index].AFK_Temp && AddTab[Index].AFK_Timer >= Config.Time)
+	if((gObj->m_TotalAttackCount != AddTab[Index].AFK_Temp) && (AddTab[Index].AFK_Timer >= Config.Time))
 	{
 		AddTab[Index].AFK_Timer = 0;
 		AddTab[Index].AFK_Temp = gObj->m_TotalAttackCount;

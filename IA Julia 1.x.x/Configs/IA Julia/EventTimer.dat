@@ -1,5 +1,6 @@
-0
 //Event 1: MossMerchant
-//Event Hour Min Delay
-1 21 50 30
+
+//	ID	Hour 	Min 	Delay (Min)
+0
+	1 	20 	50 	30
 end
