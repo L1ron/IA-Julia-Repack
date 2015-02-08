@@ -42,7 +42,7 @@ struct sQuetsItens
 	int AwardID;
 	int AwardAmount;
 	
-	char MobName[64];
+	char MobName[32];
 };
 
 struct sQuestsItenReward

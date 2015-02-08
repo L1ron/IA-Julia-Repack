@@ -125,11 +125,10 @@ void cQuests::QuestNPCClick(LPOBJ gObj, LPOBJ gObjNPC)
 					c_Blue,
 					t_QUEST,
 					gObj,
-					"[%s] Missao: Eliminar %d %s%s",
+					"[%s] Missao: Eliminar %d %s",
 					Config.QuestName,
 					MobsNeeded,
-					QuestsItens[AddTab[gObj->m_Index].QUEST_Number].MobName,
-					(MobsNeeded > 1) ? "s" : ""
+					QuestsItens[AddTab[gObj->m_Index].QUEST_Number].MobName
 				);
 
 				break;
@@ -152,11 +151,10 @@ void cQuests::QuestNPCClick(LPOBJ gObj, LPOBJ gObjNPC)
 							c_Blue,
 							t_QUEST,
 							gObj,
-							"[%s] Pegue a recompensa: %d %s.",
+							"[%s] Recompensa: %d %s.",
 							Config.QuestName,
 							QuestsItens[AddTab[gObj->m_Index].QUEST_Number].AwardAmount,
-							GetQuestReward(iAward),
-							(MobsNeeded > 1) ? "s" : ""
+							GetQuestReward(iAward)
 						);
 						
 						GenerateAward(gObj,iAward,QuestsItens[AddTab[gObj->m_Index].QUEST_Number].AwardAmount);
@@ -165,7 +163,6 @@ void cQuests::QuestNPCClick(LPOBJ gObj, LPOBJ gObjNPC)
 					else
 					{
 						AddTab[gObj->m_Index].QUEST_State = 2;
-
 						Monster.NPCMessageLog(c_Blue,t_QUEST,gObj,gObjNPC,"Parabens! Voce completou todas as missoes!");
 					}
 
@@ -189,11 +186,10 @@ void cQuests::QuestNPCClick(LPOBJ gObj, LPOBJ gObjNPC)
 						c_Blue,
 						t_QUEST,
 						gObj,
-						"[%s] Elimine %d %s%s e depois apresente-se!",
+						"[%s] Elimine %d %s e depois apresente-se!",
 						Config.QuestName,
 						MobsNeeded,
-						QuestsItens[AddTab[gObj->m_Index].QUEST_Number].MobName,
-						(MobsNeeded > 1) ? "s" : ""
+						QuestsItens[AddTab[gObj->m_Index].QUEST_Number].MobName
 					);
 				}
 
