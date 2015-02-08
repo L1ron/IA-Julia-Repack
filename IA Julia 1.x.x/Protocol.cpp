@@ -212,7 +212,7 @@ bool ProtocolCore(BYTE protoNum, LPBYTE aRecv, DWORD aLen, int aIndex, DWORD Enc
         }
     }
 
-    switch (BYTE(protoNum))
+    switch(BYTE(protoNum))
     {
         case 0x00: // Chat Protocol
         {
