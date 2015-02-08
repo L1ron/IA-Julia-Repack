@@ -185,7 +185,7 @@ void RSystem::Reset(LPOBJ gObj)
 
 	if(m_NeedLvl > gObj->Level)
 	{
-		Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Voce nao esta no level %d. Precisa de mais %d leveis! (Voce esta no level %d)", m_NeedLvl, m_NeedLvl-gObj->Level, gObj->Level);
+		Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Seu level %d (Faltam %d leveis)!", gObj->Level,(m_NeedLvl - gObj->Level));
 
 		return;
 	}
@@ -194,7 +194,7 @@ void RSystem::Reset(LPOBJ gObj)
 	{
 		if(gObj->Money < State[NumState].Need.Zen)
 		{
-			Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Voce precisa de %d zens. Faltam %d zens (Voce tem %d zens)", State[NumState].Need.Zen, State[NumState].Need.Zen-gObj->Money, gObj->Money);
+			Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Voce precisa de %d zens! (Faltam %d zens)", State[NumState].Need.Zen, (State[NumState].Need.Zen - gObj->Money));
 
 			return;
 		}
@@ -224,7 +224,7 @@ void RSystem::Reset(LPOBJ gObj)
 	{
 		if(CheckItem(gObj, NumState) == false)
 		{
-			Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] You don't have right items. Check it one more time.");
+			Chat.MessageLog(1, c_Red, t_RESET, gObj, "[Reset System] Voce nao tem os intens necessarios.");
 
 			return;
 		}

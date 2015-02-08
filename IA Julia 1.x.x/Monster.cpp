@@ -390,7 +390,7 @@ void cMonster::NPCMessageNear(LPOBJ mObj, char* Msg,...)
     }
 }
 
-bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
+bool cMonster::NPCTalkEx(LPOBJ gObj,int NpcId)
 {
     bool bResult = false;
 
@@ -413,12 +413,12 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
         bResult = true;
     }
 
-    if((gObjNPC->Class == 236) && (GoldenArcher.Config.Enabled))
-    {
-        GoldenArcher.GoldenArcherClick(gObj);
+	if((gObjNPC->Class == 236) && (GoldenArcher.Config.Enabled))
+	{
+		GoldenArcher.GoldenArcherClick(gObj);
 
-        bResult = true;
-    }
+		bResult = true;
+	}
 
 	if(gObjNPC->Class == 414)
 	{
@@ -448,13 +448,6 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
 		bResult = true;
 	}
 
-	if(gObjNPC->Class == 249) // Free NPC Show a random message 
-	{
-		Monster.NPCMessage(gObj->m_Index,gObjNPC,"Ola %s, seja bem vindo ao Mu!",gObj->Name);
-
-		bResult = true;
-	}
-
     if((gObjNPC->Class == Marry.Config.MarryNpcNum) && !AddTab[gObj->m_Index].IsMarried)
     {
         Marry.StartMarriage(gObj->m_Index, gObjNPC->m_Index);
@@ -462,13 +455,12 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
         bResult = true;
     }
     
-    // Achar um NPC para o /reset
-	/*if((ResetSystem.RConf.ResetNPC > 0) && (gObjNPC->Class == ResetSystem.RConf.ResetNPC))
+	if(gObjNPC->Class == ResetSystem.RConf.ResetNPC)
 	{
-		NPCMessageLog(c_Blue,t_COMMANDS,gObj,gObjNPC,"Nao estou de servico, volte mais tarde.");
+		ResetSystem.Reset(gObj);
 
 		bResult = true;
-	}*/
+	}
 
 	/* Adicionar falas dos ajudantes de papai noel */
 
@@ -497,6 +489,7 @@ bool cMonster::NPCTalkEx(LPOBJ gObj, int NpcId)
         aSend.uSize			 = 0x04;
         aSend.uPacketType	 = 0x30;
         aSend.uNum			 = 0x21;
+
         gObj->m_IfState.use  = 479;
         gObj->m_IfState.type = 20;
 
