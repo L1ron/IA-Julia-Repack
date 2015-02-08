@@ -1,3 +1,6 @@
+# 1.1.0.353 # - Added a NPC to reset system (Default 249)
+# 1.1.0.352 # - Added a original webzen Golden archer (And their config for it)
+# 1.1.0.351 # - Added webpoints to Helper systems
 # 1.1.0.350 # - Changed Calc Character system (Try fix it)
 # 1.1.0.349 # - Fixed Querys for VIP columns
 # 1.1.0.348 # - Fixed high CPU usage from GameServers
