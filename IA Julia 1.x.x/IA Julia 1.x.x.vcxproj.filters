@@ -183,11 +183,11 @@
     <ClCompile Include="Inteface.cpp">
       <Filter>Source\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Quests.cpp">
-      <Filter>Source\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="ChatCommands.cpp">
       <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests.cpp">
+      <Filter>Source\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -312,7 +312,7 @@
       <Filter>Source\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Quests.h">
-      <Filter>Source\Systems</Filter>
+      <Filter>Source\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
