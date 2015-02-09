@@ -5,8 +5,8 @@
 
 char DISPLAY_TEXT[2][30] =
 {
-	"Season 4.6 (GS)",
-	"Season 4.6 (CS)"
+	"MU Game Server",
+	"MU Castle Server"
 };
 
 char SERVER_STATUS[12][32] = 
@@ -24,10 +24,11 @@ char SERVER_STATUS[12][32] =
 	"RankingServer: Desconectado",
 	"RankingServer: Conectado"
 };
-// -- Cor do fundo (Padrao: Branco)
-HBRUSH	  BackgroundSolidColor		= CreateSolidBrush(RGB(28, 28, 28));
 
-// -- Cores da Função (ServerStatus)
+// -- Cor do fundo (Padrao: Branco)
+HBRUSH	  BackgroundSolidColor		= CreateSolidBrush(RGB(20, 20, 20));
+
+// -- Cores da Funcao (ServerStatus)
 COLORREF  COLOR_CONNECTED			= RGB(0, 255, 0);
 COLORREF  COLOR_DISCONNECTED		= RGB(255, 0, 0);
 
@@ -43,7 +44,7 @@ COLORREF  TextLogColor_07			= RGB(200, 200, 200);
 // -- Cor do Texto Exibido no Topo (COUNT:....)
 COLORREF  HeaderTextColor			= RGB(200, 200, 200);
 
-// -- Cor do Texto e do Background Exibido no topo (SERVER INFO DISPLAYER) {[- Common -], ]+[ CASTLE ]+[}
+// -- Cor do Texto e do Backgroundo Exibido no topo (SERVER INFO DISPLAYER) {[- Common -], ]+ CASTLE +[}
 COLORREF  ServerInfoDisplayerBG		= RGB(28, 28, 28);
 COLORREF  ServerInfoDisplayerText	= RGB(200, 200, 200);
 
@@ -51,7 +52,7 @@ void __declspec(naked) BackgroundColor()
 {
 	_asm
 	{
-		PUSH 9						// -- Push Color
+		PUSH BackgroundSolidColor						// -- Push Color
 		LEA EDX,DWORD PTR SS:[EBP-0x30]
 		PUSH EDX
 		MOV EAX,DWORD PTR SS:[EBP-0x34]
@@ -516,7 +517,7 @@ void InterfaceLoad()
 
 	Utilits.SetByte(Interface_LogTextColor07, 0xE9);
 	Utilits.HookThis((DWORD)&TextLogColor07, Interface_LogTextColor07);
-
+	
 	// -- ServerInfoDisplayer
 	Utilits.SetByte(Interface_ServerInfoDisplayerFontFix01, 0x00);
 
@@ -532,13 +533,12 @@ void InterfaceLoad()
 	DWORD *OffSetDisplayText = (DWORD*)(Interface_ServerInfoDisplayerTitle);
     memset(&OffSetDisplayText[0],0,30);
 
-#ifdef _GS
-	memcpy(&OffSetDisplayText[0],DISPLAY_TEXT[0],strlen(DISPLAY_TEXT[0]));
-#else
-	memcpy(&OffSetDisplayText[0],DISPLAY_TEXT[1],strlen(DISPLAY_TEXT[1]));
-#endif
+	#ifdef _GS
+		memcpy(&OffSetDisplayText[0],DISPLAY_TEXT[0],strlen(DISPLAY_TEXT[0]));
+	#else
+		memcpy(&OffSetDisplayText[0],DISPLAY_TEXT[1],strlen(DISPLAY_TEXT[1]));
+	#endif
 	
-	//-- Test
 	Utilits.SetByte(Interface_LogRealocate, 0x7D);
 	
 	Utilits.SetByte(Interface_ServerStatus, 0xE9);
