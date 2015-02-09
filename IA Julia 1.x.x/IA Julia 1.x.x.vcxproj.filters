@@ -70,6 +70,9 @@
     <Filter Include="Source\Systems\MarrySystem">
       <UniqueIdentifier>{463c60c5-002a-4eda-875b-aa3aad85a1e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Player\CalcCharacter">
+      <UniqueIdentifier>{704d6599-9211-41c3-a5e9-d65f8d0d4e8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Configs.cpp">
