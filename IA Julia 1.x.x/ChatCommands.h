@@ -50,10 +50,10 @@ class cChat
 
 	private:
 		void AntiInject(char* message);
-
 		void PrivateLog(LPOBJ gObj, char *Name, PMSG_CHATDATA_WHISPER* lpMsg, bool Success);
 		void MassLog(LPOBJ gObj, char* Message);
 		void MsgSrv(LPOBJ gObj,char* Message, int Type2);
+
 		bool GgCommand(LPOBJ gObj, char* Msg);
 		bool VosklCommand(LPOBJ gObj, char* Msg);
 		bool MoveCommand(LPOBJ gObj, char *Msg);
@@ -74,9 +74,9 @@ class cChat
 		bool GuildPost(LPOBJ gObj, char *Msg);
 		bool Core(LPOBJ gObj, char *Msg);
 
-		bool TraceCommand(LPOBJ gObj, int Index);
-		bool DiskCommand(LPOBJ gObj, int Index);
-		bool SummonCommand(LPOBJ gObj, int Index);
+		bool TraceCommand(LPOBJ gObj, char *Msg);
+		bool DiskCommand(LPOBJ gObj, char *Msg);
+		bool SummonCommand(LPOBJ gObj, char *Msg);
 
 		bool BanPostCommand(LPOBJ gObj, char *Msg, int Index);
 		bool UnBanPostCommand(LPOBJ gObj, int Index);

@@ -189,6 +189,21 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 		bResult = VosklCommand(gObj, lpChat->chatmsg + strlen(COMMAND_VOSKL));
 	}
 
+	if (!memcmp(lpChat->chatmsg, COMMAND_TRACE, strlen(COMMAND_TRACE)))
+	{
+		bResult = TraceCommand(gObj, lpChat->chatmsg + strlen(COMMAND_TRACE));
+	}
+
+	if (!memcmp(lpChat->chatmsg, COMMAND_DISCONNECT, strlen(COMMAND_DISCONNECT)))
+	{
+		bResult = DiskCommand(gObj, lpChat->chatmsg + strlen(COMMAND_DISCONNECT));
+	}
+
+	if (!memcmp(lpChat->chatmsg, COMMAND_TRACK, strlen(COMMAND_TRACK)))
+	{
+		bResult = SummonCommand(gObj, lpChat->chatmsg + strlen(COMMAND_TRACK));
+	}
+
 	if (!memcmp(lpChat->chatmsg, COMMAND_MOVE, strlen(COMMAND_MOVE)))
 	{
 		bResult = MoveCommand(gObj, lpChat->chatmsg + strlen(COMMAND_MOVE));
@@ -428,13 +443,6 @@ bool cChat::ChatDataSend(LPOBJ gObj, PMSG_CHATDATA * lpChat)
 	{
 		bResult = ZenCommand(gObj,lpChat->chatmsg + strlen(COMMAND_ZEN));
 	}
-
-	/*
-	if (!memcmp(lpChat->chatmsg, COMMAND_SET_ZEN, strlen(COMMAND_SET_ZEN)))
-	{
-		bResult = SetZenCommand(gObj, lpChat->chatmsg + strlen(COMMAND_SET_ZEN), gObj->m_Index);
-	}
-	*/
 
 	if (!memcmp(lpChat->chatmsg, COMMAND_ISMARRY, strlen(COMMAND_ISMARRY)))
 	{
@@ -876,67 +884,79 @@ bool cChat::VosklCommand(LPOBJ gObj, char *Msg)
 	}
 
 	Log.CheckProcent(Msg);
-	MessageAll(0, 0, gObj, Msg); // Protejer aqui seria bom :D
+	MessageAll(0,0,gObj,Msg);
 
 	Log.ConsoleOutPut(0, c_Green, t_GM, "[!] %s: %s", gObj->Name, Msg);
 
 	return true;
 }
 
-bool cChat::TraceCommand(LPOBJ gObj, int Index)
+bool cChat::TraceCommand(LPOBJ gObj, char *Msg)
 {
-	if (CheckCommand(gObj, 1, GmSystem.cTrace, 0, 0, 0, 0, 0, 0, Index, "Trace", "[Name] /trace", ""))
+	if(CheckCommand(gObj, 1, GmSystem.cTrace, 0, 0, 0, 0, 0, 1, 0, "Trace", "/trace <Nome>", Msg))
 	{
 		return true;
 	}
+
+	char Target[11];
+	sscanf(Msg,"%10s",&Target);
+	int Index = Utilits.GetPlayerIndex(Target);
 
 	OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
 	gObjTeleport(gObj->m_Index, tObj->MapNumber, (int)tObj->X, (int)tObj->Y);
-	MessageLog(1, c_Green, t_GM, gObj, "[Trace] You successfully traced to %s", tObj->Name);
+	MessageLog(1, c_Green, t_GM, gObj, "[Trace] Voce foi movido para perto de %s.", tObj->Name);
 
 	if (GmSystem.IsAdmin(gObj->Name) == 1)
 	{
-		MessageLog(1, c_Green, t_GM, tObj, "[Trace] [Admin] %s traced to you", gObj->Name);
+		MessageLog(1, c_Green, t_GM, tObj, "[Trace] [Admin] %s seguiu voce.", gObj->Name);
 	}
 	else if (GmSystem.IsAdmin(gObj->Name) == 2)
 	{
-		MessageLog(1, c_Green, t_GM, tObj, "[Trace] [GM] %s traced to you", gObj->Name);
+		MessageLog(1, c_Green, t_GM, tObj, "[Trace] [GM] %s seguiu voce.", gObj->Name);
 	}
 
 	return true;
 }
 
-bool cChat::SummonCommand(LPOBJ gObj, int Index)
+bool cChat::SummonCommand(LPOBJ gObj, char *Msg)
 {
-	if (CheckCommand(gObj, 1, GmSystem.cTrace, 0, 0, 0, 0, 0, 0, Index, "Track", "[Name] /track", ""))
+	if(CheckCommand(gObj, 1, GmSystem.cTrace, 0, 0, 0, 0, 0, 1, 0, "Track", "/track <Nome>", Msg))
 	{
 		return true;
 	}
+
+	char Target[11];
+	sscanf(Msg,"%10s",&Target);
+	int Index = Utilits.GetPlayerIndex(Target);
 
 	OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 
 	gObjTeleport(tObj->m_Index, gObj->MapNumber, (int)gObj->X, (int)gObj->Y);
-	MessageLog(1, c_Green, t_GM, gObj, "[Track] You successfully summoned %s", tObj->Name);
+	MessageLog(1, c_Green, t_GM, gObj, "[Track] Voce convocou %s", tObj->Name);
 
 	if (GmSystem.IsAdmin(gObj->Name) == 1)
 	{
-		MessageLog(1, c_Green, t_GM, tObj, "[Track] You was summoned to [Admin] %s", gObj->Name);
+		MessageLog(1, c_Green, t_GM, tObj, "[Track] Voce vou convocado pelo [Admin] %s", gObj->Name);
 	}
 	else if (GmSystem.IsAdmin(gObj->Name) == 2)
 	{
-		MessageLog(1, c_Green, t_GM, tObj, "[Track] You was summoned to [GM] %s", gObj->Name);
+		MessageLog(1, c_Green, t_GM, tObj, "[Track] Voce vou convocado pelo [GM] %s", gObj->Name);
 	}
 
 	return true;
 }
 
-bool cChat::DiskCommand(LPOBJ gObj, int Index)
+bool cChat::DiskCommand(LPOBJ gObj, char *Msg)
 {
-	if (CheckCommand(gObj, 1, GmSystem.cDisconnect, 0, 0, 0, 0, 0, 0, Index, "DC", "[Name] /disconnect", ""))
+	if (CheckCommand(gObj, 1, GmSystem.cDisconnect, 0, 0, 0, 0, 0, 1, 0, "Disconnect", "/disconnect <Nome>", Msg))
 	{
 		return true;
 	}
+
+	char Target[11];
+	sscanf(Msg,"%10s",&Target);
+	int Index = Utilits.GetPlayerIndex(Target);
 
 	OBJECTSTRUCT *tObj = (OBJECTSTRUCT*)OBJECT_POINTER(Index);
 	MessageLog(1, c_Green, t_GM, gObj, "[Disconnect] %s foi desconectado.", tObj->Name);
@@ -955,16 +975,23 @@ bool cChat::DiskCommand(LPOBJ gObj, int Index)
 	return true;
 }
 
-bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
+bool cChat::MoveCommand(LPOBJ gObj,char *Msg)
 {
 	char MapName[50] = {0};
-	sscanf(Msg, "%49s", MapName);
+	sscanf(Msg,"%49s",MapName);
+
+	if(!MapName[0])
+	{
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Uso: %s <Mapa>",COMMAND_WARP);
+
+		return true;
+	}
 
 	int Index = -1;
 
-	for (int i = 0; i <= MoveReq.Count; i++)
+	for(int i = 0; i <= MoveReq.Count; i++)
 	{
-		if (!_strcmpi(MapName, MoveReq.MoveReqInfo[i].MapName1) || !_strcmpi(MapName, MoveReq.MoveReqInfo[i].MapName2))
+		if(!_strcmpi(MapName,MoveReq.MoveReqInfo[i].MapName1) || !_strcmpi(MapName, MoveReq.MoveReqInfo[i].MapName2))
 		{
 			Index = i;
 
@@ -972,7 +999,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 		}
 	}
 
-	if (Index != -1)
+	if(Index != -1)
 	{
 		DWORD CurrentZen;
 		CurrentZen = (DWORD)gObj->Money;
@@ -984,7 +1011,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 
 		DWORD ZenDec = CurrentZen - (DWORD)MoveReq.MoveReqInfo[Index].Zen;
 
-		if (!strcmp(MoveReq.MoveReqInfo[Index].MapName1, "Atlans"))
+		if (!strcmp(MoveReq.MoveReqInfo[Index].MapName1,"Atlans"))
 		{
 			if (gObj->pInventory[8].m_Type == ITEMGET(13, 2) || gObj->pInventory[8].m_Type == ITEMGET(13, 3))
 			{
@@ -996,12 +1023,12 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 
 		if(gObj->m_PK_Level >= 5)
 		{
-			MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Fonomans nao podem se mover.");
+			MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Assasinos nao podem se mover.");
 
 			return true;
 		}
 
-		if (!GmSystem.IsAdmin(gObj->Name))
+		if(!GmSystem.IsAdmin(gObj->Name))
 		{
 			if (AddTab[gObj->m_Index].VIP_Type < MoveReq.MoveReqInfo[Index].VIP)
 			{
@@ -1020,11 +1047,12 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 
 		int TempLvl = MoveReq.MoveReqInfo[Index].Level;
 
-		if (gObj->Class == 4 || gObj->Class == 3)
+		if(gObj->Class == 4 || gObj->Class == 3)
 		{
 			if (gObj->Level < TempLvl - ceil(TempLvl / 100.0f * 34))
 			{
 				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Level insuficiente!");
+
 				return true;
 			}
 		}
@@ -1033,6 +1061,7 @@ bool cChat::MoveCommand(LPOBJ gObj, char *Msg)
 			if(gObj->Level < TempLvl)
 			{
 				MessageLog(1, c_Red, t_COMMANDS, gObj, "[Move] Level insuficiente!");
+
 				return true;
 			}
 		}
@@ -1550,8 +1579,8 @@ bool cChat::OnlineCommand(LPOBJ gObj, char *Msg)
 	{
 		return true;
 	}
-
-	MessageLog(1,c_Blue,t_COMMANDS,gObj,"[ONLINE]: %d Player(s), %d GM(s)",(Log.Online_All - Log.Online_Gms),Log.Online_Gms);
+	
+	MessageLog(1,c_Blue,t_COMMANDS,gObj,"[ONLINE]: %d Player(s), %d GM(s)",Log.Online_All,Log.Online_Gms);
 
 	return true;
 }
@@ -2270,21 +2299,21 @@ bool cChat::WareCommand(LPOBJ gObj, char *Msg)
 
 	if (UsedSlot == -1 || UsedSlot == 0)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] Command is broken, relog and try again!");
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] Comando indisponivel, relogue e tente novamente!");
 
 		return true;
 	}
 
 	if (WantSlot < 1 || WantSlot > Configs.Commands.NumberOfVaults)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] You can use from 1 to %d vaults!", Configs.Commands.NumberOfVaults);
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] Voce pode usar de 1 ate %d!", Configs.Commands.NumberOfVaults);
 
 		return true;
 	}
 
 	if (UsedSlot == WantSlot)
 	{
-		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] You need to chose other vault number!");
+		MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] Voce ja esta usando esse bau!");
 
 		return true;
 	}
@@ -2295,7 +2324,7 @@ bool cChat::WareCommand(LPOBJ gObj, char *Msg)
 	MuOnlineQuery.Fetch();
 	MuOnlineQuery.Close();
 
-	MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] You successfully change vault from %d to %d!", UsedSlot, WantSlot);
+	MessageLog(1, c_Red, t_COMMANDS, gObj, "[Ware] Bau alterado de %d para %d!", UsedSlot, WantSlot);
 	return true;
 }
 
@@ -2698,7 +2727,7 @@ bool cChat::GuildPost(LPOBJ gObj, char *Msg)
 	}
 	else
 	{
-		MessageLog(1, c_Red, t_Default, gObj, "You aren't guild master or assistant");
+		MessageLog(1, c_Red, t_Default, gObj, "Voce nao e o dono da Guild ou seu assistente.");
 	}
 
 	return true;

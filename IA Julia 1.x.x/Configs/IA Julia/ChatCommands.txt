@@ -2,11 +2,9 @@
 // Strings para todos os comandos do servidor
 ////
 
-///
+////
 // NAO ADICIONE NENHUM COMENTARIO OU TEXTO A FRENTE DE CADA STRING
-///
-// Formato do comando: COMMAND_EXEMPLO	= SUA_STRING= 
-///
+////
 
 [Strings]
 COMMAND_GG			= /gg
@@ -28,6 +26,7 @@ COMMAND_TIME			= /time
 COMMAND_SET_CHAR		= /setchar
 COMMAND_SET_PK			= /setpk
 COMMAND_SET_ZEN			= /setzen
+COMMAND_CLEAR 			= /clear
 COMMAND_SKIN			= /skin
 COMMAND_DROP			= /drop
 COMMAND_GMOVE			= /gmove
