@@ -183,11 +183,11 @@ void cFixes::ASMFixes()
 
     // CheckSum
     if (Configs.UseChecksum)
-	{
+    {
         Utilits.SetByte(0x00438D3A, 0x74);// CheckSum On
-	}
+    }
     else
-	{
+    {
         Utilits.SetByte(0x00438D3A, 0xEB);// CheckSum Off
         Utilits.SetByte(0x0052DD40, 0xEB);// CheckSumTime Off
     }
@@ -278,8 +278,8 @@ void cFixes::ASMFixes()
 
     if (Configs.FixBloodCastle)
     {
-        Utilits.SetByte(0x005883A4,0x74); //
-        Utilits.SetByte(0x00588402,0x74); //
+        Utilits.SetByte(0x005883A4,0x74);
+        Utilits.SetByte(0x00588402,0x74);
     }
 
     if(Configs.AllowExeAnc)
@@ -659,8 +659,6 @@ void cFixes::ASMFixes()
     BYTE ring40[5] = {0xE8, 0xD9, 0x23, 0xFC, 0xFF};
     memcpy((int*)0x004419F9,ring40,sizeof(ring40));
 
-    //*********************************************************************************************************************************
-
     Utilits.SetRRetn(0x00403233);		// Destroy Giocp
     Utilits.SetRRetn(0x004069AB);		// Serial 0x00000000 fix
     Utilits.SetRRetn(0x00404584);		// HACK TOOL DC Fix
@@ -928,14 +926,15 @@ void cFixes::ASMFixes()
     BYTE IOCPResponceErrorJump[] = {0xE9, 0xE0, 0x02, 0x00, 0x00, 0x90, 0x90, 0x90, 0x90};//JMP 004C30A3
     memcpy((int*)0x004C2DBE, IOCPResponceErrorJump, sizeof(IOCPResponceErrorJump));
 
-    BYTE IOCPAdd79Error[] = {0x81, 0x7D, 0xD0, 0xE3, 0x03, 0x00, 0x00, 0x0F,
-                             0x84, 0x49, 0xFD, 0xFF, 0xFF, 0x83, 0x7D, 0xD0,
-                             0x79, 0x0F, 0x84, 0x3F, 0xFD, 0xFF, 0xFF, 0xE9,
-                             0x08, 0xFD, 0xFF, 0xFF
-                            };
-    memcpy((int*)0x004C30A3, IOCPAdd79Error , sizeof(IOCPAdd79Error));
+    BYTE IOCPAdd79Error[] =
+	{
+		0x81, 0x7D, 0xD0, 0xE3, 0x03, 0x00, 0x00, 0x0F,
+		0x84, 0x49, 0xFD, 0xFF, 0xFF, 0x83, 0x7D, 0xD0,
+		0x79, 0x0F, 0x84, 0x3F, 0xFD, 0xFF, 0xFF, 0xE9,
+		0x08, 0xFD, 0xFF, 0xFF
+	};
 
-    //*********************************************************************************************************************************
+    memcpy((int*)0x004C30A3, IOCPAdd79Error , sizeof(IOCPAdd79Error));
 
     //Hook JGPGetCharInfoEx
     BYTE CharWingsEx[] = {0x8D, 0xBD, 0xEC, 0xFE, 0xFF, 0xFF, 0x57, 0xFF,
@@ -966,8 +965,6 @@ void cFixes::ASMFixes()
     BYTE CharWingsEx3[] = {0xE9, 0xA5, 0x1E, 0x00, 0x00 };
     memcpy((int*)0x0042C992, CharWingsEx3, sizeof(CharWingsEx3));
     */
-
-    //*********************************************************************************************************************************
 
     // Fix Pet Durablity
     BYTE FixPetDur[] = {0xFF, 0x25, 0x50, 0xB5, 0x71, 0x00, 0x90, 0x90}; //JMP DWORD PTR DS:[71B550]
