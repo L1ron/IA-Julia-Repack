@@ -2462,7 +2462,7 @@ bool cChat::CheckVIPCommand(LPOBJ gObj, char *Msg)
 
 	if(AddTab[gObj->m_Index].VIP_Type > 0)
 	{
-		MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Restam %d min(s) do seu VIP %s.", AddTab[gObj->m_Index].VIP_Min);
+		MessageLog(1, c_Red, t_VIP, gObj, "[VIP] Restam %d min(s) do seu VIP %s.", AddTab[gObj->m_Index].VIP_Min,Vip.Config.VIPState[AddTab[gObj->m_Index].VIP_Type].VIPName);
 	}
 	else
 	{
