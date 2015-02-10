@@ -1,3 +1,7 @@
+# 1.1.0.357 # - Changed all .txt config files to .ini files
+# 1.1.0.356 # - Added a option to edit Respawn for Moss Gambler
+# 1.1.0.355 # - Fixed track, trace and disconnect commands for GMs / ADMs
+# 1.1.0.354 # - Changed CalcCharacter System now is better and working
 # 1.1.0.353 # - Added a NPC to reset system (Default 249)
 # 1.1.0.352 # - Added a original webzen Golden archer (And their config for it)
 # 1.1.0.351 # - Added webpoints to Helper systems
