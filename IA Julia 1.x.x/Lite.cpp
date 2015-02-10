@@ -152,10 +152,10 @@ extern "C" __declspec(dllexport) void __cdecl IAJuliaMain()
 		Utilits.HookThis((DWORD)&CGItemDropRequestEx, 0x00401163);
 		Utilits.HookThis((DWORD)&_gObjCheckTeleportArea, 0x0040268A);
 		Utilits.HookThis((DWORD)&GetRandomOpExe, 0x0049D3BB);
-		Utilits.HookThis((DWORD)&GCDamageSend, 0x00403BA7);                    // HP Bar
-#endif
+		Utilits.HookThis((DWORD)&GCDamageSend, 0x00403BA7);	// HP Bar
 
-#ifdef _GS_CS
+#else
+
 		Utilits.HookThis((DWORD)&CheckItemType, 0x00402E32);
 		Utilits.HookThis((DWORD)&ProtocolCore, 0x00403A17);
 		Utilits.HookThis((DWORD)&ProtocolCoreSend, 0x00405AE7);
@@ -173,7 +173,7 @@ extern "C" __declspec(dllexport) void __cdecl IAJuliaMain()
 		Utilits.HookThis((DWORD)&gObjInventoryMoveItemEx, 0x00401F96);
 		Utilits.HookThis((DWORD)&CGItemDropRequestEx, 0x004082F6);
 		Utilits.HookThis((DWORD)&_gObjCheckTeleportArea, 0x00402522);
-		//Utilits.HookThis((DWORD)&GCDamageSend,0x00403D55);                    //HP BAR GS_CS
+		//Utilits.HookThis((DWORD)&GCDamageSend,0x00403D55);	//HP BAR GS_CS
 #endif
 
 		DWORD ThreadID;
