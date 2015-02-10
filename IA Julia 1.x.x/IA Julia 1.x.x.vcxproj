@@ -88,6 +88,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AntiAFK.cpp" />
+    <ClCompile Include="CalcCharacter.cpp" />
     <ClCompile Include="ChatCommands.cpp" />
     <ClCompile Include="Configs.cpp" />
     <ClCompile Include="DropSystem.cpp" />
@@ -130,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="AntiAFK.h" />
     <ClInclude Include="Archer.h" />
+    <ClInclude Include="CalcCharacter.h" />
     <ClInclude Include="ChatCommands.h" />
     <ClInclude Include="Configs.h" />
     <ClInclude Include="DropSystem.h" />

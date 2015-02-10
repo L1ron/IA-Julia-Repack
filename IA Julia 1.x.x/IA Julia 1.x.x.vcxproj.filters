@@ -192,6 +192,9 @@
     <ClCompile Include="Quests.cpp">
       <Filter>Source\Events</Filter>
     </ClCompile>
+    <ClCompile Include="CalcCharacter.cpp">
+      <Filter>Source\Player\CalcCharacter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="Quests.h">
       <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CalcCharacter.h">
+      <Filter>Source\Player\CalcCharacter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
