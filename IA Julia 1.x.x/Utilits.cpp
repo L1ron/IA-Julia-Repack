@@ -289,19 +289,19 @@ void cUtilits::SendEffect(LPOBJ gObj, BYTE btType)
 
 	switch (btType)
 	{
-	case 1:
+		case 1:
 		{
 			btType = 3;		// Efeito ???
 
 			break;
 		}
-	case 2:
+		case 2:
 		{
 			btType = 16;	// Efeito Level UP
 
 			break;
 		}
-	case 3:
+		case 3:
 		{
 			btType = 17;	// Efeito Gelo
 
