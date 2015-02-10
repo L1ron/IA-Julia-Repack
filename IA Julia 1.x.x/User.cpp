@@ -18,6 +18,7 @@
 #include "MarrySystem.h"
 #include "Helpers.h"
 #include "Quests.h"
+#include "CalcCharacter.h"
 
 sAddTab AddTab[OBJECT_MAX];
 cUser User;
@@ -37,86 +38,86 @@ bool cUser::CheckMaxPoints(BYTE type, OBJECTSTRUCT* lpObj)
 
 	switch (type)
 	{
-	case 0x00:
-		Stats = lpObj->Strength;
-		if(Configs.MaxStatsSystemEnable)
-		{
-			if(lpObj->Class == 0)
-				MaxPoints = Configs.MaxDW_Strength;
-			else if(lpObj->Class == 1)
-				MaxPoints = Configs.MaxDK_Strength;
-			else if(lpObj->Class == 2)
-				MaxPoints = Configs.MaxELF_Strength;
-			else if(lpObj->Class == 3)
-				MaxPoints = Configs.MaxMG_Strength;
-			else if(lpObj->Class == 4)
-				MaxPoints = Configs.MaxDL_Strength;
-			else if(lpObj->Class == 5)
-				MaxPoints = Configs.MaxSUM_Strength;
-		}
-		break;
-	case 0x01:
-		Stats = lpObj->Dexterity;
-		if(Configs.MaxStatsSystemEnable)
-		{
-			if(lpObj->Class == 0)
-				MaxPoints = Configs.MaxDW_Agility;
-			else if(lpObj->Class == 1)
-				MaxPoints = Configs.MaxDK_Agility;
-			else if(lpObj->Class == 2)
-				MaxPoints = Configs.MaxELF_Agility;
-			else if(lpObj->Class == 3)
-				MaxPoints = Configs.MaxMG_Agility;
-			else if(lpObj->Class == 4)
-				MaxPoints = Configs.MaxDL_Agility;
-			else if(lpObj->Class == 5)
-				MaxPoints = Configs.MaxSUM_Agility;
-		}
-		break;
-	case 0x02:
-		Stats = lpObj->Vitality;
-		if(Configs.MaxStatsSystemEnable)
-		{
-			if(lpObj->Class == 0)
-				MaxPoints = Configs.MaxDW_Vitality;
-			else if(lpObj->Class == 1)
-				MaxPoints = Configs.MaxDK_Vitality;
-			else if(lpObj->Class == 2)
-				MaxPoints = Configs.MaxELF_Vitality;
-			else if(lpObj->Class == 3)
-				MaxPoints = Configs.MaxMG_Vitality;
-			else if(lpObj->Class == 4)
-				MaxPoints = Configs.MaxDL_Vitality;
-			else if(lpObj->Class == 5)
-				MaxPoints = Configs.MaxSUM_Vitality;
-		}
-		break;
-	case 0x03:
-		Stats = lpObj->Energy;
-		if(Configs.MaxStatsSystemEnable)
-		{
-			if(lpObj->Class == 0)
-				MaxPoints = Configs.MaxDW_Energy;
-			else if(lpObj->Class == 1)
-				MaxPoints = Configs.MaxDK_Energy;
-			else if(lpObj->Class == 2)
-				MaxPoints = Configs.MaxELF_Energy;
-			else if(lpObj->Class == 3)
-				MaxPoints = Configs.MaxMG_Energy;
-			else if(lpObj->Class == 4)
-				MaxPoints = Configs.MaxDL_Energy;
-			else if(lpObj->Class == 5)
-				MaxPoints = Configs.MaxSUM_Energy;
-		}
-		break;
-	case 0x04:
-		Stats = lpObj->Leadership;
-		if(Configs.MaxStatsSystemEnable)
-		{
-			if(lpObj->Class == 4)
-				MaxPoints = Configs.MaxDL_Command;
-		}
-		break;
+		case 0x00:
+			Stats = lpObj->Strength;
+			if(Configs.MaxStatsSystemEnable)
+			{
+				if(lpObj->Class == 0)
+					MaxPoints = Configs.MaxDW_Strength;
+				else if(lpObj->Class == 1)
+					MaxPoints = Configs.MaxDK_Strength;
+				else if(lpObj->Class == 2)
+					MaxPoints = Configs.MaxELF_Strength;
+				else if(lpObj->Class == 3)
+					MaxPoints = Configs.MaxMG_Strength;
+				else if(lpObj->Class == 4)
+					MaxPoints = Configs.MaxDL_Strength;
+				else if(lpObj->Class == 5)
+					MaxPoints = Configs.MaxSUM_Strength;
+			}
+			break;
+		case 0x01:
+			Stats = lpObj->Dexterity;
+			if(Configs.MaxStatsSystemEnable)
+			{
+				if(lpObj->Class == 0)
+					MaxPoints = Configs.MaxDW_Agility;
+				else if(lpObj->Class == 1)
+					MaxPoints = Configs.MaxDK_Agility;
+				else if(lpObj->Class == 2)
+					MaxPoints = Configs.MaxELF_Agility;
+				else if(lpObj->Class == 3)
+					MaxPoints = Configs.MaxMG_Agility;
+				else if(lpObj->Class == 4)
+					MaxPoints = Configs.MaxDL_Agility;
+				else if(lpObj->Class == 5)
+					MaxPoints = Configs.MaxSUM_Agility;
+			}
+			break;
+		case 0x02:
+			Stats = lpObj->Vitality;
+			if(Configs.MaxStatsSystemEnable)
+			{
+				if(lpObj->Class == 0)
+					MaxPoints = Configs.MaxDW_Vitality;
+				else if(lpObj->Class == 1)
+					MaxPoints = Configs.MaxDK_Vitality;
+				else if(lpObj->Class == 2)
+					MaxPoints = Configs.MaxELF_Vitality;
+				else if(lpObj->Class == 3)
+					MaxPoints = Configs.MaxMG_Vitality;
+				else if(lpObj->Class == 4)
+					MaxPoints = Configs.MaxDL_Vitality;
+				else if(lpObj->Class == 5)
+					MaxPoints = Configs.MaxSUM_Vitality;
+			}
+			break;
+		case 0x03:
+			Stats = lpObj->Energy;
+			if(Configs.MaxStatsSystemEnable)
+			{
+				if(lpObj->Class == 0)
+					MaxPoints = Configs.MaxDW_Energy;
+				else if(lpObj->Class == 1)
+					MaxPoints = Configs.MaxDK_Energy;
+				else if(lpObj->Class == 2)
+					MaxPoints = Configs.MaxELF_Energy;
+				else if(lpObj->Class == 3)
+					MaxPoints = Configs.MaxMG_Energy;
+				else if(lpObj->Class == 4)
+					MaxPoints = Configs.MaxDL_Energy;
+				else if(lpObj->Class == 5)
+					MaxPoints = Configs.MaxSUM_Energy;
+			}
+			break;
+		case 0x04:
+			Stats = lpObj->Leadership;
+			if(Configs.MaxStatsSystemEnable)
+			{
+				if(lpObj->Class == 4)
+					MaxPoints = Configs.MaxDL_Command;
+			}
+			break;
 	}
 
 	if(MaxPoints > 32767)
@@ -171,30 +172,30 @@ void cUser::gObjCharacterWingsSetPreview(short ItemType, unsigned char *CharSet,
 
 		switch(ItemType)
 		{
-		case 0x1A50: //Panda
-			PreviewPet = 224;
-			break;
+			case 0x1A50: //Panda
+				PreviewPet = 224;
+				break;
 
-		case 0x1A43:
-			PreviewPet = 0x80;
-			break;
+			case 0x1A43:
+				PreviewPet = 0x80;
+				break;
 
-		case 0x1A41:
-			PreviewPet = 0x40;
-			break;
+			case 0x1A41:
+				PreviewPet = 0x40;
+				break;
 
-		case 0x1A40:
-			PreviewPet = 0x20;
-			break;
+			case 0x1A40:
+				PreviewPet = 0x20;
+				break;
 
-		case 0x1A7B: //Skeleton
-			CharSet[5] -= 3;
-			PreviewPet = 96; //112
-			break;
+			case 0x1A7B: //Skeleton
+				CharSet[5] -= 3;
+				PreviewPet = 96; //112
+				break;
 
-		default:
-			PreviewPet = 0;
-			break;
+			default:
+				PreviewPet = 0;
+				break;
 		}
 
 		CharSet[16] |= PreviewPet;
@@ -214,7 +215,8 @@ void __stdcall gObjViewportPatchExecute(OBJECTSTRUCT *lpObj)
 #define CS_SET_BOOTS3(x) ( ((x) & 0x0F ) << 4 )
 
 //Fix Visual in Select Character
-void __stdcall JGPGetCharInfoEx(int Loop, unsigned char *DSPacket, unsigned char *toClientPacket) {
+void __stdcall JGPGetCharInfoEx(int Loop, unsigned char *DSPacket, unsigned char *toClientPacket)
+{
 	unsigned char ItemType = DSPacket[76 + (66 * Loop)]; //72 - Wings, 76 - Guardian
 	register int nCol = (Loop * 34) + 38;
 	register int CharSet5 = (Loop * 34) + 27; //CharSet[5]
@@ -228,14 +230,18 @@ void __stdcall JGPGetCharInfoEx(int Loop, unsigned char *DSPacket, unsigned char
 
 	switch(ItemType)
 	{
-	case 0x50:
-		toClientPacket[nCol] |= 224;
-		break;
-	case 0x7B:
-		toClientPacket[CharSet5]  -= 3;
-		toClientPacket[nCol] |= 96;
+		case 0x50:
+		{
+			toClientPacket[nCol] |= 224;
+			break;
+		}
+		case 0x7B:
+		{
+			toClientPacket[CharSet5]  -= 3;
+			toClientPacket[nCol] |= 96;
 
-		break;
+			break;
+		}
 	}
 
 	if(Boots == 255)
@@ -325,6 +331,11 @@ void MyObjCalCharacter(int aIndex)
 	OBJECTSTRUCT * lpObj = (OBJECTSTRUCT*) OBJECT_POINTER (aIndex);
 
 	gObjCalCharacter(aIndex);
+
+	if(CalcCharacterExternClass.CalcCharacterEnabled)
+	{
+		CalcCharacterExternClass.CalCharacterEx(aIndex);
+	}
 
 	if(lpObj->pInventory[8].m_Type == 0x1A50) //Panda
 	{
@@ -708,13 +719,13 @@ void cUser::LoginMsg(LPOBJ gObj)
 	{
 		case 1:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s conectado!", gObj->Name);
+			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[Admin] %s Conectado!", gObj->Name);
 
 			break;
 		}
 		case 2:
 		{
-			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s conectado!", gObj->Name);
+			Chat.MessageAllLog(0, 0, c_Green, t_GM, gObj, "[GM] %s Conectado!", gObj->Name);
 
 			break;
 		}

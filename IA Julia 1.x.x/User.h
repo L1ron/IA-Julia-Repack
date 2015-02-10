@@ -108,13 +108,12 @@ typedef	struct sAddTab
 
 typedef OBJECTSTRUCT * LPOBJ;
 extern sAddTab AddTab[OBJECT_MAX];
-//extern OBJECTSTRUCT gObj[OBJECT_MAX];
-// #	FIXES	# //
+
+// FIXES
 void __stdcall gObjViewportPatchExecute(OBJECTSTRUCT *gObj);
 void __stdcall JGPGetCharInfoEx(int Loop, unsigned char *DSPacket, unsigned char *toClientPacket);
-// # ---------- # //
 
-// # Hook in GS # //
+// Hook in GS 
 void gObjLevelUpPointAddEx(BYTE type, OBJECTSTRUCT* lpObj);
 BOOL gObjGameClose_Func(int aIndex);
 void GCKillPlayerExpSendHook(int aIndex, int TargetIndex, long exp, int AttackDamage, int MSBFlag);
@@ -123,30 +122,29 @@ void FireworkOnTheScreen(LPOBJ gObj);
 void GCEquipmentSendHook(int aIndex);
 void GSItemDurRepaire(LPOBJ lpObj, CItem * DurItem, int pos, int RequestPos);
 BOOL _gObjCheckTeleportArea(int aIndex, BYTE X, BYTE Y);
-// # ---------- # //
 
-// #	TICK	# //
+// TICK
 void TradeSystem__Cancel(void * lpParam);
-// # ---------- # //
 
 class cUser
 {
-public:
-    void OnlineTimeTick(LPOBJ gObj);
-    void PlayerConnect(LPOBJ gObj);
-    void CheckRingSend(LPOBJ gObj, LPBYTE aRecv);
-    void CheckRing(LPOBJ gObj, LPBYTE aRecv);
-    void RingSkin(LPOBJ gObj);
-    bool CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, int aIndex);
-    bool CharacterCreate(PMSG_CHARCREATE* lpMsg, int aIndex);
-    bool GuildMasterInfoSave(int aIndex,PMSG_GUILDINFOSAVE* lpMsg);
-    void gObjCharacterWingsSetPreview(short ItemType, unsigned char *CharSet,int Type,OBJECTSTRUCT *lpObj);
-    bool CheckMaxPoints(BYTE type, OBJECTSTRUCT* lpObj);
-private:
-    void CheckTeleport(LPOBJ gObj);
-    void LoginMsg(LPOBJ gObj);
-    bool ResetCheck(LPOBJ gObj);
+	public:
+		void OnlineTimeTick(LPOBJ gObj);
+		void PlayerConnect(LPOBJ gObj);
+		void CheckRingSend(LPOBJ gObj, LPBYTE aRecv);
+		void CheckRing(LPOBJ gObj, LPBYTE aRecv);
+		void RingSkin(LPOBJ gObj);
+		bool CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, int aIndex);
+		bool CharacterCreate(PMSG_CHARCREATE* lpMsg, int aIndex);
+		bool GuildMasterInfoSave(int aIndex,PMSG_GUILDINFOSAVE* lpMsg);
+		void gObjCharacterWingsSetPreview(short ItemType, unsigned char *CharSet,int Type,OBJECTSTRUCT *lpObj);
+		bool CheckMaxPoints(BYTE type, OBJECTSTRUCT* lpObj);
+	private:
+		void CheckTeleport(LPOBJ gObj);
+		void LoginMsg(LPOBJ gObj);
+		bool ResetCheck(LPOBJ gObj);
 };
+
 extern cUser User;
 
 #endif
