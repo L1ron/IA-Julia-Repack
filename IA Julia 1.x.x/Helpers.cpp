@@ -60,7 +60,7 @@ void cHelpers::Load()
 
 				if(Flag == 1)
 				{
-					sscanf(zBuffer,"%d %d %d %d %d %d %d %d",&Type,&Index,&Level,&Duration,&Luck,&Skill,&Option,&Excellent);
+					sscanf_s(zBuffer,"%d %d %d %d %d %d %d %d",&Type,&Index,&Level,&Duration,&Luck,&Skill,&Option,&Excellent);
 
 					HelperItens[Itens].Grupo = this->Type;
 					HelperItens[Itens].Index = this->Index;
@@ -156,7 +156,7 @@ void cHelpers::CheckConditions(LPOBJ gObj,LPOBJ gObjNPC)
 		return;
 	}
 
-	if(gObj->m_PK_Level > 3)
+	if(!Helpers.Config.UsePK && (gObj->m_PK_Level > 3))
 	{
 		Monster.NPCMessageLog(c_Red,t_HELPERS,gObj,gObjNPC,"Nao farei negocios com PKs!.");
 		
