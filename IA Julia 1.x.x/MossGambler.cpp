@@ -73,6 +73,7 @@ void cMoss::Load()
 		Config.RandAncient		= Configs.GetInt(0,100,20,"Random","RandAncient",IAJuliaMossGambler);
 
 		Moss.LoadItemInfo();
+		Moss.LoadRespawnInfo();
 
 		if(Config.EnableTimer)
 		{
@@ -131,6 +132,60 @@ void cMoss::LoadItemInfo()
 	}
 }
 
+void cMoss::LoadRespawnInfo()
+{
+	FILE *File;
+	File = fopen(IAJuliaMossGambler,"r");
+
+	if(File == NULL)
+	{
+		SpawnCoord.Mob		= 492;
+		SpawnCoord.Map		= 51;
+		SpawnCoord.Speed	= 0;
+		SpawnCoord.X1		= 22;
+		SpawnCoord.Y1		= 225;
+		SpawnCoord.X2		= 22;
+		SpawnCoord.Y2		= 225;
+		SpawnCoord.Dir		= 2;
+
+		Log.ConsoleOutPut(0,c_Red,t_NULL,"[û] [Moss The Gambler]\tImpossivel abrir %s, iniciando coordenadas padrao.",IAJuliaMossGambler);
+	}
+	else
+	{
+		int Flag = 0;
+		char zBuffer[1024],C[12] = {0};
+
+		while(!feof(File))
+		{
+			fgets(zBuffer,1024,File);
+
+			if(Utilits.IsBadFileLine(zBuffer,Flag))
+			{
+				continue;
+			}
+
+			if(Flag == 1)
+			{
+				sscanf_s
+				(
+					zBuffer,
+					"%d %d %d %d %d %d %d %d",
+					&SpawnCoord.Mob,
+					&SpawnCoord.Map,
+					&SpawnCoord.Speed,
+					&SpawnCoord.X1,
+					&SpawnCoord.Y1,
+					&SpawnCoord.X2,
+					&SpawnCoord.Y2,
+					&SpawnCoord.Dir
+				);
+			}
+		}
+
+		fclose(File);
+	}
+}
+
 void cMoss::LoadTimeConfig()
 {
 	FILE *File;
@@ -138,7 +193,7 @@ void cMoss::LoadTimeConfig()
 
 	if(File == NULL)
 	{
-		Log.ConsoleOutPut(0,c_Red,t_NULL,"[û] [Moss The Gambler]\tImpossivel abrir EventTime.dat, timer desativado.");
+		Log.ConsoleOutPut(0,c_Red,t_NULL,"[û] [Moss The Gambler]\tImpossivel abrir EventTime.dat, timer inativo.");
 
 		Config.EnableTimer = 0;
 	}
@@ -148,7 +203,7 @@ void cMoss::LoadTimeConfig()
 		bool bFlag = false;
 		int j = 0;
 
-		while (!feof(File))
+		while(!feof(File))
 		{
 			fgets(zBuffer,1024,File);
 
@@ -226,7 +281,7 @@ void cMoss::CheckTime()
 
 					if(hour == BeforeOpenHour && min == BeforeOpenMin)
 					{
-						Chat.MessageAll(0,0,NULL,"Moss The Gambler will arrive after %d minute(s)",j);
+						Chat.MessageAll(0,0,NULL,"Moss The Gambler vai abrir em %d minuto(s).",j);
 
 						break;
 					}
@@ -234,7 +289,7 @@ void cMoss::CheckTime()
 
 				if (hour == Timer[i].hour && min == Timer[i].minute)
 				{
-					Chat.MessageAll(0,0,NULL,"Moss The Gambler is arrived!");
+					Chat.MessageAll(0,0,NULL,"Moss The Gambler chegou!");
 
 					this->Spawn();
 					this->Opened = TRUE;
@@ -242,7 +297,7 @@ void cMoss::CheckTime()
 
 				if (hour == Timer[i].closehour && min == Timer[i].closemin)
 				{
-					Chat.MessageAll(0,0,NULL,"Moss The Gambler is closed!");
+					Chat.MessageAll(0,0,NULL,"Moss The Gambler fechou!");
 
 					this->Disappear();
 					this->Opened = FALSE;
@@ -259,7 +314,17 @@ BOOL cMoss::GetStatusMoss()
 
 void cMoss::Spawn()
 {
-	Monster.MonsterAddAndSpawn(492,51,0,22,225,22,225,2);
+	Monster.MonsterAddAndSpawn
+	(
+		SpawnCoord.Mob,
+		SpawnCoord.Map,
+		SpawnCoord.Speed,
+		SpawnCoord.X1,
+		SpawnCoord.Y1,
+		SpawnCoord.X2,
+		SpawnCoord.Y2,
+		SpawnCoord.Dir
+	);
 }
 
 void cMoss::Disappear()
@@ -397,7 +462,7 @@ BOOL cMoss::BuyItem(int aIndex, unsigned char * aRecv)
 
 	if(NewOption > 0)
 	{
-		Chat.Message(1, gObj,"[Moss The Gambler] Parabens, voce recebeu um item valioso!");
+		Chat.Message(1, gObj,"[Moss The Gambler] Voce ganhou um item valioso!");
 	}
 
 	if(Config.PriceZen > 0)

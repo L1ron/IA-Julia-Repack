@@ -10,6 +10,7 @@ class cMoss
         void Load();
         void LoadMainConfig();
         void LoadItemInfo();
+		void LoadRespawnInfo();
         void LoadTimeConfig();
         void DataSendMoss(int Index);
 
@@ -57,6 +58,7 @@ class cMoss
             char Name[50];
         } ItemInfo[6][100];
         short OrderItems[6];
+
         struct
         {
             int hour;
@@ -65,6 +67,18 @@ class cMoss
             int closehour;
             int closemin;
         } Timer[128];
+
+		struct
+		{
+			int Mob;
+			int Map;
+			int Speed;
+			int X1;
+			int Y1;
+			int X2;
+			int Y2;
+			int Dir;
+		} SpawnCoord;
 
         int AmountTimers;
         int BuyType;
