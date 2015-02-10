@@ -364,15 +364,15 @@ struct PMSG_ITEMTHROW
 #endif
 
 //Configs Defines //
-#define IAJuliaAntiAFK			"..\\IA Julia\\AntiAFK.txt"
-#define IAJuliaChatCommands     "..\\IA Julia\\ChatCommands.txt"
+#define IAJuliaAntiAFK			"..\\IA Julia\\AntiAFK.ini"
+#define IAJuliaChatCommands     "..\\IA Julia\\ChatCommands.ini"
 #define IAJuliaCmd				"..\\IA Julia\\Commands.ini"
 #define IAJuliaCommon			"..\\IA Julia\\Common.ini"
 #define IAJuliaDropSystem		"..\\IA Julia\\DropSystem.ini"
 #define IAJuliaEvents			"..\\IA Julia\\Events.ini"
 #define IAJuliaEventTime		"..\\IA Julia\\EventTimer.dat"
-#define IAJuliaArcher			"..\\IA Julia\\GoldenArcher.txt"
-#define IAJuliaHelpers          "..\\IA Julia\\Helpers.txt"
+#define IAJuliaArcher			"..\\IA Julia\\GoldenArcher.ini"
+#define IAJuliaHelpers          "..\\IA Julia\\Helpers.ini"
 #define IAJuliaQuests			"..\\IA Julia\\Quests.ini"
 #define IAJuliaItems			"..\\IA Julia\\Items.ini"
 #define IAJuliaMossGambler		"..\\IA Julia\\MossGambler.ini"
@@ -382,16 +382,16 @@ struct PMSG_ITEMTHROW
 #define IAJuliaSkills			"..\\IA Julia\\Skills.ini"
 #define IAJuliaMobAdd			"..\\IA Julia\\MonsterSpawn.ini"
 #define IAJuliaMapSystem		"..\\IA Julia\\MapSystem.ini"
-#define IAJuliaEventDropBC		"..\\IA Julia\\WzEvents\\EventDropBC.txt"
-#define IAJuliaEventDropIT		"..\\IA Julia\\WzEvents\\EventDropIT.txt"
-#define IAJuliaEventDropWW		"..\\IA Julia\\WzEvents\\EventDropWW.txt"
-#define IAJuliaEventDropCC		"..\\IA Julia\\WzEvents\\EventDropCC.txt"
+#define IAJuliaEventDropBC		"..\\IA Julia\\WzEvents\\EventDropBC.ini"
+#define IAJuliaEventDropIT		"..\\IA Julia\\WzEvents\\EventDropIT.ini"
+#define IAJuliaEventDropWW		"..\\IA Julia\\WzEvents\\EventDropWW.ini"
+#define IAJuliaEventDropCC		"..\\IA Julia\\WzEvents\\EventDropCC.ini"
 #define	IAJuliaWzEvents			"..\\IA Julia\\WzEvents"
-#define IAJuliaGM				"..\\IA Julia\\GMSystem.txt"
-#define IAJuliaSocket			"..\\IA Julia\\SocketItem.txt"
-#define IAJuliaIPBlock			"..\\IA Julia\\IPBlock.txt"
+#define IAJuliaGM				"..\\IA Julia\\GMSystem.ini"
+#define IAJuliaSocket			"..\\IA Julia\\SocketItem.ini"
+#define IAJuliaIPBlock			"..\\IA Julia\\IPBlock.ini"
 #define IAJuliaVIP				"..\\IA Julia\\VIPSystem.ini"
-#define IAJuliaNews				".\\News.txt"
+#define IAJuliaNews				".\\News.ini"
 #define IAJuliaChatLogs			"..\\IA Julia\\ChatLogs"
 #define IAJuliaConsoleLogs		"..\\IA Julia\\ConsoleLogs"
 #define IAJuliaLog				".\\Log"
@@ -399,10 +399,10 @@ struct PMSG_ITEMTHROW
 #define IAJuliaPlayerSystem		"..\\IA Julia\\PlayerSystem.ini"
 #define IAJuliaTradeSystem		"..\\IA Julia\\TradeSystem.ini"
 #define IAJuliaTerritorySystem	"..\\IA Julia\\TerritorySystem.ini"
-#define IAJuliaMoveReq			"..\\IA Julia\\MoveReq.txt"
+#define IAJuliaMoveReq			"..\\IA Julia\\MoveReq.ini"
 #define IAJuliaMaximum			"..\\IA Julia\\MaximumStats.ini"
 #define IAJuliaJewelSystem		"..\\IA Julia\\Jewels.ini"
-#define IAJuliaGoldenDrop		"..\\IA Julia\\GoldenDrop.txt"
+#define IAJuliaGoldenDrop		"..\\IA Julia\\GoldenDrop.ini"
 #define IAResetSystem			"..\\IA Julia\\ResetSystems.ini"
 #define IACalcCharacter			"..\\IA Julia\\CalcCharacter.ini"
 #define IAMarrySystem			"..\\IA Julia\\MarrySystem.ini"
@@ -685,86 +685,6 @@ struct PMSG_ITEMTHROW
 //Selupan										  //
 //================================================//
 #define SELUPAN_ITEM_COUNT			(0x0041DF13+6)
-
-//================================================//
-//CalcCharacter									  //
-//================================================//
-#define AttackDamageMin_Bow_StrDexDiv_Elf1 (0x004E91C9+1) // Default 7
-#define AttackDamageMin_Bow_StrDexDiv_Elf2 (0x004E91F8+1)
-#define AttackDamageMax_Bow_StrDexDiv_Elf1 (0x004E91E0+2)
-#define AttackDamageMax_Bow_StrDexDiv_Elf2 (0x004E920F+2)
-
-#define AttackDamageMin_NoBow_DexDiv_Elf1 (0x004E9229+1)
-#define AttackDamageMin_NoBow_DexDiv_Elf2 (0x004E9271+1)
-#define AttackDamageMin_NoBow_StrDiv_Elf1 (0x004E9236+1)
-#define AttackDamageMin_NoBow_StrDiv_Elf2 (0x004E927E+1)
-
-#define AttackDamageMax_NoBow_DexDiv_Elf1 (0x004E924C+2)
-#define AttackDamageMax_NoBow_DexDiv_Elf2 (0x004E9294+2)
-#define AttackDamageMax_NoBow_StrDiv_Elf1 (0x004E925A+2)
-#define AttackDamageMax_NoBow_StrDiv_Elf2 (0x004E92A2+2)
-
-#define AttackDamageMin_DexStrDiv_Elf1 (0x004E92BE+1)
-#define AttackDamageMin_DexStrDiv_Elf2 (0x004E92ED+1)
-#define AttackDamageMax_DexStrDiv_Elf1 (0x004E9304+2)
-#define AttackDamageMax_DexStrDiv_Elf2 (0x004E92D5+2)
-// DK
-#define AttackDamageMin_StrDiv_DK1 (0x004E932F+1)
-#define AttackDamageMin_StrDiv_DK2 (0x004E9358+1)
-#define AttackDamageMax_StrDiv_DK1 (0x004E9343+2)
-#define AttackDamageMax_StrDiv_DK2 (0x004E936C+2)
-// MG
-#define AttackDamageMin_StrDiv_MG1 (0x004E939B+1)
-#define AttackDamageMin_StrDiv_MG2 (0x004E93E3+1)
-#define AttackDamageMax_StrDiv_MG1 (0x004E93BE+2)
-#define AttackDamageMax_StrDiv_MG2 (0x004E9406+2)
-#define AttackDamageMin_EneDiv_MG1 (0x004E93A8+1)
-#define AttackDamageMin_EneDiv_MG2 (0x004E93F0+1)
-#define AttackDamageMax_EneDiv_MG1 (0x004E93CC+2)
-#define AttackDamageMax_EneDiv_MG2 (0x004E9414+2)
-// DL
-#define AttackDamageMin_StrDiv_DL1 (0x004E948B+1)
-#define AttackDamageMin_StrDiv_DL2 (0x004E9445+1)
-#define AttackDamageMin_EneDiv_DL1 (0x004E9452+1)
-#define AttackDamageMin_EneDiv_DL2 (0x004E9498+1)
-#define AttackDamageMax_StrDiv_DL1 (0x004E9468+1)
-#define AttackDamageMax_StrDiv_DL2 (0x004E94AE+1)
-#define AttackDamageMax_EneDiv_DL1 (0x004E9475+1)
-#define AttackDamageMax_EneDiv_DL2 (0x004E94BB+1)
-// Sumoner
-#define AttackDamageMin_StrDiv_SUM1 (0x004E94EA+1)
-#define AttackDamageMin_StrDiv_SUM2 (0x004E9519+1)
-#define AttackDamageMax_StrDiv_SUM1 (0x004E9501+2)
-#define AttackDamageMax_StrDiv_SUM2 (0x004E9530+2)
-// DW
-#define AttackDamageMin_StrDiv_DW1 (0x004E9547+2)
-#define AttackDamageMin_StrDiv_DW2 (0x004E9571+2)
-#define AttackDamageMax_StrDiv_DW1 (0x004E955C+2)
-#define AttackDamageMax_StrDiv_DW2 (0x004E9586+2)
-
-//Magic Speed
-#define AttackSpeed_Elf1 (0x004E9D83+1) //32
-#define AttackSpeed_Elf2 (0x004E9D97+1) //32
-#define AttackSpeed_DK_MG1 (0x004E9DD2+1) //0F
-#define AttackSpeed_DK_MG2 (0x004E9DE6+1) //14
-#define AttackSpeed_DL1 (0x004E9E10+1) //0A
-#define AttackSpeed_DL2 (0x004E9E24+1) //0A
-#define AttackSpeed_Sum1 (0x004E9E4B+1) //14
-#define AttackSpeed_Sum2 (0x004E9E5F+1) //14
-#define AttackSpeed_DW1 (0x004E9E75+1) //14
-#define AttackSpeed_DW2 (0x004E9E89+1) //0A
-//SuccessfulBlock
-#define SuccessfulBlocking_Elf (0x004EA424+2)
-#define SuccessfulBlocking_DL (0x004EA44C+1)
-#define SuccessfulBlocking_Sum (0x004EA473+2)
-#define SuccessfulBlocking_DW_DK_MG (0x004EA48A+1)
-
-// Defense
-#define Defense_Elf (0x004EA995+1)
-#define Defense_DK (0x004EA9BF+1)
-#define Defense_DL (0x004EA9E6+1)
-#define Defense_Sum (0x004EAA0D+1)
-#define Defense_DW_MG (0x004EAA23+2)
 #endif
 
 #ifdef _GS_CS
@@ -1009,85 +929,6 @@ struct PMSG_ITEMTHROW
 //================================================//
 #define GS_MAPEXPLORER	(0x0058D777+7) // Default 22
 #define LogAdd ((void(*) (BYTE,char*,...))0x00407C07)
-
-//================================================//
-//CalcCharacter									  //
-//================================================//
-#define AttackDamageMin_Bow_StrDexDiv_Elf1 (0x004FAD69+1)
-#define AttackDamageMin_Bow_StrDexDiv_Elf2 (0x004FAD98+1)
-#define AttackDamageMax_Bow_StrDexDiv_Elf1 (0x004FAD80+2)
-#define AttackDamageMax_Bow_StrDexDiv_Elf2 (0x004FADAF+2)
-#define AttackDamageMax_NoBow_StrDiv_Elf1 (0x004FADFA+2)
-#define AttackDamageMax_NoBow_StrDiv_Elf2 (0x004FAE42+2)
-#define AttackDamageMin_NoBow_DexDiv_Elf1 (0x004FADC9+1)
-#define AttackDamageMin_NoBow_DexDiv_Elf2 (0x004FAE11+1)
-#define AttackDamageMin_NoBow_StrDiv_Elf1 (0x004FADD6+1)
-#define AttackDamageMin_NoBow_StrDiv_Elf2 (0x004FAE1E+1)
-#define AttackDamageMax_NoBow_DexDiv_Elf1 (0x004FADEC+2)
-#define AttackDamageMax_NoBow_DexDiv_Elf2 (0x004FAE34+2)
-#define AttackDamageMin_DexStrDiv_Elf1 (0x004FAE5E+1)
-#define AttackDamageMin_DexStrDiv_Elf2 (0x004FAE8D+1)
-#define AttackDamageMax_DexStrDiv_Elf1 (0x004FAEA4+2)
-#define AttackDamageMax_DexStrDiv_Elf2 (0x004FAE75+2)
-// DK
-#define AttackDamageMin_StrDiv_DK1 (0x004FAECF+1)
-#define AttackDamageMin_StrDiv_DK2 (0x004FAEF8+1)
-#define AttackDamageMax_StrDiv_DK1 (0x004FAEE3+2)
-#define AttackDamageMax_StrDiv_DK2 (0x004FAF0C+2)
-// MG
-#define AttackDamageMin_StrDiv_MG1 (0x004FAF3B+1)
-#define AttackDamageMin_StrDiv_MG2 (0x004FAF83+1)
-#define AttackDamageMin_EneDiv_MG1 (0x004FAF48+1)
-#define AttackDamageMin_EneDiv_MG2 (0x004FAF90+1)
-#define AttackDamageMax_StrDiv_MG1 (0x004FAF5E+2)
-#define AttackDamageMax_StrDiv_MG2 (0x004FAFA6+2)
-#define AttackDamageMax_EneDiv_MG1 (0x004FAF6C+2)
-#define AttackDamageMax_EneDiv_MG2 (0x004FAFB4+2)
-
-// DL
-#define AttackDamageMin_StrDiv_DL1 (0x004FB02B+1)
-#define AttackDamageMin_StrDiv_DL2 (0x004FAFE5+1)
-#define AttackDamageMin_EneDiv_DL1 (0x004FAFF2+1)
-#define AttackDamageMin_EneDiv_DL2 (0x004FB038+1)
-#define AttackDamageMax_StrDiv_DL1 (0x004FB008+1)
-#define AttackDamageMax_StrDiv_DL2 (0x004FB04E+1)
-#define AttackDamageMax_EneDiv_DL1 (0x004FB015+1)
-#define AttackDamageMax_EneDiv_DL2 (0x004FB05B+1)
-// Summoner
-#define AttackDamageMin_StrDiv_SUM1 (0x004FB08A+1)
-#define AttackDamageMin_StrDiv_SUM2 (0x004FB0B9+1)
-#define AttackDamageMax_StrDiv_SUM1 (0x004FB0A1+2)
-#define AttackDamageMax_StrDiv_SUM2 (0x004FB0D0+2)
-// DW
-#define AttackDamageMin_StrDiv_DW1 (0x004FB0E7+2)
-#define AttackDamageMin_StrDiv_DW2 (0x004FB111+2)
-#define AttackDamageMax_StrDiv_DW1 (0x004FB0FC+2)
-#define AttackDamageMax_StrDiv_DW2 (0x004FB126+2)
-#define AttackDamageMin_EneDiv_DW1 (0x004FB0EC+2)
-#define AttackDamageMax_EneDiv_DW2 (0x004FB116+2)
-// a Speed
-#define AttackSpeed_Elf1 (0x004FB923+1) //32
-#define AttackSpeed_Elf2 (0x004FB937+1) //32
-#define AttackSpeed_DK_MG1 (0x004FB972+1) //0F
-#define AttackSpeed_DK_MG2 (0x004FB986+1) //14
-#define AttackSpeed_DL1 (0x004FB9B0+1) //0A
-#define AttackSpeed_DL2 (0x004FB9C4+1) //0A
-#define AttackSpeed_DW1 (0x004FB9EB+1) //14
-#define AttackSpeed_DW2 (0x004FB9FF+1) //14
-#define AttackSpeed_Sum1 (0x004FBA15+1) //14
-#define AttackSpeed_Sum2 (0x004FBA29+1) //0A
-// Block
-#define SuccessfulBlocking_Elf (0x004FBFC4+2)
-#define SuccessfulBlocking_DW_DK_MG (0x004FBFEC+1)
-#define SuccessfulBlocking_DL (0x004FC02A+1)
-#define SuccessfulBlocking_Sum (0x004FC00A+2)
-// Defense
-#define Defense_Elf (0x004FC535+1)
-#define Defense_DK (0x004FC55F+1)
-#define Defense_DL (0x004FC586+1)
-#define Defense_Sum (0x004FC5AD+1)
-#define Defense_DW_MG (0x004FC5C3+2)
-
 #endif
 
 #ifdef _GS
