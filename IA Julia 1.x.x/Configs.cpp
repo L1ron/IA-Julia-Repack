@@ -27,6 +27,7 @@
 #include "Prodef.h"
 #include "Helpers.h"
 #include "Quests.h"
+#include "CalcCharacter.h"
 
 cConfigs Configs;
 
@@ -57,7 +58,7 @@ void cConfigs::LoadAll()
 	MaxStats();
 	Jewels.Load();
 	LoadPets();
-	CalcCharacter();
+	CalcCharacterExternClass.Init();
 #ifdef _GS
 	DuelSystem.Load();
 	Moss.Load();
@@ -65,94 +66,6 @@ void cConfigs::LoadAll()
 	Monster.LoadGolden();
 #endif
 	Marry.Init();
-}
-
-void cConfigs::CalcCharacter()
-{
-//============================= Fairy_Elf ============================================
-	*(unsigned char*)AttackDamageMin_Bow_StrDexDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_Bow_StrDexDiv", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_Bow_StrDexDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_Bow_StrDexDiv_2", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_Bow_StrDexDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_Bow_StrDexDiv", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_Bow_StrDexDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_Bow_StrDexDiv_2", 4, IACalcCharacter);
-
-	//NOBOW
-	*(unsigned char*)AttackDamageMin_NoBow_DexDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_NoBow_DexDiv", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_NoBow_DexDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_NoBow_DexDiv_2", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_NoBow_StrDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_NoBow_StrDiv", 14, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_NoBow_StrDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_NoBow_StrDiv_2", 14, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_NoBow_DexDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_NoBow_DexDiv", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_NoBow_DexDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_NoBow_DexDiv_2", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_DexStrDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_DexStrDiv", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_DexStrDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMin_DexStrDiv_2", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_DexStrDiv_Elf1 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_DexStrDiv", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_DexStrDiv_Elf2 = GetPrivateProfileInt("Fairy_Elf", "DamageMax_DexStrDiv_2", 4, IACalcCharacter);
-
-	//============================= Dark_Knight ============================================
-	*(unsigned char*)AttackDamageMin_StrDiv_DK1 = GetPrivateProfileInt("Dark_Knight", "DamageMin_StrDiv", 6, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_StrDiv_DK2 = GetPrivateProfileInt("Dark_Knight", "DamageMin_StrDiv_2", 6, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_DK1 = GetPrivateProfileInt("Dark_Knight", "DamageMax_StrDiv", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_DK2 = GetPrivateProfileInt("Dark_Knight", "DamageMax_StrDiv_2", 4, IACalcCharacter);
-
-	//============================= Magic_Gladiator ============================================
-	*(unsigned char*)AttackDamageMin_StrDiv_MG1 = GetPrivateProfileInt("Magic_Gladiator", "DamageMin_StrDiv", 6, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_StrDiv_MG2 = GetPrivateProfileInt("Magic_Gladiator", "DamageMin_StrDiv_2", 6, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_MG1 = GetPrivateProfileInt("Magic_Gladiator", "DamageMax_StrDiv", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_MG2 = GetPrivateProfileInt("Magic_Gladiator", "DamageMax_StrDiv_2", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_EneDiv_MG1 = GetPrivateProfileInt("Magic_Gladiator", "DamageMin_EneDiv", 12, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_EneDiv_MG2 = GetPrivateProfileInt("Magic_Gladiator", "DamageMin_EneDiv_2", 12, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_EneDiv_MG1 = GetPrivateProfileInt("Magic_Gladiator", "DamageMax_EneDiv", 8, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_EneDiv_MG2 = GetPrivateProfileInt("Magic_Gladiator", "DamageMax_EneDiv_2", 8, IACalcCharacter);
-
-	//============================= Dark_Lord ============================================
-	*(unsigned char*)AttackDamageMin_StrDiv_DL1 = GetPrivateProfileInt("Dark_Lord", "DamageMin_StrDiv", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_StrDiv_DL2 = GetPrivateProfileInt("Dark_Lord", "DamageMin_StrDiv_2", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_EneDiv_DL1 = GetPrivateProfileInt("Dark_Lord", "DamageMin_EneDiv", 14, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_EneDiv_DL2 = GetPrivateProfileInt("Dark_Lord", "DamageMin_EneDiv_2", 14, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_DL1 = GetPrivateProfileInt("Dark_Lord", "DamageMax_StrDiv", 5, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_DL2 = GetPrivateProfileInt("Dark_Lord", "DamageMax_StrDiv_2", 5, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_EneDiv_DL1 = GetPrivateProfileInt("Dark_Lord", "DamageMax_EneDiv", 10, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_EneDiv_DL2 = GetPrivateProfileInt("Dark_Lord", "DamageMax_EneDiv_2", 10, IACalcCharacter);
-
-	//============================= Summoner ============================================
-	*(unsigned char*)AttackDamageMin_StrDiv_SUM1 = GetPrivateProfileInt("Summoner", "DamageMin_StrDiv", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_StrDiv_SUM2 = GetPrivateProfileInt("Summoner", "DamageMin_StrDiv_2", 7, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_SUM1 = GetPrivateProfileInt("Summoner", "DamageMax_StrDiv", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_SUM2 = GetPrivateProfileInt("Summoner", "DamageMax_StrDiv_2", 4, IACalcCharacter);
-
-	//============================= Dark_Wizard ============================================
-	*(unsigned char*)AttackDamageMin_StrDiv_DW1 = GetPrivateProfileInt("Dark_Wizard", "DamageMin_StrDiv", 6, IACalcCharacter);
-	*(unsigned char*)AttackDamageMin_StrDiv_DW2 = GetPrivateProfileInt("Dark_Wizard", "DamageMin_StrDiv_2", 6, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_DW1 = GetPrivateProfileInt("Dark_Wizard", "DamageMax_StrDiv", 4, IACalcCharacter);
-	*(unsigned char*)AttackDamageMax_StrDiv_DW2 = GetPrivateProfileInt("Dark_Wizard", "DamageMax_StrDiv_2", 4, IACalcCharacter);
-
-	//============================= AtackSpeed ============================================
-	*(unsigned char*)AttackSpeed_Elf1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__Elf", 50, IACalcCharacter);
-	*(unsigned char*)AttackSpeed_DK_MG1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__DK_MG", 15, IACalcCharacter);
-	*(unsigned char*)AttackSpeed_DL1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__DL", 10, IACalcCharacter);
-	*(unsigned char*)AttackSpeed_Sum1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__SUM", 20, IACalcCharacter);
-	*(unsigned char*)AttackSpeed_DW1 = GetPrivateProfileInt("AttackSpeed", "AttackSpeed__DW", 20, IACalcCharacter);
-
-	//============================= MagicSpeed ============================================
-	*(unsigned char*)AttackSpeed_Elf2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__Elf", 50, IACalcCharacter);
-	*(unsigned char*)AttackSpeed_DK_MG2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__DK_MG", 20, IACalcCharacter);
-	*(unsigned char*)AttackSpeed_DL2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__DL", 10, IACalcCharacter);
-	*(unsigned char*)AttackSpeed_Sum2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__SUM", 20, IACalcCharacter);
-	*(unsigned char*)AttackSpeed_DW2 = GetPrivateProfileInt("MagicSpeed", "MagicSpeed__DW", 10, IACalcCharacter);
-
-	//============================= SuccessfulBlocking ============================================
-	*(unsigned char*)SuccessfulBlocking_Elf = GetPrivateProfileInt("SuccessfulBlocking", "SuccessfulBlocking__Elf", 4, IACalcCharacter);
-	*(unsigned char*)SuccessfulBlocking_DW_DK_MG = GetPrivateProfileInt("SuccessfulBlocking", "SuccessfulBlocking__DW_DK_MG", 7, IACalcCharacter);
-	*(unsigned char*)SuccessfulBlocking_DL = GetPrivateProfileInt("SuccessfulBlocking", "SuccessfulBlocking__DL", 4, IACalcCharacter);
-	*(unsigned char*)SuccessfulBlocking_Sum = GetPrivateProfileInt("SuccessfulBlocking", "SuccessfulBlocking__SUM", 3, IACalcCharacter);
-
-	//============================= Defense ============================================
-	*(unsigned char*)Defense_Elf = GetPrivateProfileInt("Defense", "Defense__Elf", 10, IACalcCharacter);
-	*(unsigned char*)Defense_DK = GetPrivateProfileInt("Defense", "Defense__DK", 3, IACalcCharacter);
-	*(unsigned char*)Defense_DL = GetPrivateProfileInt("Defense", "Defense__DL", 7, IACalcCharacter);
-	*(unsigned char*)Defense_Sum = GetPrivateProfileInt("Defense", "Defense__SUM", 3, IACalcCharacter);
-	*(unsigned char*)Defense_DW_MG = GetPrivateProfileInt("Defense", "Defense__DW_MG", 4, IACalcCharacter);
-
-	Log.ConsoleOutPut(1,c_Green,t_Default,"[û] [CalcCharacter]\tCarregado.");
 }
 
 void cConfigs::MaxStats()

@@ -12,7 +12,6 @@ class cConfigs
 		void ZenFixes();
 		void MaxStats();
 		void Misc();
-		void CalcCharacter();
 
 	public:
 		void LoadFixes();
