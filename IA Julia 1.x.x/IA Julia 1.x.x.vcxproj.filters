@@ -5,9 +5,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Configs\GameServer">
-      <UniqueIdentifier>{2f3a25c5-8760-4558-8e02-a1a8796939e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Configs\GameServerCS">
       <UniqueIdentifier>{95506b52-f8ac-42af-8f03-97f725ceac27}</UniqueIdentifier>
     </Filter>
@@ -58,9 +55,6 @@
     <Filter Include="Source\StdAfx">
       <UniqueIdentifier>{6da01cfc-b3df-4c7e-9b17-c03ada23dc54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Configs\GameServer\DATA">
-      <UniqueIdentifier>{8ef19aa6-50f4-4a3c-ab9c-6ad0c9a76eee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Configs\GameServerCS\DATA">
       <UniqueIdentifier>{e37fd55d-ec6c-4ee4-85a6-da5a721674df}</UniqueIdentifier>
     </Filter>
@@ -72,6 +66,12 @@
     </Filter>
     <Filter Include="Source\Player\CalcCharacter">
       <UniqueIdentifier>{704d6599-9211-41c3-a5e9-d65f8d0d4e8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs\GameServer">
+      <UniqueIdentifier>{2f3a25c5-8760-4558-8e02-a1a8796939e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs\GameServer\DATA">
+      <UniqueIdentifier>{8ef19aa6-50f4-4a3c-ab9c-6ad0c9a76eee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -325,18 +325,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configs\GameServerCS\GameServerCS.ini">
-      <Filter>Configs\GameServerCS</Filter>
-    </None>
-    <None Include="Configs\GameServerCS\News.txt">
-      <Filter>Configs\GameServerCS</Filter>
-    </None>
-    <None Include="Configs\GameServer\GameServer.ini">
-      <Filter>Configs\GameServer</Filter>
-    </None>
-    <None Include="Configs\GameServer\News.txt">
-      <Filter>Configs\GameServer</Filter>
-    </None>
     <None Include="ChangeLog.txt" />
     <None Include="Configs\IA Julia\AntiAFK.txt">
       <Filter>Configs\IA Julia</Filter>
@@ -435,19 +423,31 @@
     <None Include="Configs\IA Julia\MarrySystem.ini">
       <Filter>Configs\IA Julia</Filter>
     </None>
-    <None Include="Configs\GameServer\IPBlock.txt">
-      <Filter>Configs\GameServer</Filter>
-    </None>
-    <None Include="Configs\GameServer\DATA\ServerInfo.dat">
+    <None Include="Readme.md" />
+    <None Include="Configs\_GameServer\DATA\ServerInfo.dat">
       <Filter>Configs\GameServer\DATA</Filter>
     </None>
-    <None Include="Configs\GameServerCS\IPBlock.txt">
-      <Filter>Configs\GameServerCS</Filter>
+    <None Include="Configs\_GameServer\GameServer.ini">
+      <Filter>Configs\GameServer</Filter>
     </None>
-    <None Include="Configs\GameServerCS\DATA\ServerInfo.dat">
+    <None Include="Configs\_GameServer\IPBlock.txt">
+      <Filter>Configs\GameServer</Filter>
+    </None>
+    <None Include="Configs\_GameServer\News.txt">
+      <Filter>Configs\GameServer</Filter>
+    </None>
+    <None Include="Configs\_GameServerCS\DATA\ServerInfo.dat">
       <Filter>Configs\GameServerCS\DATA</Filter>
     </None>
-    <None Include="Readme.md" />
+    <None Include="Configs\_GameServerCS\GameServerCS.ini">
+      <Filter>Configs\GameServerCS</Filter>
+    </None>
+    <None Include="Configs\_GameServerCS\IPBlock.txt">
+      <Filter>Configs\GameServerCS</Filter>
+    </None>
+    <None Include="Configs\_GameServerCS\News.txt">
+      <Filter>Configs\GameServerCS</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

@@ -173,10 +173,6 @@
     <ClInclude Include="WZEventDrop.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configs\GameServerCS\DATA\ServerInfo.dat" />
-    <None Include="Configs\GameServerCS\IPBlock.txt" />
-    <None Include="Configs\GameServer\DATA\ServerInfo.dat" />
-    <None Include="Configs\GameServer\IPBlock.txt" />
     <None Include="Configs\IA Julia\CalcCharacter.ini" />
     <None Include="Configs\IA Julia\GMSystem.txt" />
     <None Include="Configs\IA Julia\GoldenDrop.txt" />
@@ -192,12 +188,16 @@
     <None Include="Configs\IA Julia\WzEvents\EventDropCC.txt" />
     <None Include="Configs\IA Julia\WzEvents\EventDropIT.txt" />
     <None Include="Configs\IA Julia\WzEvents\EventDropWW.txt" />
+    <None Include="Configs\_GameServerCS\DATA\ServerInfo.dat" />
+    <None Include="Configs\_GameServerCS\GameServerCS.ini" />
+    <None Include="Configs\_GameServerCS\IPBlock.txt" />
+    <None Include="Configs\_GameServerCS\News.txt" />
+    <None Include="Configs\_GameServer\DATA\ServerInfo.dat" />
+    <None Include="Configs\_GameServer\GameServer.ini" />
+    <None Include="Configs\_GameServer\IPBlock.txt" />
+    <None Include="Configs\_GameServer\News.txt" />
     <None Include="Notes.txt" />
     <None Include="ChangeLog.txt" />
-    <None Include="Configs\GameServerCS\GameServerCS.ini" />
-    <None Include="Configs\GameServerCS\News.txt" />
-    <None Include="Configs\GameServer\GameServer.ini" />
-    <None Include="Configs\GameServer\News.txt" />
     <None Include="Configs\IA Julia\AntiAFK.txt" />
     <None Include="Configs\IA Julia\Commands.ini" />
     <None Include="Configs\IA Julia\Common.ini" />
