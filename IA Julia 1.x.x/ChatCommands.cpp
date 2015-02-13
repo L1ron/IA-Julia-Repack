@@ -2159,7 +2159,7 @@ bool cChat::AddCommands(LPOBJ gObj, char *Msg, int Type)
 
 	int aIndex = Utilits.GetPlayerIndex(gObj->Name);
 
-	switch (Type)
+	switch(Type)
 	{
 		case 0x00:
 		{
@@ -3054,28 +3054,28 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
 	switch (Type)
 	{
-	case 4:
+		case 4:
 		{
 			PCPoint.UpdatePoints(gObj, Buy, PLUS, WCOIN);
 			PCPoint.UpdatePoints(gObj, Final, MINUS, WEBPOINTS);
 
 			break;
 		}
-	case 8:
+		case 8:
 		{
 			PCPoint.UpdatePoints(gObj, Buy, PLUS, WCOIN);
 			PCPoint.UpdatePoints(gObj, Final, MINUS, PCPOINT);
 
 			break;
 		}
-	case 9:
+		case 9:
 		{
 			PCPoint.UpdatePoints(gObj, Buy, PLUS, WEBPOINTS);
 			PCPoint.UpdatePoints(gObj, Final, MINUS, PCPOINT);
 
 			break;
 		}
-	case 10:
+		case 10:
 		{
 			PCPoint.UpdatePoints(gObj, Buy, PLUS, WCOIN);
 			gObj->Money -= Final;
@@ -3083,7 +3083,7 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
 			break;
 		}
-	case 11:
+		case 11:
 		{
 			PCPoint.UpdatePoints(gObj, Buy, PLUS, PCPOINT);
 			gObj->Money -= Final;
@@ -3091,7 +3091,7 @@ void ExchangeLowToHigh(LPOBJ gObj, int Type, int Buy, char*KindOfSell, char*Kind
 
 			break;
 		}
-	case 12:
+		case 12:
 		{
 			PCPoint.UpdatePoints(gObj, Buy, PLUS, WEBPOINTS);
 			gObj->Money -= Final;
