@@ -281,15 +281,56 @@ void RSystem::Reset(LPOBJ gObj)
 
 	if(State[NumState].Clear.Points)
 	{
+		PMSG_STAT_UPDATE pMsg;
+		PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(PMSG_STAT_UPDATE));
+
+		pMsg.result = 3; // Reduzir pontos!
+
+		for(int i = 0;i < 5;i++)
+		{
+			switch(i)
+			{
+				case 0:
+				{
+					pMsg.btStatValue = gObj->Energy - GetStartPoints(gObj->DbClass, Energy);
+					break;
+				}
+				case 1:
+				{
+					pMsg.btStatValue = gObj->Vitality - GetStartPoints(gObj->DbClass, Vitality);
+					break;
+				}
+				case 2:
+				{
+					pMsg.btStatValue = gObj->Dexterity - GetStartPoints(gObj->DbClass, Dexterity);
+					break;
+				}
+				case 3:
+				{
+					pMsg.btStatValue = gObj->Strength - GetStartPoints(gObj->DbClass, Strength);
+					break;
+				}
+				case 4:
+				{
+					pMsg.btStatValue = gObj->Leadership - GetStartPoints(gObj->DbClass, Leadership);
+					break;
+				}
+			}
+			
+			pMsg.btFruitType = i;
+
+			DataSend(gObj->m_Index,(LPBYTE)&pMsg,pMsg.h.size);
+		}
+
 		gObj->Strength = GetStartPoints(gObj->DbClass, Strength);
 		gObj->Dexterity = GetStartPoints(gObj->DbClass, Dexterity);
 		gObj->Vitality = GetStartPoints(gObj->DbClass, Vitality);
 		gObj->Energy = GetStartPoints(gObj->DbClass, Energy);
-	}
 
-	if(State[NumState].Clear.Command)
-	{
-		gObj->Leadership = GetStartPoints(gObj->DbClass, Leadership);
+		if(State[NumState].Clear.Command)
+		{
+			gObj->Leadership = GetStartPoints(gObj->DbClass, Leadership);
+		}
 	}
 
 	if(State[NumState].Clear.PcPoint)
