@@ -182,6 +182,6 @@ void cCalcCharacterExternClass::Init()
 		this->CalCharacterStruct.SUM_MagicDMGMin 			= GetPrivateProfileInt("Summoner","SUM_MagicDmgMin",100,IACalcCharacter);
 		this->CalCharacterStruct.SUM_MagicDMGMax 			= GetPrivateProfileInt("Summoner","SUM_MagicDmgMax",80,IACalcCharacter);
 
-		Log.ConsoleOutPut(1,c_Green,t_Default,"[û] [CalcCharacter]\tCarregado.");
+		Log.ConsoleOutPut(1,c_Green,t_Default,"[û] [CalcCharacter]\tIniciado.");
 	}
 }
