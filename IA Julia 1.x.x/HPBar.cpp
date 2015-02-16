@@ -34,6 +34,9 @@ void GCDamageSend(int aIndex,int TargetIndex,int AttackDamage,int MSBFlag,int MS
 	pResult.Life = gTarg->Life;
 	pResult.MaxLife = gTarg->MaxLife + gTarg->AddLife;
 
+	pResult.X = gTarg->X;
+	pResult.Y = gTarg->Y;
+
 	if(gTarg->Type == OBJECT_MONSTER)
 	{
 		pResult.Life = gTarg->Life;

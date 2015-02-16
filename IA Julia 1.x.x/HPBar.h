@@ -21,6 +21,8 @@ struct PMSG_ATTACKRESULT
 	float Life;		//A
 	float MaxLife;	//E
 	float AddLife;	//Inner bug hp bar fix.
+
+	short X,Y;
 };
 
 void GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage);
