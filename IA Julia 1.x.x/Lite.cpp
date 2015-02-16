@@ -173,7 +173,7 @@ extern "C" __declspec(dllexport) void __cdecl IAJuliaMain()
 		Utilits.HookThis((DWORD)&gObjInventoryMoveItemEx, 0x00401F96);
 		Utilits.HookThis((DWORD)&CGItemDropRequestEx, 0x004082F6);
 		Utilits.HookThis((DWORD)&_gObjCheckTeleportArea, 0x00402522);
-		//Utilits.HookThis((DWORD)&GCDamageSend,0x00403D55);	//HP BAR GS_CS
+		Utilits.HookThis((DWORD)&GCDamageSend,0x00403D55);	//HP BAR GS_CS
 #endif
 
 		DWORD ThreadID;
