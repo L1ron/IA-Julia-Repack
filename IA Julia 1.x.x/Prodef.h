@@ -295,6 +295,7 @@ struct PMSG_ITEMTHROW
 #define GCMagicAttackNumberSend ((void(*)(OBJECTSTRUCT*, unsigned char, int, unsigned char)) 0x00406A96) // ??
 #define ChaosBoxInit ((void(*) (OBJECTSTRUCT*)) 0x00404EDF)
 #define GCUserChaosBoxSend ((void(*) (OBJECTSTRUCT*, int)) 0x00406FFF)
+#define lpGCDamageSend ((void(*)(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage)) 0x00455CB0)
 #endif
 
 #ifdef _GS_CS
@@ -361,6 +362,7 @@ struct PMSG_ITEMTHROW
 #define GS_CASTLESIEGESTAT		(0x06316F10)
 #define GCSendQuestPrize ((void(*)(int aIndex, unsigned char Type, unsigned char Count)) 0x00464450)
 #define GCMagicAttackNumberSend ((void(*)(OBJECTSTRUCT*, unsigned char, int, unsigned char)) 0x00407266) // ??
+#define lpGCDamageSend ((void(*)(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage)) 0x00458290)
 #endif
 
 //Configs Defines //

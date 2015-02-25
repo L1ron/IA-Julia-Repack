@@ -27,12 +27,4 @@ struct PMSG_ATTACKRESULT
 
 void GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage);
 
-// Enviar dano para o cliente (Apenas GS??) [HP Bar]
-
-#ifdef _GS
-#define lpGCDamageSend ((void(*)(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage)) 0x00455CB0)
-#else
-#define lpGCDamageSend ((void(*)(int aIndex, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage)) 0x00458290)
-#endif
-
 #endif
