@@ -111,16 +111,16 @@ void cCalcCharacterExternClass::Init()
 	if(this->CalcCharacterEnabled)
 	{
 		/*CALSSES DE DW SM GRM*/
-		this->CalCharacterStruct.DW_AtackMinRight			= GetPrivateProfileInt("DarlWizard","DW_MinAtackRight",100,IACalcCharacter);
-		this->CalCharacterStruct.DW_AtackMaxRight			= GetPrivateProfileInt("DarlWizard","DW_MaxAtackRight",50,IACalcCharacter);
-		this->CalCharacterStruct.DW_AtackMinLeft			= GetPrivateProfileInt("DarlWizard","DW_MinAtackLeft",100,IACalcCharacter);
-		this->CalCharacterStruct.DW_AtackMaxLeft			= GetPrivateProfileInt("DarlWizard","DW_MaxAtackLeft",50,IACalcCharacter);
-		this->CalCharacterStruct.DW_AtackSpeed				= GetPrivateProfileInt("DarlWizard","DW_AtackSpeed",35,IACalcCharacter);
-		this->CalCharacterStruct.DW_MagicSpeed				= GetPrivateProfileInt("DarlWizard","DW_MagicSpeed",30,IACalcCharacter);
-		this->CalCharacterStruct.DW_SuccessfulBlocking		= GetPrivateProfileInt("DarlWizard","DW_SucessFullBlock",40,IACalcCharacter);
-		this->CalCharacterStruct.DW_Defense					= GetPrivateProfileInt("DarlWizard","DW_Defense",12,IACalcCharacter);
-		this->CalCharacterStruct.DW_MagicDMGMin				= GetPrivateProfileInt("DarlWizard","DW_MagicDmgMin",100,IACalcCharacter);
-		this->CalCharacterStruct.DW_MagicDMGMax				= GetPrivateProfileInt("DarlWizard","DW_MagicDmgMax",80,IACalcCharacter);
+		this->CalCharacterStruct.DW_AtackMinRight			= GetPrivateProfileInt("DarkWizard","DW_MinAtackRight",100,IACalcCharacter);
+		this->CalCharacterStruct.DW_AtackMaxRight			= GetPrivateProfileInt("DarkWizard","DW_MaxAtackRight",50,IACalcCharacter);
+		this->CalCharacterStruct.DW_AtackMinLeft			= GetPrivateProfileInt("DarkWizard","DW_MinAtackLeft",100,IACalcCharacter);
+		this->CalCharacterStruct.DW_AtackMaxLeft			= GetPrivateProfileInt("DarkWizard","DW_MaxAtackLeft",50,IACalcCharacter);
+		this->CalCharacterStruct.DW_AtackSpeed				= GetPrivateProfileInt("DarkWizard","DW_AtackSpeed",35,IACalcCharacter);
+		this->CalCharacterStruct.DW_MagicSpeed				= GetPrivateProfileInt("DarkWizard","DW_MagicSpeed",30,IACalcCharacter);
+		this->CalCharacterStruct.DW_SuccessfulBlocking		= GetPrivateProfileInt("DarkWizard","DW_SucessFullBlock",40,IACalcCharacter);
+		this->CalCharacterStruct.DW_Defense					= GetPrivateProfileInt("DarkWizard","DW_Defense",12,IACalcCharacter);
+		this->CalCharacterStruct.DW_MagicDMGMin				= GetPrivateProfileInt("DarkWizard","DW_MagicDmgMin",100,IACalcCharacter);
+		this->CalCharacterStruct.DW_MagicDMGMax				= GetPrivateProfileInt("DarkWizard","DW_MagicDmgMax",80,IACalcCharacter);
 
 		/*CLASSES DK BK BM*/
 		this->CalCharacterStruct.DK_AtackMinRight			= GetPrivateProfileInt("DarkKnight","DK_MinAtackRight",100,IACalcCharacter);
