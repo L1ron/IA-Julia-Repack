@@ -1,3 +1,5 @@
+# 1.1.0.360 # - Fixed CalcCharacter.ini for Dark Wizard
+# 1.1.0.359 # - Fixed Crash in party
 # 1.1.0.358 # - Fixed Reset points for pontuative resets
 # 1.1.0.357 # - Changed all .txt config files to .ini files
 # 1.1.0.356 # - Added a option to edit Respawn for Moss Gambler
