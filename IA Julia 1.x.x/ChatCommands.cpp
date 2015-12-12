@@ -99,8 +99,8 @@ void cChat::LoadChatCommands()
 	GetPrivateProfileString("Strings", "COMMAND_MARRY_ONLINE", "/ismarry", COMMAND_MARRY_ONLINE, sizeof(COMMAND_MARRY_ONLINE), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_MARRY_TRACE", "/marrytrace", COMMAND_MARRY_TRACE, sizeof(COMMAND_MARRY_TRACE), IAJuliaChatCommands);
 	GetPrivateProfileString("Strings", "COMMAND_DIVORCE", "/divorce", COMMAND_DIVORCE, sizeof(COMMAND_DIVORCE), IAJuliaChatCommands);
-	GetPrivateProfileString("Strings", "COMMAND_YES", "/sim", COMMAND_YES, sizeof(COMMAND_YES), IAJuliaChatCommands);
-	GetPrivateProfileString("Strings", "COMMAND_NO", "/nao", COMMAND_NO, sizeof(COMMAND_NO), IAJuliaChatCommands);
+	GetPrivateProfileString("Strings", "COMMAND_YES", "/yes", COMMAND_YES, sizeof(COMMAND_YES), IAJuliaChatCommands);
+	GetPrivateProfileString("Strings", "COMMAND_NO", "/no", COMMAND_NO, sizeof(COMMAND_NO), IAJuliaChatCommands);
 }
 
 char Messages[1024];
